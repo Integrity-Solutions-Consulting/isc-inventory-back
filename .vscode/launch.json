@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "AuthApplication",
+            "request": "launch",
+            "mainClass": "com.isc.AuthApplication",
+            "projectName": "auth"
+        },
+        {
+            "type": "java",
             "name": "InventoryApplication",
             "request": "launch",
             "mainClass": "com.isc.inventory.InventoryApplication"
@@ -28,6 +35,37 @@
             "request": "launch",
             "mainClass": "com.isc.inventory.InventoryApplication",
             "projectName": "inventory"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-App<api>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.isc.App",
+            "projectName": "api",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ApiApplication<api>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.isc.ApiApplication",
+            "projectName": "api",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=33803 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=api"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-AuthApplication<auth>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.isc.auth.AuthApplication",
+            "projectName": "auth",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

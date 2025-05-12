@@ -23,5 +23,7 @@
         // Default value for the method of openining the newly generated project. Supported values are "", "Open" and "Add to Workspace".
         "spring.initializr.defaultOpenProjectMethod": "Add to Workspace",
         "java.compile.nullAnalysis.mode": "automatic",
+        "java.configuration.updateBuildConfiguration": "interactive",
+        "maven.view": "hierarchical",
     }
 }
