@@ -58,8 +58,7 @@ public class ControllerAdvice {
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = IllegalArgumentException.class)
     public ResponseEntity<ErrorResponseDto> handlerIllegalArgumentException(IllegalArgumentException ex) {
-        // IllegalArgumentException-in case the given entities or one of its entities is
-        // null.
+        // IllegalArgumentException-in case the given entities or one of its entities is null.
 
         ErrorResponseDto errorResponseDto = new ErrorResponseDto();
 
