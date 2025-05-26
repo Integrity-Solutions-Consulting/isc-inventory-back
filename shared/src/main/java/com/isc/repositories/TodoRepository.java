@@ -5,7 +5,6 @@ import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +12,6 @@ import com.isc.entitys.Todo;
 
 @Repository
 @Transactional
-@RepositoryRestResource
 public interface TodoRepository extends CrudRepository<Todo, UUID> {
     Page<Todo> findAll(Pageable pageable);
 }
