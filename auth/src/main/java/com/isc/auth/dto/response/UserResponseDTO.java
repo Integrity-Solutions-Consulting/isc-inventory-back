@@ -1,6 +1,5 @@
 package com.isc.auth.dto.response;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
