@@ -80,28 +80,26 @@ public class ControllerAdvice {
     
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Map<String, Object>> handleValidationException(MethodArgumentNotValidException ex) {
-        Map<String, Object> errorMap = new HashMap<>();
-        errorMap.put("timestamp", LocalDateTime.now());
-        errorMap.put("status", HttpStatus.BAD_REQUEST.value());
-        errorMap.put("error", "Validation error");
-        errorMap.put("errors", ex.getBindingResult().getFieldErrors().stream()
-            .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage)));
-        return ResponseEntity.badRequest().body(errorMap);
+    public ResponseEntity<ErrorResponseDto> handleValidationException(MethodArgumentNotValidException ex) {
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto();
+        errorResponseDto.setCause(ex.getClass().getName());
+        errorResponseDto.setMessage(ex.getMessage());
+        errorResponseDto.setStatus(HttpStatus.BAD_REQUEST.name());
+        errorResponseDto.setCode(HttpStatus.BAD_REQUEST.value());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(errorResponseDto);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Map<String, Object>> handleConstraintViolation(ConstraintViolationException ex) {
-        Map<String, Object> errorMap = new HashMap<>();
-        errorMap.put("timestamp", LocalDateTime.now());
-        errorMap.put("status", HttpStatus.BAD_REQUEST.value());
-        errorMap.put("error", "Parameter validation failed");
-        errorMap.put("errors", ex.getConstraintViolations().stream()
-            .collect(Collectors.toMap(
-                v -> v.getPropertyPath().toString(),
-                v -> v.getMessage())));
-        return ResponseEntity.badRequest().body(errorMap);
+    public ResponseEntity<ErrorResponseDto> handleConstraintViolation(ConstraintViolationException ex) {
+    	 ErrorResponseDto errorResponseDto = new ErrorResponseDto();
+         errorResponseDto.setCause(ex.getClass().getName());
+         errorResponseDto.setMessage("Parameter validation failed");
+         errorResponseDto.setStatus(HttpStatus.BAD_REQUEST.name());
+         errorResponseDto.setCode(HttpStatus.BAD_REQUEST.value());
+        return ResponseEntity.badRequest().body(errorResponseDto);
     }
     
     @ExceptionHandler(DataIntegrityViolationException.class)
