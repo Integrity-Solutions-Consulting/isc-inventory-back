@@ -1,0 +1,142 @@
+package com.isc.auth.service.impl;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import com.isc.auth.dto.request.PasswordChangeRequestDTO;
+import com.isc.auth.dto.request.UserRequestoDTO;
+import com.isc.auth.dto.response.MessageResponseDTO;
+import com.isc.auth.dto.response.TokenResponseDTO;
+import com.isc.auth.dto.response.UserRegisterResponseDTO;
+import com.isc.auth.entitys.PrivilegeEntity;
+import com.isc.auth.entitys.PrivilegeRoleEntity;
+import com.isc.auth.entitys.PrivilegeUserEntity;
+import com.isc.auth.entitys.RolesEntity;
+import com.isc.auth.entitys.UserEntity;
+import com.isc.auth.entitys.UserRoleEntity;
+import com.isc.auth.mapper.UserRegisterMapper;
+import com.isc.auth.repository.PrivilegesRepository;
+import com.isc.auth.repository.RolesRepository;
+import com.isc.auth.repository.UserRepository;
+import com.isc.auth.security.JwtService;
+import com.isc.auth.service.AuthService;
+import com.isc.auth.utils.PasswordGenerator;
+import com.isc.dtos.MetadataResponseDto;
+import com.isc.dtos.ResponseDto;
+
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class AuthServiceImpl implements AuthService {
+
+	private final UserRepository userRepository;
+	private final RolesRepository rolesRepository;
+	private final PrivilegesRepository privilegesRepository;
+	private final PasswordEncoder encoder;
+	private final JwtService jwtService;
+
+	@Override
+	@Transactional
+	public ResponseDto<UserRegisterResponseDTO> register(UserRequestoDTO request) {
+		// TODO Auto-generated method stub
+		Set<RolesEntity> roles = rolesRepository.findByIdIn(request.getRolesId());
+		Set<PrivilegeEntity> privileges = privilegesRepository.findByIdIn(request.getPrivilegesId());
+		UserEntity user = new UserEntity();
+		String password = PasswordGenerator.generatePassword();
+		user.setFirstNames(request.getFirstNames());
+		user.setEmail(request.getEmail());
+		user.setUsername(request.getUsername());
+		user.setPassword(encoder.encode(password));
+		user.setEmployeeId(request.getEmployeeId());
+		UserEntity savedUser = userRepository.save(user);
+
+		Set<UserRoleEntity> usuarioRoles = new HashSet<>();
+		Set<PrivilegeRoleEntity> rolePrivileges = new HashSet<>();
+		for (RolesEntity rol : roles) {
+			UserRoleEntity usuarioRole = new UserRoleEntity();
+			usuarioRole.setRole(rol);
+			usuarioRole.setUserId(savedUser.getId());
+			usuarioRoles.add(usuarioRole);
+			rolePrivileges.addAll(rol.getRolesPrivilegies());
+		}
+
+		Set<PrivilegeEntity> privilegesFromRoles = rolePrivileges.stream().map(PrivilegeRoleEntity::getPrivilege)
+				.collect(Collectors.toSet());
+		Set<PrivilegeUserEntity> userPrivileges = new HashSet<>();
+		for (PrivilegeEntity privilege : privileges) {
+			if (!privilegesFromRoles.contains(privilege)) {
+		        PrivilegeUserEntity privilegeUser = new PrivilegeUserEntity();
+		        privilegeUser.setUserId(savedUser.getId());
+		        privilegeUser.setPrivilege(privilege);
+		        userPrivileges.add(privilegeUser);
+		    }
+		}
+
+		savedUser.getUserRoles().clear();
+		savedUser.getUserRoles().addAll(usuarioRoles);
+		savedUser.getUserPrivilegies().clear();
+		savedUser.getUserPrivilegies().addAll(userPrivileges);
+		savedUser = userRepository.save(savedUser);
+
+		UserRegisterResponseDTO responseDTO = UserRegisterMapper.toDto(savedUser, password);
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED, "Usuario registrado correctamente");
+
+		return new ResponseDto<>(responseDTO, metadata);
+	}
+
+	public ResponseDto<TokenResponseDTO> generateTokenForgotPassword(String username) {
+		UserEntity user = userRepository.findByUsername(username)
+				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+		user.setRequestPasswordChange(true);
+		userRepository.save(user);
+		TokenResponseDTO token = new TokenResponseDTO(jwtService.generatePasswordResetToken(username));
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED,
+				"Solicitud de recuperacion de contraseña procesada correctamente");
+		return new ResponseDto<>(token, metadata);
+	}
+
+	public ResponseDto<MessageResponseDTO> validateTokenForgotPassword(String token) {
+		if (jwtService.isTokenValid(token) && jwtService.isPasswordResetToken(token)) {
+			String username = jwtService.extractUsername(token);
+			MessageResponseDTO message = new MessageResponseDTO(username);
+			MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED,
+					"Token valido para el usuario " + username);
+			return new ResponseDto<>(message, metadata);
+		}
+		throw new IllegalArgumentException("Token inválido o expirado");
+	}
+
+	public ResponseDto<Boolean> restorePassword(String token, PasswordChangeRequestDTO request) {
+		if (jwtService.isTokenValid(token) && jwtService.isPasswordResetToken(token)) {
+			String username = jwtService.extractUsername(token);
+			UserEntity user = userRepository.findByUsername(username)
+					.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+			if (!request.getNewPassword().equals(request.getConfirmPassword())) {
+				throw new RuntimeException("Contraseñas no coinciden");
+			}
+			user.setPassword(encoder.encode(request.getNewPassword()));
+			user.setLastPasswordChangeDate(LocalDateTime.now());
+			userRepository.save(user);
+			MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED,
+					"Actualizacion de contraseña exitosa para el usuario " + username);
+			return new ResponseDto<>(true, metadata);
+		}
+		throw new IllegalArgumentException("Token inválido o expirado");
+	}
+
+	/*
+	 * { "username": "employee1", "password": "p5bkDlO&&YIj" } "username":
+	 * "employee2", "password": "XWjVd2lq)t8U",
+	 * 
+	 * "username": "employee3", "password": "=BV8+frPmH^!",
+	 */
+}

@@ -1,0 +1,105 @@
+package com.isc.auth.config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.isc.auth.exception.JwtAccessDeniedHandler;
+import com.isc.auth.exception.JwtAuthenticationEntryPoint;
+import com.isc.auth.repository.UserRepository;
+import com.isc.auth.security.JwtAuthenticationFilter;
+import com.isc.auth.security.JwtAuthorizationFilter;
+import com.isc.auth.security.JwtService;
+import com.isc.auth.security.LogoutCustomHandler;
+import com.isc.auth.service.impl.UserDetailsServiceImpl;
+
+import lombok.RequiredArgsConstructor;
+
+@EnableWebSecurity
+@Configuration
+@EnableMethodSecurity(prePostEnabled = true)
+public class SecurityConfig {
+
+	@Autowired
+	JwtService jwtService;
+	
+	@Autowired
+	UserRepository userRepository;
+
+	@Autowired
+	UserDetailsServiceImpl userDetailsServiceImpl;
+
+	@Autowired
+	JwtAuthorizationFilter authorizationFilter;
+
+	@Autowired
+	LogoutCustomHandler logoutHandler;
+
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http,AuthenticationManager authenticationManager,JwtAuthenticationEntryPoint authenticationEntryPoint,
+            JwtAccessDeniedHandler accessDeniedHandler) throws Exception {
+		JwtAuthenticationFilter authenticationFilter = new JwtAuthenticationFilter(jwtService,userRepository);
+		authenticationFilter.setAuthenticationManager(authenticationManager);
+		return http
+				.csrf(csrf ->  csrf.disable())
+				.exceptionHandling(ex->{
+					ex.authenticationEntryPoint(authenticationEntryPoint);
+					ex.accessDeniedHandler(accessDeniedHandler);
+				}) 
+				.authorizeHttpRequests(req -> {
+					req.requestMatchers(
+						    "/api/v1/auth/login",
+						    "/api/v1/auth/forgotPassword/**",
+						    "/api/v1/passwordEncoder/**",
+						    "/api/v1/docs",
+						    "/api/v1/docs/**",
+						    "/v3/api-docs",
+						    "/v3/api-docs/**",
+						    "/swagger-ui.html",
+						    "/swagger-ui/**"
+						).permitAll();
+					req.anyRequest().authenticated();
+				})
+				.sessionManagement(session ->{
+					session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+					session.maximumSessions(1)
+						   .sessionRegistry(registry());
+					})
+				.addFilter(authenticationFilter)
+				.addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class)
+				.logout(logout ->
+                logout.logoutUrl("/api/v1/auth/logout")
+                        .addLogoutHandler(logoutHandler)
+                        .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext()))
+				.build();
+	}
+
+	@Bean
+	public SessionRegistry registry() {
+		return new SessionRegistryImpl();
+	}
+
+	@Bean
+	PasswordEncoder encoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	AuthenticationManager authenticationManager(HttpSecurity httpSecurity, PasswordEncoder encoder) throws Exception {
+		return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class)
+				.userDetailsService(userDetailsServiceImpl).passwordEncoder(encoder).and().build();
+	}
+}
