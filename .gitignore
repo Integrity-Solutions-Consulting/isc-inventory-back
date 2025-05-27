@@ -1,24 +1,45 @@
-# Directorios de compilación y target de Maven/Gradle
-/target/
-/build/
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
 
-# Archivos de configuración y metadata de Eclipse
-/.classpath
-/.project
-/.settings/
+# IntelliJ
+.idea/
+*.iml
 
-# Archivos de configuración y metadata de IntelliJ IDEA (por si usas otro IDE)
-/.idea/
-/*.iml
-
-# Logs
-*.log
+# VS Code
+vscode/
 
 # Archivos temporales
+*.log
 *.tmp
-*.bak
 *.swp
-
-# Archivos de sistema (Windows, macOS, Linux)
+*.bak
+*.orig
 .DS_Store
 Thumbs.db
+
+# SO específico
+# macOS
+.AppleDouble
+.LSOverride
+Icon
+
+# Windows
+ehthumbs.db
+Desktop.ini
+
+# Archivos de compilación
+*.class
+
+# Archivos generados por pruebas
+test-output/
+
+# Archivos de ejecución o entornos externos
+*.env
+.env.local
+fly.toml
+
+# Otros scripts temporales
+Database.sh
+*.sh~
