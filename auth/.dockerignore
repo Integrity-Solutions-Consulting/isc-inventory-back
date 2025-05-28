@@ -24,3 +24,9 @@ build
 **/.DS_Store
 **/Thumbs.db
 fly.toml
+
+# Excluir el directorio target completo
+target/
+
+# Incluir específicamente los archivos JAR dentro de target
+!target/*.jar
