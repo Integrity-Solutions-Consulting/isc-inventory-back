@@ -1,0 +1,45 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+
+# IntelliJ
+.idea/
+*.iml
+
+# VS Code
+vscode/
+
+# Archivos temporales
+*.log
+*.tmp
+*.swp
+*.bak
+*.orig
+.DS_Store
+Thumbs.db
+
+# SO específico
+# macOS
+.AppleDouble
+.LSOverride
+Icon
+
+# Windows
+ehthumbs.db
+Desktop.ini
+
+# Archivos de compilación
+*.class
+
+# Archivos generados por pruebas
+test-output/
+
+# Archivos de ejecución o entornos externos
+*.env
+.env.local
+fly.toml
+
+# Otros scripts temporales
+Database.sh
+*.sh~
