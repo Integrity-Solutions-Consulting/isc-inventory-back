@@ -1,7 +1,5 @@
 package com.isc.auth.controller;
 
-import java.util.Map;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +13,6 @@ import com.isc.auth.dto.request.UserRequestoDTO;
 import com.isc.auth.dto.response.MessageResponseDTO;
 import com.isc.auth.dto.response.TokenResponseDTO;
 import com.isc.auth.dto.response.UserRegisterResponseDTO;
-import com.isc.auth.dto.response.UserResponseDTO;
 import com.isc.auth.service.AuthService;
 import com.isc.dtos.ResponseDto;
 
@@ -26,7 +23,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController

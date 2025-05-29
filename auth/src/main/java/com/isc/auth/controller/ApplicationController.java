@@ -14,12 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isc.auth.dto.request.ApplicationRequestDTO;
-import com.isc.auth.dto.request.PrivilegeRequestDTO;
 import com.isc.auth.dto.response.ApplicationResponseDTO;
 import com.isc.auth.dto.response.MessageResponseDTO;
-import com.isc.auth.dto.response.PrivilegeResponseDTO;
 import com.isc.auth.service.ApplicationService;
-import com.isc.auth.service.PrivilegeService;
 import com.isc.dtos.ResponseDto;
 
 import lombok.RequiredArgsConstructor;

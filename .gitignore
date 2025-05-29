@@ -1,41 +1,59 @@
 # Maven
 /target/
-!.mvn/wrapper/maven-wrapper.jar
 **/target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
 
 # Logs
 *.log
 logs/
 
 # Eclipse/IntelliJ/VSCode config files
-*.iml
 .idea/
+*.iml
 .project
 .classpath
 .settings/
 .vscode/
+vscode/
 
 # Build output
 /out/
 bin/
-
-# OS-specific
-.DS_Store
-Thumbs.db
-
-# Environment
-.env
-*.env
-
-# Generated files
+*.class
 *.jar
 *.war
 *.ear
 
-# Mac/Linux
+# Operating System-specific files
+.DS_Store
+Thumbs.db
+.AppleDouble
+.LSOverride
+Icon
+ehthumbs.db
+Desktop.ini
+
+# Environment
+.env
+*.env
+.env.local
+
+# Temporary files
+*.tmp
 *.swp
+*.bak
+*.orig
 *~
+
+# Test output
+test-output/
 
 # Node (if you have frontend inside)
 node_modules/
 dist/
+
+# Custom scripts and misc
+Database.sh
+*.sh~
+fly.toml

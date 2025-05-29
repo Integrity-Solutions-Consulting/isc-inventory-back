@@ -1,0 +1,32 @@
+# flyctl launch added from .gitignore
+# Directorios de compilación y target de Maven/Gradle
+target
+build
+
+# Archivos de configuración y metadata de Eclipse
+.classpath
+.project
+.settings
+
+# Archivos de configuración y metadata de IntelliJ IDEA (por si usas otro IDE)
+.idea
+*.iml
+
+# Logs
+**/*.log
+
+# Archivos temporales
+**/*.tmp
+**/*.bak
+**/*.swp
+
+# Archivos de sistema (Windows, macOS, Linux)
+**/.DS_Store
+**/Thumbs.db
+fly.toml
+
+# Excluir el directorio target completo
+target/
+
+# Incluir específicamente los archivos JAR dentro de target
+!target/*.jar
