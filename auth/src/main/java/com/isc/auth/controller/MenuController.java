@@ -22,7 +22,7 @@ import com.isc.dtos.ResponseDto;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/privilege")
+@RequestMapping("/api/v1/menu")
 @RequiredArgsConstructor
 public class MenuController {
 	private final MenuService service;
@@ -32,7 +32,7 @@ public class MenuController {
 	public ResponseEntity<ResponseDto<List<MenuResponseDTO>>> getAll() {
 		return ResponseEntity.ok(service.getAll());
 	}
-
+	
 	@PostMapping("/save")
 	public ResponseEntity<ResponseDto<MenuResponseDTO>> save(@RequestBody MenuRequestDTO request) {
 		return ResponseEntity.ok(service.save(request));

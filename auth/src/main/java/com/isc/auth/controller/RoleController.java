@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isc.auth.dto.request.RoleRequestDTO;
 import com.isc.auth.dto.response.MessageResponseDTO;
+import com.isc.auth.dto.response.RoleDetailsResponseDTO;
 import com.isc.auth.dto.response.RolesResponseDTO;
+import com.isc.auth.dto.response.UserDetailsResponseDTO;
 import com.isc.auth.service.RoleService;
 import com.isc.dtos.ResponseDto;
 
@@ -33,6 +35,13 @@ public class RoleController {
 		return ResponseEntity.ok(service.getAll());
 	}
 	
+	@GetMapping("/detail/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<ResponseDto<RoleDetailsResponseDTO>> getById(@PathVariable Integer id){
+		return ResponseEntity.ok(service.getDetailsById(id));
+	}
+	
+	
 	@PostMapping("/save")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ResponseDto<RolesResponseDTO>> save(@RequestBody RoleRequestDTO request){
@@ -43,6 +52,12 @@ public class RoleController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ResponseDto<RolesResponseDTO>> addPrivileges(@RequestBody RoleRequestDTO request, @PathVariable Integer id){
 		return ResponseEntity.ok(service.addPrivileges(request,id));
+	}
+	
+	@PutMapping("/addMenus/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<ResponseDto<RolesResponseDTO>> addMenus(@RequestBody RoleRequestDTO request, @PathVariable Integer id){
+		return ResponseEntity.ok(service.addMenus(request,id));
 	}
 	
 	@PutMapping("/activate/{id}")

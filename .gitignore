@@ -1,45 +1,59 @@
 # Maven
-target/
+/target/
+**/target/
 !.mvn/wrapper/maven-wrapper.jar
 .mvn/wrapper/maven-wrapper.properties
 
-# IntelliJ
+# Logs
+*.log
+logs/
+
+# Eclipse/IntelliJ/VSCode config files
 .idea/
 *.iml
-
-# VS Code
+.project
+.classpath
+.settings/
+.vscode/
 vscode/
 
-# Archivos temporales
-*.log
+# Build output
+/out/
+bin/
+*.class
+*.jar
+*.war
+*.ear
+
+# Operating System-specific files
+.DS_Store
+Thumbs.db
+.AppleDouble
+.LSOverride
+Icon
+ehthumbs.db
+Desktop.ini
+
+# Environment
+.env
+*.env
+.env.local
+
+# Temporary files
 *.tmp
 *.swp
 *.bak
 *.orig
-.DS_Store
-Thumbs.db
+*~
 
-# SO específico
-# macOS
-.AppleDouble
-.LSOverride
-Icon
-
-# Windows
-ehthumbs.db
-Desktop.ini
-
-# Archivos de compilación
-*.class
-
-# Archivos generados por pruebas
+# Test output
 test-output/
 
-# Archivos de ejecución o entornos externos
-*.env
-.env.local
-fly.toml
+# Node (if you have frontend inside)
+node_modules/
+dist/
 
-# Otros scripts temporales
+# Custom scripts and misc
 Database.sh
 *.sh~
+fly.toml

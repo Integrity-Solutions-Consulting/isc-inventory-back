@@ -14,4 +14,5 @@ public class RoleRequestDTO {
 	private String description;
 	private Integer applicationId;
 	private Set<Integer> privilegesId;
+	private Set<Integer> menusId;
 }

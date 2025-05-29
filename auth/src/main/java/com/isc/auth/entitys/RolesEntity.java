@@ -53,4 +53,8 @@ public class RolesEntity {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "role_id")
     private Set<PrivilegeRoleEntity> rolesPrivilegies = new HashSet<>();
+    
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "role_id")
+    private Set<MenuRoleEntity> roleMenus = new HashSet<>();
 }

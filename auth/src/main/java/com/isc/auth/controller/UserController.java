@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isc.auth.dto.request.PasswordChangeRequestDTO;
 import com.isc.auth.dto.request.UserRequestoDTO;
 import com.isc.auth.dto.response.MessageResponseDTO;
+import com.isc.auth.dto.response.UserDetailsResponseDTO;
 import com.isc.auth.dto.response.UserResponseDTO;
 import com.isc.auth.service.UserService;
 import com.isc.dtos.ResponseDto;
@@ -32,6 +33,12 @@ public class UserController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ResponseDto<List<UserResponseDTO>>> getAll(){
 		return ResponseEntity.ok(service.getAll());
+	}
+	
+	@GetMapping("/detail/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<ResponseDto<UserDetailsResponseDTO>> getById(@PathVariable Integer id){
+		return ResponseEntity.ok(service.getDetailsById(id));
 	}
 	
 	@PutMapping("/update/{id}")

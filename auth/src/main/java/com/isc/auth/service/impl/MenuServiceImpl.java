@@ -14,10 +14,16 @@ import com.isc.auth.dto.response.ApplicationResponseDTO;
 import com.isc.auth.dto.response.MenuResponseDTO;
 import com.isc.auth.dto.response.MessageResponseDTO;
 import com.isc.auth.entitys.MenuEntity;
+import com.isc.auth.entitys.MenuRoleEntity;
+import com.isc.auth.entitys.MenuUserEntity;
+import com.isc.auth.entitys.UserEntity;
 import com.isc.auth.mapper.ApplicationMapper;
 import com.isc.auth.mapper.MenuMapper;
 import com.isc.auth.repository.ApplicationRepository;
 import com.isc.auth.repository.MenuRepository;
+import com.isc.auth.repository.MenuRoleRepository;
+import com.isc.auth.repository.MenuUserRepository;
+import com.isc.auth.service.AuthenticatedUserService;
 import com.isc.auth.service.MenuService;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
@@ -29,37 +35,47 @@ import lombok.RequiredArgsConstructor;
 public class MenuServiceImpl implements MenuService {
 
 	private final MenuRepository menuRepository;
+	private final MenuRoleRepository menuRoleRepository;
+	private final MenuUserRepository menuUserRepository;
+	
+	private final AuthenticatedUserService authenticatedUserService;
 	
 	@Override
 	public ResponseDto<List<MenuResponseDTO>> getAll() {
-		List<MenuEntity> menus = menuRepository.findAllByActiveTrueOrderByOrderAsc();
-	    List<MenuResponseDTO> dtoList = menus.stream()
-	            .map(MenuMapper::toDto)
+	    List<MenuEntity> menus = menuRepository.findAllByActiveTrueOrderByOrderAsc();
+	    List<MenuResponseDTO> roots = MenuMapper.toDtoTree(menus);
+	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Menus listados correctamente");
+	    return new ResponseDto<>(roots, metadata);
+	}
+
+	@Override
+	public ResponseDto<List<MenuResponseDTO>> getAllByRoleId(Integer roleId) {
+		List<MenuRoleEntity> menuRoles = menuRoleRepository.findByRoleIdAndActiveTrue(roleId);
+	    List<MenuEntity> menuEntities = menuRoles.stream()
+	            .map(MenuRoleEntity::getMenu)
 	            .collect(Collectors.toList());
-	    
-	    //Construimos la jerarquia de los menus
-	    Map<Integer, MenuResponseDTO> dtoMap = dtoList.stream()
-	            .collect(Collectors.toMap(MenuResponseDTO::getId, dto -> dto));
+	    List<MenuResponseDTO> roots = MenuMapper.toDtoTree(menuEntities);
+	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Menus listados correctamente");
+	    return new ResponseDto<>(roots, metadata);
+	}
+	
+	@Override
+	public ResponseDto<List<MenuResponseDTO>> getAllByUserId(Integer userId) {
+	    UserEntity userConnected = authenticatedUserService.getAuthenticatedUser();
 
-	    List<MenuResponseDTO> roots = new ArrayList<>();
-	    
-	    for (MenuResponseDTO dto : dtoList) {
-	        if (dto.getParentId() == null) {
-	            roots.add(dto);
-	        } else {
-	            MenuResponseDTO parent = dtoMap.get(dto.getParentId());
-	            if (parent != null) {
-	                if (parent.getChildren() == null) {
-	                    parent.setChildren(new ArrayList<>());
-	                }
-	                parent.getChildren().add(dto);
-	            }
-	        }
+	    if (!authenticatedUserService.isSelfOrAdmin(userConnected, userId)) {
+	        throw new RuntimeException("No tienes permiso para acceder a este recurso");
 	    }
-	    
-		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Menus listados correctamente");
 
-		return new ResponseDto<>(roots, metadata);
+	    List<MenuUserEntity> menus = menuUserRepository.findMenusByUserIdAndActiveTrue(userId);
+	    List<MenuEntity> menuEntities = menus.stream()
+	            .map(MenuUserEntity::getMenu)
+	            .collect(Collectors.toList());
+
+	    List<MenuResponseDTO> roots = MenuMapper.toDtoTree(menuEntities);
+
+	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Menús listados correctamente");
+	    return new ResponseDto<>(roots, metadata);
 	}
 
 	@Override
@@ -119,5 +135,4 @@ public class MenuServiceImpl implements MenuService {
 		MessageResponseDTO message = new MessageResponseDTO("Operacion exitosa");
 		return new ResponseDto<>(message, metadata);
 	}
-
 }

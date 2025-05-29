@@ -35,4 +35,6 @@ public class UserRequestoDTO {
 	private Set<Integer> rolesId;
 	
 	private Set<Integer> privilegesId;
+	
+	private Set<Integer> menusId;
 }

@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class PrivilegeResponseDTO {
 	private Integer id;
 	private String key;
+	private boolean active;
 }

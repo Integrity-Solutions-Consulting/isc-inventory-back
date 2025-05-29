@@ -12,20 +12,17 @@ import org.springframework.stereotype.Service;
 
 import com.isc.auth.dto.request.RoleRequestDTO;
 import com.isc.auth.dto.response.MessageResponseDTO;
-import com.isc.auth.dto.response.PrivilegeResponseDTO;
+import com.isc.auth.dto.response.RoleDetailsResponseDTO;
 import com.isc.auth.dto.response.RolesResponseDTO;
-import com.isc.auth.dto.response.UserRegisterResponseDTO;
+import com.isc.auth.entitys.MenuEntity;
+import com.isc.auth.entitys.MenuRoleEntity;
 import com.isc.auth.entitys.PrivilegeEntity;
 import com.isc.auth.entitys.PrivilegeRoleEntity;
 import com.isc.auth.entitys.RolesEntity;
-import com.isc.auth.entitys.UserEntity;
-import com.isc.auth.entitys.UserRoleEntity;
-import com.isc.auth.mapper.PrivilegeMapper;
 import com.isc.auth.mapper.RolesMapper;
-import com.isc.auth.mapper.UserRegisterMapper;
+import com.isc.auth.repository.MenuRepository;
 import com.isc.auth.repository.PrivilegesRepository;
 import com.isc.auth.repository.RolesRepository;
-import com.isc.auth.service.AuthenticatedUserService;
 import com.isc.auth.service.RoleService;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
@@ -38,6 +35,7 @@ public class RoleServiceImpl implements RoleService {
 
 	private final RolesRepository rolesRepository;
 	private final PrivilegesRepository privilegiesRepository;
+	private final MenuRepository menuRepository;
 
 	@Override
 	public ResponseDto<List<RolesResponseDTO>> getAll() {
@@ -47,24 +45,45 @@ public class RoleServiceImpl implements RoleService {
 
 		return new ResponseDto<>(privileges, metadata);
 	}
+	
+	@Override
+	public ResponseDto<RoleDetailsResponseDTO> getDetailsById(Integer id) {
+		RolesEntity rol = rolesRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Rol no encontrado con ID: " + id));
+		RoleDetailsResponseDTO responseDTO = RolesMapper.detailToDto(rol);
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Detalles cargados correctamente");
+		return new ResponseDto<>(responseDTO, metadata);
+	}
 
 	@Override
 	public ResponseDto<RolesResponseDTO> save(RoleRequestDTO request) {
 		Set<PrivilegeEntity> privileges = privilegiesRepository.findByIdIn(request.getPrivilegesId());
+		Set<MenuEntity> menus = menuRepository.findByIdIn(request.getMenusId());
 		RolesEntity rol = new RolesEntity();
 		rol.setName(request.getName());
 		rol.setDescription(request.getDescription());
 		rol.setApplicationId(request.getApplicationId());
-		Set<PrivilegeRoleEntity> privilegeRoles = new HashSet<>();
 		RolesEntity savedRole = rolesRepository.save(rol);
+		Set<PrivilegeRoleEntity> privilegeRoles = new HashSet<>();
+		
 		for (PrivilegeEntity privilege : privileges) {
 			PrivilegeRoleEntity privilegeRole = new PrivilegeRoleEntity();
 			privilegeRole.setRoleId(savedRole.getId());
 			privilegeRole.setPrivilege(privilege);
 			privilegeRoles.add(privilegeRole);
 		}
+		Set<MenuRoleEntity> menusRole = new HashSet<>();
+		for (MenuEntity menu : menus) {
+			MenuRoleEntity menuRole = new MenuRoleEntity();
+			menuRole.setRoleId(savedRole.getId());
+			menuRole.setMenu(menu);
+			menusRole.add(menuRole);
+		}
+		
 		savedRole.getRolesPrivilegies().clear();
 		savedRole.getRolesPrivilegies().addAll(privilegeRoles);
+		savedRole.getRoleMenus().clear();
+		savedRole.getRoleMenus().addAll(menusRole);
 		savedRole = rolesRepository.save(savedRole);
 
 		RolesResponseDTO responseDTO = RolesMapper.toDto(savedRole);
@@ -89,6 +108,28 @@ public class RoleServiceImpl implements RoleService {
 		rol.getRolesPrivilegies().addAll(privilegeRoles);
 		rol = rolesRepository.save(rol);
 		RolesResponseDTO responseDTO = RolesMapper.toDto(rol);
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED, "Rol actualizado correctamente");
+
+		return new ResponseDto<>(responseDTO, metadata);
+	}
+	
+	@Override
+	public ResponseDto<RolesResponseDTO> addMenus(RoleRequestDTO request, Integer id) {
+		Set<MenuEntity> menus = menuRepository.findByIdIn(request.getMenusId());
+		RolesEntity rol = rolesRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Rol no encontrado con ID: " + id));
+		Set<MenuRoleEntity> menusRole = new HashSet<>();
+		for (MenuEntity menu : menus) {
+			MenuRoleEntity menuRole = new MenuRoleEntity();
+			menuRole.setRoleId(rol.getId());
+			menuRole.setMenu(menu);
+			menusRole.add(menuRole);
+		}
+		
+		rol.getRoleMenus().clear();
+		rol.getRoleMenus().addAll(menusRole);
+		RolesEntity rolUpdate = rolesRepository.save(rol);
+		RolesResponseDTO responseDTO = RolesMapper.toDto(rolUpdate);
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED, "Rol actualizado correctamente");
 
 		return new ResponseDto<>(responseDTO, metadata);
