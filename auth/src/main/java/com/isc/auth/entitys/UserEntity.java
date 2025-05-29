@@ -96,4 +96,8 @@ public class UserEntity {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")
     private Set<PrivilegeUserEntity> userPrivilegies = new HashSet<>();
+    
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id")
+    private Set<MenuUserEntity> userMenus = new HashSet<>();
 }

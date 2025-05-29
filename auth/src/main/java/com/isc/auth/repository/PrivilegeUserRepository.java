@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.isc.auth.entitys.PrivilegeUserEntity;
 
 @Repository
-public interface ProvilegeUserRepository extends JpaRepository<PrivilegeUserEntity, Integer>{
+public interface PrivilegeUserRepository extends JpaRepository<PrivilegeUserEntity, Integer>{
 	List<PrivilegeUserEntity> findByUserIdAndActiveTrue(Integer usuarioId);
 }

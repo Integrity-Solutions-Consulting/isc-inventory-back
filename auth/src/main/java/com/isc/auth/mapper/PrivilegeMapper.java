@@ -9,7 +9,8 @@ public class PrivilegeMapper {
 	        if (entity == null) return null;
 	        return new PrivilegeResponseDTO(
 	            entity.getId(),
-	            entity.getKey()
+	            entity.getKey(),
+	            entity.getActive()
 	        );
 	    }
 }

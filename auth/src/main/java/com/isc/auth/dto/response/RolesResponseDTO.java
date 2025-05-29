@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class RolesResponseDTO {
 	private Integer id;
 	private String nombre;
+	private boolean active;
 	private Set<PrivilegeResponseDTO> rolePrivileges;
 }
