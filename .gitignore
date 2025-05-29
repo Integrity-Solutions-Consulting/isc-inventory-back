@@ -1,0 +1,41 @@
+# Maven
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+**/target/
+
+# Logs
+*.log
+logs/
+
+# Eclipse/IntelliJ/VSCode config files
+*.iml
+.idea/
+.project
+.classpath
+.settings/
+.vscode/
+
+# Build output
+/out/
+bin/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+*.env
+
+# Generated files
+*.jar
+*.war
+*.ear
+
+# Mac/Linux
+*.swp
+*~
+
+# Node (if you have frontend inside)
+node_modules/
+dist/

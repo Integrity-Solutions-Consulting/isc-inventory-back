@@ -64,25 +64,26 @@ public class MenuMapper {
 	}
 	
 	public static Set<MenuResponseDTO> buildMenuTree(Set<MenuResponseDTO> flatMenus) {
-	    Map<Integer, MenuResponseDTO> menuMap = new HashMap<>();
-	    Set<MenuResponseDTO> rootMenus = new HashSet<>();
 
-	    for (MenuResponseDTO menu : flatMenus) {
-	    	menu.setChildren(new ArrayList<>()); // Inicializamos los hijos
-	        menuMap.put(menu.getId(), menu);
-	    }
+	    Map<Integer, MenuResponseDTO> dtoMap = flatMenus.stream()
+	            .collect(Collectors.toMap(MenuResponseDTO::getId, dto -> dto));
 
-	    for (MenuResponseDTO menu : flatMenus) {
-	        if (menu.getParentId() == null) {
-	            rootMenus.add(menu); // Es un menú raíz
+	    // Construir jerarquía
+	    Set<MenuResponseDTO> roots = new HashSet<>();
+	    for (MenuResponseDTO dto : flatMenus) {
+	        if (dto.getParentId() == null || dto.getParentId() == 0) {
+	            roots.add(dto);
 	        } else {
-	            MenuResponseDTO parent = menuMap.get(menu.getParentId());
+	            MenuResponseDTO parent = dtoMap.get(dto.getParentId());
 	            if (parent != null) {
-	                parent.getChildren().add(menu);
+	                if (parent.getChildren() == null) {
+	                    parent.setChildren(new ArrayList<>());
+	                }
+	                parent.getChildren().add(dto);
 	            }
 	        }
 	    }
-
-	    return rootMenus;
+	    System.out.println(roots);
+	    return roots;
 	}
 }

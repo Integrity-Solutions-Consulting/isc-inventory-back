@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.isc.auth.exception.JwtAccessDeniedHandler;
 import com.isc.auth.exception.JwtAuthenticationEntryPoint;
 import com.isc.auth.repository.UserRepository;
@@ -47,11 +48,14 @@ public class SecurityConfig {
 
 	@Autowired
 	LogoutCustomHandler logoutHandler;
+	
+	@Autowired
+    ObjectMapper objectMapper;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http,AuthenticationManager authenticationManager,JwtAuthenticationEntryPoint authenticationEntryPoint,
             JwtAccessDeniedHandler accessDeniedHandler) throws Exception {
-		JwtAuthenticationFilter authenticationFilter = new JwtAuthenticationFilter(jwtService,userRepository);
+		JwtAuthenticationFilter authenticationFilter = new JwtAuthenticationFilter(jwtService,userRepository,objectMapper);
 		authenticationFilter.setAuthenticationManager(authenticationManager);
 		return http
 				.csrf(csrf ->  csrf.disable())

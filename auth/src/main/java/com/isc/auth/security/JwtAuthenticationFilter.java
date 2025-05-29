@@ -33,10 +33,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	private JwtService jwtService;
 
 	private UserRepository userRepository;
+	
+	private ObjectMapper objectMapper;
 
-	public JwtAuthenticationFilter(JwtService jwtService, UserRepository userRepository) {
+	public JwtAuthenticationFilter(JwtService jwtService, UserRepository userRepository, ObjectMapper objectMapper ) {
 		this.jwtService = jwtService;
 		this.userRepository = userRepository;
+		this.objectMapper = objectMapper;
 		setFilterProcessesUrl("/api/v1/auth/login"); // Endpoint for authentication
 	}
 
@@ -85,10 +88,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 			response.addHeader("Authorization", token);
 			MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Login satisfactorio");
+			System.out.println(dto);
 			ResponseDto<UserLoginResponseDTO> responseDTO = new ResponseDto<>(dto, metadata);
 			response.setStatus(HttpStatus.OK.value());
 			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-			response.getWriter().write(new ObjectMapper().writeValueAsString(responseDTO));
+			response.getWriter().write(objectMapper.writeValueAsString(responseDTO));
 			response.getWriter().flush();
 		} else {
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());

@@ -1,6 +1,7 @@
 package com.isc.auth.mapper;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -109,7 +110,6 @@ public class UserMapper {
 	        Set<MenuEntity> combinedMenus = new HashSet<>();
 	        combinedMenus.addAll(userMenus);
 	        combinedMenus.addAll(roleMenus);
-
 	        Set<MenuResponseDTO> flatMenuDtos = combinedMenus.stream()
 	                .map(MenuMapper::toDto)
 	                .collect(Collectors.toSet());
