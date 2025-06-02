@@ -28,6 +28,7 @@ import lombok.NoArgsConstructor;
     schema = "authentication",
     uniqueConstraints = {
         @UniqueConstraint(columnNames = "username"),
+        @UniqueConstraint(columnNames = "employeeId"),
         @UniqueConstraint(columnNames = "email")
     }
 )

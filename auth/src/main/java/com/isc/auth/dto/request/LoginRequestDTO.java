@@ -1,5 +1,6 @@
 package com.isc.auth.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginRequestDTO {
-	private String username;
-	private String password;
+    @NotBlank(message = "El nombre de usuario es obligatorio")
+    private String username;
+
+    @NotBlank(message = "La contraseña es obligatoria")
+    private String password;
 }
