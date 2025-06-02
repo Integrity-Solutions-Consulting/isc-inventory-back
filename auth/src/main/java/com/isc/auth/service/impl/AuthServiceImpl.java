@@ -49,6 +49,9 @@ public class AuthServiceImpl implements AuthService {
 	public ResponseDto<UserRegisterResponseDTO> register(UserRequestoDTO request) {
 		// TODO Auto-generated method stub
 		Set<RolesEntity> roles = rolesRepository.findByIdIn(request.getRolesId());
+		if(roles.size()==0) {
+			throw new RuntimeException("Roles not found");
+		}
 		Set<PrivilegeEntity> privileges = privilegesRepository.findByIdIn(request.getPrivilegesId());
 		UserEntity user = new UserEntity();
 		String password = PasswordGenerator.generatePassword();

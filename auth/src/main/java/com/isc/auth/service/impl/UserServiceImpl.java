@@ -83,6 +83,9 @@ public class UserServiceImpl implements UserService {
 			Set<PrivilegeEntity> privileges = privilegesRepository.findByIdIn(request.getPrivilegesId());
 			Set<MenuEntity> menus = menuRepository.findByIdIn(request.getMenusId());
 
+			if(roles.size()==0) {
+				throw new RuntimeException("Roles not found");
+			}
 			// Limpiar roles y privilegios anteriores
 			if (user.getUserRoles() != null) {
 				user.getUserRoles().clear();
