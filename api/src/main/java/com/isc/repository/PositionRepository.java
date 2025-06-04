@@ -14,15 +14,15 @@ import com.isc.entitys.PositionEntity;
 
 @Repository
 public interface PositionRepository extends JpaRepository<PositionEntity, Integer> {
-	List<PositionEntity> findAllByActiveTrue();
+	List<PositionEntity> findAllByStatusTrue();
 	
 	@Modifying
 	@Transactional
-	@Query("UPDATE PositionEntity u SET u.active=false, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.active = true")
+	@Query("UPDATE PositionEntity u SET u.status=false, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.status = true")
 	int inactive(@Param("id") Integer id);
 	
     @Modifying
     @Transactional
-    @Query("UPDATE PositionEntity u SET u.active = true, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.active = false")
+    @Query("UPDATE PositionEntity u SET u.status = true, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.status = false")
     int active(@Param("id") Integer id);
 }

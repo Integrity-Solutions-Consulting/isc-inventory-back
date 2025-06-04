@@ -1,4 +1,4 @@
-package com.isc.auth.security;
+package com.isc.security;
 
 import java.security.Key;
 import java.util.Collection;

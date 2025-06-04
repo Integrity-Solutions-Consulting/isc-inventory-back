@@ -13,15 +13,15 @@ import com.isc.entitys.IdentificationTypeEntity;
 
 @Repository
 public interface IdentificationTypeRepository extends JpaRepository<IdentificationTypeEntity, Integer>{
-	List<IdentificationTypeEntity> findAllByActiveTrue();
+	List<IdentificationTypeEntity> findAllByStatusTrue();
 	
 	@Modifying
 	@Transactional
-	@Query("UPDATE IdentificationTypeEntity u SET u.active=false, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.active = true")
+	@Query("UPDATE IdentificationTypeEntity u SET u.status=false, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.status = true")
 	int inactive(@Param("id") Integer id);
 	
     @Modifying
     @Transactional
-    @Query("UPDATE IdentificationTypeEntity u SET u.active = true, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.active = false")
+    @Query("UPDATE IdentificationTypeEntity u SET u.status = true, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.status = false")
     int active(@Param("id") Integer id);
 }

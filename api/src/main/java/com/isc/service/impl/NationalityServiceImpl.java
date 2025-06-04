@@ -36,7 +36,7 @@ public class NationalityServiceImpl implements NationalityService {
 
 	@Override
 	public ResponseDto<List<NationalityResponseDTO>> getSimpleList() {
-		List<NationalityResponseDTO> response = nationalityRepository.findAllByActiveTrue().stream()
+		List<NationalityResponseDTO> response = nationalityRepository.findAllByStatusTrue().stream()
 				.map(NationalityMapper::toSimpleDto).collect(Collectors.toList());
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Nacionalidades listados correctamente");
 		return new ResponseDto<>(response, metadata);
