@@ -36,7 +36,7 @@ public class WorkModeServiceImpl implements WorkModeService{
 
 	@Override
 	public ResponseDto<List<WorkModeResponseDTO>> getSimpleList() {
-		List<WorkModeResponseDTO> response = workModeRepository.findAllByActiveTrue().stream()
+		List<WorkModeResponseDTO> response = workModeRepository.findAllByStatusTrue().stream()
 				.map(WorkModeMapper::toSimpleDto).collect(Collectors.toList());
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Modos de trabajo listados correctamente");
 		return new ResponseDto<>(response, metadata);

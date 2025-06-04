@@ -68,7 +68,7 @@ public class EmployeeEntity {
     @Column(length = 100)
     private String avatar = "http://172.16.14.5/media/profile/default-avatar.png";
     
-    @Column(name = "contract_date")
+    @Column(name = "hire_date")
     private LocalDateTime contractDate;
 
     @Column(name = "contract_end_date")

@@ -25,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/gender")
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('ADMIN')")
 public class GenderController {
 	private final GenderService service;
 	

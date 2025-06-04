@@ -34,12 +34,14 @@ public class MenuController {
 	}
 	
 	@PostMapping("/save")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ResponseDto<MenuResponseDTO>> save(@RequestBody MenuRequestDTO request) {
 		return ResponseEntity.ok(service.save(request));
 	}
 	
 
 	@PutMapping("/update/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ResponseDto<MenuResponseDTO>> update(@RequestBody MenuRequestDTO request, @PathVariable Integer id) {
 		return ResponseEntity.ok(service.update(request,id));
 	}

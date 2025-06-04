@@ -27,12 +27,7 @@ import lombok.NoArgsConstructor;
 public class RolesEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roles_seq")
-    @SequenceGenerator(
-        name = "roles_seq",
-        sequenceName = "authentication.roles_id_seq",
-        allocationSize = 1
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "name", length = 150, nullable = false)
