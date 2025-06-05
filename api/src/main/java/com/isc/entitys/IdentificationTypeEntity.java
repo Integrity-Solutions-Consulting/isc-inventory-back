@@ -15,7 +15,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Entity
-@Table(name = "nationality", schema = "administration", uniqueConstraints = {
+@Table(name = "identification_type", schema = "administration", uniqueConstraints = {
 		@UniqueConstraint(columnNames = "description") })
 @Data
 @RequiredArgsConstructor

@@ -9,19 +9,19 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.isc.entitys.CompanyEntity;
+import com.isc.entitys.EquipmentCharacteristicEntity;
 
 @Repository
-public interface CompanyRepository extends JpaRepository<CompanyEntity, Integer>{
-	List<CompanyEntity> findAllByActiveTrue();
+public interface EquipmentCharacteristicRepository extends JpaRepository<EquipmentCharacteristicEntity, Integer>{
+	List<EquipmentCharacteristicEntity> findAllByActiveTrue();
 	
 	@Modifying
 	@Transactional
-	@Query("UPDATE CompanyEntity u SET u.active=false, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.active = true")
+	@Query("UPDATE EquipmentCharacteristicEntity u SET u.active=false, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.active = true")
 	int inactive(@Param("id") Integer id);
 	
     @Modifying
     @Transactional
-    @Query("UPDATE CompanyEntity u SET u.active = true, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.active = false")
+    @Query("UPDATE EquipmentCharacteristicEntity u SET u.active = true, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.active = false")
     int active(@Param("id") Integer id);
 }
