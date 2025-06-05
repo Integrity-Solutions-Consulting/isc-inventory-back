@@ -12,41 +12,46 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.isc.dto.request.PositionRequestDTO;
+import com.isc.dto.request.EmployeeRequestDTO;
+import com.isc.dto.response.EmployeeCatalogResponseDTO;
+import com.isc.dto.response.EmployeeDetailResponseDTO;
+import com.isc.dto.response.EmployeeTableResponseDTO;
 import com.isc.dto.response.MessageResponseDTO;
-import com.isc.dto.response.PositionDetailResponseDTO;
-import com.isc.dto.response.PositionResponseDTO;
 import com.isc.dtos.ResponseDto;
-import com.isc.service.PositionService;
+import com.isc.service.EmployeeService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/position")
+@RequestMapping("/employee")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
-public class PositionController {
+public class EmployeeController {
+	private final EmployeeService service;
 
-	private final PositionService service;
-
-	@GetMapping("/getAllDetails")
-	public ResponseEntity<ResponseDto<List<PositionDetailResponseDTO>>> getAllDetails() {
-		return ResponseEntity.ok(service.getAllDetails());
+	@GetMapping("/getTable")
+	public ResponseEntity<ResponseDto<List<EmployeeTableResponseDTO>>> getAllTable() {
+		return ResponseEntity.ok(service.getAllTable());
 	}
 
 	@GetMapping("/getSimpleList")
-	public ResponseEntity<ResponseDto<List<PositionResponseDTO>>> getSimpleList() {
+	public ResponseEntity<ResponseDto<List<EmployeeCatalogResponseDTO>>> getSimpleList() {
 		return ResponseEntity.ok(service.getSimpleList());
+	}
+	
+	@GetMapping("/getInfo/{id}")
+	public ResponseEntity<ResponseDto<EmployeeDetailResponseDTO>> getInfoById(@PathVariable Integer id) {
+		return ResponseEntity.ok(service.getInfoById(id));
 	}
 
 	@PostMapping("/save")
-	public ResponseEntity<ResponseDto<PositionDetailResponseDTO>> save(@RequestBody PositionRequestDTO request) {
+	public ResponseEntity<ResponseDto<EmployeeDetailResponseDTO>> save(@RequestBody EmployeeRequestDTO request) {
 		return ResponseEntity.ok(service.save(request));
 	}
 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<ResponseDto<PositionDetailResponseDTO>> update(@RequestBody PositionRequestDTO request,
+	public ResponseEntity<ResponseDto<EmployeeDetailResponseDTO>> update(@RequestBody EmployeeRequestDTO request,
 			@PathVariable Integer id) {
 		return ResponseEntity.ok(service.update(request, id));
 	}

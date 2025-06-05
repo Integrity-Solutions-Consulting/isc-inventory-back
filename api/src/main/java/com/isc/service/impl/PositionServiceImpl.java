@@ -35,7 +35,7 @@ public class PositionServiceImpl implements PositionService{
 
 	@Override
 	public ResponseDto<List<PositionResponseDTO>> getSimpleList() {
-		List<PositionResponseDTO> response = positionRepository.findAllByActiveTrue().stream()
+		List<PositionResponseDTO> response = positionRepository.findAllByStatusTrue().stream()
 				.map(PositionMapper::toSimpleDto).collect(Collectors.toList());
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Posiciones listados correctamente");
 		return new ResponseDto<>(response, metadata);

@@ -35,7 +35,7 @@ public class IdentificationTypeServiceImpl implements IdentificationTypeService{
 
 	@Override
 	public ResponseDto<List<IdentificationTypeResponseDTO>> getSimpleList() {
-		List<IdentificationTypeResponseDTO> response = identificationTypeRepository.findAllByActiveTrue().stream()
+		List<IdentificationTypeResponseDTO> response = identificationTypeRepository.findAllByStatusTrue().stream()
 				.map(IdentificationTypeMapper::toSimpleDto).collect(Collectors.toList());
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Tipo de identifiacion listados correctamente");
 		return new ResponseDto<>(response, metadata);

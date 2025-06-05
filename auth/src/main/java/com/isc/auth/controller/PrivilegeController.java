@@ -34,6 +34,7 @@ public class PrivilegeController {
 	}
 	
 	@PostMapping("/save")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ResponseDto<PrivilegeResponseDTO>> save(@RequestBody PrivilegeRequestDTO request){
 		return ResponseEntity.ok(service.save(request));
 	}

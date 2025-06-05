@@ -36,7 +36,7 @@ public class GenderServiceImpl implements GenderService {
 
 	@Override
 	public ResponseDto<List<GenderResponseDTO>> getSimpleList() {
-		List<GenderResponseDTO> response = genderRepository.findAllByActiveTrue().stream()
+		List<GenderResponseDTO> response = genderRepository.findAllByStatusTrue().stream()
 				.map(GenderMapper::toSimpleDto).collect(Collectors.toList());
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Generos listados correctamente");
 		return new ResponseDto<>(response, metadata);

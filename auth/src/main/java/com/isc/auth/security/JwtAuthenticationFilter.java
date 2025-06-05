@@ -2,6 +2,7 @@ package com.isc.auth.security;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -69,6 +71,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
 		User user = (User) authResult.getPrincipal();
+		Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
 		String username = user.getUsername();
 		Optional<UserEntity> optionalUserEntity = userRepository.findByUsername(username);
 		if (optionalUserEntity.isPresent()) {
@@ -79,7 +82,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			userRepository.save(userEntity);
 
 			// Genera el token
-			String token = jwtService.generateToken(username);
+			String token = jwtService.generateToken(username,authorities);
 			response.addHeader("Authorization", token);
 
 			// Crea el DTO con los datos del usuario

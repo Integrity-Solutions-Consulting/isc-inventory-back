@@ -1,5 +1,6 @@
 package com.isc.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,16 +48,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public ResponseDto<List<EmployeeTableResponseDTO>> getAllTable() {
-		List<EmployeeTableResponseDTO> response = employeeRepository.findAll().stream()
-				.map(EmployeeMapper::toTableResponse).collect(Collectors.toList());
+		List<EmployeeTableResponseDTO> response = employeeRepository.findAllEmployeeTableData();
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Empleados listados correctamente");
 		return new ResponseDto<>(response, metadata);
 	}
 
 	@Override
 	public ResponseDto<List<EmployeeCatalogResponseDTO>> getSimpleList() {
-		List<EmployeeCatalogResponseDTO> response = employeeRepository.findAll().stream()
-				.map(EmployeeMapper::toCatalogResponse).collect(Collectors.toList());
+		List<EmployeeCatalogResponseDTO> response = employeeRepository.findAllActiveEmployeeCatalog();
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Empleados listados correctamente");
 		return new ResponseDto<>(response, metadata);
 	}
@@ -110,20 +109,75 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public ResponseDto<EmployeeDetailResponseDTO> update(EmployeeRequestDTO request, Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		EmployeeEntity entity = employeeRepository.findById(id)
+	            .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
+		if(entity.getIdentificationType().getId()!=request.getIdIdentificationType()) {
+		    IdentificationTypeEntity identificationType = identificationTypeRepository
+		            .findById(request.getIdIdentificationType())
+		            .orElseThrow(() -> new RuntimeException("Tipo de identificación no encontrada"));
+		    entity.setIdentificationType(identificationType);
+		}
+		if(entity.getGender().getId()!=request.getIdGender()) {
+		    GenderEntity gender = genderRepository.findById(request.getIdGender())
+		            .orElseThrow(() -> new RuntimeException("Género no encontrado"));
+		    entity.setGender(gender);
+		}
+		if(entity.getNationality().getId()!=request.getIdNationality()) {
+			NationalityEntity nationality = nationalityRepository
+		            .findById(request.getIdNationality())
+		            .orElseThrow(() -> new RuntimeException("Nacionalidad no encontrada"));
+		    entity.setNationality(nationality);
+		}
+		if(entity.getPosition().getId()!=request.getIdPosition()) {
+			 PositionEntity position = positionRepository
+			            .findById(request.getIdPosition())
+			            .orElseThrow(() -> new RuntimeException("Posición no encontrada"));
+			 entity.setPosition(position);
+		}
+		if(entity.getWorkMode().getId()!=request.getIdWorkMode()) {
+			 WorkModeEntity workMode = workModeRepository
+			            .findById(request.getIdWorkMode())
+			            .orElseThrow(() -> new RuntimeException("Modo de trabajo no encontrado"));
+			 entity.setWorkMode(workMode);
+		}
+
+	    entity.setFirstName(request.getFirstName());
+	    entity.setLastName(request.getLastName());
+	    entity.setIdentification(request.getIdentification());
+	    entity.setPhone(request.getPhone());
+	    entity.setEmail(request.getEmail());
+	    entity.setAddress(request.getAddress());
+	    entity.setContractDate(request.getContractDate());
+	    entity.setContractEndDate(request.getContractEndDate());
+	    
+	    entity.setModificationDate(LocalDateTime.now());
+	    entity = employeeRepository.save(entity);
+		EmployeeDetailResponseDTO response = EmployeeMapper.toDetailResponse(entity);
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK,
+				"Informacion del empleado cargada correctamente");
+		return new ResponseDto<>(response, metadata);
 	}
 
 	@Override
 	public ResponseDto<MessageResponseDTO> inactive(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		int rowsAffected =  employeeRepository.inactive(id);
+		if(rowsAffected == 0) {
+			 throw new RuntimeException("No se pudo realizar la operacion en el id: " + id);
+		}
+	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Operacion exitosa");
+		MessageResponseDTO message = new MessageResponseDTO("Operacion exitosa");
+		return new ResponseDto<>(message, metadata);
 	}
 
 	@Override
 	public ResponseDto<MessageResponseDTO> active(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		int rowsAffected =  employeeRepository.active(id);
+		if(rowsAffected == 0) {
+			 throw new RuntimeException("No se pudo realizar la operacion en el id: " + id);
+		}
+	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Operacion exitosa");
+		MessageResponseDTO message = new MessageResponseDTO("Operacion exitosa");
+		return new ResponseDto<>(message, metadata);
 	}
 
 }
