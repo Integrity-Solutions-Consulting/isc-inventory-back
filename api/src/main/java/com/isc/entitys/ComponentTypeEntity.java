@@ -46,17 +46,3 @@ public class ComponentTypeEntity {
 	@Column(name = "modification_ip", length = 45)
 	private String modificationIp;
 }
-/*
-﻿
-inventory
-component_type
-id serial
-description character varying(100)
-status boolean
-creation_user character varying(50)
-modification_user character varying(50)
-creation_date timestamp without time zone
-modification_date timestamp without time zone
-creation_ip character varying(45)
-modification_ip character varying(45)
-*/

@@ -58,21 +58,3 @@ public class SupplierEntity {
 	@Column(name = "modification_ip", length = 45)
 	private String modificationIp;
 }
-/*
-﻿
-inventory
-supplier
-id serial
-business_name character varying(150)
-address character varying(200)
-phone character varying(15)
-email character varying(100)
-tax_id character varying(15)
-status boolean
-creation_user character varying(50)
-modification_user character varying(50)
-creation_date timestamp without time zone
-modification_date timestamp without time zone
-creation_ip character varying(45)
-modification_ip character varying(45)
-*/

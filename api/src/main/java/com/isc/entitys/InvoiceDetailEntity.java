@@ -70,23 +70,3 @@ public class InvoiceDetailEntity {
 	@Column(name = "modification_ip", length = 45)
 	private String modificationIp;
 }
-/*
-inventory
-invoice_detail
-id serial
-id_category integer
-description text
-unit_price numeric(10,2)
-quantity integer
-subtotal numeric(10,2)
-tax numeric(10,2)
-discount numeric(10,2)
-total numeric(10,2)
-status boolean
-creation_user character varying(50)
-modification_user character varying(50)
-creation_date timestamp without time zone
-modification_date timestamp without time zone
-creation_ip character varyin9(45)
-modification_ip character varying(45)
-*/

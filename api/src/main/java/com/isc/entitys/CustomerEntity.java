@@ -63,22 +63,3 @@ public class CustomerEntity {
 	private String modificationIp;
 
 }
-
-/*
-* 
-administration
-customer
-id serial
-name character varying(100)
-address character varying(255)
-email character varying(150)
-phone character varying(20)
-status boolean
-creation_user character varying(50)
-modification_user character varying(50)
-creation_date timestamp without time zone
-modification_date timestamp without time zone
-creation_ip character varying(45)
-modification_ip character varying(45)
-* 
-*/

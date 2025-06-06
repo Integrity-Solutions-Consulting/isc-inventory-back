@@ -25,7 +25,7 @@ public class EquipmentEntity {
 	
 	@ManyToOne
     @JoinColumn(name = "id_invoice", nullable = false)
-    private InvoiceEntity invoice;
+    private Integer invoice;
 	
 	@ManyToOne
     @JoinColumn(name = "id_status", nullable = false)
@@ -77,25 +77,3 @@ public class EquipmentEntity {
 	private String modificationIp;
 	
 }
-
-/*
-inventory
-equipment
-id serial
-id_invoice integer
-id_status integer
-id_category integer
-id_company integer
-id_characteristic integer
-brand character varying(100)
-model character varying(100)
-serial number character varying(150)
-item_code character varying(50)
-status boolean
-creation_user character varying(50)
-modification_user character varying (50)
-creation_date timestamp without time zone
-modification_date timestamp without time zone
-creation_ip character varying(45)
-modification_ip character varying(45)
-*/

@@ -38,8 +38,8 @@ public class EquipmentRepairEntity {
 	@Column(name = "cost", precision = 10, scale = 2)
     private BigDecimal cost;
 	
-	@Column(name = "service_provider", precision = 10, scale = 2)
-    private BigDecimal serviceProvider;
+	@Column(name = "service_provider", length = 150)
+    private String serviceProvider;
 	
 	@Column(nullable = false)
 	private Boolean status = true;
@@ -62,20 +62,3 @@ public class EquipmentRepairEntity {
 	@Column(name = "modification_ip", length = 45)
 	private String modificationIp;
 }
-/*
- inventory
-equipment_repair
-id serial
-id_equipment integer
-repair_date timestamp without time zone
-description text
-cost numeric(10,2)
-service_provider character varying(150)
-status boolean
-creation_user character varying(50)
-modification_user character varying(50)
-creation_date timestamp without time zone
-modification_date timestamp without time zone
-creation_ip character varying(45)
-modification_ip character varying(45)
-*/

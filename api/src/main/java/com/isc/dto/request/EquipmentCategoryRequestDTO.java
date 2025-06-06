@@ -1,5 +1,7 @@
 package com.isc.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,5 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EquipmentCategoryRequestDTO {
-	private Integer name;
+	
+	@NotBlank(message = "El nombre del equipo no puede estar vacío")
+    @Size(max = 255, message = "El nombre no puede tener más de 255 caracteres")
+	private String name;
 }

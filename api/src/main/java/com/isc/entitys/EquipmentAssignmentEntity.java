@@ -38,6 +38,9 @@ public class EquipmentAssignmentEntity {
 	@Column(name = "return_date")
 	private LocalDateTime returnDate;
 	
+	@Column(nullable = false)
+	private Boolean status = true;
+	
 	@Column(name = "creation_user", length = 50)
 	private String creationUser;
 
@@ -56,19 +59,3 @@ public class EquipmentAssignmentEntity {
 	@Column(name = "modification_ip", length = 45)
 	private String modificationIp;
 }
-/*
-inventory
-equipment_assignment
-id serial
-id_employee integer
-id_equipment integer
-assignment_date timestamp without time zone
-return_date timestamp without time zone
-status boolean
-creation_user character varying(50)
-modification_user character varying(50)
-creation_date timestamp without time zone
-modification_date timestamp without time zone
-creation_ip character varyin9(45)
-modification_ip character varying(45)
-*/

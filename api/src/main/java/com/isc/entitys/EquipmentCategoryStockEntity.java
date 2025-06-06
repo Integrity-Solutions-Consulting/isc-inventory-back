@@ -26,7 +26,7 @@ public class EquipmentCategoryStockEntity {
 	
 	@ManyToOne
     @JoinColumn(name = "id_category", nullable = false)
-    private EquipmentCategoryEntity category;
+    private Integer category;
 	
 	@Column(nullable = false)
 	private Integer stock;
@@ -53,17 +53,3 @@ public class EquipmentCategoryStockEntity {
 	private String modificationIp;
 
 }
-/*
-inventory
-equipment_category_stock
-id serial
-id_category integer
-stock integer
-status boolean
-creation_user character varying(50)
-modification_user character varying(50)
-creation_date timestamp without time zone
-modification_date timestamp without time zone
-creation_ip character varying(45)
-modification_ip character varying(45)
-*/

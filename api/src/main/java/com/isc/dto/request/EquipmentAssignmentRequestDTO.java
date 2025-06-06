@@ -1,5 +1,9 @@
 package com.isc.dto.request;
 
+import java.time.LocalDateTime;
+
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +12,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EquipmentAssignmentRequestDTO {
+	
+	@NotNull(message = "El ID del empleado es obligatorio")
 	private Integer employee;
-    private Integer equipment;
-    private Integer assigmentDate;
-    private Integer returnDate;
+    
+	@NotNull(message = "El ID del equipo es obligatorio")
+	private Integer equipment;
+    
+	@NotNull(message = "La fecha de asignación es obligatoria")
+    @FutureOrPresent(message = "La fecha de asignación debe ser en el presente o en el futuro")
+	private LocalDateTime assigmentDate;
+    
+	@FutureOrPresent(message = "La fecha de devolución debe ser en el presente o en el futuro")
+	private LocalDateTime returnDate;
 }

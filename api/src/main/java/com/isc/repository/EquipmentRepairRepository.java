@@ -13,15 +13,15 @@ import com.isc.entitys.EquipmentRepairEntity;
 
 @Repository
 public interface EquipmentRepairRepository extends JpaRepository<EquipmentRepairEntity, Integer>{
-	List<EquipmentRepairEntity> findAllByActiveTrue();
+	List<EquipmentRepairEntity> findAllByStatusTrue();
 	
 	@Modifying
 	@Transactional
-	@Query("UPDATE EquipmentRepairEntity u SET u.active=false, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.active = true")
+	@Query("UPDATE EquipmentRepairEntity u SET u.status=false, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.status = true")
 	int inactive(@Param("id") Integer id);
 	
     @Modifying
     @Transactional
-    @Query("UPDATE EquipmentRepairEntity u SET u.active = true, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.active = false")
+    @Query("UPDATE EquipmentRepairEntity u SET u.status = true, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.status = false")
     int active(@Param("id") Integer id);
 }

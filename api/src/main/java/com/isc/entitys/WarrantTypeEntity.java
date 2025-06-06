@@ -27,7 +27,7 @@ public class WarrantTypeEntity {
 	
 	@ManyToOne
     @JoinColumn(name = "id_equipment", nullable = true)
-    private EquipmentEntity equipment;
+    private Integer equipment;
 	
 	@Column(length = 255)
 	private String conditions;
@@ -65,22 +65,3 @@ public class WarrantTypeEntity {
 	@Column(name = "modification_ip", length = 45)
 	private String modificationIp;
 }
-/*
-inventory
-warranty_type
-id serial
-id_equipment integer
-conditions character varying(255)
-warranty_start_date date
-warranty_end_date date
-support_contact character varying(100)
-warranty status smallint
-status boolean
-creation_user character varying(50)
-modification_user character varying(50)
-creation_date timestamp without time zone
-modification_date timestamp without time zone
-creation_ip character varying(45)
-modification_ip character varying(45)
- 
-*/

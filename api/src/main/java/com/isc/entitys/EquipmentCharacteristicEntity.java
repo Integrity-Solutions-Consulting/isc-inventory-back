@@ -52,17 +52,3 @@ public class EquipmentCharacteristicEntity {
 	@Column(name = "modification_ip", length = 45)
 	private String modificationIp;
 }
-/*﻿
-inventory
-equipment_characteristic
-id serial
-description character varying(150)
-id_component integer
-status boolean
-creation_user character varying(50)
-modification_user character varying(50)
-creation_date timestamp without time zone
-modification_date timestamp without time zone
-creation_ip character varying(45)
-modification_ip character varying(45)
-*/

@@ -1,5 +1,7 @@
 package com.isc.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,5 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class IdentificationTypeRequestDTO {
+	
+	@NotBlank(message = "La descripcion del tipo de identificacion no puede estar vacía")
+    @Size(max = 100, message = "La descripcion no puede tener más de 100 caracteres")
 	private String description;
 }
