@@ -1,6 +1,5 @@
 package com.isc.dto.response;
 
-
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -10,11 +9,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GenderDetailResponseDTO {
+public class SupplierDetailResponseDTO {
 	private Integer id;
-	private String description;
+	private String businessName;
+	private String address;
+	private String phone;
+	private String email;
+	private String taxId;
 	private boolean status;
 	private LocalDateTime cretionDate;
 	private LocalDateTime modificationDate;
 }
-	
