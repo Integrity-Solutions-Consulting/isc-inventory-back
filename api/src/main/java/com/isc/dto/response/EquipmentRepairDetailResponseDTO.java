@@ -12,7 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EquipmentRepairDetailResponseDTO {
 	private Integer id;
+	
 	private Integer equipment;
+	private String SerialNumber;
+	
 	private LocalDateTime repairDate;
 	private String description;
 	private BigDecimal cost;
