@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class GenderDetailResponseDTO {
 	private Integer id;
 	private String description;
-	private boolean active;
+	private boolean status;
 	private LocalDateTime cretionDate;
 	private LocalDateTime modificationDate;
 }

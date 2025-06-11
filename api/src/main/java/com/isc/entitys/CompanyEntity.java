@@ -29,23 +29,23 @@ public class CompanyEntity {
 	@Column(length = 100, unique = true)
 	private String name;
 
-	@Column(length = 100)
+	@Column(length = 255)
 	private String description;
 
 	@Column(nullable = false)
 	private Boolean status = true;
+	
+	@Column(name = "creation_user", length = 50)
+	private String creationUser;
+
+	@Column(name = "modification_user", length = 50)
+	private String modificationUser;
 
 	@Column(name = "creation_date")
 	private LocalDateTime creationDate = LocalDateTime.now();
 
 	@Column(name = "modification_date")
 	private LocalDateTime modificationDate;
-
-	@Column(name = "creation_user", length = 50)
-	private String creationUser;
-
-	@Column(name = "modification_user", length = 50)
-	private String modificationUser;
 
 	@Column(name = "creation_ip", length = 45)
 	private String creationIp;

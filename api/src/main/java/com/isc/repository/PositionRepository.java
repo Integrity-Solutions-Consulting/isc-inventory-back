@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.isc.entitys.NationalityEntity;
 import com.isc.entitys.PositionEntity;
 
 @Repository
