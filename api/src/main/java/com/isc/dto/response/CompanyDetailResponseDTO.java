@@ -14,6 +14,6 @@ public class CompanyDetailResponseDTO {
 	private String name;
 	private String description;
 	private boolean status;
-	private LocalDateTime cretionDate;
+	private LocalDateTime creationDate;
 	private LocalDateTime modificationDate;
 }

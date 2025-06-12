@@ -24,8 +24,7 @@ public class EquipmentCategoryStockEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 	
-	@ManyToOne
-    @JoinColumn(name = "id_category", nullable = false)
+	@Column(name="id_category")
     private Integer category;
 	
 	@Column(nullable = false)
