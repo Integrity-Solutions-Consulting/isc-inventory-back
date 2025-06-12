@@ -18,17 +18,22 @@ import lombok.NoArgsConstructor;
 public class UserRequestoDTO {
 	@NotBlank(message = "El nombre de usuario es obligatorio")
 	@Size(max = 50, message = "El nombre de usuario no puede tener más de 50 caracteres")
-	@Pattern(regexp = "^[a-zA-Z0-9._-]{1,50}$", message = "El nombre de usuario solo puede contener letras, números, puntos, guiones y guiones bajos")
+	@Pattern(regexp = "^[\\p{L}0-9 .'-]+$", message = "El username contiene caracteres inválidos")
 	private String username;
 
 	@NotBlank(message = "El email es obligatorio")
 	@Email(message = "Debe proporcionar un email válido")
 	@Size(max = 50)
+	@Pattern(
+		    regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$",
+		    flags = Pattern.Flag.CASE_INSENSITIVE,
+		    message = "Debe proporcionar un email válido"
+		)
 	private String email;
 	
 	@NotBlank(message = "Los nombres son obligatorios")
 	@Size(max = 100)
-	@Pattern(regexp = "^[A-Za-zÁÉÍÓÚáéíóúÑñ\\s]+$", message = "Los nombres solo pueden contener letras y espacios")
+	@Pattern(regexp = "^[\\p{L}0-9 .'-]+$", message = "El nombre contiene caracteres inválidos")
 	private String firstNames;
 
 	@NotNull(message = "El ID del empleado es obligatorio")

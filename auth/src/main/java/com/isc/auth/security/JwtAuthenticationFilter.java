@@ -22,6 +22,7 @@ import com.isc.auth.dto.response.UserLoginResponseDTO;
 import com.isc.auth.entitys.UserEntity;
 import com.isc.auth.mapper.UserMapper;
 import com.isc.auth.repository.UserRepository;
+import com.isc.auth.service.UserService;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
 
@@ -34,13 +35,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 	private JwtService jwtService;
 
-	private UserRepository userRepository;
-	
+	private UserService userService;
+
 	private ObjectMapper objectMapper;
 
-	public JwtAuthenticationFilter(JwtService jwtService, UserRepository userRepository, ObjectMapper objectMapper ) {
+	public JwtAuthenticationFilter(JwtService jwtService, UserService userService, ObjectMapper objectMapper) {
 		this.jwtService = jwtService;
-		this.userRepository = userRepository;
+		this.userService = userService;
 		this.objectMapper = objectMapper;
 		setFilterProcessesUrl("/api/v1/auth/login"); // Endpoint for authentication
 	}
@@ -49,16 +50,16 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		UserEntity userEntity = null;
-		String username = "";
+		String email = "";
 		String password = "";
 		try {
 			userEntity = new ObjectMapper().readValue(request.getInputStream(), UserEntity.class);
-			username = userEntity.getUsername();
+			email = userEntity.getEmail();
 			password = userEntity.getPassword();
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
-		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
+		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email,
 				password);
 		try {
 			return getAuthenticationManager().authenticate(authenticationToken);
@@ -72,36 +73,25 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			Authentication authResult) throws IOException, ServletException {
 		User user = (User) authResult.getPrincipal();
 		Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
-		String username = user.getUsername();
-		Optional<UserEntity> optionalUserEntity = userRepository.findByUsername(username);
-		if (optionalUserEntity.isPresent()) {
-			UserEntity userEntity = optionalUserEntity.get();
+		String email = user.getUsername();
+		UserLoginResponseDTO dto =this.userService.processLogin(email, authorities);
 
-			userEntity.setLoggedIn(true);
-			userEntity.setLastConnection(LocalDateTime.now());
-			userRepository.save(userEntity);
+		// Genera el token
+		String token = jwtService.generateToken(email, authorities);
 
-			// Genera el token
-			String token = jwtService.generateToken(username,authorities);
-			response.addHeader("Authorization", token);
-
-			// Crea el DTO con los datos del usuario
-			UserLoginResponseDTO dto = UserMapper.detailsLoginToDto(userEntity);
-			dto.setToken(token);
-
-			response.addHeader("Authorization", token);
-			MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Login satisfactorio");
-			System.out.println(dto);
-			ResponseDto<UserLoginResponseDTO> responseDTO = new ResponseDto<>(dto, metadata);
-			response.setStatus(HttpStatus.OK.value());
-			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-			response.getWriter().write(objectMapper.writeValueAsString(responseDTO));
-			response.getWriter().flush();
-		} else {
-			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-			response.getWriter().write("{\"error\": \"User not found\"}");
-			response.getWriter().flush();
-		}
+		dto.setToken(token);
+		response.addHeader("Authorization", token);
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Login satisfactorio");
+		ResponseDto<UserLoginResponseDTO> responseDTO = new ResponseDto<>(dto, metadata);
+		response.setStatus(HttpStatus.OK.value());
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		response.getWriter().write(objectMapper.writeValueAsString(responseDTO));
+		response.getWriter().flush();
 	}
 }
+/*
+ * response.setStatus(HttpStatus.UNAUTHORIZED.value());
+ * response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+ * response.getWriter().write("{\"error\": \"User not found\"}");
+ * response.getWriter().flush();
+ */
