@@ -26,7 +26,7 @@ public class EmployeeEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
+	
 	@ManyToOne
     @JoinColumn(name = "id_identification_type")
     private IdentificationTypeEntity identificationType;

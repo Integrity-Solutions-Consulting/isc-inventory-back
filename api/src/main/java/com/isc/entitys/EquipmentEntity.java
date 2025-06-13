@@ -23,8 +23,7 @@ public class EquipmentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 	
-	@ManyToOne
-    @JoinColumn(name = "id_invoice", nullable = false)
+	@Column(name = "id_invoice")
     private Integer invoice;
 	
 	@ManyToOne
