@@ -1,3 +1,8 @@
+target
+.idea
+.git
+.gitignore
+
 # flyctl launch added from api/.gitignore
 # Directorios de compilación y target de Maven/Gradle
 api/target
