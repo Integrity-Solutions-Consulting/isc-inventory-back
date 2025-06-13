@@ -29,7 +29,7 @@ public class EquipmentEntity {
 	
 	@ManyToOne
     @JoinColumn(name = "id_status", nullable = false)
-    private EquipmentStatusEntity EquipStatus;
+    private EquipmentStatusEntity equipStatus;
 	
 	@ManyToOne
     @JoinColumn(name = "id_category", nullable = false)
@@ -50,7 +50,7 @@ public class EquipmentEntity {
 	private String model;
 	
 	@Column(name = "serial_number", length = 100)
-	private String SerialNumber;
+	private String serialNumber;
 	
 	@Column(name = "item_code", length = 100)
 	private String itemCode;

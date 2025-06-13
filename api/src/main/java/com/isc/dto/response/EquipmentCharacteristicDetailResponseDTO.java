@@ -14,6 +14,6 @@ public class EquipmentCharacteristicDetailResponseDTO {
 	private String description;
 	private Integer component;
 	private boolean status;
-	private LocalDateTime cretionDate;
+	private LocalDateTime creationDate;
 	private LocalDateTime modificationDate;
 }

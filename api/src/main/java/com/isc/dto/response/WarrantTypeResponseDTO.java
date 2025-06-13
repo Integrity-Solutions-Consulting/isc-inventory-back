@@ -15,7 +15,6 @@ public class WarrantTypeResponseDTO {
 	private String conditions;
 	private LocalDateTime warrantyStartDate;
 	private LocalDateTime warrantyEndDate;
-	private String SupportContact;
+	private String supportContact;
 	private Short warrantyStatus;
-	
 }

@@ -19,8 +19,8 @@ public class AppearanceDetailResponseDTO {
 	private String background_color;
 	private Integer box_order;
 	private String box_background;
-	private boolean status;
-	private LocalDateTime cretionDate;
-	private LocalDateTime modificationDate;
+	private boolean active;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 	
 }

@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 public class EquipmentResponseDTO {
 	private Integer id;
 	private Integer invoice;
-	private Integer EquipStatus;
+	private Integer equipStatus;
 	private Integer category;
 	private Integer company;
 	private Integer characteristic;
 	private String brand;
 	private String model;
-	private String SerialNumber;
+	private String serialNumber;
 	private String itemCode;
 	
 }

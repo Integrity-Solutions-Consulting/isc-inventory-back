@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class InvoiceRequest {
+public class InvoiceRequestDTO {
 	
 	@NotNull(message = "El detalle de la factura es obligatorio")
 	private Integer invoiceDetail;

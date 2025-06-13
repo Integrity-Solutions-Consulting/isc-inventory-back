@@ -33,7 +33,7 @@ public class EquipmentAssignmentEntity {
     private EquipmentEntity equipment;
 	
 	@Column(name = "assignment_date")
-	private LocalDateTime assigmentDate;
+	private LocalDateTime assignmentDate;
 	
 	@Column(name = "return_date")
 	private LocalDateTime returnDate;

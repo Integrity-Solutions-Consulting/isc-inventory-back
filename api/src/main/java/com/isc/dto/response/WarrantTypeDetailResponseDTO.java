@@ -13,14 +13,14 @@ public class WarrantTypeDetailResponseDTO {
 	private Integer id;
 	
 	private Integer equipment;
-	private String SerialNumber;
+	private String serialNumber;
 	
 	private String conditions;
 	private LocalDateTime warrantyStartDate;
 	private LocalDateTime warrantyEndDate;
-	private String SupportContact;
+	private String supportContact;
 	private Short warrantyStatus;
 	private boolean status;
-	private LocalDateTime cretionDate;
+	private LocalDateTime creationDate;
 	private LocalDateTime modificationDate;
 }

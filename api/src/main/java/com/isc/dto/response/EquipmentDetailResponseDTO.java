@@ -13,7 +13,7 @@ public class EquipmentDetailResponseDTO {
 	private Integer id;
 	private Integer invoice;
 	
-	private Integer EquipStatus;
+	private Integer equipStatus;
 	private String nameEquipStat;
 	private Integer category;
 	
@@ -25,9 +25,9 @@ public class EquipmentDetailResponseDTO {
 	
 	private String brand;
 	private String model;
-	private String SerialNumber;
+	private String serialNumber;
 	private String itemCode;
 	private boolean status;
-	private LocalDateTime cretionDate;
+	private LocalDateTime creationDate;
 	private LocalDateTime modificationDate;
 }

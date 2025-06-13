@@ -13,7 +13,7 @@ public class EquipmentAssignmentResponseDTO {
 	private Integer id;
 	private Integer employee;
 	private Integer equipment;
-	private LocalDateTime assigmentDate;
+	private LocalDateTime assignmentDate;
 	private LocalDateTime returnDate;
 	
 }

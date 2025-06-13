@@ -27,7 +27,7 @@ public class WarrantTypeEntity {
 	
 	@ManyToOne
     @JoinColumn(name = "id_equipment", nullable = true)
-    private Integer equipment;
+    private EquipmentEntity equipment;
 	
 	@Column(length = 255)
 	private String conditions;
@@ -39,7 +39,7 @@ public class WarrantTypeEntity {
 	private LocalDateTime warrantyEndDate;
 	
 	@Column(name = "support_contact", length = 100)
-    private String SupportContact;
+    private String supportContact;
 	
 	@Column(name = "warranty_status")
     private Short warrantyStatus;

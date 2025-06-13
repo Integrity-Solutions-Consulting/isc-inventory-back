@@ -1,0 +1,19 @@
+package com.isc.mapper;
+
+import com.isc.dto.response.EquipmentCategoryStockDetailResponseDTO;
+import com.isc.dto.response.EquipmentCategoryStockResponseDTO;
+import com.isc.entitys.EquipmentCategoryStockEntity;
+
+public class EquipmentCategoryStockMapper {
+	public static EquipmentCategoryStockResponseDTO toSimpleDto(EquipmentCategoryStockEntity entity) {
+		if (entity == null)
+			return null;
+		return new EquipmentCategoryStockResponseDTO(entity.getId(), entity.getCategory(), entity.getStock());
+	}
+	
+	public static EquipmentCategoryStockDetailResponseDTO toDetailDto(EquipmentCategoryStockEntity entity) {
+		if (entity == null)
+			return null;
+		return new EquipmentCategoryStockDetailResponseDTO(entity.getId(), entity.getCategory(), entity.getStock(),entity.getStatus(),entity.getCreationDate(),entity.getModificationDate());
+	}
+}

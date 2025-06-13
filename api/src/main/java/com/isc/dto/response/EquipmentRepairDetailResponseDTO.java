@@ -14,13 +14,13 @@ public class EquipmentRepairDetailResponseDTO {
 	private Integer id;
 	
 	private Integer equipment;
-	private String SerialNumber;
+	private String serialNumber;
 	
 	private LocalDateTime repairDate;
 	private String description;
 	private BigDecimal cost;
 	private String serviceProvider;
 	private boolean status;
-	private LocalDateTime cretionDate;
+	private LocalDateTime creationDate;
 	private LocalDateTime modificationDate;
 }
