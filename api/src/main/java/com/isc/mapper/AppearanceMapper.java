@@ -14,6 +14,6 @@ public class AppearanceMapper {
 	public static AppearanceDetailResponseDTO toDetailDto(AppearanceEntity entity) {
 		if (entity == null)
 			return null;
-		return new AppearanceDetailResponseDTO(entity.getId(), entity.getLogin_background(), entity.getTypography(), entity.getFix_header(), entity.getMenu_position(), entity.getCollapsed_menu(), entity.getBackground_color(), entity.getBox_order(), entity.getBox_background(), entity.getActive(), entity.getCreatedAt(), entity.getUpdatedAt());
+		return new AppearanceDetailResponseDTO(entity.getId(), entity.getLogin_background(), entity.getTypography(), entity.getFix_header(), entity.getMenu_position(), entity.getCollapsed_menu(), entity.getBackground_color(), entity.getBox_order(), entity.getBox_background(), entity.getActive(), entity.getCreationDate(), entity.getModificationDate());
 	}
 }

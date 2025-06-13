@@ -51,8 +51,8 @@ public class AppearanceEntity {
 	private Boolean active = true;
 
 	@Column(name = "created_at", nullable = false)
-	private LocalDateTime createdAt = LocalDateTime.now();
+	private LocalDateTime creationDate = LocalDateTime.now();
 
 	@Column(name = "updated_at")
-	private LocalDateTime updatedAt;
+	private LocalDateTime ModificationDate;
 }

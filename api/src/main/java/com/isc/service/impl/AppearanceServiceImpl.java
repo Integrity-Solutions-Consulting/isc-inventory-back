@@ -61,7 +61,7 @@ public class AppearanceServiceImpl implements AppearanceService{
         entity.setBackground_color(request.getBackground_color());
         entity.setBox_order(request.getBox_order());
         entity.setBox_background(request.getBox_background());
-        entity.setUpdatedAt(LocalDateTime.now());
+        entity.setModificationDate(LocalDateTime.now());
         entity = appearanceRepository.save(entity);
         AppearanceDetailResponseDTO response = AppearanceMapper.toDetailDto(entity);
         MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Apariencia actualizada correctamente");
