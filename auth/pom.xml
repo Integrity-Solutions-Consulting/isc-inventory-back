@@ -12,6 +12,10 @@
 	<artifactId>auth</artifactId>
 	<packaging>jar</packaging>
 
+	<properties>
+		<git.commit.id.skip>true</git.commit.id.skip>
+	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
