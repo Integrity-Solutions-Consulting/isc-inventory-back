@@ -32,7 +32,7 @@ public class LogoutCustomHandler implements LogoutHandler {
 			if (jwtService.isTokenValid(token)) {
 				String username = jwtService.extractUsername(token);
 				blackListRepository.save(new TokenBlackListEntity(null,token));
-				UserEntity user = userRepository.findByUsername(username).orElseThrow();
+				UserEntity user = userRepository.findByEmail(username).orElseThrow();
 				user.setLoggedIn(false);
 				userRepository.save(user);
 			}
