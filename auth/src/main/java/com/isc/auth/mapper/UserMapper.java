@@ -119,4 +119,6 @@ public class UserMapper {
 	        return new UserLoginResponseDTO(
 	        		entity.getUsername(),entity.getEmail(),entity.getFirstNames(),null,roles,privileges,treeMenus);
 	    }
+	 
+	 
 }

@@ -46,9 +46,9 @@ public class AuthController {
 		return ResponseEntity.ok("This is a Swagger doc placeholder."); // Este método nunca será ejecutado, solo es para documentar
 	}
 	
-	@GetMapping("/forgotPassword/request/{username}")
-	public ResponseEntity<ResponseDto<TokenResponseDTO>> generateTokenForgotPassword(@PathVariable String username) {
-		return ResponseEntity.ok(service.generateTokenForgotPassword(username));
+	@GetMapping("/forgotPassword/request/{email}")
+	public ResponseEntity<ResponseDto<TokenResponseDTO>> generateTokenForgotPassword(@PathVariable String email) {
+		return ResponseEntity.ok(service.generateTokenForgotPassword(email));
 	}
 	
 	@GetMapping("/forgotPassword/validateToken/{token}")

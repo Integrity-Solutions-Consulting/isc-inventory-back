@@ -17,14 +17,16 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 				title="Inventory AUTH API - JWT Secured",
 				description = "This API supports user creation, update, deletion, and retrieval operations, with security based on JWT authentication to protect access to resources, using PostgreSQL database",
 				termsOfService = "This is open-access API",
+				version="1.0.0",
 				contact= @Contact(
 						name="Adrian Siavichay",
 						email="adrian2x2001@gmail.com")),
 		security = @SecurityRequirement(
-				name = "Security Token")
+				name = "SecurityToken"
+				)
 		)
 @SecurityScheme(
-		name="Security Token",
+		name="SecurityToken",
 		description = "Acces Token for my API",
 		type = SecuritySchemeType.HTTP,
 		paramName = HttpHeaders.AUTHORIZATION,

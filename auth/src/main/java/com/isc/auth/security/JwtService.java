@@ -53,8 +53,8 @@ public class JwtService {
 	        .signWith(getSignInKey()).compact();
 	}
 
-	public String generatePasswordResetToken(String username) {
-		return Jwts.builder().setSubject(username).claim("type", "password_reset")
+	public String generatePasswordResetToken(String email) {
+		return Jwts.builder().setSubject(email).claim("type", "password_reset")
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(resetPasswordExpiration)))
 				.signWith(getSignInKey()).compact();

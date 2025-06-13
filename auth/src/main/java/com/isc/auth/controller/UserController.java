@@ -32,7 +32,7 @@ public class UserController {
 	@GetMapping()
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ResponseDto<List<UserResponseDTO>>> getAll(){
-		return ResponseEntity.ok(service.getAll());
+		return ResponseEntity.ok(service.getAllUserDTOs());
 	}
 	
 	@GetMapping("/detail/{id}")

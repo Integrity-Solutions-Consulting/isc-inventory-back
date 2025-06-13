@@ -1,5 +1,7 @@
 package com.isc.auth.config;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +18,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.isc.auth.exception.JwtAccessDeniedHandler;
@@ -25,6 +30,7 @@ import com.isc.auth.security.JwtAuthenticationFilter;
 import com.isc.auth.security.JwtAuthorizationFilter;
 import com.isc.auth.security.JwtService;
 import com.isc.auth.security.LogoutCustomHandler;
+import com.isc.auth.service.UserService;
 import com.isc.auth.service.impl.UserDetailsServiceImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -38,7 +44,7 @@ public class SecurityConfig {
 	JwtService jwtService;
 	
 	@Autowired
-	UserRepository userRepository;
+	UserService userService;
 
 	@Autowired
 	UserDetailsServiceImpl userDetailsServiceImpl;
@@ -55,10 +61,11 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http,AuthenticationManager authenticationManager,JwtAuthenticationEntryPoint authenticationEntryPoint,
             JwtAccessDeniedHandler accessDeniedHandler) throws Exception {
-		JwtAuthenticationFilter authenticationFilter = new JwtAuthenticationFilter(jwtService,userRepository,objectMapper);
+		JwtAuthenticationFilter authenticationFilter = new JwtAuthenticationFilter(jwtService,userService,objectMapper);
 		authenticationFilter.setAuthenticationManager(authenticationManager);
 		return http
 				.csrf(csrf ->  csrf.disable())
+				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 				.exceptionHandling(ex->{
 					ex.authenticationEntryPoint(authenticationEntryPoint);
 					ex.accessDeniedHandler(accessDeniedHandler);
@@ -96,14 +103,22 @@ public class SecurityConfig {
 		return new SessionRegistryImpl();
 	}
 
-	@Bean
-	PasswordEncoder encoder() {
-		return new BCryptPasswordEncoder();
-	}
+
 
 	@Bean
 	AuthenticationManager authenticationManager(HttpSecurity httpSecurity, PasswordEncoder encoder) throws Exception {
 		return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class)
 				.userDetailsService(userDetailsServiceImpl).passwordEncoder(encoder).and().build();
+	}
+	
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+	    CorsConfiguration configuration = new CorsConfiguration();
+	    configuration.addAllowedOrigin("*");
+	    configuration.addAllowedHeader("*");
+	    configuration.addAllowedMethod("*");
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    source.registerCorsConfiguration("/**", configuration);
+	    return source;
 	}
 }

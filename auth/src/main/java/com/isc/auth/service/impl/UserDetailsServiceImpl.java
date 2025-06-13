@@ -35,21 +35,26 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	@Transactional
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		// Obtener el usuario
-		UserEntity user = repository.findByUsernameAndActiveTrueAndSuspendedFalse(username)
-				.orElseThrow(() -> new UsernameNotFoundException("Usuario " + username + " no existe"));
+		UserEntity user = repository.findByEmailAndActiveTrueAndSuspendedFalse(email)
+				.orElseThrow(() -> new UsernameNotFoundException("Usuario " + email + " no existe"));
+
 		Set<GrantedAuthority> authorities = new HashSet<>();
+
 		user.getUserRoles().stream().filter(UserRoleEntity::isActive).map(ur -> "ROLE_" + ur.getRole().getName())
 				.map(SimpleGrantedAuthority::new).forEach(authorities::add);
+
 		user.getUserRoles().stream().filter(UserRoleEntity::isActive).map(UserRoleEntity::getRole)
 				.filter(RolesEntity::isActive).flatMap(role -> role.getRolesPrivilegies().stream())
 				.filter(PrivilegeRoleEntity::getActive).map(PrivilegeRoleEntity::getPrivilege)
 				.map(PrivilegeEntity::getKey).map(SimpleGrantedAuthority::new).forEach(authorities::add);
+
 		user.getUserPrivilegies().stream().filter(PrivilegeUserEntity::getActive).map(PrivilegeUserEntity::getPrivilege)
 				.map(PrivilegeEntity::getKey).map(SimpleGrantedAuthority::new).forEach(authorities::add);
-		System.out.println(authorities);
-		return new User(user.getUsername(), user.getPassword(), true, true, true, true, authorities);
+
+		return new User(user.getEmail(), user.getPassword(), true, true, true, true, authorities);
+
 	}
 
 	/*
