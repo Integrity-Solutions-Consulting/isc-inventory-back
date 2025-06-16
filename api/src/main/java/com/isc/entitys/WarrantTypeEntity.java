@@ -25,8 +25,7 @@ public class WarrantTypeEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@ManyToOne
-    @JoinColumn(name = "id_equipment", nullable = true)
+    @Column(name = "id_equipment", nullable = true)
     private Integer equipment;
 	
 	@Column(length = 255)

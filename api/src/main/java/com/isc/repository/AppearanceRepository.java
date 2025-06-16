@@ -12,12 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.isc.entitys.AppearanceEntity;
 
 @Repository
-public interface AppereanceRepository extends JpaRepository<AppearanceEntity, Integer>{
+public interface AppearanceRepository extends JpaRepository<AppearanceEntity, Integer>{
 	List<AppearanceEntity> findAllByActiveTrue();
 	
 	@Modifying
 	@Transactional
-	@Query("UPDATE AppearanceEntity u SET u.active=false, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.active = true")
+	@Query("UPDATE AppearanceEntity u SET u.active=false, u.creationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.active = true")
 	int inactive(@Param("id") Integer id);
 	
     @Modifying

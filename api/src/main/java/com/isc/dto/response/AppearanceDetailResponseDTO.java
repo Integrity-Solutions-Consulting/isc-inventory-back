@@ -20,7 +20,7 @@ public class AppearanceDetailResponseDTO {
 	private Integer box_order;
 	private String box_background;
 	private boolean status;
-	private LocalDateTime cretionDate;
+	private LocalDateTime creationDate;
 	private LocalDateTime modificationDate;
 	
 }

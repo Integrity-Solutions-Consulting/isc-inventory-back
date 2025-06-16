@@ -1,5 +1,8 @@
 package com.isc.auth.config;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,7 +43,7 @@ public class SecurityConfig {
 
 	@Autowired
 	JwtService jwtService;
-	
+
 	@Autowired
 	UserService userService;
 
@@ -52,47 +55,34 @@ public class SecurityConfig {
 
 	@Autowired
 	LogoutCustomHandler logoutHandler;
-	
+
 	@Autowired
-    ObjectMapper objectMapper;
+	ObjectMapper objectMapper;
 
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http,AuthenticationManager authenticationManager,JwtAuthenticationEntryPoint authenticationEntryPoint,
-            JwtAccessDeniedHandler accessDeniedHandler) throws Exception {
-		JwtAuthenticationFilter authenticationFilter = new JwtAuthenticationFilter(jwtService,userService,objectMapper);
+	public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager,
+			JwtAuthenticationEntryPoint authenticationEntryPoint, JwtAccessDeniedHandler accessDeniedHandler)
+			throws Exception {
+		JwtAuthenticationFilter authenticationFilter = new JwtAuthenticationFilter(jwtService, userService,
+				objectMapper);
 		authenticationFilter.setAuthenticationManager(authenticationManager);
-		return http
-				.csrf(csrf ->  csrf.disable())
-				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
-				.exceptionHandling(ex->{
+		return http.csrf(csrf -> csrf.disable()).cors(cors -> cors.configurationSource(corsConfigurationSource()))
+				.exceptionHandling(ex -> {
 					ex.authenticationEntryPoint(authenticationEntryPoint);
 					ex.accessDeniedHandler(accessDeniedHandler);
-				}) 
-				.authorizeHttpRequests(req -> {
-					req.requestMatchers(
-						    "/api/v1/auth/login",
-						    "/api/v1/auth/forgotPassword/**",
-						    "/api/v1/passwordEncoder/**",
-						    "/api/v1/docs",
-						    "/api/v1/docs/**",
-						    "/v3/api-docs",
-						    "/v3/api-docs/**",
-						    "/swagger-ui.html",
-						    "/swagger-ui/**"
-						).permitAll();
+				}).authorizeHttpRequests(req -> {
+					req.requestMatchers("/api/v1/auth/login", "/api/v1/auth/forgotPassword/**",
+							"/api/v1/passwordEncoder/**", "/api/v1/docs", "/api/v1/docs/**", "/v3/api-docs",
+							"/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
 					req.anyRequest().authenticated();
-				})
-				.sessionManagement(session ->{
+				}).sessionManagement(session -> {
 					session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-					session.maximumSessions(1)
-						   .sessionRegistry(registry());
-					})
-				.addFilter(authenticationFilter)
+					session.maximumSessions(1).sessionRegistry(registry());
+				}).addFilter(authenticationFilter)
 				.addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class)
-				.logout(logout ->
-                logout.logoutUrl("/api/v1/auth/logout")
-                        .addLogoutHandler(logoutHandler)
-                        .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext()))
+				.logout(logout -> logout.logoutUrl("/api/v1/auth/logout").addLogoutHandler(logoutHandler)
+						.logoutSuccessHandler(
+								(request, response, authentication) -> SecurityContextHolder.clearContext()))
 				.build();
 	}
 
@@ -101,22 +91,20 @@ public class SecurityConfig {
 		return new SessionRegistryImpl();
 	}
 
-
-
 	@Bean
 	AuthenticationManager authenticationManager(HttpSecurity httpSecurity, PasswordEncoder encoder) throws Exception {
 		return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class)
 				.userDetailsService(userDetailsServiceImpl).passwordEncoder(encoder).and().build();
 	}
-	
+
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
-	    CorsConfiguration configuration = new CorsConfiguration();
-	    configuration.addAllowedOrigin("*");
-	    configuration.addAllowedHeader("*");
-	    configuration.addAllowedMethod("*");
-	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	    source.registerCorsConfiguration("/**", configuration);
-	    return source;
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOrigins(List.of("http://localhost:4200", "https://isc-inventory-front.onrender.com"));
+		configuration.addAllowedHeader("*");
+		configuration.addAllowedMethod("*");
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
 	}
 }
