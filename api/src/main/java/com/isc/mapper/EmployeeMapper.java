@@ -50,7 +50,7 @@ public class EmployeeMapper {
     
     public static EmployeeCatalogResponseDTO toCatalogResponse(EmployeeEntity entity) {
         String fullName = entity.getFirstName() + " " + entity.getLastName();
-        return new EmployeeCatalogResponseDTO(entity.getId(), fullName);
+        return new EmployeeCatalogResponseDTO(entity.getId(), fullName,entity.getIdentification());
     }
 
     public static List<EmployeeTableResponseDTO> toTableResponseList(List<EmployeeEntity> entities) {

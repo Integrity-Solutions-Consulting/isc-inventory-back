@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class EmployeeCatalogResponseDTO {
     private Integer id;
     private String fullName;
+    private String identification;
 }
