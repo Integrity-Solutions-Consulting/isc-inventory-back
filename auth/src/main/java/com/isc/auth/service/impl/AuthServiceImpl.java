@@ -96,12 +96,12 @@ public class AuthServiceImpl implements AuthService {
 		return new ResponseDto<>(responseDTO, metadata);
 	}
 
-	public ResponseDto<TokenResponseDTO> generateTokenForgotPassword(String username) {
-		UserEntity user = userRepository.findByUsername(username)
-				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+	public ResponseDto<TokenResponseDTO> generateTokenForgotPassword(String email) {
+		UserEntity user = userRepository.findByEmail(email)
+				.orElseThrow(() -> new RuntimeException("email no encontrado"));
 		user.setRequestPasswordChange(true);
 		userRepository.save(user);
-		TokenResponseDTO token = new TokenResponseDTO(jwtService.generatePasswordResetToken(username));
+		TokenResponseDTO token = new TokenResponseDTO(jwtService.generatePasswordResetToken(email));
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED,
 				"Solicitud de recuperacion de contraseña procesada correctamente");
 		return new ResponseDto<>(token, metadata);
@@ -109,10 +109,10 @@ public class AuthServiceImpl implements AuthService {
 
 	public ResponseDto<MessageResponseDTO> validateTokenForgotPassword(String token) {
 		if (jwtService.isTokenValid(token) && jwtService.isPasswordResetToken(token)) {
-			String username = jwtService.extractUsername(token);
-			MessageResponseDTO message = new MessageResponseDTO(username);
+			String email = jwtService.extractUsername(token);
+			MessageResponseDTO message = new MessageResponseDTO(email);
 			MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED,
-					"Token valido para el usuario " + username);
+					"Token valido para el email " + email);
 			return new ResponseDto<>(message, metadata);
 		}
 		throw new IllegalArgumentException("Token inválido o expirado");
@@ -120,9 +120,9 @@ public class AuthServiceImpl implements AuthService {
 
 	public ResponseDto<Boolean> restorePassword(String token, PasswordChangeRequestDTO request) {
 		if (jwtService.isTokenValid(token) && jwtService.isPasswordResetToken(token)) {
-			String username = jwtService.extractUsername(token);
-			UserEntity user = userRepository.findByUsername(username)
-					.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+			String email = jwtService.extractUsername(token);
+			UserEntity user = userRepository.findByEmail(email)
+					.orElseThrow(() -> new RuntimeException("Email no encontrado"));
 			if (!request.getNewPassword().equals(request.getConfirmPassword())) {
 				throw new RuntimeException("Contraseñas no coinciden");
 			}
@@ -130,7 +130,7 @@ public class AuthServiceImpl implements AuthService {
 			user.setLastPasswordChangeDate(LocalDateTime.now());
 			userRepository.save(user);
 			MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED,
-					"Actualizacion de contraseña exitosa para el usuario " + username);
+					"Actualizacion de contraseña exitosa para el email " + email);
 			return new ResponseDto<>(true, metadata);
 		}
 		throw new IllegalArgumentException("Token inválido o expirado");

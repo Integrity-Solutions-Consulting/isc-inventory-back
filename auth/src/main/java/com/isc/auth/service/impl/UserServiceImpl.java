@@ -1,20 +1,27 @@
 package com.isc.auth.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isc.auth.dto.request.PasswordChangeRequestDTO;
 import com.isc.auth.dto.request.UserRequestoDTO;
 import com.isc.auth.dto.response.MessageResponseDTO;
+import com.isc.auth.dto.response.PrivilegeResponseDTO;
 import com.isc.auth.dto.response.RoleDetailsResponseDTO;
+import com.isc.auth.dto.response.RolesResponseDTO;
 import com.isc.auth.dto.response.UserDetailsResponseDTO;
+import com.isc.auth.dto.response.UserLoginResponseDTO;
 import com.isc.auth.dto.response.UserResponseDTO;
 import com.isc.auth.entitys.MenuEntity;
 import com.isc.auth.entitys.MenuRoleEntity;
@@ -155,6 +162,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ResponseDto<MessageResponseDTO> changePassword(PasswordChangeRequestDTO request, Integer id) {
 		UserEntity userConnected = authenticatedUserService.getAuthenticatedUser();
+		if (!encoder.matches(request.getActualPassword(), userConnected.getPassword())) {
+		    throw new RuntimeException("La contraseña actual es incorrecta");
+		}
 		if (!authenticatedUserService.isSelfOrAdmin(userConnected, id)) {
 			throw new RuntimeException("No tienes permiso para modificar este usuario");
 		}
@@ -214,6 +224,51 @@ public class UserServiceImpl implements UserService {
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Operacion exitosa");
 		MessageResponseDTO message = new MessageResponseDTO("Operacion exitosa");
 		return new ResponseDto<>(message, metadata);
+	}
+	
+	@Override
+	public ResponseDto<List<UserResponseDTO>> getAllUserDTOs() {
+	    List<UserEntity> users = userRepository.findAllWithRolesAndPrivileges();
+
+	    List<UserResponseDTO> usersMaped = users.stream().map(user -> {
+	        Set<RolesResponseDTO> roles = user.getUserRoles().stream().map(ur -> {
+	            RolesEntity role = ur.getRole();
+	            return new RolesResponseDTO(role.getId(), role.getName(), role.isActive(), null);
+	        }).collect(Collectors.toSet());
+
+
+	        return new UserResponseDTO(
+	            user.getId(),
+	            user.getUsername(),
+	            user.getEmail(),
+	            user.getFirstNames(),
+	            user.getEmployeeId(),
+	            user.getLastModificationDate(),
+	            user.getLastConnection(),
+	            user.isLoggedIn(),
+	            user.isActive(),
+	            user.isSuspended(),
+	            roles,
+	            null
+	        );
+	    }).collect(Collectors.toList());
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Operacion exitosa");
+		return new ResponseDto<>(usersMaped, metadata);
+	    
+	}
+	
+	@Override
+	@Transactional
+	public UserLoginResponseDTO processLogin(String email, Collection<? extends GrantedAuthority> authorities) {
+		UserEntity userEntity = userRepository.findByEmail(email)
+				.orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+		userEntity.setLoggedIn(true);
+		userEntity.setLastConnection(LocalDateTime.now());
+
+		userRepository.save(userEntity);
+
+		return UserMapper.detailsLoginToDto(userEntity);
 	}
 
 }
