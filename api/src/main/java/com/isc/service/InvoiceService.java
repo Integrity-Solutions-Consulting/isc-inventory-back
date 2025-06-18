@@ -2,17 +2,17 @@ package com.isc.service;
 
 import java.util.List;
 
-import com.isc.dto.request.InvoiceDetailRequestDTO;
-import com.isc.dto.response.MessageResponseDTO;
+import com.isc.dto.request.InvoiceRequestDTO;
 import com.isc.dto.response.InvoiceDetailResponseDTO;
 import com.isc.dto.response.InvoiceResponseDTO;
+import com.isc.dto.response.MessageResponseDTO;
 import com.isc.dtos.ResponseDto;
 
 public interface InvoiceService {
-	public ResponseDto<List<InvoiceDetailResponseDTO>> getAllDetails();
-	public ResponseDto<List<InvoiceResponseDTO>> getSimpleList();
-	public ResponseDto<InvoiceDetailResponseDTO> save(InvoiceDetailRequestDTO request);
-	public ResponseDto<InvoiceDetailResponseDTO> update(InvoiceDetailRequestDTO request, Integer id);
-	public ResponseDto<MessageResponseDTO> inactive(Integer id);
-	public ResponseDto<MessageResponseDTO> active(Integer id);
+    ResponseDto<List<InvoiceDetailResponseDTO>> getAllDetails();
+    ResponseDto<List<InvoiceResponseDTO>> getSimpleList();
+    ResponseDto<InvoiceDetailResponseDTO> save(InvoiceRequestDTO request);
+    ResponseDto<InvoiceDetailResponseDTO> update(InvoiceRequestDTO request, Integer id);
+    ResponseDto<MessageResponseDTO> inactive(Integer id);
+    ResponseDto<MessageResponseDTO> active(Integer id);
 }

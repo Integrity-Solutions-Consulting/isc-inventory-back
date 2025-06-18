@@ -1,6 +1,7 @@
 package com.isc.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,6 +15,7 @@ import com.isc.entitys.EquipmentStatusEntity;
 @Repository
 public interface EquipmentStatusRepository extends JpaRepository<EquipmentStatusEntity, Integer>{
 	List<EquipmentStatusEntity> findAllByStatusTrue();
+	Optional<EquipmentStatusEntity> findByName(String name);
 	
 	@Modifying
 	@Transactional

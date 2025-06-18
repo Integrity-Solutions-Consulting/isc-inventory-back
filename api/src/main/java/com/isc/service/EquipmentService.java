@@ -9,10 +9,11 @@ import com.isc.dto.response.EquipmentResponseDTO;
 import com.isc.dtos.ResponseDto;
 
 public interface EquipmentService {
-	public ResponseDto<List<EquipmentDetailResponseDTO>> getAllDetails();
-	public ResponseDto<List<EquipmentResponseDTO>> getSimpleList();
-	public ResponseDto<EquipmentDetailResponseDTO> save(EquipmentRequest request);
-	public ResponseDto<EquipmentDetailResponseDTO> update(EquipmentRequest request, Integer id);
-	public ResponseDto<MessageResponseDTO> inactive(Integer id);
-	public ResponseDto<MessageResponseDTO> active(Integer id);
+    ResponseDto<List<EquipmentDetailResponseDTO>> getAllDetails();
+    ResponseDto<List<EquipmentResponseDTO>> getSimpleList();
+    ResponseDto<EquipmentDetailResponseDTO> save(EquipmentRequest request);
+    ResponseDto<EquipmentDetailResponseDTO> update(EquipmentRequest request, Integer id);
+    ResponseDto<MessageResponseDTO> inactive(Integer id);
+    ResponseDto<MessageResponseDTO> active(Integer id);
+    ResponseDto<MessageResponseDTO> cambiarEstado(Integer idEquipo, String nuevoEstadoNombre);
 }

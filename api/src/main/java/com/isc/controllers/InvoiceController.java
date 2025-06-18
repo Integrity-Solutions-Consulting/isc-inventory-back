@@ -1,0 +1,57 @@
+package com.isc.controllers;
+
+import com.isc.dto.request.InvoiceRequestDTO;
+import com.isc.dto.response.InvoiceDetailResponseDTO;
+import com.isc.dto.response.InvoiceResponseDTO;
+import com.isc.dto.response.MessageResponseDTO;
+import com.isc.dtos.ResponseDto;
+import com.isc.service.InvoiceService;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/invoices")
+@RequiredArgsConstructor
+public class InvoiceController {
+
+    private final InvoiceService invoiceService;
+
+    @GetMapping("/details")
+    public ResponseEntity<ResponseDto<List<InvoiceDetailResponseDTO>>> getAllDetails() {
+        return ResponseEntity.ok(invoiceService.getAllDetails());
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<ResponseDto<List<InvoiceResponseDTO>>> getSimpleList() {
+        return ResponseEntity.ok(invoiceService.getSimpleList());
+    }
+
+    @PostMapping
+    public ResponseEntity<ResponseDto<InvoiceDetailResponseDTO>> create(
+            @Valid @RequestBody InvoiceRequestDTO request) {
+        return ResponseEntity.ok(invoiceService.save(request));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseDto<InvoiceDetailResponseDTO>> update(
+            @Valid @RequestBody InvoiceRequestDTO request,
+            @PathVariable Integer id) {
+        return ResponseEntity.ok(invoiceService.update(request, id));
+    }
+
+    @PatchMapping("/inactive/{id}")
+    public ResponseEntity<ResponseDto<MessageResponseDTO>> inactive(@PathVariable Integer id) {
+        return ResponseEntity.ok(invoiceService.inactive(id));
+    }
+
+    @PatchMapping("/active/{id}")
+    public ResponseEntity<ResponseDto<MessageResponseDTO>> active(@PathVariable Integer id) {
+        return ResponseEntity.ok(invoiceService.active(id));
+    }
+}
