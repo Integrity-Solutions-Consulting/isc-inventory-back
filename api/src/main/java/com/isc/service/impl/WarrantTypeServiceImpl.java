@@ -28,39 +28,46 @@ public class WarrantTypeServiceImpl implements WarrantTypeService {
     private final WarrantTypeRepository warrantTypeRepository;
     private final EquipmentRepository equipmentRepository;
 
-    @Override
-    public ResponseDto<List<WarrantTypeDetailResponseDTO>> getAllDetails() {
-        List<WarrantTypeDetailResponseDTO> response = warrantTypeRepository.findAll().stream()
-                .map(WarrantTypeMapper::toDetailDto)
-                .collect(Collectors.toList());
-        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Garantías listadas correctamente");
-        return new ResponseDto<>(response, metadata);
-    }
 
     @Override
-    public ResponseDto<List<WarrantTypeResponseDTO>> getSimpleList() {
-        List<WarrantTypeResponseDTO> response = warrantTypeRepository.findAllByStatusTrue().stream()
-                .map(WarrantTypeMapper::toSimpleDto)
-                .collect(Collectors.toList());
-        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Garantías activas listadas correctamente");
-        return new ResponseDto<>(response, metadata);
+    public ResponseDto<List<WarrantTypeDetailResponseDTO>> getAllDetails() 
+    {
+    	List<WarrantTypeDetailResponseDTO> response = warrantTypeRepository.findAll().stream().map(entity -> WarrantTypeMapper.toDetailResponseDTO(entity, null))
+    			.collect(Collectors.toList());
+    	MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Garantías listadas correctamente");
+    	return new ResponseDto<>(response, metadata);
     }
+
+
+
+    @Override
+    public ResponseDto<List<WarrantTypeResponseDTO>> getSimpleList()
+    {
+    	List<WarrantTypeResponseDTO> response = warrantTypeRepository
+    			.findAllByStatusTrue()
+    			.stream()
+    			.map(WarrantTypeMapper::toResponseDTO)
+    			.collect(Collectors.toList());
+    	MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Garantías activas listadas correctamente");
+    	return new ResponseDto<>(response, metadata);
+    }
+
 
     @Override
     public ResponseDto<WarrantTypeDetailResponseDTO> save(WarrantTypeRequest request) {
-        EquipmentEntity equipment = equipmentRepository.findById(request.getEquipment())
+        EquipmentEntity equipment = equipmentRepository.findById(request.getId_equipment())
                 .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
 
         WarrantTypeEntity entity = new WarrantTypeEntity();
-        entity.setEquipment(equipment);
+        entity.setId_equipment(equipment.getId());
         entity.setConditions(request.getConditions());
         entity.setWarrantyStartDate(request.getWarrantyStartDate());
         entity.setWarrantyEndDate(request.getWarrantyEndDate());
         entity.setSupportContact(request.getSupportContact());
-        entity.setWarrantyStatus(request.getWarrantyStatus());
+        entity.setWarrantyStatus(request.isWarrantyStatus()); // Línea 42
 
         entity = warrantTypeRepository.save(entity);
-        WarrantTypeDetailResponseDTO response = WarrantTypeMapper.toDetailDto(entity);
+        WarrantTypeDetailResponseDTO response = WarrantTypeMapper.toDetailResponseDTO(entity, equipment.getSerialNumber()); // Línea 43
         MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Garantía registrada correctamente");
         return new ResponseDto<>(response, metadata);
     }
@@ -70,18 +77,18 @@ public class WarrantTypeServiceImpl implements WarrantTypeService {
         WarrantTypeEntity entity = warrantTypeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Garantía no encontrada"));
 
-        EquipmentEntity equipment = equipmentRepository.findById(request.getEquipment())
+        EquipmentEntity equipment = equipmentRepository.findById(request.getId_equipment())
                 .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
 
-        entity.setEquipment(equipment);
+        entity.setId_equipment(equipment.getId());
         entity.setConditions(request.getConditions());
         entity.setWarrantyStartDate(request.getWarrantyStartDate());
         entity.setWarrantyEndDate(request.getWarrantyEndDate());
         entity.setSupportContact(request.getSupportContact());
-        entity.setWarrantyStatus(request.getWarrantyStatus());
+        entity.setWarrantyStatus(request.isWarrantyStatus()); // Línea 56
 
         entity = warrantTypeRepository.save(entity);
-        WarrantTypeDetailResponseDTO response = WarrantTypeMapper.toDetailDto(entity);
+        WarrantTypeDetailResponseDTO response = WarrantTypeMapper.toDetailResponseDTO(entity, equipment.getSerialNumber()); // Línea 57
         MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Garantía actualizada correctamente");
         return new ResponseDto<>(response, metadata);
     }

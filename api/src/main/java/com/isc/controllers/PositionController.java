@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ import com.isc.dto.response.PositionResponseDTO;
 import com.isc.dtos.ResponseDto;
 import com.isc.service.PositionService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -41,12 +42,12 @@ public class PositionController {
 	}
 
 	@PostMapping("/save")
-	public ResponseEntity<ResponseDto<PositionDetailResponseDTO>> save(@RequestBody PositionRequestDTO request) {
+	public ResponseEntity<ResponseDto<PositionDetailResponseDTO>> save(@Valid@RequestBody PositionRequestDTO request) {
 		return ResponseEntity.ok(service.save(request));
 	}
 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<ResponseDto<PositionDetailResponseDTO>> update(@RequestBody PositionRequestDTO request,
+	public ResponseEntity<ResponseDto<PositionDetailResponseDTO>> update(@Valid@RequestBody PositionRequestDTO request,
 			@PathVariable Integer id) {
 		return ResponseEntity.ok(service.update(request, id));
 	}

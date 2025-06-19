@@ -3,7 +3,14 @@ package com.isc.controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.isc.dto.request.EquipmentCharacteristicRequestDTO;
 import com.isc.dto.response.EquipmentCharacteristicDetailResponseDTO;
@@ -12,6 +19,7 @@ import com.isc.dto.response.MessageResponseDTO;
 import com.isc.dtos.ResponseDto;
 import com.isc.service.EquipmentCharacteristicService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -33,14 +41,14 @@ public class EquipmentCharacteristicController {
 
     @PostMapping
     public ResponseEntity<ResponseDto<EquipmentCharacteristicDetailResponseDTO>> create(
-            @RequestBody EquipmentCharacteristicRequestDTO request) {
+            @Valid @RequestBody EquipmentCharacteristicRequestDTO request) {
         return ResponseEntity.ok(characteristicService.save(request));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDto<EquipmentCharacteristicDetailResponseDTO>> update(
             @PathVariable Integer id,
-            @RequestBody EquipmentCharacteristicRequestDTO request) {
+            @Valid@RequestBody EquipmentCharacteristicRequestDTO request) {
         return ResponseEntity.ok(characteristicService.update(request, id));
     }
 

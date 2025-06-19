@@ -58,7 +58,6 @@ public class EmployeeRequestDTO {
     
 	@NotNull(message = "La fecha de inicio de contrato es obligatoria")
 	private LocalDateTime contractDate;
-    
-	@NotNull(message = "La fecha de terminacion de contrato es obligatoria")
+   
 	private LocalDateTime contractEndDate;
 }

@@ -1,40 +1,48 @@
 package com.isc.mapper;
 
+import com.isc.dto.request.WarrantTypeRequest;
 import com.isc.dto.response.WarrantTypeDetailResponseDTO;
 import com.isc.dto.response.WarrantTypeResponseDTO;
 import com.isc.entitys.WarrantTypeEntity;
 
 public class WarrantTypeMapper {
 
-    public static WarrantTypeResponseDTO toSimpleDto(WarrantTypeEntity entity) {
-        if (entity == null) return null;
-
-        return new WarrantTypeResponseDTO(
-            entity.getId(),
-            entity.getEquipment() != null ? entity.getEquipment().getId() : null,
-            entity.getConditions(),
-            entity.getWarrantyStartDate(),
-            entity.getWarrantyEndDate(),
-            entity.getSupportContact(),
-            entity.getWarrantyStatus()
-        );
+    public static WarrantTypeEntity toEntity(WarrantTypeRequest request) {
+        WarrantTypeEntity entity = new WarrantTypeEntity();
+        entity.setId_equipment(request.getId_equipment());
+        entity.setConditions(request.getConditions());
+        entity.setWarrantyStartDate(request.getWarrantyStartDate());
+        entity.setWarrantyEndDate(request.getWarrantyEndDate());
+        entity.setSupportContact(request.getSupportContact());
+        entity.setWarrantyStatus(request.isWarrantyStatus());
+        return entity;
     }
 
-    public static WarrantTypeDetailResponseDTO toDetailDto(WarrantTypeEntity entity) {
-        if (entity == null) return null;
+    public static WarrantTypeResponseDTO toResponseDTO(WarrantTypeEntity entity) {
+        WarrantTypeResponseDTO dto = new WarrantTypeResponseDTO();
+        dto.setId(entity.getId());
+        dto.setId_equipment(entity.getId_equipment());
+        dto.setConditions(entity.getConditions());
+        dto.setWarrantyStartDate(entity.getWarrantyStartDate());
+        dto.setWarrantyEndDate(entity.getWarrantyEndDate());
+        dto.setSupportContact(entity.getSupportContact());
+        dto.setWarrantyStatus(entity.isWarrantyStatus());
+        return dto;
+    }
 
-        return new WarrantTypeDetailResponseDTO(
-            entity.getId(),
-            entity.getEquipment() != null ? entity.getEquipment().getId() : null,
-            entity.getEquipment() != null ? entity.getEquipment().getSerialNumber() : null,
-            entity.getConditions(),
-            entity.getWarrantyStartDate(),
-            entity.getWarrantyEndDate(),
-            entity.getSupportContact(),
-            entity.getWarrantyStatus(),
-            entity.getStatus(),
-            entity.getCreationDate(),
-            entity.getModificationDate()
-        );
+    public static WarrantTypeDetailResponseDTO toDetailResponseDTO(WarrantTypeEntity entity, String serialNumber) {
+        WarrantTypeDetailResponseDTO dto = new WarrantTypeDetailResponseDTO();
+        dto.setId(entity.getId());
+        dto.setId_equipment(entity.getId_equipment());
+        dto.setSerialNumber(serialNumber);
+        dto.setConditions(entity.getConditions());
+        dto.setWarrantyStartDate(entity.getWarrantyStartDate());
+        dto.setWarrantyEndDate(entity.getWarrantyEndDate());
+        dto.setSupportContact(entity.getSupportContact());
+        dto.setWarrantyStatus(entity.isWarrantyStatus());
+        dto.setStatus(entity.getStatus());
+        dto.setCretionDate(entity.getCreationDate());
+        dto.setModificationDate(entity.getModificationDate());
+        return dto;
     }
 }

@@ -9,21 +9,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isc.dto.request.IdentificationTypeRequestDTO;
-import com.isc.dto.request.NationalityRequestDTO;
 import com.isc.dto.response.IdentificationTypeDetailResponseDTO;
 import com.isc.dto.response.IdentificationTypeResponseDTO;
 import com.isc.dto.response.MessageResponseDTO;
-import com.isc.dto.response.NationalityDetailResponseDTO;
-import com.isc.dto.response.NationalityResponseDTO;
 import com.isc.dtos.ResponseDto;
 import com.isc.service.IdentificationTypeService;
-import com.isc.service.NationalityService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -44,12 +41,12 @@ public class IdentificationTypeController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<ResponseDto<IdentificationTypeDetailResponseDTO>> save(@RequestBody IdentificationTypeRequestDTO request) {
+    public ResponseEntity<ResponseDto<IdentificationTypeDetailResponseDTO>> save(@Valid@RequestBody IdentificationTypeRequestDTO request) {
         return ResponseEntity.ok(service.save(request));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseDto<IdentificationTypeDetailResponseDTO>> update(@RequestBody IdentificationTypeRequestDTO request,
+    public ResponseEntity<ResponseDto<IdentificationTypeDetailResponseDTO>> update(@Valid@RequestBody IdentificationTypeRequestDTO request,
                                                                                    @PathVariable Integer id) {
         return ResponseEntity.ok(service.update(request, id));
     }

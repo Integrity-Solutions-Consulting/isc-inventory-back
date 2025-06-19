@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ import com.isc.dto.response.MessageResponseDTO;
 import com.isc.dtos.ResponseDto;
 import com.isc.service.GenderService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -40,12 +41,12 @@ public class GenderController {
 	}
 	
 	@PostMapping("/save")
-	public ResponseEntity<ResponseDto<GenderDetailResponseDTO>> save(@RequestBody GenderRequestDTO request){
+	public ResponseEntity<ResponseDto<GenderDetailResponseDTO>> save(@Valid@RequestBody GenderRequestDTO request){
 		return ResponseEntity.ok(service.save(request));
 	}
 	
 	@PutMapping("/update/{id}")
-	public ResponseEntity<ResponseDto<GenderDetailResponseDTO>> update(@RequestBody GenderRequestDTO request, @PathVariable Integer id){
+	public ResponseEntity<ResponseDto<GenderDetailResponseDTO>> update(@Valid@RequestBody GenderRequestDTO request, @PathVariable Integer id){
 		return ResponseEntity.ok(service.update(request,id));
 	}
 	

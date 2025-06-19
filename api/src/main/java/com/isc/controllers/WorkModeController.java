@@ -12,18 +12,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.isc.dto.request.PositionRequestDTO;
+import org.springframework.web.bind.annotation.RequestBody;
 import com.isc.dto.request.WorkModeRequestDTO;
 import com.isc.dto.response.MessageResponseDTO;
-import com.isc.dto.response.PositionDetailResponseDTO;
-import com.isc.dto.response.PositionResponseDTO;
 import com.isc.dto.response.WorkModeDetailResponseDTO;
 import com.isc.dto.response.WorkModeResponseDTO;
 import com.isc.dtos.ResponseDto;
-import com.isc.service.PositionService;
 import com.isc.service.WorkModeService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -45,12 +42,12 @@ public class WorkModeController {
 	}
 
 	@PostMapping("/save")
-	public ResponseEntity<ResponseDto<WorkModeDetailResponseDTO>> save(@RequestBody WorkModeRequestDTO request) {
+	public ResponseEntity<ResponseDto<WorkModeDetailResponseDTO>> save(@Valid @RequestBody WorkModeRequestDTO request) {
 		return ResponseEntity.ok(service.save(request));
 	}
 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<ResponseDto<WorkModeDetailResponseDTO>> update(@RequestBody WorkModeRequestDTO request,
+	public ResponseEntity<ResponseDto<WorkModeDetailResponseDTO>> update(@Valid @RequestBody WorkModeRequestDTO request,
 			@PathVariable Integer id) {
 		return ResponseEntity.ok(service.update(request, id));
 	}

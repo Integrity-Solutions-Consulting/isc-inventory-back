@@ -44,6 +44,7 @@ public class PositionServiceImpl implements PositionService{
 	@Override
 	public ResponseDto<PositionDetailResponseDTO> save(PositionRequestDTO request) {
 		PositionEntity entity = new PositionEntity();
+		entity.setName(request.getName());
 		entity.setDescription(request.getDescription());
 		entity = positionRepository.save(entity);
 		PositionDetailResponseDTO response = PositionMapper.toDetailDto(entity);

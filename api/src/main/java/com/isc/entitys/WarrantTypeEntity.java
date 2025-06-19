@@ -18,9 +18,8 @@ public class WarrantTypeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_equipment", nullable = true)
-    private EquipmentEntity equipment;
+    @Column(name = "id_equipment", nullable = true)
+    private Integer id_equipment;
 
     @Column(length = 255)
     private String conditions;
@@ -35,7 +34,7 @@ public class WarrantTypeEntity {
     private String supportContact;
 
     @Column(name = "warranty_status")
-    private Short warrantyStatus;
+    private boolean warrantyStatus =true;
 
     @Column(nullable = false)
     private Boolean status = true;
