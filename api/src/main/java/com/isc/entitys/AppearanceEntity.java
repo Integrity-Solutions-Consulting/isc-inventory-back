@@ -42,7 +42,7 @@ public class AppearanceEntity {
     private String background_color;
 
     @Column(nullable = false)
-    private Integer box_order;
+    private Integer box_border;
     
     @Column(length = 25, nullable = false)
 	private String box_background;

@@ -17,7 +17,7 @@ public class AppearanceDetailResponseDTO {
 	private String menu_position;
 	private Boolean collapsed_menu;
 	private String background_color;
-	private Integer box_order;
+	private Integer box_border;
 	private String box_background;
 	private boolean status;
 	private LocalDateTime creationDate;

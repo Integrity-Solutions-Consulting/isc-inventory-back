@@ -10,7 +10,13 @@ import com.isc.service.ComponentTypeService;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -21,14 +27,14 @@ public class ComponentTypeController {
     
     private ComponentTypeService componentTypeService;
 
-    // Crear nuevo tipo de componente
+    // Crea nuevo tipo de componente
     @PostMapping
     public ResponseEntity<ResponseDto<ComponentTypeDetailResponseDTO>> createComponentType(
             @Valid @RequestBody ComponentTypeRequestDTO request) {
         return ResponseEntity.ok(componentTypeService.save(request));
     }
 
-    // Actualizar componente
+    // Actualiza el componente
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDto<ComponentTypeDetailResponseDTO>> updateComponentType(
             @Valid @RequestBody ComponentTypeRequestDTO request,
@@ -36,13 +42,13 @@ public class ComponentTypeController {
         return ResponseEntity.ok(componentTypeService.update(request, id));
     }
 
-    // Obtener lista detallada
+    // Obtiene lista detallada
     @GetMapping("/details")
     public ResponseEntity<ResponseDto<List<ComponentTypeDetailResponseDTO>>> getAllDetails() {
         return ResponseEntity.ok(componentTypeService.getAllDetails());
     }
 
-    // Obtener lista simple
+    // Obtiene lista simple
     @GetMapping("/list")
     public ResponseEntity<ResponseDto<List<ComponentTypeResponseDTO>>> getSimpleList() {
         return ResponseEntity.ok(componentTypeService.getSimpleList());

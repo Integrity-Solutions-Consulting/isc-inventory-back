@@ -5,7 +5,6 @@ import com.isc.dto.response.AppearanceDetailResponseDTO;
 import com.isc.dto.response.AppearanceResponseDTO;
 import com.isc.entitys.AppearanceEntity;
 
-import java.time.LocalDateTime;
 
 public class AppearanceMapper {
 
@@ -17,7 +16,7 @@ public class AppearanceMapper {
         entity.setMenu_position(dto.getMenu_position());
         entity.setCollapsed_menu(dto.getCollapsed_menu());
         entity.setBackground_color(dto.getBackground_color());
-        entity.setBox_order(dto.getBox_order());
+        entity.setBox_border(dto.getBox_border());
         entity.setBox_background(dto.getBox_background());
         return entity;
     }
@@ -31,7 +30,7 @@ public class AppearanceMapper {
         dto.setMenu_position(entity.getMenu_position());
         dto.setCollapsed_menu(entity.getCollapsed_menu());
         dto.setBackground_color(entity.getBackground_color());
-        dto.setBox_order(entity.getBox_order());
+        dto.setBox_border(entity.getBox_border());
         dto.setBox_background(entity.getBox_background());
         dto.setStatus(entity.getActive());
         dto.setCreationDate(entity.getCreationDate());
@@ -48,7 +47,7 @@ public class AppearanceMapper {
         dto.setMenu_position(entity.getMenu_position());
         dto.setCollapsed_menu(entity.getCollapsed_menu());
         dto.setBackground_color(entity.getBackground_color());
-        dto.setBox_order(entity.getBox_order());
+        dto.setBox_border(entity.getBox_border());
         dto.setBox_background(entity.getBox_background());
         return dto;
     }
