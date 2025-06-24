@@ -2,8 +2,8 @@ package com.isc.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isc.dto.request.EquipmentRepairRequestDTO;
@@ -25,22 +25,33 @@ import org.springframework.http.HttpStatus;
 @Service
 public class EquipmentRepairServiceImpl implements EquipmentRepairService {
 
-    @Autowired
     private EquipmentRepairRepository repairRepository;
-
-    @Autowired
     private EquipmentRepository equipmentRepository;
-
-    @Autowired
     private EquipmentStatusRepository statusRepository;
 
     @Override
+    public ResponseDto<List<EquipmentRepairDetailResponseDTO>> getAllDetails() {
+        List<EquipmentRepairDetailResponseDTO> response = repairRepository.findById(id).orElseThrow((-> new RuntimeException("TONFIFINF+"+id)))
+        
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Reparaciones listadas correctamente");
+        return new ResponseDto<>(response, metadata);
+     }
+
+    @Override
+    public ResponseDto<List<EquipmentRepairResponseDTO>> getSimpleList() {
+        List<EquipmentRepairResponseDTO> response = repairRepository.findAllById(null).stream()
+                .map(EquipmentRepairMapper::toSimpleDTO).collect(Collectors.toList());
+        
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Reparaciones listadas correctamente");
+        return new ResponseDto<>(response, metadata);
+    }
+    
+    @Override
     public ResponseDto<EquipmentRepairDetailResponseDTO> save(EquipmentRepairRequestDTO request) {
-        // 1. Buscar el equipo
         EquipmentEntity equipment = equipmentRepository.findById(request.getEquipment())
             .orElseThrow(() -> new RuntimeException("Equipo no encontrado con ID: " + request.getEquipment()));
 
-        // 2. Buscar o crear el estado "EN_REPARACION"
+        //Buscar o crear el estado "EN_REPARACIÓN"
         EquipmentStatusEntity repairStatus = statusRepository.findByName("EN_REPARACION")
             .orElseGet(() -> {
                 EquipmentStatusEntity newStatus = new EquipmentStatusEntity();
@@ -50,48 +61,64 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
                 return statusRepository.save(newStatus);
             });
 
-        // 3. Asignar el estado al equipo y guardar
         equipment.setEquipStatus(repairStatus);
         equipment.setModificationDate(LocalDateTime.now());
         equipmentRepository.save(equipment);
 
-        // 4. Crear la reparación
         EquipmentRepairEntity repair = EquipmentRepairMapper.toEntity(request, equipment);
-        repair.setCreationDate(LocalDateTime.now());
-        repair.setStatus(true);
         EquipmentRepairEntity savedRepair = repairRepository.save(repair);
 
-        // 5. Convertir a DTO de respuesta
         EquipmentRepairDetailResponseDTO responseDTO = EquipmentRepairMapper.toDetailDTO(savedRepair);
 
-        // 6. Crear metadatos y respuesta
         MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED,"Reparación registrada correctamente");
         return new ResponseDto<>(responseDTO, metadata);
-    }
-
-
-    @Override
-    public ResponseDto<List<EquipmentRepairDetailResponseDTO>> getAllDetails() {
-        throw new UnsupportedOperationException("Método no implementado aún.");
-    }
-
-    @Override
-    public ResponseDto<List<EquipmentRepairResponseDTO>> getSimpleList() {
-        throw new UnsupportedOperationException("Método no implementado aún.");
-    }
+    }   
 
     @Override
     public ResponseDto<EquipmentRepairDetailResponseDTO> update(EquipmentRepairRequestDTO request, Integer id) {
-        throw new UnsupportedOperationException("Método no implementado aún.");
+    	EquipmentRepairEntity repair = repairRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reparación no encontrada con ID: " + id));
+        EquipmentEntity equipment = equipmentRepository.findById(request.getEquipment())
+                .orElseThrow(() -> new RuntimeException("Equipo no encontrado con ID: " + request.getEquipment()));
+
+            // Actualizar los campos de la reparación
+        repair.setEquipment(equipment);
+        repair.setRepairDate(request.getRepairDate());
+        repair.setDescription(request.getDescription());
+        repair.setCost(request.getCost());
+        repair.setServiceProvider(request.getServiceProvider());
+        repair.setModificationDate(LocalDateTime.now());
+        
+        if (!repair.getEquipment().getId().equals(request.getEquipment())) {
+            EquipmentEntity newEquipment = equipmentRepository.findById(request.getEquipment())
+                .orElseThrow(() -> new RuntimeException("Equipo no encontrado con ID: " + request.getEquipment()));
+            repair.setEquipment(newEquipment);
+        }
+
+        EquipmentRepairEntity updatedRepair = repairRepository.save(repair);
+
+        EquipmentRepairDetailResponseDTO responseDTO = EquipmentRepairMapper.toDetailDTO(updatedRepair);
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Reparación actualizada correctamente");
+        return new ResponseDto<>(responseDTO, metadata);
     }
 
     @Override
     public ResponseDto<MessageResponseDTO> inactive(Integer id) {
-        throw new UnsupportedOperationException("Método no implementado aún.");
+    	int rowsAffected = repairRepository.inactive(id);
+        if (rowsAffected == 0) {
+            throw new RuntimeException("No se pudo inactivar la característica con ID: " + id);
+        }
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Característica inactivada correctamente");
+        return new ResponseDto<>(new MessageResponseDTO("Operación exitosa"), metadata);
     }
 
     @Override
     public ResponseDto<MessageResponseDTO> active(Integer id) {
-        throw new UnsupportedOperationException("Método no implementado aún.");
+    	int rowsAffected = repairRepository.active(id);
+        if (rowsAffected == 0) {
+            throw new RuntimeException("No se pudo activar la característica con ID: " + id);
+        }
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Característica activada correctamente");
+        return new ResponseDto<>(new MessageResponseDTO("Operación exitosa"), metadata);
     }
 }

@@ -2,6 +2,7 @@ package com.isc.mapper;
 
 import com.isc.dto.request.EquipmentRepairRequestDTO;
 import com.isc.dto.response.EquipmentRepairDetailResponseDTO;
+import com.isc.dto.response.EquipmentRepairResponseDTO;
 import com.isc.entitys.EquipmentEntity;
 import com.isc.entitys.EquipmentRepairEntity;
 
@@ -15,6 +16,17 @@ public class EquipmentRepairMapper {
         entity.setCost(dto.getCost());
         entity.setServiceProvider(dto.getServiceProvider());
         return entity;
+    }
+    
+    public static EquipmentRepairResponseDTO toSimpleDTO(EquipmentRepairEntity entity) {
+        EquipmentRepairResponseDTO dto = new EquipmentRepairResponseDTO();
+        dto.setId(entity.getId());
+        dto.setEquipment(entity.getEquipment().getId());
+        dto.setRepairDate(entity.getRepairDate());
+        dto.setDescription(entity.getDescription());
+        dto.setCost(entity.getCost());
+        dto.setServiceProvider(entity.getServiceProvider());
+        return dto;
     }
 
     public static EquipmentRepairDetailResponseDTO toDetailDTO(EquipmentRepairEntity entity) {

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class InvoiceResponseDTO {
 	private Integer id;
-	private Integer invoiceDetail;
+	private Integer invoiceDetailRequest;
 	private Integer supplier;
 	private LocalDateTime invoiceDate;
 	private String invoiceNumber;

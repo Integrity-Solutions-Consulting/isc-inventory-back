@@ -8,6 +8,7 @@ import com.isc.dtos.ResponseDto;
 import com.isc.service.CompanyService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,11 +24,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/companies")
+@RequiredArgsConstructor
 public class CompanyController
 {
     private CompanyService companyService;
 
-    @GetMapping
+    @GetMapping("/getAllDetails")
     public ResponseEntity<ResponseDto<List<CompanyDetailResponseDTO>>> getAllCompanies() 
     {
         return ResponseEntity.ok(companyService.getAllDetails());

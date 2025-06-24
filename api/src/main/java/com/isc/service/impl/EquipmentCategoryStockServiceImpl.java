@@ -1,5 +1,6 @@
 package com.isc.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,11 +13,14 @@ import com.isc.dto.response.EquipmentCategoryStockResponseDTO;
 import com.isc.dto.response.MessageResponseDTO;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
+import com.isc.entitys.EquipmentCategoryEntity;
 import com.isc.entitys.EquipmentCategoryStockEntity;
 import com.isc.mapper.EquipmentCategoryStockMapper;
+import com.isc.repository.EquipmentCategoryRepository;
 import com.isc.repository.EquipmentCategoryStockRepository;
 import com.isc.service.EquipmentCategoryStockService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -24,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class EquipmentCategoryStockServiceImpl implements EquipmentCategoryStockService {
 
     private final EquipmentCategoryStockRepository stockRepository;
+    private final EquipmentCategoryRepository categoryRepository;
 
     @Override
     public ResponseDto<List<EquipmentCategoryStockDetailResponseDTO>> getAllDetails() {
@@ -47,8 +52,11 @@ public class EquipmentCategoryStockServiceImpl implements EquipmentCategoryStock
 
     @Override
     public ResponseDto<EquipmentCategoryStockDetailResponseDTO> save(EquipmentCategoryStockRequest request) {
-        EquipmentCategoryStockEntity entity = new EquipmentCategoryStockEntity();
-        entity.setCategory(request.getCategory());
+        EquipmentCategoryEntity category = categoryRepository.findById(request.getCategory())
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrado"));
+    	
+    	EquipmentCategoryStockEntity entity = new EquipmentCategoryStockEntity();
+        entity.setCategory(category);
         entity.setStock(request.getStock());
 
         entity = stockRepository.save(entity);
@@ -61,8 +69,12 @@ public class EquipmentCategoryStockServiceImpl implements EquipmentCategoryStock
     public ResponseDto<EquipmentCategoryStockDetailResponseDTO> update(EquipmentCategoryStockRequest request, Integer id) {
         EquipmentCategoryStockEntity entity = stockRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Stock no encontrado"));
-
-        entity.setCategory(request.getCategory());
+        if (entity.getCategory().getId()!=request.getCategory()) {
+        	EquipmentCategoryEntity category = categoryRepository.findById(request.getCategory())
+                    .orElseThrow(() -> new RuntimeException("Categoría no encontrado"));
+        	entity.setCategory(category);
+        	}
+        
         entity.setStock(request.getStock());
         entity.setModificationDate(java.time.LocalDateTime.now());
 
@@ -91,4 +103,41 @@ public class EquipmentCategoryStockServiceImpl implements EquipmentCategoryStock
         MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Stock activado correctamente");
         return new ResponseDto<>(new MessageResponseDTO("Operación exitosa"), metadata);
     }
+
+	@Override
+	@Transactional
+	public void incrementStock(Integer categoryId) {
+		EquipmentCategoryStockEntity stock = stockRepository.findByCategoryId(categoryId)
+	            .orElseThrow(() -> new RuntimeException("Stock no encontrado para categoría ID: " + categoryId));	        
+	        if(stock.getStatus()) { // Solo aumentar si está activa
+	            stock.setStock(stock.getStock() + 1);
+	            stock.setModificationDate(LocalDateTime.now());
+	            stockRepository.save(stock);
+	        }
+		
+	}
+
+	@Override
+	@Transactional
+	public void decrementStock(Integer categoryId) {
+		EquipmentCategoryStockEntity stock = stockRepository.findByCategoryId(categoryId)
+	            .orElseThrow(() -> new RuntimeException("Stock no encontrado para categoría ID: " + categoryId));   
+	        if(stock.getStatus() && stock.getStock() > 0) { // Solo quitar si está activa y hay stock
+	            stock.setStock(stock.getStock() - 1);
+	            stock.setModificationDate(LocalDateTime.now());
+	            stockRepository.save(stock);
+	        }		
+	}
+
+	@Override
+	public void inactiveByCategoryId(Integer categoryId) {
+		stockRepository.updateStatusByCategoryId(categoryId, false);
+		
+	}
+
+	@Override
+	public void activeByCategoryId(Integer categoryId) {
+		stockRepository.updateStatusByCategoryId(categoryId, true);
+		
+	}
 }

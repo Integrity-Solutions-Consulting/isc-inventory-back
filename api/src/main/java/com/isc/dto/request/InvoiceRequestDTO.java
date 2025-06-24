@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class InvoiceRequestDTO {
 	
 	@NotNull(message = "El detalle de la factura es obligatorio")
-	private Integer invoiceDetail;
+	private InvoiceDetailRequestDTO invoiceDetailRequest;
     
 	@NotNull(message = "El proovedor de la factura es obligatorio")
 	private Integer supplier;

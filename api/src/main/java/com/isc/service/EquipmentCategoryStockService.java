@@ -15,4 +15,8 @@ public interface EquipmentCategoryStockService {
 	public ResponseDto<EquipmentCategoryStockDetailResponseDTO> update(EquipmentCategoryStockRequest request, Integer id);
 	public ResponseDto<MessageResponseDTO> inactive(Integer id);
 	public ResponseDto<MessageResponseDTO> active(Integer id);
+	void inactiveByCategoryId(Integer categoryId);
+    void activeByCategoryId(Integer categoryId);
+    void incrementStock(Integer categoryId);
+    void decrementStock(Integer categoryId);
 }

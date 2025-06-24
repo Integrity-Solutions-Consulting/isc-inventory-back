@@ -1,5 +1,6 @@
 package com.isc.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,7 @@ import com.isc.dtos.ResponseDto;
 import com.isc.entitys.*;
 import com.isc.mapper.EquipmentMapper;
 import com.isc.repository.*;
+import com.isc.service.EquipmentCategoryStockService;
 import com.isc.service.EquipmentService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     private final EquipmentCategoryRepository categoryRepository;
     private final CompanyRepository companyRepository;
     private final EquipmentCharacteristicRepository characteristicRepository;
+    private final EquipmentCategoryStockService stockService;
 
     @Override
     public ResponseDto<List<EquipmentDetailResponseDTO>> getAllDetails() {
@@ -128,19 +131,36 @@ public class EquipmentServiceImpl implements EquipmentService {
         return new ResponseDto<>(new MessageResponseDTO("Operación exitosa"), metadata);
     }
 
-    //Método para cambiar el estado del equipo
+    //Cambiar estado del equipo
     @Override
     public ResponseDto<MessageResponseDTO> cambiarEstado(Integer idEquipo, String nuevoEstadoNombre) {
         EquipmentEntity equipo = equipmentRepository.findById(idEquipo)
             .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
 
+        EquipmentStatusEntity estadoActual = equipo.getEquipStatus();
         EquipmentStatusEntity nuevoEstado = statusRepository.findByName(nuevoEstadoNombre)
             .orElseThrow(() -> new RuntimeException("Estado no encontrado: " + nuevoEstadoNombre));
 
+        if(!estadoActual.getId().equals(nuevoEstado.getId())) {
+            manejarCambioStock(estadoActual.getName(), nuevoEstado.getName(), equipo.getCategory().getId());
+        
         equipo.setEquipStatus(nuevoEstado);
+        equipo.setModificationDate(LocalDateTime.now());
         equipmentRepository.save(equipo);
+        }
 
         MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Estado del equipo actualizado correctamente");
         return new ResponseDto<>(new MessageResponseDTO("Estado cambiado a: " + nuevoEstadoNombre), metadata);
+    }
+    
+    private void manejarCambioStock(String estadoActual, String nuevoEstado, Integer categoryId) {
+        // Si estaba en reparación y pasa a disponible
+        if("Reparación".equalsIgnoreCase(estadoActual) && "Disponible".equalsIgnoreCase(nuevoEstado)) {
+            stockService.incrementStock(categoryId);
+        }
+        // Si estaba disponible y pasa a reparación
+        else if("Disponible".equalsIgnoreCase(estadoActual) && "Reparación".equalsIgnoreCase(nuevoEstado)) {
+            stockService.decrementStock(categoryId);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.isc.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,10 +13,12 @@ import com.isc.dto.response.InvoiceResponseDTO;
 import com.isc.dto.response.MessageResponseDTO;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
+import com.isc.entitys.EquipmentCategoryEntity;
 import com.isc.entitys.InvoiceDetailEntity;
 import com.isc.entitys.InvoiceEntity;
 import com.isc.entitys.SupplierEntity;
 import com.isc.mapper.InvoiceMapper;
+import com.isc.repository.EquipmentCategoryRepository;
 import com.isc.repository.InvoiceDetailRepository;
 import com.isc.repository.InvoiceRepository;
 import com.isc.repository.SupplierRepository;
@@ -30,6 +33,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     private final InvoiceRepository invoiceRepository;
     private final InvoiceDetailRepository invoiceDetailRepository;
     private final SupplierRepository supplierRepository;
+    private final EquipmentCategoryRepository categoryRepository;
 
     @Override
     public ResponseDto<List<InvoiceDetailResponseDTO>> getAllDetails() {
@@ -51,8 +55,37 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public ResponseDto<InvoiceDetailResponseDTO> save(InvoiceRequestDTO request) {
-        InvoiceDetailEntity detail = invoiceDetailRepository.findById(request.getInvoiceDetail())
-                .orElseThrow(() -> new RuntimeException("Detalle de factura no encontrado"));
+        InvoiceDetailEntity detail = new InvoiceDetailEntity();
+        EquipmentCategoryEntity category = categoryRepository.findById(request.getInvoiceDetailRequest().getCategory())
+        		.orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
+        
+        // Datos base
+        BigDecimal unitPrice = request.getInvoiceDetailRequest().getUnitPrice();
+        Integer quantity = request.getInvoiceDetailRequest().getQuantity();
+        BigDecimal discount = request.getInvoiceDetailRequest().getDiscount() != null
+                ? request.getInvoiceDetailRequest().getDiscount()
+                : BigDecimal.ZERO;
+
+        // Calcular subtotal = unitPrice * quantity
+        BigDecimal subtotal = unitPrice.multiply(BigDecimal.valueOf(quantity));
+
+        // Calcular impuesto (ejemplo 15%)
+        BigDecimal taxRate = new BigDecimal("0.15");
+        BigDecimal tax = subtotal.multiply(taxRate);
+
+        // Calcular total = subtotal + tax - discount
+        BigDecimal total = subtotal.add(tax).subtract(discount);
+        
+        detail.setDescription(request.getInvoiceDetailRequest().getDescription());
+        detail.setQuantity(quantity);
+        detail.setUnitPrice(unitPrice);
+        detail.setDiscount(discount);
+        detail.setSubtotal(subtotal);
+        detail.setTax(tax);
+        detail.setTotal(total);
+        detail.setCategory(category);
+        
+        
         SupplierEntity supplier = supplierRepository.findById(request.getSupplier())
                 .orElseThrow(() -> new RuntimeException("Proveedor no encontrado"));
 
@@ -73,11 +106,27 @@ public class InvoiceServiceImpl implements InvoiceService {
         InvoiceEntity entity = invoiceRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Factura no encontrada"));
 
-        if (!entity.getInvoiceDetail().getId().equals(request.getInvoiceDetail())) {
-            InvoiceDetailEntity detail = invoiceDetailRepository.findById(request.getInvoiceDetail())
-                    .orElseThrow(() -> new RuntimeException("Detalle de factura no encontrado"));
-            entity.setInvoiceDetail(detail);
-        }
+        InvoiceDetailEntity detail = entity.getInvoiceDetail();
+        
+        detail.setDescription(request.getInvoiceDetailRequest().getDescription());
+        Integer quantity = request.getInvoiceDetailRequest().getQuantity();
+        BigDecimal unitPrice = request.getInvoiceDetailRequest().getUnitPrice();
+        BigDecimal discount = request.getInvoiceDetailRequest().getDiscount() != null
+                ? request.getInvoiceDetailRequest().getDiscount()
+                : BigDecimal.ZERO;
+        
+     // Recalcular valores derivados
+        BigDecimal subtotal = unitPrice.multiply(BigDecimal.valueOf(quantity));
+        BigDecimal taxRate = new BigDecimal("0.15");
+        BigDecimal tax = subtotal.multiply(taxRate);
+        BigDecimal total = subtotal.add(tax).subtract(discount);
+
+        detail.setQuantity(quantity);
+        detail.setUnitPrice(unitPrice);
+        detail.setDiscount(discount);
+        detail.setSubtotal(subtotal);
+        detail.setTax(tax);
+        detail.setTotal(total);
 
         if (!entity.getSupplier().getId().equals(request.getSupplier())) {
             SupplierEntity supplier = supplierRepository.findById(request.getSupplier())

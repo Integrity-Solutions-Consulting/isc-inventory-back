@@ -1,6 +1,7 @@
 package com.isc.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,4 +25,10 @@ public interface EquipmentCategoryStockRepository extends JpaRepository<Equipmen
     @Transactional
     @Query("UPDATE EquipmentCategoryStockEntity u SET u.status = true, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.status = false")
     int active(@Param("id") Integer id);
+    
+    @Modifying
+    @Query("UPDATE EquipmentCategoryStockEntity s SET s.status = :status WHERE s.category.id = :categoryId")
+    void updateStatusByCategoryId(@Param("categoryId") Integer categoryId, @Param("status") Boolean status);
+    
+    Optional<EquipmentCategoryStockEntity> findByCategoryId(Integer categoryId);
 }

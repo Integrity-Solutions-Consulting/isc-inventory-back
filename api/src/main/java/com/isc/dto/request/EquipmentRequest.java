@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EquipmentRequest {
 	
-	@NotNull(message = "La factura es obligatoria")
+	
 	private Integer invoice;
     
 	@NotNull(message = "El estado del equipo es obligatorio")
