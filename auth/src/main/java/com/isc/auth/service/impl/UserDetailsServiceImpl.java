@@ -41,10 +41,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 				.orElseThrow(() -> new UsernameNotFoundException("Usuario " + email + " no existe"));
 
 		Set<GrantedAuthority> authorities = new HashSet<>();
-
+		System.out.println(user);
 		user.getUserRoles().stream().filter(UserRoleEntity::isActive).map(ur -> "ROLE_" + ur.getRole().getName())
 				.map(SimpleGrantedAuthority::new).forEach(authorities::add);
-
+		System.out.println(authorities);
 		user.getUserRoles().stream().filter(UserRoleEntity::isActive).map(UserRoleEntity::getRole)
 				.filter(RolesEntity::isActive).flatMap(role -> role.getRolesPrivilegies().stream())
 				.filter(PrivilegeRoleEntity::getActive).map(PrivilegeRoleEntity::getPrivilege)

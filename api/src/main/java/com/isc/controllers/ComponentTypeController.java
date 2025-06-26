@@ -22,14 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1/component-types")
 @RequiredArgsConstructor
-@RequestMapping("/api/component-types")
 public class ComponentTypeController 
-{
+{  
     private final ComponentTypeService componentTypeService;
- 
-    // Crea nuevo tipo de componente
-    @PostMapping("/Save")
+
+    // Crear nuevo tipo de componente
+    @PostMapping("/save")
     public ResponseEntity<ResponseDto<ComponentTypeDetailResponseDTO>> createComponentType(
             @Valid @RequestBody ComponentTypeRequestDTO request) {
         return ResponseEntity.ok(componentTypeService.save(request));

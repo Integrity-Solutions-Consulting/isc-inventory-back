@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/gender")
+@RequestMapping("/api/v1/gender")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
 public class GenderController {

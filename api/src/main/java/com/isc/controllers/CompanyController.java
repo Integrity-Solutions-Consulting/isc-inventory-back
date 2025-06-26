@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/companies")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/companies")
 public class CompanyController
 {
     private final CompanyService companyService;

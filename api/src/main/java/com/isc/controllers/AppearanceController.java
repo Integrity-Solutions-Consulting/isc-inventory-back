@@ -25,7 +25,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/appearance")
+@RequestMapping("/api/v1/appearance")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
 public class AppearanceController 

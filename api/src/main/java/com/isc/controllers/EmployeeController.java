@@ -20,12 +20,12 @@ import com.isc.dto.response.EmployeeTableResponseDTO;
 import com.isc.dto.response.MessageResponseDTO;
 import com.isc.dtos.ResponseDto;
 import com.isc.service.EmployeeService;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/api/v1/employee")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
 public class EmployeeController {
@@ -47,12 +47,12 @@ public class EmployeeController {
 	}
 
 	@PostMapping("/save")
-	public ResponseEntity<ResponseDto<EmployeeDetailResponseDTO>> save( @Valid @RequestBody EmployeeRequestDTO request) {
+	public ResponseEntity<ResponseDto<EmployeeTableResponseDTO>> save(@Valid@RequestBody EmployeeRequestDTO request) {
 		return ResponseEntity.ok(service.save(request));
 	}
 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<ResponseDto<EmployeeDetailResponseDTO>> update(@Valid @RequestBody EmployeeRequestDTO request,
+	public ResponseEntity<ResponseDto<EmployeeTableResponseDTO>> update(@Valid@RequestBody EmployeeRequestDTO request,
 			@PathVariable Integer id) {
 		return ResponseEntity.ok(service.update(request, id));
 	}

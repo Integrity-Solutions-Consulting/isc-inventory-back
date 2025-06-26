@@ -35,6 +35,12 @@ public class RoleController {
 		return ResponseEntity.ok(service.getAll());
 	}
 	
+	@GetMapping("/table")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<ResponseDto<List<RoleDetailsResponseDTO>>> getTable(){
+		return ResponseEntity.ok(service.getTable());
+	}
+	
 	@GetMapping("/detail/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ResponseDto<RoleDetailsResponseDTO>> getById(@PathVariable Integer id){
@@ -48,10 +54,10 @@ public class RoleController {
 		return ResponseEntity.ok(service.save(request));
 	}
 	
-	@PutMapping("/addPrivileges/{id}")
+	@PutMapping("/update/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<ResponseDto<RolesResponseDTO>> addPrivileges(@RequestBody RoleRequestDTO request, @PathVariable Integer id){
-		return ResponseEntity.ok(service.addPrivileges(request,id));
+	public ResponseEntity<ResponseDto<RolesResponseDTO>> update(@RequestBody RoleRequestDTO request, @PathVariable Integer id){
+		return ResponseEntity.ok(service.update(request,id));
 	}
 	
 	@PutMapping("/addMenus/{id}")
@@ -68,7 +74,7 @@ public class RoleController {
 
 	@DeleteMapping("/inactive/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<ResponseDto<MessageResponseDTO>> deleteUser(@PathVariable Integer id) {
+	public ResponseEntity<ResponseDto<MessageResponseDTO>> delete(@PathVariable Integer id) {
 	    return ResponseEntity.ok(service.inactiveRole(id));
 	}
 }

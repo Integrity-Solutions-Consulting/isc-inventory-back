@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/position")
+@RequestMapping("/api/v1/position")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
 public class PositionController {

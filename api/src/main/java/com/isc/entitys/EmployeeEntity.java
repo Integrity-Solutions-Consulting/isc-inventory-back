@@ -1,11 +1,13 @@
 package com.isc.entitys;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.isc.dto.request.EmployeeRequestDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,25 +29,25 @@ public class EmployeeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 	
-	@ManyToOne
-    @JoinColumn(name = "id_identification_type")
-    private IdentificationTypeEntity identificationType;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_identification_type")
+	private IdentificationTypeEntity identificationType;
 
-    @ManyToOne
-    @JoinColumn(name = "id_gender")
-    private GenderEntity gender;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_gender")
+	private GenderEntity gender;
 
-    @ManyToOne
-    @JoinColumn(name = "id_position")
-    private PositionEntity position;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_position")
+	private PositionEntity position;
 
-    @ManyToOne
-    @JoinColumn(name = "id_work_mode")
-    private WorkModeEntity workMode;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_work_mode")
+	private WorkModeEntity workMode;
 
-    @ManyToOne
-    @JoinColumn(name = "id_nationality")
-    private NationalityEntity nationality;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_nationality")
+	private NationalityEntity nationality;
 
     @Column(name = "first_name", length = 80)
     private String firstName;
@@ -69,10 +71,10 @@ public class EmployeeEntity {
     private String avatar = "http://172.16.14.5/media/profile/default-avatar.png";
     
     @Column(name = "hire_date")
-    private LocalDateTime contractDate;
+    private LocalDate contractDate;
 
     @Column(name = "contract_end_date")
-    private LocalDateTime contractEndDate;
+    private LocalDate contractEndDate;
 
     @Column(name = "status")
     private Boolean status = true;
