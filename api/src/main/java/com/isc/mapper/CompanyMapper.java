@@ -1,40 +1,38 @@
 package com.isc.mapper;
 
-import com.isc.dto.request.CompanyRequestDTO;
+import org.springframework.stereotype.Component;
 import com.isc.dto.response.CompanyDetailResponseDTO;
 import com.isc.dto.response.CompanyResponseDTO;
 import com.isc.entitys.CompanyEntity;
 
+@Component
 public class CompanyMapper {
 
-    public static CompanyEntity toEntity(CompanyRequestDTO dto) {
-        CompanyEntity entity = new CompanyEntity();
-        entity.setName(dto.getName());
-        entity.setDescription(dto.getDescription());
-        return entity;
-    }
-
-    public static CompanyResponseDTO toResponseDTO(CompanyEntity entity) {
+    public CompanyResponseDTO toResponseDTO(CompanyEntity entity) {
         return new CompanyResponseDTO(
             entity.getId(),
             entity.getName(),
-            entity.getDescription()
+            entity.getTaxId(),
+            entity.getEmail(),
+            entity.getStatus()
         );
     }
 
-    public static CompanyDetailResponseDTO toDetailDTO(CompanyEntity entity) {
+    public CompanyDetailResponseDTO toDetailDTO(CompanyEntity entity) {
         return new CompanyDetailResponseDTO(
             entity.getId(),
             entity.getName(),
-            entity.getDescription(),
+            entity.getTaxId(),
+            entity.getAddress(),
+            entity.getPhone(),
+            entity.getEmail(),
             entity.getStatus(),
+            entity.getCreationUser(),
+            entity.getModificationUser(),
             entity.getCreationDate(),
-            entity.getModificationDate()
+            entity.getModificationDate(),
+            entity.getCreationIp(),
+            entity.getModificationIp()
         );
-    }
-
-    public static void updateEntityFromDTO(CompanyEntity entity, CompanyRequestDTO dto) {
-        entity.setName(dto.getName());
-        entity.setDescription(dto.getDescription());
     }
 }

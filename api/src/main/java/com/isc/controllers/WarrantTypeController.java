@@ -29,15 +29,6 @@ public class WarrantTypeController {
 
     private final WarrantTypeService warrantTypeService;
 
-    @GetMapping("/details")
-    public ResponseEntity<ResponseDto<List<WarrantTypeDetailResponseDTO>>> getAllDetails() {
-        return ResponseEntity.ok(warrantTypeService.getAllDetails());
-    }
-
-    @GetMapping("/list")
-    public ResponseEntity<ResponseDto<List<WarrantTypeResponseDTO>>> getSimpleList() {
-        return ResponseEntity.ok(warrantTypeService.getSimpleList());
-    }
 
     @PostMapping
     public ResponseEntity<ResponseDto<WarrantTypeDetailResponseDTO>> create(

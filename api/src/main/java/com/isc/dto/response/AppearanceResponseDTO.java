@@ -11,7 +11,7 @@ public class AppearanceResponseDTO {
 	private Integer id;
 	private String login_background;
 	private String typography;
-	private Boolean fix_header;
+	private Boolean fixed_header;
 	private String menu_position;
 	private Boolean collapsed_menu;
 	private String background_color;

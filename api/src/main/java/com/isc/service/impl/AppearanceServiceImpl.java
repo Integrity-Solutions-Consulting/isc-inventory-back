@@ -1,101 +1,105 @@
 package com.isc.service.impl;
+import java.time.LocalDateTime;
+import java.util.List;
 
+import org.springframework.stereotype.Service;
+import com.isc.mapper.AppearanceMapper;
 import com.isc.dto.request.AppearanceRequestDTO;
-import com.isc.dto.response.AppearanceDetailResponseDTO;
 import com.isc.dto.response.AppearanceResponseDTO;
+import com.isc.dto.response.AppearanceDetailResponseDTO;
 import com.isc.dto.response.MessageResponseDTO;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
 import com.isc.entitys.AppearanceEntity;
-import com.isc.mapper.AppearanceMapper;
 import com.isc.repository.AppearanceRepository;
 import com.isc.service.AppearanceService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.HttpStatus;
 
 @Service
 @RequiredArgsConstructor
 public class AppearanceServiceImpl implements AppearanceService {
 
-    private final AppearanceRepository appearanceRepository;
+    private final AppearanceRepository repository;
 
     @Override
     public ResponseDto<List<AppearanceDetailResponseDTO>> getAllDetails() {
-        List<AppearanceEntity> entities = appearanceRepository.findAll();
-        List<AppearanceDetailResponseDTO> dtos = entities.stream()
-                .map(AppearanceMapper::toDetailDto)
-                .collect(Collectors.toList());
-        return new ResponseDto<>(dtos, new MetadataResponseDto(HttpStatus.OK, "OK"));
+        List<AppearanceDetailResponseDTO> list = repository.findAll().stream()
+            .map(AppearanceMapper::toDetailDTO)
+            .toList();
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Apariencia listada con detalles correctamente");
+        return new ResponseDto<>(list,metadata);
     }
 
     @Override
     public ResponseDto<List<AppearanceResponseDTO>> getSimpleList() {
-        List<AppearanceEntity> entities = appearanceRepository.findAllByActiveTrue();
-        List<AppearanceResponseDTO> dtos = entities.stream()
-                .map(AppearanceMapper::toSimpleDto)
-                .collect(Collectors.toList());
-        return new ResponseDto<>(dtos, new MetadataResponseDto(HttpStatus.OK, "OK"));
+        List<AppearanceResponseDTO> list = repository.findAll().stream()
+            .map(AppearanceMapper::toSimpleDTO)
+            .toList();
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Apariencia listada correctamente");
+        return new ResponseDto<>(list,metadata);
     }
 
     @Override
-    public ResponseDto<AppearanceDetailResponseDTO> save(AppearanceRequestDTO request) {
-        AppearanceEntity entity = AppearanceMapper.toEntity(request);
-        entity.setCreationDate(LocalDateTime.now());
+    public ResponseDto<AppearanceDetailResponseDTO> save(AppearanceRequestDTO dto) {
+        AppearanceEntity entity = new AppearanceEntity();
+        entity.setLoginBackground(dto.getLogin_background());
+        entity.setTypography(dto.getTypography());
+        entity.setFixedHeader(dto.getFixed_header());
+        entity.setMenuPosition(dto.getMenu_position());
+        entity.setCollapsedMenu(dto.getCollapsed_menu());
+        entity.setBackgroundColor(dto.getBackground_color());
+        entity.setBoxBorder(dto.getBox_border());
+        entity.setBoxBackground(dto.getBox_background());
         entity.setActive(true);
-        AppearanceEntity saved = appearanceRepository.save(entity);
-        return new ResponseDto<>(AppearanceMapper.toDetailDto(saved), new MetadataResponseDto(HttpStatus.CREATED, "Created"));
+        entity.setCreationDate(LocalDateTime.now());
+        AppearanceEntity saved = repository.save(entity);
+        
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Apariencia creada correctamente");
+        return new ResponseDto<>(AppearanceMapper.toDetailDTO(saved), metadata);
     }
 
     @Override
     public ResponseDto<AppearanceDetailResponseDTO> update(AppearanceRequestDTO request, Integer id) {
-        Optional<AppearanceEntity> optional = appearanceRepository.findById(id);
-        if (optional.isEmpty()) {
-            return new ResponseDto<>(null, new MetadataResponseDto(HttpStatus.NOT_FOUND, "No Encontrado"));
-        }
-
-        AppearanceEntity entity = optional.get();
-        AppearanceEntity updatedEntity = AppearanceMapper.toEntity(request);
-        updatedEntity.setId(entity.getId());
-        updatedEntity.setModificationDate(LocalDateTime.now());
-        updatedEntity.setActive(entity.getActive());
-
-        AppearanceEntity saved = appearanceRepository.save(updatedEntity);
-        return new ResponseDto<>(AppearanceMapper.toDetailDto(saved), new MetadataResponseDto(HttpStatus.OK, "Updated"));
+        AppearanceEntity entity = repository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Apariencia no encontrada"));
+        
+        entity.setLoginBackground(request.getLogin_background());
+        entity.setTypography(request.getTypography());
+        entity.setFixedHeader(request.getFixed_header());
+        entity.setMenuPosition(request.getMenu_position());
+        entity.setCollapsedMenu(request.getCollapsed_menu());
+        entity.setBackgroundColor(request.getBackground_color());
+        entity.setBoxBorder(request.getBox_border());
+        entity.setBoxBackground(request.getBox_background());
+        entity.setModificationDate(LocalDateTime.now());
+        AppearanceEntity updated = repository.save(entity);
+        
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Apariencia actualizada");
+        return new ResponseDto<>(AppearanceMapper.toDetailDTO(updated),metadata);
     }
 
     @Override
-    public ResponseDto<MessageResponseDTO> inactive(Integer id) {
-        int updated = appearanceRepository.inactive(id);
-        if (updated == 0) {
-            return new ResponseDto<>(
-                    new MessageResponseDTO("Appearance not found or already inactive"),
-                    new MetadataResponseDto(HttpStatus.NOT_MODIFIED, "Not Modified")
-            );
-        }
-        return new ResponseDto<>(
-                new MessageResponseDTO("Appearance inactivated successfully"),
-                new MetadataResponseDto(HttpStatus.OK, "OK")
-        );
-    }
+	public ResponseDto<MessageResponseDTO> inactive(Integer id) {
+		int rowsAffected = repository.inactive(id);
+		if(rowsAffected == 0) {
+			 throw new RuntimeException("No se pudo realizar la operacion en el id: " + id);
+		}
+	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Apariencia desactivada");
+		MessageResponseDTO message = new MessageResponseDTO("Operacion exitosa");
+		return new ResponseDto<>(message, metadata);
+	}
 
     @Override
-    public ResponseDto<MessageResponseDTO> active(Integer id) {
-        int updated = appearanceRepository.active(id);
-        if (updated == 0) {
-            return new ResponseDto<>(
-                    new MessageResponseDTO("Appearance not found or already active"),
-                    new MetadataResponseDto(HttpStatus.NOT_MODIFIED, "Not Modified")
-            );
-        }
-        return new ResponseDto<>(
-                new MessageResponseDTO("Appearance activated successfully"),
-                new MetadataResponseDto(HttpStatus.OK, "OK")
-        );
-    }
+	public ResponseDto<MessageResponseDTO> active(Integer id) {
+		int rowsAffected = repository.active(id);
+		if(rowsAffected == 0) {
+			 throw new RuntimeException("No se pudo realizar la operacion en el id: " + id);
+		}
+	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Apariencia activada");
+		MessageResponseDTO message = new MessageResponseDTO("Operacion exitosa");
+		return new ResponseDto<>(message, metadata);
+	}
 }

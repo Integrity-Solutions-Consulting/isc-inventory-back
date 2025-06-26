@@ -17,35 +17,34 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class AppearanceEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@Column(length = 25, nullable = false)
-	private String login_background;
+	private String loginBackground;
 	
 	@Column(length = 25, nullable = false)
 	private String typography;
 	
-	@Column(name = "fix_header", nullable = false)
-	private Boolean fix_header = true;
+	@Column(name = "fixed_header", nullable = false)
+	private Boolean fixedHeader = true;
 
 	@Column(length = 25, nullable = false)
-    private String menu_position;
+    private String menuPosition;
 	
 	@Column(nullable = false)
-	private Boolean collapsed_menu = true;
+	private Boolean collapsedMenu = true;
 
     @Column(length = 25, nullable = false)
-    private String background_color;
+    private String backgroundColor;
 
     @Column(nullable = false)
-    private Integer box_border;
+    private Integer boxBorder;
     
     @Column(length = 25, nullable = false)
-	private String box_background;
+	private String boxBackground;
     
     @Column(name = "active", nullable = false)
 	private Boolean active = true;

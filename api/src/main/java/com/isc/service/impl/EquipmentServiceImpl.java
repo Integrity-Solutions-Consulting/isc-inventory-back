@@ -1,6 +1,7 @@
 package com.isc.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -13,134 +14,130 @@ import com.isc.dto.response.MessageResponseDTO;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
 import com.isc.entitys.*;
+import com.isc.mapper.EquipmentCategoryMapper;
 import com.isc.mapper.EquipmentMapper;
 import com.isc.repository.*;
 import com.isc.service.EquipmentService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class EquipmentServiceImpl implements EquipmentService {
 
-    private final EquipmentRepository equipmentRepository;
-    private final EquipmentStatusRepository statusRepository;
-    private final EquipmentCategoryRepository categoryRepository;
-    private final CompanyRepository companyRepository;
-    private final EquipmentCharacteristicRepository characteristicRepository;
+	private final EquipmentRepository equipmentRepository;
+	private final EquipmentStatusRepository statusRepository;
+	private final EquipmentCategoryRepository categoryRepository;
+	private final CompanyRepository companyRepository;
+	private final InvoiceRepository invoiceRepository;
 
-    @Override
-    public ResponseDto<List<EquipmentDetailResponseDTO>> getAllDetails() {
-        List<EquipmentDetailResponseDTO> response = equipmentRepository.findAll().stream()
-                .map(EquipmentMapper::toDetailDto)
-                .collect(Collectors.toList());
+	@Override
+	public ResponseDto<List<EquipmentDetailResponseDTO>> getAllDetails() {
+		List<EquipmentDetailResponseDTO> response = equipmentRepository.findAll().stream()
+				.map(EquipmentMapper::toDetailDto).collect(Collectors.toList());
 
-        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipos listados correctamente");
-        return new ResponseDto<>(response, metadata);
-    }
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipos listados correctamente");
+		return new ResponseDto<>(response, metadata);
+	}
 
-    @Override
-    public ResponseDto<List<EquipmentResponseDTO>> getSimpleList() {
-        List<EquipmentResponseDTO> response = equipmentRepository.findAllByStatusTrue().stream()
-                .map(EquipmentMapper::toSimpleDto)
-                .collect(Collectors.toList());
+	@Override
+	public ResponseDto<List<EquipmentResponseDTO>> getSimpleList() {
+		List<EquipmentResponseDTO> response = equipmentRepository.findAllByStatusTrue().stream()
+				.map(EquipmentMapper::toSimpleDto).collect(Collectors.toList());
 
-        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipos activos listados correctamente");
-        return new ResponseDto<>(response, metadata);
-    }
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipos activos listados correctamente");
+		return new ResponseDto<>(response, metadata);
+	}
 
-    @Override
-    public ResponseDto<EquipmentDetailResponseDTO> save(EquipmentRequest request) {
-        EquipmentStatusEntity status = statusRepository.findById(request.getEquipStatus())
-                .orElseThrow(() -> new RuntimeException("Estado del equipo no encontrado"));
-        EquipmentCategoryEntity category = categoryRepository.findById(request.getCategory())
-                .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
-        CompanyEntity company = companyRepository.findById(request.getCompany())
-                .orElseThrow(() -> new RuntimeException("Empresa no encontrada"));
-        EquipmentCharacteristicEntity characteristic = characteristicRepository.findById(request.getCharacteristic())
-                .orElseThrow(() -> new RuntimeException("Característica no encontrada"));
+	@Override
+	@Transactional
+	public ResponseDto<EquipmentDetailResponseDTO> save(EquipmentRequest request) {
+		EquipmentStatusEntity status = statusRepository.findById(request.getEquipStatus())
+				.orElseThrow(() -> new RuntimeException("Estado del equipo no encontrado"));
+		EquipmentCategoryEntity category = categoryRepository.findById(request.getCategory())
+				.orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+		CompanyEntity company = companyRepository.findById(request.getCompany())
+				.orElseThrow(() -> new RuntimeException("Empresa no encontrada"));
 
-        EquipmentEntity entity = new EquipmentEntity();
-        entity.setInvoice(request.getInvoice());
-        entity.setEquipStatus(status);
-        entity.setCategory(category);
-        entity.setCompany(company);
-        entity.setCharacteristic(characteristic);
-        entity.setBrand(request.getBrand());
-        entity.setModel(request.getModel());
-        entity.setSerialNumber(request.getSerialNumber());
-        entity.setItemCode(request.getItemCode());
+		EquipmentEntity entity = EquipmentMapper.fromRequestDto(request, status, category, company);
+		
+		// Guardamos el equipo
+		entity = equipmentRepository.save(entity);
 
-        entity = equipmentRepository.save(entity);
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED, "Equipo creado correctamente");
+		return new ResponseDto<>(EquipmentMapper.toDetailDto(entity), metadata);
+	}
 
-        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED, "Equipo creado correctamente");
-        return new ResponseDto<>(EquipmentMapper.toDetailDto(entity), metadata);
-    }
+	@Override
+	@Transactional 
+	public ResponseDto<EquipmentDetailResponseDTO> update(EquipmentRequest request, Integer id) {
+		EquipmentEntity entity = equipmentRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
 
-    @Override
-    public ResponseDto<EquipmentDetailResponseDTO> update(EquipmentRequest request, Integer id) {
-        EquipmentEntity entity = equipmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
+		EquipmentStatusEntity status = statusRepository.findById(request.getEquipStatus())
+				.orElseThrow(() -> new RuntimeException("Estado del equipo no encontrado"));
+		EquipmentCategoryEntity category = categoryRepository.findById(request.getCategory())
+				.orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+		CompanyEntity company = companyRepository.findById(request.getCompany())
+				.orElseThrow(() -> new RuntimeException("Empresa no encontrada"));
 
-        EquipmentStatusEntity status = statusRepository.findById(request.getEquipStatus())
-                .orElseThrow(() -> new RuntimeException("Estado del equipo no encontrado"));
-        EquipmentCategoryEntity category = categoryRepository.findById(request.getCategory())
-                .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
-        CompanyEntity company = companyRepository.findById(request.getCompany())
-                .orElseThrow(() -> new RuntimeException("Empresa no encontrada"));
-        EquipmentCharacteristicEntity characteristic = characteristicRepository.findById(request.getCharacteristic())
-                .orElseThrow(() -> new RuntimeException("Característica no encontrada"));
+		Optional<InvoiceEntity> invoice = invoiceRepository.findById(request.getInvoice());
 
-        entity.setInvoice(request.getInvoice());
-        entity.setEquipStatus(status);
-        entity.setCategory(category);
-        entity.setCompany(company);
-        entity.setCharacteristic(characteristic);
-        entity.setBrand(request.getBrand());
-        entity.setModel(request.getModel());
-        entity.setSerialNumber(request.getSerialNumber());
-        entity.setItemCode(request.getItemCode());
-        entity.setModificationDate(java.time.LocalDateTime.now());
+		if (invoice.isPresent()) {
+			InvoiceEntity invoiceE = invoice.get();
+			entity.setInvoice(invoiceE);
+		}
 
-        entity = equipmentRepository.save(entity);
+		entity.setEquipStatus(status);
+		entity.setCategory(category);
+		entity.setCompany(company);
+		entity.setBrand(request.getBrand());
+		entity.setModel(request.getModel());
+		entity.setSerialNumber(request.getSerialNumber());
+		entity.setItemCode(request.getItemCode());
+		entity.setModificationDate(java.time.LocalDateTime.now());
 
-        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipo actualizado correctamente");
-        return new ResponseDto<>(EquipmentMapper.toDetailDto(entity), metadata);
-    }
+		entity = equipmentRepository.save(entity);
 
-    @Override
-    public ResponseDto<MessageResponseDTO> inactive(Integer id) {
-        int rowsAffected = equipmentRepository.inactive(id);
-        if (rowsAffected == 0) {
-            throw new RuntimeException("No se pudo inactivar el equipo con ID: " + id);
-        }
-        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipo inactivado correctamente");
-        return new ResponseDto<>(new MessageResponseDTO("Operación exitosa"), metadata);
-    }
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipo actualizado correctamente");
+		return new ResponseDto<>(EquipmentMapper.toDetailDto(entity), metadata);
+	}
 
-    @Override
-    public ResponseDto<MessageResponseDTO> active(Integer id) {
-        int rowsAffected = equipmentRepository.active(id);
-        if (rowsAffected == 0) {
-            throw new RuntimeException("No se pudo activar el equipo con ID: " + id);
-        }
-        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipo activado correctamente");
-        return new ResponseDto<>(new MessageResponseDTO("Operación exitosa"), metadata);
-    }
+	@Override
+	public ResponseDto<MessageResponseDTO> inactive(Integer id) {
+		int rowsAffected = equipmentRepository.inactive(id);
+		if (rowsAffected == 0) {
+			throw new RuntimeException("No se pudo inactivar el equipo con ID: " + id);
+		}
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipo inactivado correctamente");
+		return new ResponseDto<>(new MessageResponseDTO("Operación exitosa"), metadata);
+	}
 
-    //Método para cambiar el estado del equipo
-    @Override
-    public ResponseDto<MessageResponseDTO> cambiarEstado(Integer idEquipo, String nuevoEstadoNombre) {
-        EquipmentEntity equipo = equipmentRepository.findById(idEquipo)
-            .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
+	@Override
+	public ResponseDto<MessageResponseDTO> active(Integer id) {
+		int rowsAffected = equipmentRepository.active(id);
+		if (rowsAffected == 0) {
+			throw new RuntimeException("No se pudo activar el equipo con ID: " + id);
+		}
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipo activado correctamente");
+		return new ResponseDto<>(new MessageResponseDTO("Operación exitosa"), metadata);
+	}
 
-        EquipmentStatusEntity nuevoEstado = statusRepository.findByName(nuevoEstadoNombre)
-            .orElseThrow(() -> new RuntimeException("Estado no encontrado: " + nuevoEstadoNombre));
+	// Método para cambiar el estado del equipo
+	@Override
+	public ResponseDto<MessageResponseDTO> cambiarEstado(Integer idEquipo, String nuevoEstadoNombre) {
+		EquipmentEntity equipo = equipmentRepository.findById(idEquipo)
+				.orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
 
-        equipo.setEquipStatus(nuevoEstado);
-        equipmentRepository.save(equipo);
+		EquipmentStatusEntity nuevoEstado = statusRepository.findByName(nuevoEstadoNombre)
+				.orElseThrow(() -> new RuntimeException("Estado no encontrado: " + nuevoEstadoNombre));
 
-        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Estado del equipo actualizado correctamente");
-        return new ResponseDto<>(new MessageResponseDTO("Estado cambiado a: " + nuevoEstadoNombre), metadata);
-    }
+		equipo.setEquipStatus(nuevoEstado);
+		equipmentRepository.save(equipo);
+
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK,
+				"Estado del equipo actualizado correctamente");
+		return new ResponseDto<>(new MessageResponseDTO("Estado cambiado a: " + nuevoEstadoNombre), metadata);
+	}
 }

@@ -9,18 +9,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CompanyDetailResponseDTO {
+public class EquipmentConditionResponseDTO {
     private Integer id;
-    private String name;
-    private String taxId;
-    private String address;
-    private String phone;
-    private String email;
+    private String conditionType;
     private Boolean status;
-    private String creationUser;
-    private String modificationUser;
     private LocalDateTime creationDate;
     private LocalDateTime modificationDate;
-    private String creationIp;
-    private String modificationIp;
+
 }

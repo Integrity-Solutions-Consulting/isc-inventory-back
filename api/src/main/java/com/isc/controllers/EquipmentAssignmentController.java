@@ -2,15 +2,9 @@ package com.isc.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.isc.dto.request.EquipmentAssignmentRequestDTO;
 import com.isc.dto.response.EquipmentAssignmentDetailResponseDTO;
@@ -20,44 +14,45 @@ import com.isc.dtos.ResponseDto;
 import com.isc.service.EquipmentAssignmentService;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/equipment-assignments")
-@RequiredArgsConstructor
 public class EquipmentAssignmentController {
 
-    private final EquipmentAssignmentService assignmentService;
+    @Autowired
+    private EquipmentAssignmentService assignmentService;
 
-    @GetMapping
+    @GetMapping("/details")
     public ResponseEntity<ResponseDto<List<EquipmentAssignmentDetailResponseDTO>>> getAllDetails() {
         return ResponseEntity.ok(assignmentService.getAllDetails());
     }
 
-    @GetMapping("/simple")
+    @GetMapping("/SimpleList")
     public ResponseEntity<ResponseDto<List<EquipmentAssignmentResponseDTO>>> getSimpleList() {
         return ResponseEntity.ok(assignmentService.getSimpleList());
     }
 
-    @PostMapping
+    @PostMapping("/Save")
     public ResponseEntity<ResponseDto<EquipmentAssignmentDetailResponseDTO>> create(
             @Valid@RequestBody EquipmentAssignmentRequestDTO request) {
         return ResponseEntity.ok(assignmentService.save(request));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/ Update")
     public ResponseEntity<ResponseDto<EquipmentAssignmentDetailResponseDTO>> update(
             @PathVariable Integer id,
-           @Valid @RequestBody EquipmentAssignmentRequestDTO request) {
+           @Valid@RequestBody EquipmentAssignmentRequestDTO request) {
         return ResponseEntity.ok(assignmentService.update(request, id));
     }
 
-    @PatchMapping("/{id}/inactive")
+    // Desactivar asignación
+    @PutMapping("/{id}/inactive")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> inactive(@PathVariable Integer id) {
         return ResponseEntity.ok(assignmentService.inactive(id));
     }
 
-    @PatchMapping("/{id}/active")
+    // Activar asignación
+    @PutMapping("/{id}/active")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> active(@PathVariable Integer id) {
         return ResponseEntity.ok(assignmentService.active(id));
     }

@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EquipmentRequest {
 	
-	@NotNull(message = "La factura es obligatoria")
 	private Integer invoice;
     
 	@NotNull(message = "El estado del equipo es obligatorio")
@@ -23,9 +22,9 @@ public class EquipmentRequest {
     
 	@NotNull(message = "La empresa es obligatoria")
 	private Integer company;
-    
+    //onetomanny
 	@NotNull(message = "La caracteristica es obligatoria")
-	private Integer characteristic;
+	private EquipmentCharacteristicRequestDTO equipmentCharacteristic;
     
 	@NotBlank(message = "La marca es obligatoria")
     @Size(max = 100, message = "La marca no puede superar los 100 caracteres")

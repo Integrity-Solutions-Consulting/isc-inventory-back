@@ -20,7 +20,7 @@ public class AppearanceRequestDTO {
 	private String typography;
     
     @NotNull(message = "Debe especificar si el encabezado es fijo")
-    private Boolean fix_header;
+    private Boolean fixed_header;
     
     @NotBlank(message = "Debe indicar la posición del menú")
     @Pattern(regexp = "^(left|top|right|bottom)$", message = "La posición del menú debe ser: left, top, right o bottom")

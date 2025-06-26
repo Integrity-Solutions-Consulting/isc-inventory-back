@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.isc.dto.response.EquipmentDetailResponseDTO;
 import com.isc.entitys.EquipmentEntity;
 
 @Repository
@@ -24,4 +25,5 @@ public interface EquipmentRepository extends JpaRepository<EquipmentEntity, Inte
     @Transactional
     @Query("UPDATE EquipmentEntity u SET u.status = true, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.status = false")
     int active(@Param("id") Integer id);
+
 }

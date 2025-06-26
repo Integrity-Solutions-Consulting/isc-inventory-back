@@ -19,10 +19,6 @@ public class EquipmentAssignmentRequestDTO {
 	@NotNull(message = "El ID del equipo es obligatorio")
 	private Integer equipment;
     
-	@NotNull(message = "La fecha de asignación es obligatoria")
     @FutureOrPresent(message = "La fecha de asignación debe ser en el presente o en el futuro")
 	private LocalDateTime assigmentDate;
-    
-	@FutureOrPresent(message = "La fecha de devolución debe ser en el presente o en el futuro")
-	private LocalDateTime returnDate;
 }

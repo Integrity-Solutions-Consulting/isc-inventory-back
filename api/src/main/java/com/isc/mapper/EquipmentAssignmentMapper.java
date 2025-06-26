@@ -1,46 +1,44 @@
 package com.isc.mapper;
 
-import com.isc.dto.request.EquipmentAssignmentRequestDTO;
-import com.isc.dto.response.EquipmentAssignmentDetailResponseDTO;
+
 import com.isc.dto.response.EquipmentAssignmentResponseDTO;
+import com.isc.dto.response.EquipmentAssignmentDetailResponseDTO;
 import com.isc.entitys.EquipmentAssignmentEntity;
-import com.isc.entitys.EmployeeEntity;
-import com.isc.entitys.EquipmentEntity;
 
 public class EquipmentAssignmentMapper {
 
-    public static EquipmentAssignmentEntity toEntity(EquipmentAssignmentRequestDTO dto, EmployeeEntity employee, EquipmentEntity equipment) {
-        EquipmentAssignmentEntity entity = new EquipmentAssignmentEntity();
-        entity.setEmployee(employee);
-        entity.setEquipment(equipment);
-        entity.setAssigmentDate(dto.getAssigmentDate());
-        entity.setReturnDate(dto.getReturnDate());
-        return entity;
+    public static EquipmentAssignmentResponseDTO toResponseDTO(EquipmentAssignmentEntity entity) {
+        return new EquipmentAssignmentResponseDTO(
+            entity.getId(),
+            entity.getEmployee() != null ? entity.getEmployee().getId() : null,
+            entity.getEquipment() != null ? entity.getEquipment().getId() : null,
+            entity.getAssignmentDate(),
+            entity.getReturnDate()
+        );
     }
 
-    public static EquipmentAssignmentResponseDTO toResponseDto(EquipmentAssignmentEntity entity) {
-        EquipmentAssignmentResponseDTO dto = new EquipmentAssignmentResponseDTO();
-        dto.setId(entity.getId());
-        dto.setEmployee(entity.getEmployee().getId());
-        dto.setEquipment(entity.getEquipment().getId());
-        dto.setAssigmentDate(entity.getAssigmentDate());
-        dto.setReturnDate(entity.getReturnDate());
-        return dto;
-    }
+    public static EquipmentAssignmentDetailResponseDTO toDetailDTO(EquipmentAssignmentEntity entity) {
+        String fullName = null;
+        if (entity.getEmployee() != null) {
+            String firstName = entity.getEmployee().getFirstName() != null ? entity.getEmployee().getFirstName() : "";
+            String lastName = entity.getEmployee().getLastName() != null ? entity.getEmployee().getLastName() : "";
+            fullName = (firstName + " " + lastName).trim();
+        }
 
-    public static EquipmentAssignmentDetailResponseDTO toDetailDto(EquipmentAssignmentEntity entity) {
-        EquipmentAssignmentDetailResponseDTO dto = new EquipmentAssignmentDetailResponseDTO();
-        dto.setId(entity.getId());
-        dto.setEmployee(entity.getEmployee().getId());
-        dto.setIdentificationType(entity.getEmployee().getIdentificationType().getId());
-        dto.setFullName(entity.getEmployee().getFirstName());
-        dto.setEquipment(entity.getEquipment().getId());
-        dto.setSerialNumber(entity.getEquipment().getSerialNumber());
-        dto.setAssigmentDate(entity.getAssigmentDate());
-        dto.setReturnDate(entity.getReturnDate());
-        dto.setStatus(entity.getStatus());
-        dto.setCretionDate(entity.getCreationDate());
-        dto.setModificationDate(entity.getModificationDate());
-        return dto;
+        return new EquipmentAssignmentDetailResponseDTO(
+            entity.getId(),
+            entity.getEmployee() != null ? entity.getEmployee().getId() : null,
+            entity.getEmployee() != null && entity.getEmployee().getIdentificationType() != null
+                ? entity.getEmployee().getIdentificationType().getId()
+                : null,
+            fullName,
+            entity.getEquipment() != null ? entity.getEquipment().getId() : null,
+            entity.getEquipment() != null ? entity.getEquipment().getSerialNumber() : null,
+            entity.getAssignmentDate(),
+            entity.getReturnDate(),
+            entity.getStatus(),
+            entity.getCreationDate(),
+            entity.getModificationDate()
+        );
     }
 }

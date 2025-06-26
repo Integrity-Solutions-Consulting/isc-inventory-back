@@ -8,6 +8,7 @@ import com.isc.dtos.ResponseDto;
 import com.isc.service.ComponentTypeService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,21 +22,21 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/component-types")
-public class ComponentTypeController {
-
-    
-    private ComponentTypeService componentTypeService;
-
+public class ComponentTypeController 
+{
+    private final ComponentTypeService componentTypeService;
+ 
     // Crea nuevo tipo de componente
-    @PostMapping
+    @PostMapping("/Save")
     public ResponseEntity<ResponseDto<ComponentTypeDetailResponseDTO>> createComponentType(
             @Valid @RequestBody ComponentTypeRequestDTO request) {
         return ResponseEntity.ok(componentTypeService.save(request));
     }
 
     // Actualiza el componente
-    @PutMapping("/{id}")
+    @PutMapping("/Update")
     public ResponseEntity<ResponseDto<ComponentTypeDetailResponseDTO>> updateComponentType(
             @Valid @RequestBody ComponentTypeRequestDTO request,
             @PathVariable Integer id) {
@@ -43,7 +44,7 @@ public class ComponentTypeController {
     }
 
     // Obtiene lista detallada
-    @GetMapping("/details")
+    @GetMapping("/Details")
     public ResponseEntity<ResponseDto<List<ComponentTypeDetailResponseDTO>>> getAllDetails() {
         return ResponseEntity.ok(componentTypeService.getAllDetails());
     }

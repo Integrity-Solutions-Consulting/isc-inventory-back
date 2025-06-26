@@ -24,4 +24,6 @@ public interface EquipmentCategoryRepository extends JpaRepository<EquipmentCate
     @Transactional
     @Query("UPDATE EquipmentCategoryEntity u SET u.status = true, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.status = false")
     int active(@Param("id") Integer id);
+    
+    
 }

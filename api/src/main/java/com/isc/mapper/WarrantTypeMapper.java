@@ -1,48 +1,63 @@
 package com.isc.mapper;
 
-import com.isc.dto.request.WarrantTypeRequest;
 import com.isc.dto.response.WarrantTypeDetailResponseDTO;
 import com.isc.dto.response.WarrantTypeResponseDTO;
 import com.isc.entitys.WarrantTypeEntity;
+import com.isc.entitys.EquipmentEntity;
 
 public class WarrantTypeMapper {
 
-    public static WarrantTypeEntity toEntity(WarrantTypeRequest request) {
-        WarrantTypeEntity entity = new WarrantTypeEntity();
-        entity.setId_equipment(request.getId_equipment());
-        entity.setConditions(request.getConditions());
-        entity.setWarrantyStartDate(request.getWarrantyStartDate());
-        entity.setWarrantyEndDate(request.getWarrantyEndDate());
-        entity.setSupportContact(request.getSupportContact());
-        entity.setWarrantyStatus(request.isWarrantyStatus());
-        return entity;
-    }
+    public static WarrantTypeResponseDTO toDto(WarrantTypeEntity entity) {
+        if (entity == null) {
+            return null;
+        }
 
-    public static WarrantTypeResponseDTO toResponseDTO(WarrantTypeEntity entity) {
         WarrantTypeResponseDTO dto = new WarrantTypeResponseDTO();
         dto.setId(entity.getId());
-        dto.setId_equipment(entity.getId_equipment());
+        dto.setId_equipment(entity.getEquipment() != null ? entity.getEquipment().getId() : null);
         dto.setConditions(entity.getConditions());
         dto.setWarrantyStartDate(entity.getWarrantyStartDate());
         dto.setWarrantyEndDate(entity.getWarrantyEndDate());
         dto.setSupportContact(entity.getSupportContact());
         dto.setWarrantyStatus(entity.isWarrantyStatus());
+
         return dto;
     }
 
-    public static WarrantTypeDetailResponseDTO toDetailResponseDTO(WarrantTypeEntity entity, String serialNumber) {
+    public static WarrantTypeEntity fromDefaults(EquipmentEntity equipment) {
+        WarrantTypeEntity entity = new WarrantTypeEntity();
+        entity.setEquipment(equipment);
+        entity.setConditions("Garantía estándar de 1 año");
+        entity.setWarrantyStartDate(java.time.LocalDateTime.now());
+        entity.setWarrantyEndDate(java.time.LocalDateTime.now().plusYears(1));
+        entity.setSupportContact("soporte@empresa.com");
+        entity.setWarrantyStatus(true);
+        entity.setStatus(true);
+        entity.setCreationUser("sistema");
+        entity.setCreationDate(java.time.LocalDateTime.now());
+        entity.setCreationIp("127.0.0.1");
+        return entity;
+    }
+    public static WarrantTypeDetailResponseDTO toDetailResponseDTO(WarrantTypeEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+
         WarrantTypeDetailResponseDTO dto = new WarrantTypeDetailResponseDTO();
         dto.setId(entity.getId());
-        dto.setId_equipment(entity.getId_equipment());
-        dto.setSerialNumber(serialNumber);
+        dto.setId_equipment(entity.getEquipment() != null ? entity.getEquipment().getId() : null);
+        dto.setSerialNumber(entity.getEquipment() != null ? entity.getEquipment().getSerialNumber() : null);
         dto.setConditions(entity.getConditions());
         dto.setWarrantyStartDate(entity.getWarrantyStartDate());
         dto.setWarrantyEndDate(entity.getWarrantyEndDate());
         dto.setSupportContact(entity.getSupportContact());
         dto.setWarrantyStatus(entity.isWarrantyStatus());
-        dto.setStatus(entity.getStatus());
+        dto.setStatus(entity.isWarrantyStatus());
         dto.setCretionDate(entity.getCreationDate());
         dto.setModificationDate(entity.getModificationDate());
+
         return dto;
     }
+
+    
 }

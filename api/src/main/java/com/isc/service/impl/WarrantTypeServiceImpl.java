@@ -30,36 +30,12 @@ public class WarrantTypeServiceImpl implements WarrantTypeService {
 
 
     @Override
-    public ResponseDto<List<WarrantTypeDetailResponseDTO>> getAllDetails() 
-    {
-    	List<WarrantTypeDetailResponseDTO> response = warrantTypeRepository.findAll().stream().map(entity -> WarrantTypeMapper.toDetailResponseDTO(entity, null))
-    			.collect(Collectors.toList());
-    	MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Garantías listadas correctamente");
-    	return new ResponseDto<>(response, metadata);
-    }
-
-
-
-    @Override
-    public ResponseDto<List<WarrantTypeResponseDTO>> getSimpleList()
-    {
-    	List<WarrantTypeResponseDTO> response = warrantTypeRepository
-    			.findAllByStatusTrue()
-    			.stream()
-    			.map(WarrantTypeMapper::toResponseDTO)
-    			.collect(Collectors.toList());
-    	MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Garantías activas listadas correctamente");
-    	return new ResponseDto<>(response, metadata);
-    }
-
-
-    @Override
     public ResponseDto<WarrantTypeDetailResponseDTO> save(WarrantTypeRequest request) {
         EquipmentEntity equipment = equipmentRepository.findById(request.getId_equipment())
                 .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
 
         WarrantTypeEntity entity = new WarrantTypeEntity();
-        entity.setId_equipment(equipment.getId());
+        entity.setEquipment(equipment);
         entity.setConditions(request.getConditions());
         entity.setWarrantyStartDate(request.getWarrantyStartDate());
         entity.setWarrantyEndDate(request.getWarrantyEndDate());
@@ -67,7 +43,7 @@ public class WarrantTypeServiceImpl implements WarrantTypeService {
         entity.setWarrantyStatus(request.isWarrantyStatus()); // Línea 42
 
         entity = warrantTypeRepository.save(entity);
-        WarrantTypeDetailResponseDTO response = WarrantTypeMapper.toDetailResponseDTO(entity, equipment.getSerialNumber()); // Línea 43
+        WarrantTypeDetailResponseDTO response = WarrantTypeMapper.toDetailResponseDTO(entity); 
         MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Garantía registrada correctamente");
         return new ResponseDto<>(response, metadata);
     }
@@ -80,7 +56,7 @@ public class WarrantTypeServiceImpl implements WarrantTypeService {
         EquipmentEntity equipment = equipmentRepository.findById(request.getId_equipment())
                 .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
 
-        entity.setId_equipment(equipment.getId());
+        entity.setEquipment(equipment);
         entity.setConditions(request.getConditions());
         entity.setWarrantyStartDate(request.getWarrantyStartDate());
         entity.setWarrantyEndDate(request.getWarrantyEndDate());
@@ -88,7 +64,7 @@ public class WarrantTypeServiceImpl implements WarrantTypeService {
         entity.setWarrantyStatus(request.isWarrantyStatus()); // Línea 56
 
         entity = warrantTypeRepository.save(entity);
-        WarrantTypeDetailResponseDTO response = WarrantTypeMapper.toDetailResponseDTO(entity, equipment.getSerialNumber()); // Línea 57
+        WarrantTypeDetailResponseDTO response = WarrantTypeMapper.toDetailResponseDTO(entity);
         MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Garantía actualizada correctamente");
         return new ResponseDto<>(response, metadata);
     }

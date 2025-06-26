@@ -2,17 +2,14 @@ package com.isc.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.isc.dto.request.EmployeeRequestDTO;
-import com.isc.dto.request.GenderRequestDTO;
 import com.isc.dto.response.EmployeeCatalogResponseDTO;
 import com.isc.dto.response.EmployeeDetailResponseDTO;
 import com.isc.dto.response.EmployeeTableResponseDTO;
-import com.isc.dto.response.GenderDetailResponseDTO;
 import com.isc.dto.response.MessageResponseDTO;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
@@ -23,7 +20,6 @@ import com.isc.entitys.NationalityEntity;
 import com.isc.entitys.PositionEntity;
 import com.isc.entitys.WorkModeEntity;
 import com.isc.mapper.EmployeeMapper;
-import com.isc.mapper.GenderMapper;
 import com.isc.repository.EmployeeRepository;
 import com.isc.repository.GenderRepository;
 import com.isc.repository.IdentificationTypeRepository;
