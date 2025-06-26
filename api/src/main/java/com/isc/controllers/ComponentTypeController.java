@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/component-types")
+@RequestMapping("/api/v1/component-types")
 public class ComponentTypeController {
 
     

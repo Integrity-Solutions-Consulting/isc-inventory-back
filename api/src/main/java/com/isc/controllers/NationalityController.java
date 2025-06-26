@@ -27,7 +27,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/nationality")
+@RequestMapping("/api/v1/nationality")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
 public class NationalityController {

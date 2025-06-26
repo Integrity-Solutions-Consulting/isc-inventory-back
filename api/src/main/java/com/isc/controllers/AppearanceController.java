@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/appearance")
+@RequestMapping("/api/v1/appearance")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
 public class AppearanceController 

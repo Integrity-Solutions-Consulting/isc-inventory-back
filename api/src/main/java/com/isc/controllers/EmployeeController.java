@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,11 +21,11 @@ import com.isc.dto.response.MessageResponseDTO;
 import com.isc.dtos.ResponseDto;
 import com.isc.service.EmployeeService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/api/v1/employee")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
 public class EmployeeController {
@@ -46,12 +47,12 @@ public class EmployeeController {
 	}
 
 	@PostMapping("/save")
-	public ResponseEntity<ResponseDto<EmployeeDetailResponseDTO>> save(@RequestBody EmployeeRequestDTO request) {
+	public ResponseEntity<ResponseDto<EmployeeTableResponseDTO>> save(@RequestBody EmployeeRequestDTO request) {
 		return ResponseEntity.ok(service.save(request));
 	}
 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<ResponseDto<EmployeeDetailResponseDTO>> update(@RequestBody EmployeeRequestDTO request,
+	public ResponseEntity<ResponseDto<EmployeeTableResponseDTO>> update(@RequestBody EmployeeRequestDTO request,
 			@PathVariable Integer id) {
 		return ResponseEntity.ok(service.update(request, id));
 	}

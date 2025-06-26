@@ -27,7 +27,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/work-mode")
+@RequestMapping("/api/v1/work-mode")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
 public class WorkModeController {

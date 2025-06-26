@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/gender")
+@RequestMapping("/api/v1/gender")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
 public class GenderController {

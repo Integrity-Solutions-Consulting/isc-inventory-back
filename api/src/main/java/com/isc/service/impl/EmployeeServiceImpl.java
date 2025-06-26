@@ -1,11 +1,13 @@
 package com.isc.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isc.dto.request.EmployeeRequestDTO;
 import com.isc.dto.request.GenderRequestDTO;
@@ -47,6 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private final WorkModeRepository workModeRepository;
 
 	@Override
+	@Transactional
 	public ResponseDto<List<EmployeeTableResponseDTO>> getAllTable() {
 		List<EmployeeTableResponseDTO> response = employeeRepository.findAllEmployeeTableData();
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Empleados listados correctamente");
@@ -71,7 +74,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public ResponseDto<EmployeeDetailResponseDTO> save(EmployeeRequestDTO request) {
+	public ResponseDto<EmployeeTableResponseDTO> save(EmployeeRequestDTO request) {
 		IdentificationTypeEntity identificationType = identificationTypeRepository
 				.findById(request.getIdIdentificationType())
 				.orElseThrow(() -> new RuntimeException("Tipo de identificacion no encontrada"));
@@ -101,14 +104,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 		entity.setContractDate(request.getContractDate());
 		entity.setContractEndDate(request.getContractEndDate());
 		entity = employeeRepository.save(entity);
-		EmployeeDetailResponseDTO response = EmployeeMapper.toDetailResponse(entity);
+		EmployeeTableResponseDTO response = EmployeeMapper.toTableResponse(entity);
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK,
 				"Informacion del empleado cargada correctamente");
 		return new ResponseDto<>(response, metadata);
 	}
 
 	@Override
-	public ResponseDto<EmployeeDetailResponseDTO> update(EmployeeRequestDTO request, Integer id) {
+	public ResponseDto<EmployeeTableResponseDTO> update(EmployeeRequestDTO request, Integer id) {
 		EmployeeEntity entity = employeeRepository.findById(id)
 	            .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
 		if(entity.getIdentificationType().getId()!=request.getIdIdentificationType()) {
@@ -152,7 +155,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	    
 	    entity.setModificationDate(LocalDateTime.now());
 	    entity = employeeRepository.save(entity);
-		EmployeeDetailResponseDTO response = EmployeeMapper.toDetailResponse(entity);
+	    EmployeeTableResponseDTO response = EmployeeMapper.toTableResponse(entity);
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK,
 				"Informacion del empleado cargada correctamente");
 		return new ResponseDto<>(response, metadata);

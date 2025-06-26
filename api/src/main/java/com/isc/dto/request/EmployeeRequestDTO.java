@@ -1,5 +1,6 @@
 package com.isc.dto.request;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.Email;
@@ -51,14 +52,14 @@ public class EmployeeRequestDTO {
     
 	@Email(message = "Debe proporcionar un correo electrónico válido")
     @Size(max = 100, message = "El correo electrónico no puede tener más de 100 caracteres")
+	@NotBlank
 	private String email;
     
 	@Size(max = 255, message = "La dirección no puede tener más de 255 caracteres")
 	private String address;
     
 	@NotNull(message = "La fecha de inicio de contrato es obligatoria")
-	private LocalDateTime contractDate;
+	private LocalDate contractDate;
     
-	@NotNull(message = "La fecha de terminacion de contrato es obligatoria")
-	private LocalDateTime contractEndDate;
+	private LocalDate contractEndDate;
 }

@@ -10,8 +10,10 @@ import com.isc.dtos.ResponseDto;
 
 public interface RoleService {
 	public ResponseDto<List<RolesResponseDTO>> getAll();
+	public ResponseDto<List<RoleDetailsResponseDTO>> getTable();
 	public ResponseDto<RoleDetailsResponseDTO> getDetailsById(Integer id);
 	public ResponseDto<RolesResponseDTO> save(RoleRequestDTO request);
+	public ResponseDto<RolesResponseDTO> update(RoleRequestDTO request, Integer id);
 	public ResponseDto<RolesResponseDTO> addPrivileges(RoleRequestDTO request, Integer id);
 	public ResponseDto<RolesResponseDTO> addMenus(RoleRequestDTO request, Integer id);
 	public ResponseDto<MessageResponseDTO> inactiveRole(Integer id);

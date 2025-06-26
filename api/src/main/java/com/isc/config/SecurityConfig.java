@@ -23,7 +23,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.isc.exception.JwtAccessDeniedHandler;
 import com.isc.exception.JwtAuthenticationEntryPoint;
 import com.isc.security.JwtAuthorizationFilter;
@@ -33,9 +32,6 @@ import com.isc.security.JwtAuthorizationFilter;
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
-	
-	@Autowired
-    ObjectMapper objectMapper;
 	
 	@Autowired
 	JwtAuthorizationFilter authorizationFilter;
@@ -78,9 +74,9 @@ public class SecurityConfig {
 	@Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:4200", "https://mi-frontend.onrender.com"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
+		configuration.setAllowedOrigins(List.of("http://localhost:4200", "https://isc-inventory-front.onrender.com"));
+		configuration.addAllowedHeader("*");
+		configuration.addAllowedMethod("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
