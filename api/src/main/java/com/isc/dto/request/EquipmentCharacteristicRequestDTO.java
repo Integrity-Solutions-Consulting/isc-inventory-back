@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EquipmentCharacteristicRequestDTO {
+public class EquipmentCharacteristicRequestDTO  {
+	
+	private Integer id;
 	
 	@NotBlank(message = "La descripción es obligatoria")
     @Size(max = 255, message = "La descripción no puede superar los 255 caracteres")

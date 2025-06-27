@@ -11,6 +11,4 @@ public class CompanyResponseDTO {
     private Integer id;
     private String name;
     private String taxId;
-    private String email;
-    private Boolean status;
 }

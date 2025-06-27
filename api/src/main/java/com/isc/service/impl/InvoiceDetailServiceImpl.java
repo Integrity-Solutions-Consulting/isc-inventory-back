@@ -45,11 +45,8 @@ public class InvoiceDetailServiceImpl implements InvoiceDetailService{
 	}
 
 	@Override
-	public ResponseDto<InvoiceDetailEntityDetailResponseDTO> save(InvoiceDetailRequestDTO request) {
-		EquipmentCategoryEntity equipCate = equipmentCategoryRepository.findById(request.getCategory())
-				.orElseThrow(() -> new RuntimeException("Categoria de equipo no encontrado"));
+	public InvoiceDetailEntity save(InvoiceDetailRequestDTO request) {
 		InvoiceDetailEntity entity = new InvoiceDetailEntity();
-		entity.setCategory(equipCate);
 		entity.setDescription(request.getDescription());;
 		entity.setUnitPrice(request.getUnitPrice());
 		entity.setQuantity(request.getQuantity());
@@ -58,21 +55,14 @@ public class InvoiceDetailServiceImpl implements InvoiceDetailService{
 		entity.setDiscount(request.getDiscount());
 		entity.setTotal(request.getTotal());
 		entity = invoiceDetailRepository.save(entity);
-		InvoiceDetailEntityDetailResponseDTO response = InvoiceDetailMapper.toInvoiceDetailEntityDetailResponseDTO(entity);
-		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK,
-				"Detalles de factura cargada correctamente");
-		return new ResponseDto<>(response, metadata);
+
+		return entity;
 	}
 
 	@Override
-	public ResponseDto<InvoiceDetailEntityDetailResponseDTO> update(InvoiceDetailRequestDTO request, Integer id) {
-		InvoiceDetailEntity entity = invoiceDetailRepository.findById(id)
+	public InvoiceDetailEntity update(InvoiceDetailRequestDTO request) {
+		InvoiceDetailEntity entity = invoiceDetailRepository.findById(request.getId())
 	            .orElseThrow(() -> new RuntimeException("Detalles de factura no encontrada"));
-		if(entity.getCategory().getId()!=request.getCategory()) {
-			EquipmentCategoryEntity equipCate = equipmentCategoryRepository.findById(request.getCategory())
-		            .orElseThrow(() -> new RuntimeException("Categoria de equipo no encontrada"));
-		    entity.setCategory(equipCate);;
-		}
 		entity.setDescription(request.getDescription());;
 		entity.setUnitPrice(request.getUnitPrice());
 		entity.setQuantity(request.getQuantity());
@@ -81,10 +71,7 @@ public class InvoiceDetailServiceImpl implements InvoiceDetailService{
 		entity.setDiscount(request.getDiscount());
 		entity.setTotal(request.getTotal());
 		entity = invoiceDetailRepository.save(entity);
-		InvoiceDetailEntityDetailResponseDTO response = InvoiceDetailMapper.toInvoiceDetailEntityDetailResponseDTO(entity);
-		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK,
-				"Informacion del empleado cargada correctamente");
-		return new ResponseDto<>(response, metadata);
+		return entity;
 	}
 
 	@Override

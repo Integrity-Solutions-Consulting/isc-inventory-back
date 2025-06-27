@@ -39,18 +39,6 @@ public class InvoiceController {
         return ResponseEntity.ok(invoiceService.getSimpleList());
     }
 
-    @PostMapping
-    public ResponseEntity<ResponseDto<InvoiceDetailResponseDTO>> create(
-            @Valid @RequestBody InvoiceRequestDTO request) {
-        return ResponseEntity.ok(invoiceService.save(request));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<ResponseDto<InvoiceDetailResponseDTO>> update(
-            @Valid @RequestBody InvoiceRequestDTO request,
-            @PathVariable Integer id) {
-        return ResponseEntity.ok(invoiceService.update(request, id));
-    }
 
     @PatchMapping("/inactive/{id}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> inactive(@PathVariable Integer id) {

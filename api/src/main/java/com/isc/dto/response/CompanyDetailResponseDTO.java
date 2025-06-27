@@ -17,10 +17,6 @@ public class CompanyDetailResponseDTO {
     private String phone;
     private String email;
     private Boolean status;
-    private String creationUser;
-    private String modificationUser;
     private LocalDateTime creationDate;
     private LocalDateTime modificationDate;
-    private String creationIp;
-    private String modificationIp;
 }

@@ -1,6 +1,6 @@
 package com.isc.controllers;
 
-import com.isc.dto.request.WarrantTypeRequest;
+import com.isc.dto.request.WarrantTypeRequestDTO;
 import com.isc.dto.response.WarrantTypeDetailResponseDTO;
 import com.isc.dto.response.WarrantTypeResponseDTO;
 import com.isc.dto.response.MessageResponseDTO;
@@ -29,19 +29,6 @@ public class WarrantTypeController {
 
     private final WarrantTypeService warrantTypeService;
 
-
-    @PostMapping
-    public ResponseEntity<ResponseDto<WarrantTypeDetailResponseDTO>> create(
-            @Valid @RequestBody WarrantTypeRequest request) {
-        return ResponseEntity.ok(warrantTypeService.save(request));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<ResponseDto<WarrantTypeDetailResponseDTO>> update(
-            @Valid @RequestBody WarrantTypeRequest request,
-            @PathVariable Integer id) {
-        return ResponseEntity.ok(warrantTypeService.update(request, id));
-    }
 
     @PatchMapping("/inactive/{id}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> inactive(@PathVariable Integer id) {

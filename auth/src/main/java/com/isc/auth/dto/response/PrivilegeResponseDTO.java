@@ -13,6 +13,7 @@ public class PrivilegeResponseDTO {
 	private Integer id;
 	private String key;
 	private boolean active;
+	private Integer applicationId;
 	private LocalDateTime creationDate;
 	private LocalDateTime lastModificationDate;
 }

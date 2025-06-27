@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isc.dto.request.EquipmentRequest;
+import com.isc.dto.request.InvoiceRequestDTO;
+import com.isc.dto.request.WarrantTypeRequestDTO;
 import com.isc.dto.response.EquipmentDetailResponseDTO;
 import com.isc.dto.response.EquipmentResponseDTO;
 import com.isc.dto.response.MessageResponseDTO;
@@ -23,7 +25,7 @@ import com.isc.service.EquipmentService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/equipment")
+@RequestMapping("/api/v1/equipment")
 @RequiredArgsConstructor
 public class EquipmentController {
 
@@ -51,12 +53,12 @@ public class EquipmentController {
             @RequestBody EquipmentRequest request) {
         return ResponseEntity.ok(equipmentService.update(request, id));
     }
-    @PutMapping("/{id}/estado")
-    public ResponseEntity<ResponseDto<MessageResponseDTO>> cambiarEstado(
+    @PutMapping("/{id}/changeStatus")
+    public ResponseEntity<ResponseDto<MessageResponseDTO>> changeStatus(
             @PathVariable("id") Integer idEquipo,
-            @RequestParam("estado") String nuevoEstadoNombre) {
+            @RequestBody Integer status) {
 
-        ResponseDto<MessageResponseDTO> response = equipmentService.cambiarEstado(idEquipo, nuevoEstadoNombre);
+        ResponseDto<MessageResponseDTO> response = equipmentService.changeStatus(idEquipo, status);
         return ResponseEntity.ok(response);
     }
 
@@ -69,4 +71,18 @@ public class EquipmentController {
     public ResponseEntity<ResponseDto<MessageResponseDTO>> active(@PathVariable Integer id) {
         return ResponseEntity.ok(equipmentService.active(id));
     }
+    
+    @PutMapping("/{id}/setInvoice")
+    public ResponseEntity<ResponseDto<EquipmentDetailResponseDTO>> setInvoice(@PathVariable Integer id,
+            @RequestBody InvoiceRequestDTO request) {
+        return ResponseEntity.ok(equipmentService.setInvoice(id,request));
+    }
+    
+    @PutMapping("/{id}/setWarranty")
+    public ResponseEntity<ResponseDto<EquipmentDetailResponseDTO>> setWarranty(@PathVariable Integer id,
+            @RequestBody WarrantTypeRequestDTO request) {
+        return ResponseEntity.ok(equipmentService.setWarranty(id,request));
+    }
+
+
 }

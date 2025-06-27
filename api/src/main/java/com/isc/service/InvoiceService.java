@@ -7,12 +7,14 @@ import com.isc.dto.response.InvoiceDetailResponseDTO;
 import com.isc.dto.response.InvoiceResponseDTO;
 import com.isc.dto.response.MessageResponseDTO;
 import com.isc.dtos.ResponseDto;
+import com.isc.entitys.InvoiceDetailEntity;
+import com.isc.entitys.InvoiceEntity;
 
 public interface InvoiceService {
     ResponseDto<List<InvoiceDetailResponseDTO>> getAllDetails();
     ResponseDto<List<InvoiceResponseDTO>> getSimpleList();
-    ResponseDto<InvoiceDetailResponseDTO> save(InvoiceRequestDTO request);
-    ResponseDto<InvoiceDetailResponseDTO> update(InvoiceRequestDTO request, Integer id);
+    InvoiceEntity save(InvoiceRequestDTO request);
+    InvoiceEntity update(InvoiceRequestDTO request, Integer id);
     ResponseDto<MessageResponseDTO> inactive(Integer id);
     ResponseDto<MessageResponseDTO> active(Integer id);
 }

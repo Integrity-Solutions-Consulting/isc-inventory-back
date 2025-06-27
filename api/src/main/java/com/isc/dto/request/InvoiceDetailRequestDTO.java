@@ -16,8 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class InvoiceDetailRequestDTO {
 	
-	@NotNull(message = "La categoría es obligatoria")
-	private Integer category;
+	private Integer id;
     
 	@NotBlank(message = "La descripcion de los detalles de la factura no puede estar vacía")
     @Size(max = 100, message = "La descripcion no puede tener más de 100 caracteres")

@@ -1,5 +1,6 @@
 package com.isc.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,24 +17,33 @@ import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
 import com.isc.entitys.EmployeeEntity;
 import com.isc.entitys.EquipmentEntity;
+import com.isc.entitys.EquipmentStatusEntity;
 import com.isc.entitys.EquipmentAssignmentEntity;
+import com.isc.entitys.EquipmentCategoryStockEntity;
 import com.isc.mapper.EquipmentAssignmentMapper;
 import com.isc.repository.EmployeeRepository;
 import com.isc.repository.EquipmentRepository;
+import com.isc.repository.EquipmentStatusRepository;
 import com.isc.repository.EquipmentAssignmentRepository;
+import com.isc.repository.EquipmentCategoryStockRepository;
 import com.isc.service.EquipmentAssignmentService;
 
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentService {
 
-    @Autowired
-    private EquipmentAssignmentRepository assignmentRepository;
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
-
-    @Autowired
-    private EquipmentRepository equipmentRepository;
+    private final EquipmentAssignmentRepository assignmentRepository;
+    private final EmployeeRepository employeeRepository;
+    private final EquipmentRepository equipmentRepository;
+    private final EquipmentCategoryStockRepository categoryStockRepository;
+    
+    private final Integer idAvailable = 1;
+    private final Integer idAssigned = 2;
+    private final Integer outOfService= 7;
 
     @Override
     public ResponseDto<List<EquipmentAssignmentDetailResponseDTO>> getAllDetails() {
@@ -56,20 +66,32 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
     }
 
     @Override
-    public ResponseDto<EquipmentAssignmentDetailResponseDTO> save(EquipmentAssignmentRequestDTO request) {
+    @Transactional
+    public ResponseDto<EquipmentAssignmentDetailResponseDTO> assign(EquipmentAssignmentRequestDTO request) {
         Optional<EmployeeEntity> employeeOpt = employeeRepository.findById(request.getEmployee());
         Optional<EquipmentEntity> equipmentOpt = equipmentRepository.findById(request.getEquipment());
 
         if (employeeOpt.isEmpty() || equipmentOpt.isEmpty()) 
         {
-        	throw new RuntimeException("Tipo de identificacion no encontrada");        
+        	throw new RuntimeException("No fue posible realizar la asignación");        
         }
-
+        
+        EquipmentEntity equipment = equipmentOpt.get();
+        if(equipment.getEquipStatus().getId()==this.idAssigned && equipment.getStatus()==true && equipment.getCondition().getId()!=this.outOfService) {
+        	throw new RuntimeException("No fue posible realizar la asignación");   
+        }
+        EquipmentStatusEntity statusAsignado = new EquipmentStatusEntity();
+        statusAsignado.setId(this.idAssigned);
+        equipment.setEquipStatus(statusAsignado);
+        equipment = equipmentRepository.save(equipment);
+        EquipmentCategoryStockEntity stock = equipment.getCategory().getStock();
+        stock.setStock(stock.getStock()-1);
+        categoryStockRepository.save(stock);
+        
         EquipmentAssignmentEntity entity = new EquipmentAssignmentEntity();
         entity.setEmployee(employeeOpt.get());
-        entity.setEquipment(equipmentOpt.get());
+        entity.setEquipment(equipment);
         entity.setAssignmentDate(request.getAssigmentDate());
-        entity.setStatus(true);
 
         EquipmentAssignmentEntity saved = assignmentRepository.save(entity);
         EquipmentAssignmentDetailResponseDTO dto = EquipmentAssignmentMapper.toDetailDTO(saved);
@@ -78,25 +100,24 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
     }
 
     @Override
-    public ResponseDto<EquipmentAssignmentDetailResponseDTO> update(EquipmentAssignmentRequestDTO request, Integer id) {
+    @Transactional
+    public ResponseDto<EquipmentAssignmentDetailResponseDTO> revoke(EquipmentAssignmentRequestDTO request, Integer id) {
         Optional<EquipmentAssignmentEntity> existingOpt = assignmentRepository.findById(id);
         if (existingOpt.isEmpty()) {
-        	throw new RuntimeException("Tipo de identificacion no encontrada");
+        	throw new RuntimeException("Asignacion no encontrada");
         }
+        EquipmentAssignmentEntity assignment = existingOpt.get();
+        assignment.setReturnDate(LocalDateTime.now());
+        EquipmentStatusEntity statusAvailable = new EquipmentStatusEntity();
+        statusAvailable.setId(this.idAvailable);
+        EquipmentEntity equipment = assignment.getEquipment();
+        equipment.setEquipStatus(statusAvailable);
+        equipment = equipmentRepository.save(equipment);
+        EquipmentCategoryStockEntity stock = equipment.getCategory().getStock();
+        stock.setStock(stock.getStock()+1);
+        categoryStockRepository.save(stock);
 
-        Optional<EmployeeEntity> employeeOpt = employeeRepository.findById(request.getEmployee());
-        Optional<EquipmentEntity> equipmentOpt = equipmentRepository.findById(request.getEquipment());
-
-        if (employeeOpt.isEmpty() || equipmentOpt.isEmpty()) {
-            return new ResponseDto<>(null, new MetadataResponseDto(HttpStatus.NOT_FOUND, "Empleado o equipo no encontrado"));
-        }
-
-        EquipmentAssignmentEntity entity = existingOpt.get();
-        entity.setEmployee(employeeOpt.get());
-        entity.setEquipment(equipmentOpt.get());
-        entity.setAssignmentDate(request.getAssigmentDate());
-
-        EquipmentAssignmentEntity updated = assignmentRepository.save(entity);
+        EquipmentAssignmentEntity updated = assignmentRepository.save(assignment);
         EquipmentAssignmentDetailResponseDTO dto = EquipmentAssignmentMapper.toDetailDTO(updated);
 
         return new ResponseDto<>(dto, new MetadataResponseDto(HttpStatus.OK, "Asignación actualizada correctamente"));
@@ -110,6 +131,9 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
         }
 
         EquipmentAssignmentEntity entity = entityOpt.get();
+        if(entity.getReturnDate().equals(null)) {
+        	throw new RuntimeException("Debe desasignar el equipo primero");
+        }
         entity.setStatus(false);
         assignmentRepository.save(entity);
 

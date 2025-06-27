@@ -48,7 +48,6 @@ public class EquipmentCategoryStockServiceImpl implements EquipmentCategoryStock
     @Override
     public ResponseDto<EquipmentCategoryStockDetailResponseDTO> save(EquipmentCategoryStockRequest request) {
         EquipmentCategoryStockEntity entity = new EquipmentCategoryStockEntity();
-        entity.setCategory(request.getCategory());
         entity.setStock(request.getStock());
 
         entity = stockRepository.save(entity);
@@ -62,7 +61,6 @@ public class EquipmentCategoryStockServiceImpl implements EquipmentCategoryStock
         EquipmentCategoryStockEntity entity = stockRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Stock no encontrado"));
 
-        entity.setCategory(request.getCategory());
         entity.setStock(request.getStock());
         entity.setModificationDate(java.time.LocalDateTime.now());
 

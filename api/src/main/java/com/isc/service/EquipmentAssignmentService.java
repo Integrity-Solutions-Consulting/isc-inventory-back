@@ -11,8 +11,8 @@ import com.isc.dtos.ResponseDto;
 public interface EquipmentAssignmentService {
 	public ResponseDto<List<EquipmentAssignmentDetailResponseDTO>> getAllDetails();
 	public ResponseDto<List<EquipmentAssignmentResponseDTO>> getSimpleList();
-	public ResponseDto<EquipmentAssignmentDetailResponseDTO> save(EquipmentAssignmentRequestDTO request);
-	public ResponseDto<EquipmentAssignmentDetailResponseDTO> update(EquipmentAssignmentRequestDTO request, Integer id);
+	public ResponseDto<EquipmentAssignmentDetailResponseDTO> assign(EquipmentAssignmentRequestDTO request);
+	public ResponseDto<EquipmentAssignmentDetailResponseDTO> revoke(EquipmentAssignmentRequestDTO request, Integer id);
 	public ResponseDto<MessageResponseDTO> inactive(Integer id);
 	public ResponseDto<MessageResponseDTO> active(Integer id);
 }

@@ -11,6 +11,7 @@ public class PrivilegeMapper {
 	            entity.getId(),
 	            entity.getKey(),
 	            entity.getActive(),
+	            entity.getApplicationId(), 
 	            entity.getCreationDate(),
 	            entity.getLastModificationDate()
 	        );

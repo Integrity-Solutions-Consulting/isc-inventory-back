@@ -62,6 +62,31 @@ public class EquipmentCharacteristicServiceImpl implements EquipmentCharacterist
         MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED, "Característica creada correctamente");
         return new ResponseDto<>(EquipmentCharacteristicMapper.toDetailDto(entity), metadata);
     }
+    
+    @Override
+    public EquipmentCharacteristicEntity saveForEquipment(EquipmentCharacteristicRequestDTO request) {
+        ComponentTypeEntity component = componentRepository.findById(request.getComponent())
+                .orElseThrow(() -> new RuntimeException("Componente no encontrado"));
+
+        EquipmentCharacteristicEntity entity = new EquipmentCharacteristicEntity();
+        entity.setDescription(request.getDescription());
+        entity.setComponent(component);
+        return entity;
+    }
+    
+    @Override
+    public EquipmentCharacteristicEntity updateForEntity(EquipmentCharacteristicRequestDTO request) {
+    	 EquipmentCharacteristicEntity entity = characteristicRepository.findById(request.getId())
+                 .orElseThrow(() -> new RuntimeException("Característica no encontrada"));
+    	 
+    	 if(!request.getComponent().equals(entity.getComponent().getId())) {
+    	        ComponentTypeEntity component = componentRepository.findById(request.getComponent())
+    	                .orElseThrow(() -> new RuntimeException("Componente no encontrado"));
+    	        entity.setComponent(component);
+    	 }
+        entity.setDescription(request.getDescription());
+        return entity;
+    }
 
     @Override
     public ResponseDto<EquipmentCharacteristicDetailResponseDTO> update(EquipmentCharacteristicRequestDTO request, Integer id) {

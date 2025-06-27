@@ -27,22 +27,22 @@ public class EquipmentAssignmentController {
         return ResponseEntity.ok(assignmentService.getAllDetails());
     }
 
-    @GetMapping("/SimpleList")
+    @GetMapping("/simpleList")
     public ResponseEntity<ResponseDto<List<EquipmentAssignmentResponseDTO>>> getSimpleList() {
         return ResponseEntity.ok(assignmentService.getSimpleList());
     }
 
-    @PostMapping("/Save")
-    public ResponseEntity<ResponseDto<EquipmentAssignmentDetailResponseDTO>> create(
+    @PostMapping("/assign")
+    public ResponseEntity<ResponseDto<EquipmentAssignmentDetailResponseDTO>> assign(
             @Valid@RequestBody EquipmentAssignmentRequestDTO request) {
-        return ResponseEntity.ok(assignmentService.save(request));
+        return ResponseEntity.ok(assignmentService.assign(request));
     }
 
-    @PutMapping("/{id}/ Update")
-    public ResponseEntity<ResponseDto<EquipmentAssignmentDetailResponseDTO>> update(
+    @PutMapping("/{id}/revoke")
+    public ResponseEntity<ResponseDto<EquipmentAssignmentDetailResponseDTO>> revoke(
             @PathVariable Integer id,
            @Valid@RequestBody EquipmentAssignmentRequestDTO request) {
-        return ResponseEntity.ok(assignmentService.update(request, id));
+        return ResponseEntity.ok(assignmentService.revoke(request, id));
     }
 
     // Desactivar asignación

@@ -31,6 +31,10 @@ public class EquipmentCharacteristicEntity {
     @JoinColumn(name = "id_component", nullable = false)
     private ComponentTypeEntity component;
 	
+    @ManyToOne
+    @JoinColumn(name = "id_equipment")
+    private EquipmentEntity equipo;
+	
 	@Column(nullable = false)
 	private Boolean status = true;
 	

@@ -3,6 +3,8 @@ package com.isc.service;
 import java.util.List;
 
 import com.isc.dto.request.EquipmentRequest;
+import com.isc.dto.request.InvoiceRequestDTO;
+import com.isc.dto.request.WarrantTypeRequestDTO;
 import com.isc.dto.response.MessageResponseDTO;
 import com.isc.dto.response.EquipmentDetailResponseDTO;
 import com.isc.dto.response.EquipmentResponseDTO;
@@ -15,5 +17,7 @@ public interface EquipmentService {
     ResponseDto<EquipmentDetailResponseDTO> update(EquipmentRequest request, Integer id);
     ResponseDto<MessageResponseDTO> inactive(Integer id);
     ResponseDto<MessageResponseDTO> active(Integer id);
-    ResponseDto<MessageResponseDTO> cambiarEstado(Integer idEquipo, String nuevoEstadoNombre);
+    ResponseDto<MessageResponseDTO> changeStatus(Integer idEquipo, Integer newStatus);
+    ResponseDto<EquipmentDetailResponseDTO> setInvoice(Integer idEquipo,InvoiceRequestDTO request);
+    ResponseDto<EquipmentDetailResponseDTO> setWarranty(Integer idEquip, WarrantTypeRequestDTO request);
 }

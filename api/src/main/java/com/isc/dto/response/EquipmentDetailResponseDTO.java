@@ -1,6 +1,7 @@
 package com.isc.dto.response;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,24 +14,24 @@ public class EquipmentDetailResponseDTO {
     private Integer id;
     private Integer invoice;
 
-    private Integer EquipStatus;
-    private String nameEquipStat;
+    private Integer equipmentStatusId;
+    private String equipmentStatusName;
 
-    private Integer category;
+    private Integer categoryId;
+    private String categoryName;
+    private Integer categoryStock;
 
-    private Integer company;
-    private String nameCompany;
+    private Integer companyId;
+    private String companyName;
 
-    private Integer characteristic;
-    private String descriptionEquipChar;
+    private List<EquipmentCharacteristicResponseDTO> characteristics;
 
     private String brand;
     private String model;
     private String SerialNumber;
     private String itemCode;
+    
     private boolean status;
-    private LocalDateTime cretionDate;
+    private LocalDateTime creationDate;
     private LocalDateTime modificationDate;
-
-    private WarrantTypeResponseDTO warranty;
 }

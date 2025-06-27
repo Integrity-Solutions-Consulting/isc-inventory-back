@@ -1,6 +1,7 @@
 package com.isc.entitys;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -11,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -26,9 +28,9 @@ public class EquipmentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_invoice", nullable = true)
-    private InvoiceEntity invoice;
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_invoice", nullable = true)
+	private InvoiceEntity invoice;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_condition", nullable = false)
@@ -38,7 +40,7 @@ public class EquipmentEntity {
     @JoinColumn(name = "id_status", nullable = false)
     private EquipmentStatusEntity equipStatus;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_category", nullable = false)
     private EquipmentCategoryEntity category;
 
@@ -49,9 +51,8 @@ public class EquipmentEntity {
     @JoinColumn(name = "id_company")
     private CompanyEntity company;
 	
-	@ManyToOne
-    @JoinColumn(name = "id_characteristic")
-    private EquipmentCharacteristicEntity characteristic;
+	@OneToMany(mappedBy = "equipo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EquipmentCharacteristicEntity> characteristic;
 	
 	@Column(length = 100)
 	private String brand;

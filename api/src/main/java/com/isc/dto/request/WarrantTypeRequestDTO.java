@@ -13,7 +13,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class WarrantTypeRequest {
+public class WarrantTypeRequestDTO {
+	
+	private Integer id;
 	
 	@NotNull(message = "El ID del equipo es obligatorio")
 	private Integer id_equipment;

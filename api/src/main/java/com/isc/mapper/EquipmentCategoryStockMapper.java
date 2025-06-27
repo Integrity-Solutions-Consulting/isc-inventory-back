@@ -8,12 +8,10 @@ public class EquipmentCategoryStockMapper {
 	public static EquipmentCategoryStockResponseDTO toSimpleDto(EquipmentCategoryStockEntity entity) {
 		if (entity == null)
 			return null;
-		return new EquipmentCategoryStockResponseDTO(entity.getId(), entity.getCategory(), entity.getStock());
-	}
+		return null;}
 	
 	public static EquipmentCategoryStockDetailResponseDTO toDetailDto(EquipmentCategoryStockEntity entity) {
 		if (entity == null)
 			return null;
-		return new EquipmentCategoryStockDetailResponseDTO(entity.getId(), entity.getCategory(), entity.getStock(),entity.getStatus(),entity.getCreationDate(),entity.getModificationDate());
-	}
+		return null;}
 }
