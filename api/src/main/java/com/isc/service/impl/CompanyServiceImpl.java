@@ -2,11 +2,9 @@ package com.isc.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.isc.dto.request.CompanyRequestDTO;
 import com.isc.dto.response.CompanyDetailResponseDTO;
@@ -15,9 +13,9 @@ import com.isc.dto.response.MessageResponseDTO;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
 import com.isc.entitys.CompanyEntity;
-import com.isc.mapper.CompanyMapper;
 import com.isc.repository.CompanyRepository;
 import com.isc.service.CompanyService;
+import com.isc.mapper.CompanyMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,71 +23,80 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
 
-    private final CompanyRepository companyRepository;
+    private final CompanyRepository repository;
+    private final CompanyMapper companyMapper;
 
     @Override
     public ResponseDto<List<CompanyDetailResponseDTO>> getAllDetails() {
-        List<CompanyDetailResponseDTO> list = companyRepository.findAll()
-                .stream()
-                .map(CompanyMapper::toDetailDTO)
-                .collect(Collectors.toList());
-
-        return new ResponseDto<>(list, new MetadataResponseDto(HttpStatus.OK, "Lista completa de empresas"));
+        List<CompanyDetailResponseDTO> list = repository.findAll().stream()
+            .map(companyMapper::toDetailDTO)
+            .toList();
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Compañías listadas con detalles correctamente");
+        return new ResponseDto<>(list, metadata);
     }
 
     @Override
     public ResponseDto<List<CompanyResponseDTO>> getSimpleList() {
-        List<CompanyResponseDTO> list = companyRepository.findAllByStatusTrue()
-                .stream()
-                .map(CompanyMapper::toResponseDTO)
-                .collect(Collectors.toList());
-
-        return new ResponseDto<>(list, new MetadataResponseDto(HttpStatus.OK, "Lista simple de empresas activas"));
+        List<CompanyResponseDTO> list = repository.findAll().stream()
+            .map(companyMapper::toResponseDTO)
+            .toList();
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Compañías listadas correctamente");
+        return new ResponseDto<>(list,metadata);
     }
 
     @Override
-    @Transactional
     public ResponseDto<CompanyDetailResponseDTO> save(CompanyRequestDTO request) {
-        CompanyEntity entity = CompanyMapper.toEntity(request);
+        CompanyEntity entity = new CompanyEntity();
+        entity.setName(request.getName());
+        entity.setTaxId(request.getTaxId());
+        entity.setAddress(request.getAddress());
+        entity.setPhone(request.getPhone());
+        entity.setEmail(request.getEmail());
         entity.setCreationDate(LocalDateTime.now());
-        entity.setStatus(true);
-
-        CompanyEntity saved = companyRepository.save(entity);
-        return new ResponseDto<>(CompanyMapper.toDetailDTO(saved), new MetadataResponseDto(HttpStatus.CREATED, "Empresa creada"));
+        CompanyEntity saved = repository.save(entity);
+        
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Compañia creada correctamente");
+        return new ResponseDto<>(companyMapper.toDetailDTO(saved), metadata);
     }
 
     @Override
-    @Transactional
     public ResponseDto<CompanyDetailResponseDTO> update(CompanyRequestDTO request, Integer id) {
-        CompanyEntity entity = companyRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Empresa no encontrada con ID: " + id));
-
-        CompanyMapper.updateEntityFromDTO(entity, request);
+        CompanyEntity entity = repository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Compañía no encontrada"));
+        entity.setName(request.getName());
+        entity.setTaxId(request.getTaxId());
+        entity.setAddress(request.getAddress());
+        entity.setPhone(request.getPhone());
+        entity.setEmail(request.getEmail());
         entity.setModificationDate(LocalDateTime.now());
-
-        CompanyEntity updated = companyRepository.save(entity);
-        return new ResponseDto<>(CompanyMapper.toDetailDTO(updated), new MetadataResponseDto(HttpStatus.OK, "Empresa actualizada"));
+        CompanyEntity updated = repository.save(entity);
+        
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Compañia actualizada");
+        return new ResponseDto<>(companyMapper.toDetailDTO(updated),metadata);
     }
 
     @Override
-    @Transactional
-    public ResponseDto<MessageResponseDTO> inactive(Integer id) {
-        int updated = companyRepository.inactive(id);
-        if (updated == 0) {
-            throw new RuntimeException("No se pudo desactivar la empresa con ID: " + id);
-        }
-
-        return new ResponseDto<>(new MessageResponseDTO("Empresa desactivada"), new MetadataResponseDto(HttpStatus.OK, "Operación exitosa"));
+    public ResponseDto<MessageResponseDTO> inactive(Integer id) 
+    {
+    	int rowsAffected = repository.inactive(id);
+		if(rowsAffected == 0) 
+		{
+			 throw new RuntimeException("No se pudo realizar la operacion en el id: " + id);
+		}
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Compañia desactivada");
+		MessageResponseDTO message = new MessageResponseDTO("Operacion exitosa");
+		return new ResponseDto<>(message, metadata);
     }
 
     @Override
-    @Transactional
     public ResponseDto<MessageResponseDTO> active(Integer id) {
-        int updated = companyRepository.active(id);
-        if (updated == 0) {
-            throw new RuntimeException("No se pudo activar la empresa con ID: " + id);
-        }
-
-        return new ResponseDto<>(new MessageResponseDTO("Empresa activada"), new MetadataResponseDto(HttpStatus.OK, "Operación exitosa"));
+    	int rowsAffected = repository.active(id);
+		if(rowsAffected == 0) {
+			 throw new RuntimeException("No se pudo realizar la operacion en el id: " + id);
+		}
+	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Compañia activada");
+		MessageResponseDTO message = new MessageResponseDTO("Operacion exitosa");
+		return new ResponseDto<>(message, metadata);
     }
 }
+

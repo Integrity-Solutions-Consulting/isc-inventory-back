@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class WorkModeRequestDTO {
 	
 	@NotBlank(message = "El nombre del modo de trabajo no puede estar vacío")
-    @Size(max = 100, message = "El nombre no puede tener más de 100 caracteres")
+    @Size(min=1,max = 100, message = "El nombre no puede tener más de 100 caracteres")
 	private String name;
 	
 	@NotBlank(message = "La descripcion del modo de trabajo  no puede estar vacía")

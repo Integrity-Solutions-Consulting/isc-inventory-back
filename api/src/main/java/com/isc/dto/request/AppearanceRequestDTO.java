@@ -20,7 +20,7 @@ public class AppearanceRequestDTO {
 	private String typography;
     
     @NotNull(message = "Debe especificar si el encabezado es fijo")
-    private Boolean fix_header;
+    private Boolean fixed_header;
     
     @NotBlank(message = "Debe indicar la posición del menú")
     @Pattern(regexp = "^(left|top|right|bottom)$", message = "La posición del menú debe ser: left, top, right o bottom")
@@ -35,7 +35,7 @@ public class AppearanceRequestDTO {
     
     @NotNull(message = "Debe proporcionar el orden de la caja")
     @Min(value = 0, message = "El orden de la caja no puede ser negativo")
-    private Integer box_order;
+    private Integer box_border;
     
     @NotBlank(message = "El fondo de la caja no puede estar vacío")
     @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$", message = "El fondo de la caja debe estar en formato hexadecimal")

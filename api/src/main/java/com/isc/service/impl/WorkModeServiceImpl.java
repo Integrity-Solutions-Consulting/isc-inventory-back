@@ -45,6 +45,7 @@ public class WorkModeServiceImpl implements WorkModeService{
 	@Override
 	public ResponseDto<WorkModeDetailResponseDTO> save(WorkModeRequestDTO request) {
 		WorkModeEntity entity = new WorkModeEntity();
+		entity.setName(request.getName());
 		entity.setDescription(request.getDescription());
 		entity = workModeRepository.save(entity);
 		WorkModeDetailResponseDTO response = WorkModeMapper.toDetailDto(entity);

@@ -13,11 +13,11 @@ public class AppearanceDetailResponseDTO {
 	private Integer id;
 	private String login_background;
 	private String typography;
-	private Boolean fix_header;
+	private Boolean fixed_header;
 	private String menu_position;
 	private Boolean collapsed_menu;
 	private String background_color;
-	private Integer box_order;
+	private Integer box_border;
 	private String box_background;
 	private boolean status;
 	private LocalDateTime creationDate;

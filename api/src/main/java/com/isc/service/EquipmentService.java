@@ -3,16 +3,21 @@ package com.isc.service;
 import java.util.List;
 
 import com.isc.dto.request.EquipmentRequest;
+import com.isc.dto.request.InvoiceRequestDTO;
+import com.isc.dto.request.WarrantTypeRequestDTO;
 import com.isc.dto.response.MessageResponseDTO;
 import com.isc.dto.response.EquipmentDetailResponseDTO;
 import com.isc.dto.response.EquipmentResponseDTO;
 import com.isc.dtos.ResponseDto;
 
 public interface EquipmentService {
-	public ResponseDto<List<EquipmentDetailResponseDTO>> getAllDetails();
-	public ResponseDto<List<EquipmentResponseDTO>> getSimpleList();
-	public ResponseDto<EquipmentDetailResponseDTO> save(EquipmentRequest request);
-	public ResponseDto<EquipmentDetailResponseDTO> update(EquipmentRequest request, Integer id);
-	public ResponseDto<MessageResponseDTO> inactive(Integer id);
-	public ResponseDto<MessageResponseDTO> active(Integer id);
+    ResponseDto<List<EquipmentDetailResponseDTO>> getAllDetails();
+    ResponseDto<List<EquipmentResponseDTO>> getSimpleList();
+    ResponseDto<EquipmentDetailResponseDTO> save(EquipmentRequest request);
+    ResponseDto<EquipmentDetailResponseDTO> update(EquipmentRequest request, Integer id);
+    ResponseDto<MessageResponseDTO> inactive(Integer id);
+    ResponseDto<MessageResponseDTO> active(Integer id);
+    ResponseDto<MessageResponseDTO> changeStatus(Integer idEquipo, Integer newStatus);
+    ResponseDto<EquipmentDetailResponseDTO> setInvoice(Integer idEquipo,InvoiceRequestDTO request);
+    ResponseDto<EquipmentDetailResponseDTO> setWarranty(Integer idEquip, WarrantTypeRequestDTO request);
 }

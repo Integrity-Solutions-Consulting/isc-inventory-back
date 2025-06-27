@@ -34,6 +34,18 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 			LEFT JOIN FETCH ur.role r
 			""")
 	List<UserEntity> findAllWithRolesAndPrivileges();
+	
+	@Query("""
+		    SELECT DISTINCT u FROM UserEntity u
+		    LEFT JOIN FETCH u.userRoles ur
+		    LEFT JOIN FETCH ur.role r
+		    LEFT JOIN FETCH u.userPrivilegies up
+		    LEFT JOIN FETCH up.privilege p
+		    LEFT JOIN FETCH u.userMenus um
+		    LEFT JOIN FETCH um.menu m
+		    """)
+		List<UserEntity> findAllWithRolesPrivilegesAndMenus();
+
 
 	@Modifying
 	@Transactional

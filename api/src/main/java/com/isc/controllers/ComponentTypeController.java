@@ -8,41 +8,48 @@ import com.isc.dtos.ResponseDto;
 import com.isc.service.ComponentTypeService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/component-types")
-public class ComponentTypeController {
-
-    
-    private ComponentTypeService componentTypeService;
+@RequestMapping("/api/v1/component-types")
+@RequiredArgsConstructor
+public class ComponentTypeController 
+{  
+    private final ComponentTypeService componentTypeService;
 
     // Crear nuevo tipo de componente
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<ResponseDto<ComponentTypeDetailResponseDTO>> createComponentType(
             @Valid @RequestBody ComponentTypeRequestDTO request) {
         return ResponseEntity.ok(componentTypeService.save(request));
     }
 
-    // Actualizar componente
-    @PutMapping("/{id}")
+    // Actualiza el componente
+    @PutMapping("/Update")
     public ResponseEntity<ResponseDto<ComponentTypeDetailResponseDTO>> updateComponentType(
             @Valid @RequestBody ComponentTypeRequestDTO request,
             @PathVariable Integer id) {
         return ResponseEntity.ok(componentTypeService.update(request, id));
     }
 
-    // Obtener lista detallada
-    @GetMapping("/details")
+    // Obtiene lista detallada
+    @GetMapping("/Details")
     public ResponseEntity<ResponseDto<List<ComponentTypeDetailResponseDTO>>> getAllDetails() {
         return ResponseEntity.ok(componentTypeService.getAllDetails());
     }
 
-    // Obtener lista simple
+    // Obtiene lista simple
     @GetMapping("/list")
     public ResponseEntity<ResponseDto<List<ComponentTypeResponseDTO>>> getSimpleList() {
         return ResponseEntity.ok(componentTypeService.getSimpleList());

@@ -10,7 +10,10 @@ public class PrivilegeMapper {
 	        return new PrivilegeResponseDTO(
 	            entity.getId(),
 	            entity.getKey(),
-	            entity.getActive()
+	            entity.getActive(),
+	            entity.getApplicationId(), 
+	            entity.getCreationDate(),
+	            entity.getLastModificationDate()
 	        );
 	    }
 }

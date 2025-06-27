@@ -12,17 +12,13 @@ import lombok.NoArgsConstructor;
 public class EquipmentAssignmentDetailResponseDTO {
 	private Integer id;
 	
-	private Integer employee;
-	private Integer identificationType;
-	private String fullName;
+	private EmployeeCatalogResponseDTO employee;
 	
-	private Integer equipment;
-	private String SerialNumber;
+	private EquipmentResponseDTO equipment;
+	
+	private CompanyResponseDTO company;
 	
 	private LocalDateTime assigmentDate;
 	private LocalDateTime returnDate;
 	private boolean status;
-	private LocalDateTime cretionDate;
-	private LocalDateTime modificationDate;
-	
 }

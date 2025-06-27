@@ -1,14 +1,19 @@
 package com.isc.entitys;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,24 +28,31 @@ public class EquipmentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 	
-	@Column(name = "id_invoice")
-    private Integer invoice;
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_invoice", nullable = true)
+	private InvoiceEntity invoice;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_condition", nullable = false)
+	private EquipmentConditionEntity condition;
 	
 	@ManyToOne
     @JoinColumn(name = "id_status", nullable = false)
-    private EquipmentStatusEntity EquipStatus;
+    private EquipmentStatusEntity equipStatus;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_category", nullable = false)
     private EquipmentCategoryEntity category;
-	
+
+	@OneToOne(mappedBy = "equipment", cascade = CascadeType.ALL)
+	private WarrantTypeEntity warranty;
+
 	@ManyToOne
     @JoinColumn(name = "id_company")
     private CompanyEntity company;
 	
-	@ManyToOne
-    @JoinColumn(name = "id_characteristic")
-    private EquipmentCharacteristicEntity characteristic;
+	@OneToMany(mappedBy = "equipo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EquipmentCharacteristicEntity> characteristic;
 	
 	@Column(length = 100)
 	private String brand;
@@ -49,7 +61,7 @@ public class EquipmentEntity {
 	private String model;
 	
 	@Column(name = "serial_number", length = 100)
-	private String SerialNumber;
+	private String serialNumber;
 	
 	@Column(name = "item_code", length = 100)
 	private String itemCode;

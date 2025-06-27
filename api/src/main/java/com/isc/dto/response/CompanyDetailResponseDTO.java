@@ -10,10 +10,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompanyDetailResponseDTO {
-	private Integer id;
-	private String name;
-	private String description;
-	private boolean status;
-	private LocalDateTime creationDate;
-	private LocalDateTime modificationDate;
+    private Integer id;
+    private String name;
+    private String taxId;
+    private String address;
+    private String phone;
+    private String email;
+    private Boolean status;
+    private LocalDateTime creationDate;
+    private LocalDateTime modificationDate;
 }

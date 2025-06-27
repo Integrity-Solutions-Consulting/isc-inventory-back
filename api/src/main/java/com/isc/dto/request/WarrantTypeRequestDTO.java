@@ -13,10 +13,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class WarrantTypeRequest {
+public class WarrantTypeRequestDTO {
+	
+	private Integer id;
 	
 	@NotNull(message = "El ID del equipo es obligatorio")
-	private Integer equipment;
+	private Integer id_equipment;
     
 	@NotBlank(message = "Las condiciones de garantía no pueden estar vacías")
     @Size(max = 255, message = "Las condiciones no deben superar los 255 caracteres")
@@ -34,5 +36,5 @@ public class WarrantTypeRequest {
 	private String SupportContact;
     
 	@NotNull(message = "El estado de la garantía es obligatorio")
-	private Short warrantyStatus;
+	private boolean warrantyStatus;
 }

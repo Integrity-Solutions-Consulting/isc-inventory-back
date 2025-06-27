@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class EquipmentCharacteristicResponseDTO {
 	private Integer id;
 	private String description;
-	private Integer component;
-	
+	private Integer componentId;
+	private String componentName;
 }

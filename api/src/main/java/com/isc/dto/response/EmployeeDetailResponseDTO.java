@@ -1,5 +1,6 @@
 package com.isc.dto.response;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -27,8 +28,8 @@ public class EmployeeDetailResponseDTO {
     private String address;
     private String avatar;
 
-    private LocalDateTime contractDate;
-    private LocalDateTime contractEndDate;
+    private LocalDate contractDate;
+    private LocalDate contractEndDate;
 
     private Boolean status;
 

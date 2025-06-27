@@ -15,7 +15,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "equipment_category", schema = "inventory")
+@Table(name = "equipment_assignment", schema = "inventory")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,7 +33,7 @@ public class EquipmentAssignmentEntity {
     private EquipmentEntity equipment;
 	
 	@Column(name = "assignment_date")
-	private LocalDateTime assigmentDate;
+	private LocalDateTime assignmentDate;
 	
 	@Column(name = "return_date")
 	private LocalDateTime returnDate;

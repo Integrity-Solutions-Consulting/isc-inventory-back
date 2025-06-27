@@ -45,7 +45,16 @@ public class RoleServiceImpl implements RoleService {
 
 		return new ResponseDto<>(privileges, metadata);
 	}
-	
+
+	@Override
+	public ResponseDto<List<RoleDetailsResponseDTO>> getTable() {
+		List<RoleDetailsResponseDTO> privileges = rolesRepository.findAllByActiveTrue().stream()
+				.map(RolesMapper::detailToDto).collect(Collectors.toList());
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Roles listados correctamente");
+
+		return new ResponseDto<>(privileges, metadata);
+	}
+
 	@Override
 	public ResponseDto<RoleDetailsResponseDTO> getDetailsById(Integer id) {
 		RolesEntity rol = rolesRepository.findById(id)
@@ -65,7 +74,7 @@ public class RoleServiceImpl implements RoleService {
 		rol.setApplicationId(request.getApplicationId());
 		RolesEntity savedRole = rolesRepository.save(rol);
 		Set<PrivilegeRoleEntity> privilegeRoles = new HashSet<>();
-		
+
 		for (PrivilegeEntity privilege : privileges) {
 			PrivilegeRoleEntity privilegeRole = new PrivilegeRoleEntity();
 			privilegeRole.setRoleId(savedRole.getId());
@@ -79,7 +88,7 @@ public class RoleServiceImpl implements RoleService {
 			menuRole.setMenu(menu);
 			menusRole.add(menuRole);
 		}
-		
+
 		savedRole.getRolesPrivilegies().clear();
 		savedRole.getRolesPrivilegies().addAll(privilegeRoles);
 		savedRole.getRoleMenus().clear();
@@ -88,6 +97,61 @@ public class RoleServiceImpl implements RoleService {
 
 		RolesResponseDTO responseDTO = RolesMapper.toDto(savedRole);
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED, "Rol registrado correctamente");
+
+		return new ResponseDto<>(responseDTO, metadata);
+	}
+
+	@Override
+	public ResponseDto<RolesResponseDTO> update(RoleRequestDTO request, Integer id) {
+		RolesEntity existingRole = rolesRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Rol no encontrado"));
+
+		// Obtener los nuevos privilegios y menús del request
+		Set<Integer> requestedPrivilegeIds = new HashSet<>(request.getPrivilegesId());
+		Set<Integer> requestedMenuIds = new HashSet<>(request.getMenusId());
+
+		// Actualizar Privilegios
+		for (PrivilegeRoleEntity pr : existingRole.getRolesPrivilegies()) {
+			boolean shouldBeActive = requestedPrivilegeIds.contains(pr.getPrivilege().getId());
+			pr.setActive(shouldBeActive); // marcar activo o inactivo
+			requestedPrivilegeIds.remove(pr.getPrivilege().getId()); // eliminar los ya existentes
+		}
+
+		// Agregar nuevos privilegios que no existían antes
+		if (!requestedPrivilegeIds.isEmpty()) {
+			Set<PrivilegeEntity> newPrivileges = privilegiesRepository.findByIdIn(requestedPrivilegeIds);
+			for (PrivilegeEntity privilege : newPrivileges) {
+				PrivilegeRoleEntity newPR = new PrivilegeRoleEntity();
+				newPR.setRoleId(existingRole.getId());
+				newPR.setPrivilege(privilege);
+				newPR.setActive(true);
+				existingRole.getRolesPrivilegies().add(newPR);
+			}
+		}
+
+		// Actualizar Menús
+		for (MenuRoleEntity mr : existingRole.getRoleMenus()) {
+			boolean shouldBeActive = requestedMenuIds.contains(mr.getMenu().getId());
+			mr.setActive(shouldBeActive);
+			requestedMenuIds.remove(mr.getMenu().getId());
+		}
+
+		// Agregar nuevos menús que no existían antes
+		if (!requestedMenuIds.isEmpty()) {
+			Set<MenuEntity> newMenus = menuRepository.findByIdIn(requestedMenuIds);
+			for (MenuEntity menu : newMenus) {
+				MenuRoleEntity newMR = new MenuRoleEntity();
+				newMR.setRoleId(existingRole.getId());
+				newMR.setMenu(menu);
+				newMR.setActive(true);
+				existingRole.getRoleMenus().add(newMR);
+			}
+		}
+
+		// Guardar cambios
+		RolesEntity updatedRole = rolesRepository.save(existingRole);
+		RolesResponseDTO responseDTO = RolesMapper.toDto(updatedRole);
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Rol actualizado correctamente");
 
 		return new ResponseDto<>(responseDTO, metadata);
 	}
@@ -112,7 +176,7 @@ public class RoleServiceImpl implements RoleService {
 
 		return new ResponseDto<>(responseDTO, metadata);
 	}
-	
+
 	@Override
 	public ResponseDto<RolesResponseDTO> addMenus(RoleRequestDTO request, Integer id) {
 		Set<MenuEntity> menus = menuRepository.findByIdIn(request.getMenusId());
@@ -125,7 +189,7 @@ public class RoleServiceImpl implements RoleService {
 			menuRole.setMenu(menu);
 			menusRole.add(menuRole);
 		}
-		
+
 		rol.getRoleMenus().clear();
 		rol.getRoleMenus().addAll(menusRole);
 		RolesEntity rolUpdate = rolesRepository.save(rol);

@@ -40,17 +40,26 @@ public class EmployeeMapper {
     public static EmployeeTableResponseDTO toTableResponse(EmployeeEntity entity) {
         return new EmployeeTableResponseDTO(
         		entity.getId(),
-        		entity.getFirstName() + " " + entity.getLastName(),
+        		entity.getFirstName(),
+        		entity.getLastName(),
         		entity.getPosition().getName(),
+        		entity.getAddress(),
         		entity.getEmail(),
         		entity.getPhone(),
-        		entity.getStatus()
+        		entity.getStatus(),
+        		entity.getIdentificationType().getDescription(),
+        		entity.getIdentification(),
+        		entity.getGender().getId(),
+        		entity.getWorkMode().getId(),
+        		entity.getNationality().getId(),
+        		entity.getContractDate(),
+        		entity.getContractEndDate()
         );
     }
     
     public static EmployeeCatalogResponseDTO toCatalogResponse(EmployeeEntity entity) {
         String fullName = entity.getFirstName() + " " + entity.getLastName();
-        return new EmployeeCatalogResponseDTO(entity.getId(), fullName);
+        return new EmployeeCatalogResponseDTO(entity.getId(), fullName,entity.getIdentification(), entity.getEmail());
     }
 
     public static List<EmployeeTableResponseDTO> toTableResponseList(List<EmployeeEntity> entities) {

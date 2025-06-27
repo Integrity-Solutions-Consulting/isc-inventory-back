@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 public class WarrantTypeDetailResponseDTO {
 	private Integer id;
 	
-	private Integer equipment;
+	private Integer id_equipment;
 	private String SerialNumber;
 	
 	private String conditions;
 	private LocalDateTime warrantyStartDate;
 	private LocalDateTime warrantyEndDate;
 	private String SupportContact;
-	private Short warrantyStatus;
+	private boolean warrantyStatus;
 	private boolean status;
 	private LocalDateTime cretionDate;
 	private LocalDateTime modificationDate;
