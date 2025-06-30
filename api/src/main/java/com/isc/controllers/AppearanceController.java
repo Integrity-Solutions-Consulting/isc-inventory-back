@@ -1,17 +1,14 @@
 package com.isc.controllers;
 
 import java.util.List;
-
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.isc.dto.request.AppearanceRequestDTO;
@@ -27,46 +24,48 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/appearance")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')")
+
 public class AppearanceController 
 {
-
-    private final AppearanceService service;
-
-    @GetMapping("/getAllDetails")
+    
+    private final AppearanceService aperreanceService;
+    
+    @GetMapping("/allDetailsList")
     public ResponseEntity<ResponseDto<List<AppearanceDetailResponseDTO>>> getAllDetails() 
     {
-        return ResponseEntity.ok(service.getAllDetails());
-    }
-
-    @GetMapping("/getSimpleList")
-    public ResponseEntity<ResponseDto<List<AppearanceResponseDTO>>> getSimpleList() 
-    {
-        return ResponseEntity.ok(service.getSimpleList());
-    }
-
-    @PostMapping("/save")
-    public ResponseEntity<ResponseDto<AppearanceDetailResponseDTO>> save(@Valid @RequestBody AppearanceRequestDTO request) 
-    {
-        return ResponseEntity.ok(service.save(request));
+        return ResponseEntity.ok(aperreanceService.getAllDetails());
     }
     
-    @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseDto<AppearanceDetailResponseDTO>> update(@Valid @RequestBody AppearanceRequestDTO request,
-                                                                           @PathVariable Integer id) 
+    @GetMapping("/simpleList")
+    public ResponseEntity<ResponseDto<List<AppearanceResponseDTO>>> getSimpleList() 
     {
-        return ResponseEntity.ok(service.update(request, id));
+        return ResponseEntity.ok(aperreanceService.getSimpleList());
+    }
+    
+    @PostMapping("/createAppearance")
+    public ResponseEntity<ResponseDto<AppearanceDetailResponseDTO>> createAppearance(
+            @Valid @RequestBody AppearanceRequestDTO request) 
+    {
+        return ResponseEntity.ok(aperreanceService.save(request));
+    }
+   
+    @PutMapping("/{id}/updateAppearance")
+    public ResponseEntity<ResponseDto<AppearanceDetailResponseDTO>> updateAppearance(
+            @PathVariable Integer id,
+            @Valid @RequestBody AppearanceRequestDTO request) 
+    {
+        return ResponseEntity.ok(aperreanceService.update(request, id));
     }
 
-    @PutMapping("/activate/{id}")
-    public ResponseEntity<ResponseDto<MessageResponseDTO>> activate(@PathVariable Integer id) 
+    @PatchMapping("/{id}/activate")
+    public ResponseEntity<ResponseDto<MessageResponseDTO>> activateAppearance(@PathVariable Integer id) 
     {
-        return ResponseEntity.ok(service.active(id));
+        return ResponseEntity.ok(aperreanceService.active(id));
     }
 
-    @DeleteMapping("/inactive/{id}")
-    public ResponseEntity<ResponseDto<MessageResponseDTO>> inactive(@PathVariable Integer id) 
+    @PatchMapping("/{id}/deactivate")
+    public ResponseEntity<ResponseDto<MessageResponseDTO>> deactivateAppearance(@PathVariable Integer id) 
     {
-        return ResponseEntity.ok(service.inactive(id));
+        return ResponseEntity.ok(aperreanceService.inactive(id));
     }
 }

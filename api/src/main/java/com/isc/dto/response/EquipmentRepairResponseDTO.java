@@ -3,6 +3,8 @@ package com.isc.dto.response;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.isc.entitys.EquipmentEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -14,6 +14,7 @@ import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
 import com.isc.entitys.ComponentTypeEntity;
 import com.isc.entitys.EquipmentCharacteristicEntity;
+import com.isc.entitys.EquipmentEntity;
 import com.isc.mapper.EquipmentCharacteristicMapper;
 import com.isc.repository.ComponentTypeRepository;
 import com.isc.repository.EquipmentCharacteristicRepository;
@@ -64,14 +65,18 @@ public class EquipmentCharacteristicServiceImpl implements EquipmentCharacterist
     }
     
     @Override
-    public EquipmentCharacteristicEntity saveForEquipment(EquipmentCharacteristicRequestDTO request) {
+    public EquipmentCharacteristicEntity saveForEquipment(EquipmentCharacteristicRequestDTO request, EquipmentEntity equipment) {
         ComponentTypeEntity component = componentRepository.findById(request.getComponent())
                 .orElseThrow(() -> new RuntimeException("Componente no encontrado"));
 
         EquipmentCharacteristicEntity entity = new EquipmentCharacteristicEntity();
         entity.setDescription(request.getDescription());
         entity.setComponent(component);
-        return entity;
+        entity.setEquipo(equipment); // 👈 Vinculamos el equipo
+        entity.setStatus(true); // (opcional, si tu entidad lo requiere por defecto)
+        entity.setCreationDate(java.time.LocalDateTime.now()); // (opcional)
+
+        return characteristicRepository.save(entity); // 👈 Guardamos aquí mismo
     }
     
     @Override

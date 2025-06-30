@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EquipmentRequest {
+public class EquipmentRequest 
+{
 	@NotNull(message = "La condicion del equipo es obligatorio")
 	private Integer condition;
     
@@ -23,7 +24,10 @@ public class EquipmentRequest {
     
 	@NotNull(message = "La empresa es obligatoria")
 	private Integer company;
-    //onetomanny
+	
+	@Size(max = 255, message = " La observacion no puede ser muy extensa")
+	private String observations;
+    
 	@NotNull(message = "La caracteristica es obligatoria")
 	private List<EquipmentCharacteristicRequestDTO> equipmentCharacteristics;
     
@@ -34,7 +38,7 @@ public class EquipmentRequest {
 	@NotBlank(message = "El modelo es obligatoria")
     @Size(max = 100, message = "El modelo no puede superar los 100 caracteres")
 	private String model;
-    
+	
 	@NotBlank(message = "El número de serie es obligatorio")
     @Size(max = 100, message = "El número de serie no puede superar los 100 caracteres")
 	private String serialNumber;

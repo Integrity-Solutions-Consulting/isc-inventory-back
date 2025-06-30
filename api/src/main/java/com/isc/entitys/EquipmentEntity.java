@@ -54,6 +54,9 @@ public class EquipmentEntity {
 	@OneToMany(mappedBy = "equipo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EquipmentCharacteristicEntity> characteristic;
 	
+	@Column(length = 255)
+	private String observations;
+	
 	@Column(length = 100)
 	private String brand;
 	
@@ -77,7 +80,7 @@ public class EquipmentEntity {
 	
 	@Column(name = "creation_date")
 	private LocalDateTime creationDate = LocalDateTime.now();
-
+	
 	@Column(name = "modification_date")
 	private LocalDateTime modificationDate;
     
