@@ -29,7 +29,7 @@ public class CompanyController
 {
     private final CompanyService companyService;
 
-    @GetMapping("/GetAllDetails")
+    @GetMapping("/getAllDetails")
     public ResponseEntity<ResponseDto<List<CompanyDetailResponseDTO>>> getAllCompanies() 
     {
         return ResponseEntity.ok(companyService.getAllDetails());

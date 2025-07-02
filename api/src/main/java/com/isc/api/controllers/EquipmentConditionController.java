@@ -15,24 +15,24 @@ import com.isc.api.service.EquipmentConditionService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/equipment-conditions")
+@RequestMapping("/api/v1/equipment-conditions")
 public class EquipmentConditionController {
 
     @Autowired
     private EquipmentConditionService service;
 
-    @GetMapping("/List")
+    @GetMapping("/list")
     public ResponseEntity<ResponseDto<List<EquipmentConditionResponseDTO>>> getAllActive() {
         return ResponseEntity.ok(service.getDetails());
     }
 
-    @PostMapping("/Save")
+    @PostMapping("/save")
     public ResponseEntity<ResponseDto<EquipmentConditionResponseDTO>> create(
             @Valid @RequestBody EquipmentConditionRequestDTO request) {
         return ResponseEntity.ok(service.save(request));
     }
 
-    @PutMapping("/{id}/Update")
+    @PutMapping("/{id}/update")
     public ResponseEntity<ResponseDto<EquipmentConditionResponseDTO>> update(
             @Valid @RequestBody EquipmentConditionRequestDTO request,
             @PathVariable Integer id) {

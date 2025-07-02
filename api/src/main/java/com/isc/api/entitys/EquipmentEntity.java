@@ -60,10 +60,10 @@ public class EquipmentEntity {
 	@Column(length = 100)
 	private String model;
 	
-	@Column(name = "serial_number", length = 100)
+	@Column(name = "serial_number", length = 100, unique = true)
 	private String serialNumber;
 	
-	@Column(name = "item_code", length = 100)
+	@Column(name = "item_code", length = 100, unique = true)
 	private String itemCode;
 	
 	@Column(nullable = false)

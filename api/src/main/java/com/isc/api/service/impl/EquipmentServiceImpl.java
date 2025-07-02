@@ -71,6 +71,13 @@ public class EquipmentServiceImpl implements EquipmentService {
 	@Transactional
 	public ResponseDto<EquipmentDetailResponseDTO> save(EquipmentRequest request) {
 		EquipmentEntity equipment = new EquipmentEntity();
+		if (equipmentRepository.existsBySerialNumber(equipment.getSerialNumber())) {
+		    throw new IllegalArgumentException("Serial number already exists");
+		}
+
+		if (equipmentRepository.existsByItemCode(equipment.getItemCode())) {
+		    throw new IllegalArgumentException("Item code already exists");
+		}
 		EquipmentConditionEntity condition = conditionRepository.findById(request.getCondition())
 				.orElseThrow(() -> new RuntimeException("Estado del equipo no encontrado"));
 		CompanyEntity company = companyRepository.findById(request.getCompany())
@@ -98,18 +105,20 @@ public class EquipmentServiceImpl implements EquipmentService {
 		List<EquipmentCharacteristicEntity> characteristics = new ArrayList<>();
 		
 		for(EquipmentCharacteristicRequestDTO characteristRequest: request.getEquipmentCharacteristics()) {
-			characteristics.add(characteristService.saveForEquipment(characteristRequest));
+			characteristics.add(characteristService.saveForEquipment(characteristRequest, equipment));
 		}
 		
+        EquipmentStatusEntity statusAsignado = new EquipmentStatusEntity();
+        statusAsignado.setId(this.available);
+		
 		equipment.setCharacteristic(characteristics);
+		equipment.setEquipStatus(statusAsignado);
 		
 		equipment.setBrand(request.getBrand());
 		equipment.setModel(request.getModel());
 		equipment.setSerialNumber(request.getSerialNumber());
 		equipment.setItemCode(request.getItemCode());
 
-		
-		
 		// Guardamos el equipo
 		equipment = equipmentRepository.save(equipment);
 		
@@ -148,14 +157,15 @@ public class EquipmentServiceImpl implements EquipmentService {
 		
 		List<EquipmentCharacteristicEntity> characteristics = new ArrayList<>();
 		for(EquipmentCharacteristicRequestDTO characteristRequest: request.getEquipmentCharacteristics()) {
-			if(characteristRequest.getId()!=0 || characteristRequest.getId()!=null ) {
+			if( characteristRequest.getId()!=null  && characteristRequest.getId()!=0 ) {
 				characteristics.add(characteristService.updateForEntity(characteristRequest));
 			}else {
-				characteristics.add(characteristService.saveForEquipment(characteristRequest));
+				characteristics.add(characteristService.saveForEquipment(characteristRequest, equipment));
 			}
 			
 		}
-		equipment.setCharacteristic(characteristics);
+		equipment.getCharacteristic().clear();
+		equipment.getCharacteristic().addAll(characteristics);
 		
 		equipment.setBrand(request.getBrand());
 		equipment.setModel(request.getModel());

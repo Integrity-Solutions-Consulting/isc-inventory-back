@@ -1,5 +1,6 @@
 package com.isc.api.dto.response;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ public class EquipmentAssignmentDetailResponseDTO {
 	
 	private CompanyResponseDTO company;
 	
-	private LocalDateTime assigmentDate;
-	private LocalDateTime returnDate;
+	private LocalDate assignmentDate;
+	private LocalDate returnDate;
 	private boolean status;
 }

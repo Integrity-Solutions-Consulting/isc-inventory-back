@@ -3,6 +3,7 @@ package com.isc.api.controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,19 +42,19 @@ public class EquipmentController {
         return ResponseEntity.ok(equipmentService.getSimpleList());
     }
 
-    @PostMapping
-    public ResponseEntity<ResponseDto<EquipmentDetailResponseDTO>> create(
+    @PostMapping("/save")
+    public ResponseEntity<ResponseDto<EquipmentDetailResponseDTO>> save(
             @RequestBody EquipmentRequest request) {
         return ResponseEntity.ok(equipmentService.save(request));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<ResponseDto<EquipmentDetailResponseDTO>> update(
             @PathVariable Integer id,
             @RequestBody EquipmentRequest request) {
         return ResponseEntity.ok(equipmentService.update(request, id));
     }
-    @PutMapping("/{id}/changeStatus")
+    @PutMapping("/changeStatus/{id}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> changeStatus(
             @PathVariable("id") Integer idEquipo,
             @RequestBody Integer status) {
@@ -62,23 +63,23 @@ public class EquipmentController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/{id}/inactive")
+    @DeleteMapping("/inactive/{id}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> inactive(@PathVariable Integer id) {
         return ResponseEntity.ok(equipmentService.inactive(id));
     }
 
-    @PatchMapping("/{id}/active")
+    @PatchMapping("/activate/{id}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> active(@PathVariable Integer id) {
         return ResponseEntity.ok(equipmentService.active(id));
     }
     
-    @PutMapping("/{id}/setInvoice")
+    @PutMapping("/setInvoice/{id}")
     public ResponseEntity<ResponseDto<EquipmentDetailResponseDTO>> setInvoice(@PathVariable Integer id,
             @RequestBody InvoiceRequestDTO request) {
         return ResponseEntity.ok(equipmentService.setInvoice(id,request));
     }
     
-    @PutMapping("/{id}/setWarranty")
+    @PutMapping("/setWarranty/{id}")
     public ResponseEntity<ResponseDto<EquipmentDetailResponseDTO>> setWarranty(@PathVariable Integer id,
             @RequestBody WarrantTypeRequestDTO request) {
         return ResponseEntity.ok(equipmentService.setWarranty(id,request));

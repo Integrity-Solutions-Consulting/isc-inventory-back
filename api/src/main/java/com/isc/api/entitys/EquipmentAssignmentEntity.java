@@ -1,5 +1,6 @@
 package com.isc.api.entitys;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -33,10 +34,10 @@ public class EquipmentAssignmentEntity {
     private EquipmentEntity equipment;
 	
 	@Column(name = "assignment_date")
-	private LocalDateTime assignmentDate;
+	private LocalDate assignmentDate;
 	
 	@Column(name = "return_date")
-	private LocalDateTime returnDate;
+	private LocalDate returnDate;
 	
 	@Column(nullable = false)
 	private Boolean status = true;

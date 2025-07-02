@@ -14,6 +14,7 @@ import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
 import com.isc.api.entitys.ComponentTypeEntity;
 import com.isc.api.entitys.EquipmentCharacteristicEntity;
+import com.isc.api.entitys.EquipmentEntity;
 import com.isc.api.mapper.EquipmentCharacteristicMapper;
 import com.isc.api.repository.ComponentTypeRepository;
 import com.isc.api.repository.EquipmentCharacteristicRepository;
@@ -64,13 +65,14 @@ public class EquipmentCharacteristicServiceImpl implements EquipmentCharacterist
     }
     
     @Override
-    public EquipmentCharacteristicEntity saveForEquipment(EquipmentCharacteristicRequestDTO request) {
+    public EquipmentCharacteristicEntity saveForEquipment(EquipmentCharacteristicRequestDTO request, EquipmentEntity equipment) {
         ComponentTypeEntity component = componentRepository.findById(request.getComponent())
                 .orElseThrow(() -> new RuntimeException("Componente no encontrado"));
 
         EquipmentCharacteristicEntity entity = new EquipmentCharacteristicEntity();
         entity.setDescription(request.getDescription());
         entity.setComponent(component);
+        entity.setEquipo(equipment);
         return entity;
     }
     

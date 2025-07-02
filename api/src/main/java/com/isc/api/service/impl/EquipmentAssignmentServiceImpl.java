@@ -1,5 +1,6 @@
 package com.isc.api.service.impl;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -101,13 +102,13 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
 
     @Override
     @Transactional
-    public ResponseDto<EquipmentAssignmentDetailResponseDTO> revoke(EquipmentAssignmentRequestDTO request, Integer id) {
+    public ResponseDto<EquipmentAssignmentDetailResponseDTO> revoke(Integer id) {
         Optional<EquipmentAssignmentEntity> existingOpt = assignmentRepository.findById(id);
         if (existingOpt.isEmpty()) {
         	throw new RuntimeException("Asignacion no encontrada");
         }
         EquipmentAssignmentEntity assignment = existingOpt.get();
-        assignment.setReturnDate(LocalDateTime.now());
+        assignment.setReturnDate(LocalDate.now());
         EquipmentStatusEntity statusAvailable = new EquipmentStatusEntity();
         statusAvailable.setId(this.idAvailable);
         EquipmentEntity equipment = assignment.getEquipment();

@@ -48,6 +48,9 @@ public class EquipmentMapper {
         dto.setCompanyId(entity.getCompany() != null ? entity.getCompany().getId() : null);
         dto.setCompanyName(entity.getCompany() != null ? entity.getCompany().getName() : null);
         
+        dto.setEquipmentConditionId(entity.getCondition().getId());
+        dto.setEquipmentConditionName(entity.getCondition().getConditionType());
+        
         List<EquipmentCharacteristicResponseDTO> characteristics = new ArrayList<>();
         for(EquipmentCharacteristicEntity rq : entity.getCharacteristic()) {
         	characteristics.add(EquipmentCharacteristicMapper.toSimpleDto(rq));

@@ -16,7 +16,7 @@ import com.isc.api.service.EquipmentAssignmentService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/equipment-assignments")
+@RequestMapping("/api/v1/equipment-assignment")
 public class EquipmentAssignmentController {
 
     @Autowired
@@ -38,11 +38,10 @@ public class EquipmentAssignmentController {
         return ResponseEntity.ok(assignmentService.assign(request));
     }
 
-    @PutMapping("/{id}/revoke")
+    @PutMapping("/revoke/{id}")
     public ResponseEntity<ResponseDto<EquipmentAssignmentDetailResponseDTO>> revoke(
-            @PathVariable Integer id,
-           @Valid@RequestBody EquipmentAssignmentRequestDTO request) {
-        return ResponseEntity.ok(assignmentService.revoke(request, id));
+            @PathVariable Integer id) {
+        return ResponseEntity.ok(assignmentService.revoke(id));
     }
 
     // Desactivar asignación

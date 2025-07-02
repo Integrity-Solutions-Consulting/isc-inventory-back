@@ -22,7 +22,7 @@ import com.isc.api.service.EquipmentCategoryService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/equipment-categories")
+@RequestMapping("/api/v1/equipment-categories")
 @RequiredArgsConstructor
 public class EquipmentCategoryController {
 

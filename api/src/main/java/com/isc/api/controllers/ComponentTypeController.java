@@ -36,7 +36,7 @@ public class ComponentTypeController
     }
 
     // Actualiza el componente
-    @PutMapping("/Update")
+    @PutMapping("/update")
     public ResponseEntity<ResponseDto<ComponentTypeDetailResponseDTO>> updateComponentType(
             @Valid @RequestBody ComponentTypeRequestDTO request,
             @PathVariable Integer id) {
@@ -44,7 +44,7 @@ public class ComponentTypeController
     }
 
     // Obtiene lista detallada
-    @GetMapping("/Details")
+    @GetMapping("/details")
     public ResponseEntity<ResponseDto<List<ComponentTypeDetailResponseDTO>>> getAllDetails() {
         return ResponseEntity.ok(componentTypeService.getAllDetails());
     }

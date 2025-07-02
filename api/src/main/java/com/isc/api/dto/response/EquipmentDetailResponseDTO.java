@@ -17,6 +17,9 @@ public class EquipmentDetailResponseDTO {
 
     private Integer equipmentStatusId;
     private String equipmentStatusName;
+    
+    private Integer equipmentConditionId;
+    private String equipmentConditionName;
 
     private Integer categoryId;
     private String categoryName;

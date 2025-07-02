@@ -1,5 +1,6 @@
 package com.isc.api.dto.request;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.FutureOrPresent;
@@ -20,5 +21,5 @@ public class EquipmentAssignmentRequestDTO {
 	private Integer equipment;
     
     @FutureOrPresent(message = "La fecha de asignación debe ser en el presente o en el futuro")
-	private LocalDateTime assigmentDate;
+	private LocalDate assigmentDate;
 }
