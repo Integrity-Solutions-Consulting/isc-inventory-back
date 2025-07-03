@@ -1,0 +1,52 @@
+# flyctl launch added from api/.gitignore
+# Directorios de compilación y target de Maven/Gradle
+api/target
+api/build
+
+# Archivos de configuración y metadata de Eclipse
+api/.classpath
+api/.project
+api/.settings
+
+# Archivos de configuración y metadata de IntelliJ IDEA (por si usas otro IDE)
+api/.idea
+api/*.iml
+
+# Logs
+api/**/*.log
+
+# Archivos temporales
+api/**/*.tmp
+api/**/*.bak
+api/**/*.swp
+
+# Archivos de sistema (Windows, macOS, Linux)
+api/**/.DS_Store
+api/**/Thumbs.db
+
+# flyctl launch added from auth/.gitignore
+# Directorios de compilación y target de Maven/Gradle
+auth/target
+auth/build
+
+# Archivos de configuración y metadata de Eclipse
+auth/.classpath
+auth/.project
+auth/.settings
+
+# Archivos de configuración y metadata de IntelliJ IDEA (por si usas otro IDE)
+auth/.idea
+auth/*.iml
+
+# Logs
+auth/**/*.log
+
+# Archivos temporales
+auth/**/*.tmp
+auth/**/*.bak
+auth/**/*.swp
+
+# Archivos de sistema (Windows, macOS, Linux)
+auth/**/.DS_Store
+auth/**/Thumbs.db
+fly.toml
