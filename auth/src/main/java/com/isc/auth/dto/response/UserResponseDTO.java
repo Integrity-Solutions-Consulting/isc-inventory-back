@@ -23,4 +23,5 @@ public class UserResponseDTO {
 	private boolean suspended;
 	private Set<RolesResponseDTO> roles;
 	private Set<PrivilegeResponseDTO> privileges;
+	private Set<MenuResponseDTO> menus;
 }

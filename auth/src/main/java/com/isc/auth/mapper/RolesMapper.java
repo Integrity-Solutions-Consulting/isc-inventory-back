@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.boot.actuate.autoconfigure.wavefront.WavefrontProperties.Application;
+
 import com.isc.auth.dto.response.MenuResponseDTO;
 import com.isc.auth.dto.response.PrivilegeResponseDTO;
 import com.isc.auth.dto.response.RoleDetailsResponseDTO;
@@ -19,14 +21,24 @@ public class RolesMapper {
 	 public static RolesResponseDTO toDto(RolesEntity entity) {
 	        if (entity == null) return null;
 	        Set<PrivilegeResponseDTO> privileges = entity.getRolesPrivilegies().stream()
+	        		.filter(PrivilegeRoleEntity::getActive)
 	                .map(PrivilegeRoleEntity::getPrivilege)
 	                .map(PrivilegeMapper::toDto)
+	                .collect(Collectors.toSet());
+	        Set<MenuResponseDTO> menus = entity.getRoleMenus().stream()
+	        		.filter(MenuRoleEntity::getActive)
+	                .map(MenuRoleEntity::getMenu)
+	                .map(MenuMapper::toDto)
 	                .collect(Collectors.toSet());
 	        return new RolesResponseDTO(
 	            entity.getId(),
 	            entity.getName(),
+	            entity.getDescription(),
 	            entity.isActive(),
-	            privileges
+	            privileges,
+	            menus,
+	            entity.getApplicationId(),
+	            entity.getCreationDate()
 	        );
 	    }
 	 
@@ -44,15 +56,19 @@ public class RolesMapper {
 		            .map(MenuRoleEntity::getMenu)
 		            .collect(Collectors.toList());
 		    
+		    
 		    // Construir árbol de menús
 		    List<MenuResponseDTO> menuTree = MenuMapper.toDtoTree(menuEntities);
 		    
 		    return new RoleDetailsResponseDTO(
 		        entity.getId(),
 		        entity.getName(),
+		        entity.getDescription(),
 		        entity.isActive(),
 		        privileges,
-		        new LinkedHashSet<>(menuTree)
+		        new LinkedHashSet<>(menuTree),
+		        entity.getApplicationId(),
+		        entity.getCreationDate()
 		    );
 		}
 }

@@ -1,5 +1,6 @@
 package com.isc.auth.dto.response;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import lombok.AllArgsConstructor;
@@ -12,7 +13,10 @@ import lombok.NoArgsConstructor;
 public class RoleDetailsResponseDTO {
 	private Integer id;
 	private String nombre;
+	private String description;
 	private boolean active;
 	private Set<PrivilegeResponseDTO> rolePrivileges;
 	private Set<MenuResponseDTO> roleMenus;
+	private Integer applicationId;
+	private LocalDateTime creationDate;
 }
