@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isc.dto.request.EquipmentRepairRequestDTO;
 import com.isc.dto.response.EquipmentRepairDetailResponseDTO;
@@ -23,9 +24,6 @@ import com.isc.repository.EquipmentRepairRepository;
 import com.isc.repository.EquipmentRepository;
 import com.isc.repository.EquipmentStatusRepository;
 import com.isc.service.EquipmentRepairService;
-
-import jakarta.transaction.Transactional;
-
 import org.springframework.http.HttpStatus;
 
 @Service
@@ -44,6 +42,7 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
     private EquipmentCategoryStockRepository categoryStockRepository; 
     
 	private final Integer available= 1;
+	private final Integer rapairing= 3;
 	
 	
     @Override
@@ -63,7 +62,7 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
             return new ResponseDto<>(null, repairmessage);
         }
         
-        if (equipment.getEquipStatus() != null && equipment.getEquipStatus().getId() == 3)
+        if (equipment.getEquipStatus() != null && equipment.getEquipStatus().getId() == rapairing)
         {
         	MetadataResponseDto repairmessage = new MetadataResponseDto
             		(
@@ -74,14 +73,10 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
         }
     
         // 2. Buscar o crear el estado "EN_REPARACION"
-        EquipmentStatusEntity repairStatus = statusRepository.findByName("EN_REPARACION")
-            .orElseGet(() -> {
-                EquipmentStatusEntity newStatus = new EquipmentStatusEntity();
-                newStatus.setName("EN_REPARACION");
-                newStatus.setStatus(true);
-                newStatus.setCreationDate(LocalDateTime.now());
-                return statusRepository.save(newStatus);
-            });
+        
+        EquipmentStatusEntity repairStatus = new EquipmentStatusEntity();
+        repairStatus.setId(rapairing);
+       
 
         // 3. Asignar el estado al equipo y guardar
         equipment.setEquipStatus(repairStatus);
@@ -146,7 +141,7 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
             .orElseThrow(() -> new RuntimeException("Equipo no encontrado con ID: " + request.getEquipment()));
 
         // 3. Validar que el equipo esté EN_REPARACION (3)
-        if (equipment.getEquipStatus() == null || !equipment.getEquipStatus().getId().equals(3)) 
+        if (equipment.getEquipStatus() == null && !equipment.getEquipStatus().getId().equals(3)) 
         {
             MetadataResponseDto metadata = new MetadataResponseDto(
                 HttpStatus.BAD_REQUEST,

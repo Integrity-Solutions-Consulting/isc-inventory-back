@@ -15,7 +15,7 @@ import com.isc.entitys.EquipmentConditionEntity;
 @Repository
 public interface EquipmentConditionRepository extends JpaRepository<EquipmentConditionEntity, Integer>{
 	List<EquipmentConditionEntity> findAllByStatusTrue();
-	Optional<EquipmentConditionEntity> findByConditionType(String conditionType);
+	Optional<EquipmentConditionEntity> findByName(String name);
 	
 	@Modifying
 	@Transactional

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EquipmentConditionResponseDTO {
     private Integer id;
-    private String conditionType;
+    private String name;
     private Boolean status;
     private LocalDateTime creationDate;
     private LocalDateTime modificationDate;

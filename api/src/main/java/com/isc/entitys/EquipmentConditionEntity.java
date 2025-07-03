@@ -23,7 +23,7 @@ public class EquipmentConditionEntity {
 	private Integer id;
 	
 	@Column(length = 255)
-	private String conditionType;
+	private String name;
 	
 	@Column(nullable = false)
 	private Boolean status = true;
