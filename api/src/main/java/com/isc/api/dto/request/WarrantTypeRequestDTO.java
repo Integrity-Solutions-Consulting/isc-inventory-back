@@ -33,7 +33,7 @@ public class WarrantTypeRequestDTO {
     
 	@NotBlank(message = "El contacto de soporte no puede estar vacío")
     @Size(max = 100, message = "El contacto de soporte no debe superar los 100 caracteres")
-	private String SupportContact;
+	private String supportContact;
     
 	@NotNull(message = "El estado de la garantía es obligatorio")
 	private boolean warrantyStatus;

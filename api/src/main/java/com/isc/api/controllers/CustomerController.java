@@ -10,6 +10,7 @@ import com.isc.api.service.CustomerService;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,25 +42,25 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.getSimpleList());
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<ResponseDto<CustomerDetailResponseDTO>> createCustomer(
             @Valid @RequestBody CustomerRequestDTO request) {
         return ResponseEntity.ok(customerService.save(request));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<ResponseDto<CustomerDetailResponseDTO>> updateCustomer(
             @PathVariable Integer id,
             @Valid @RequestBody CustomerRequestDTO request) {
         return ResponseEntity.ok(customerService.update(request, id));
     }
 
-    @PatchMapping("/{id}/deactivate")
+    @DeleteMapping("/inactive/{id}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> deactivateCustomer(@PathVariable Integer id) {
         return ResponseEntity.ok(customerService.inactive(id));
     }
 
-    @PatchMapping("/{id}/activate")
+    @PatchMapping("/activate/{id}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> activateCustomer(@PathVariable Integer id) {
         return ResponseEntity.ok(customerService.active(id));
     }

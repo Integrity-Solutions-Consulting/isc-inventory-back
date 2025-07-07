@@ -19,11 +19,11 @@ public interface EquipmentRepository extends JpaRepository<EquipmentEntity, Inte
 
 	@EntityGraph(attributePaths = { "invoice", "condition", "equipStatus", "category", "warranty", "company",
 			"characteristic" })
-	List<EquipmentEntity> findAll();
+	List<EquipmentEntity> findAllByOrderByStatusDesc();
 
 	@Modifying
 	@Transactional
-	@Query("UPDATE EquipmentEntity u SET u.status=false, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.status = true")
+	@Query("UPDATE EquipmentEntity u SET u.status=false, u.equipStatus.id = 8, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.status = true")
 	int inactive(@Param("id") Integer id);
 
 	@Modifying
