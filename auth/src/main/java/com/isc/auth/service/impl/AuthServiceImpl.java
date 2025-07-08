@@ -31,6 +31,7 @@ import com.isc.auth.repository.RolesRepository;
 import com.isc.auth.repository.UserRepository;
 import com.isc.auth.security.JwtService;
 import com.isc.auth.service.AuthService;
+import com.isc.auth.service.EmailService;
 import com.isc.auth.utils.PasswordGenerator;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
@@ -49,6 +50,7 @@ public class AuthServiceImpl implements AuthService {
 	private final PasswordEncoder encoder;
 	private final JwtService jwtService;
 
+	private final EmailService emailService;
 	@Override
 	@Transactional
 	public ResponseDto<UserRegisterResponseDTO> register(UserRequestoDTO request) {
@@ -112,6 +114,11 @@ public class AuthServiceImpl implements AuthService {
 		savedUser.getUserMenus().clear();
 		savedUser.getUserMenus().addAll(userMenus);
 		savedUser = userRepository.save(savedUser);
+		
+		emailService.sendUserCreatedEmail(user.getEmail(), password);
+		
+
+		
 
 		UserRegisterResponseDTO responseDTO = UserRegisterMapper.toDto(savedUser, password);
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED, "Usuario registrado correctamente");
@@ -119,17 +126,24 @@ public class AuthServiceImpl implements AuthService {
 		return new ResponseDto<>(responseDTO, metadata);
 	}
 
-	public ResponseDto<TokenResponseDTO> generateTokenForgotPassword(String email) {
+	@Transactional
+	public ResponseDto<MessageResponseDTO> generateTokenForgotPassword(String email) {
 		UserEntity user = userRepository.findByEmail(email)
 				.orElseThrow(() -> new RuntimeException("email no encontrado"));
 		user.setRequestPasswordChange(true);
 		userRepository.save(user);
-		TokenResponseDTO token = new TokenResponseDTO(jwtService.generatePasswordResetToken(email));
+		emailService.sendForgotPasswordEmail(email, jwtService.generatePasswordResetToken(email));
+		MessageResponseDTO message = new MessageResponseDTO("Si el correo existe , recibiras un enlace para recuoerrar tu cuenta");
+		
+		
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED,
 				"Solicitud de recuperacion de contraseña procesada correctamente");
-		return new ResponseDto<>(token, metadata);
+		return new ResponseDto<>(message, metadata);
+		
+		
 	}
 
+	
 	public ResponseDto<MessageResponseDTO> validateTokenForgotPassword(String token) {
 		if (jwtService.isTokenValid(token) && jwtService.isPasswordResetToken(token)) {
 			String email = jwtService.extractUsername(token);
@@ -141,6 +155,7 @@ public class AuthServiceImpl implements AuthService {
 		throw new IllegalArgumentException("Token inválido o expirado");
 	}
 
+	@Transactional
 	public ResponseDto<Boolean> restorePassword(String token, PasswordChangeRequestDTO request) {
 		if (jwtService.isTokenValid(token) && jwtService.isPasswordResetToken(token)) {
 			String email = jwtService.extractUsername(token);
