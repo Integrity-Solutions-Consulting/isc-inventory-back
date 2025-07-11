@@ -21,7 +21,7 @@ public class InvoiceDetailResponseDTO {
 	private BigDecimal discount;
 	private BigDecimal total;
 	private boolean status;
-	private LocalDateTime cretionDate;
+	private LocalDateTime creationDate;
 	private LocalDateTime modificationDate;
 	
 }

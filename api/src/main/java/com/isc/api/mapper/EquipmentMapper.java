@@ -37,7 +37,8 @@ public class EquipmentMapper {
         if(entity.getInvoice()!=null) {
         	 dto.setInvoice(entity.getInvoice().getId());
         }
-
+        
+        dto.setWarranty(entity.getWarranty()!=null ? entity.getWarranty().getId() : null);
         dto.setEquipmentStatusId(entity.getEquipStatus() != null ? entity.getEquipStatus().getId() : null);
         dto.setEquipmentStatusName(entity.getEquipStatus() != null ? entity.getEquipStatus().getName() : null);
 
