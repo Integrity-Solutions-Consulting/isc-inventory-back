@@ -39,7 +39,7 @@ public class EquipmentConditionServiceImpl implements EquipmentConditionService 
     @Override
     public ResponseDto<EquipmentConditionResponseDTO> save(EquipmentConditionRequestDTO request) {
         EquipmentConditionEntity entity = new EquipmentConditionEntity();
-        entity.setConditionType(request.getConditionType());
+        entity.setName(request.getName());
         entity.setStatus(true);
         entity.setCreationDate(java.time.LocalDateTime.now());
         EquipmentConditionEntity saved = repository.save(entity);
@@ -53,7 +53,7 @@ public class EquipmentConditionServiceImpl implements EquipmentConditionService 
         EquipmentConditionEntity entity = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Condición no encontrada con ID: " + id));
 
-        entity.setConditionType(request.getConditionType());
+        entity.setName(request.getName());
         entity.setModificationDate(java.time.LocalDateTime.now());
 
         EquipmentConditionEntity updated = repository.save(entity);

@@ -47,7 +47,7 @@ public class AuthController {
 	}
 	
 	@GetMapping("/forgotPassword/request/{email}")
-	public ResponseEntity<ResponseDto<TokenResponseDTO>> generateTokenForgotPassword(@PathVariable String email) {
+	public ResponseEntity<ResponseDto<MessageResponseDTO>> generateTokenForgotPassword(@PathVariable String email) {
 		return ResponseEntity.ok(service.generateTokenForgotPassword(email));
 	}
 	

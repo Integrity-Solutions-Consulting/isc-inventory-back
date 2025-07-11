@@ -10,7 +10,8 @@ import com.isc.dtos.ResponseDto;
 import com.isc.api.entitys.EquipmentCharacteristicEntity;
 import com.isc.api.entitys.EquipmentEntity;
 
-public interface EquipmentCharacteristicService {
+public interface EquipmentCharacteristicService 
+{
 	public ResponseDto<List<EquipmentCharacteristicDetailResponseDTO>> getAllDetails();
 	public ResponseDto<List<EquipmentCharacteristicResponseDTO>> getSimpleList();
 	public ResponseDto<EquipmentCharacteristicDetailResponseDTO> save(EquipmentCharacteristicRequestDTO request);

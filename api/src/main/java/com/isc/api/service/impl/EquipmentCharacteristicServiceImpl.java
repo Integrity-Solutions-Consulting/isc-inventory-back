@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import com.isc.api.dto.request.EquipmentCharacteristicRequestDTO;
 import com.isc.api.dto.response.EquipmentCharacteristicDetailResponseDTO;
 import com.isc.api.dto.response.EquipmentCharacteristicResponseDTO;
@@ -72,6 +71,7 @@ public class EquipmentCharacteristicServiceImpl implements EquipmentCharacterist
         EquipmentCharacteristicEntity entity = new EquipmentCharacteristicEntity();
         entity.setDescription(request.getDescription());
         entity.setComponent(component);
+
         entity.setEquipo(equipment);
         return entity;
     }

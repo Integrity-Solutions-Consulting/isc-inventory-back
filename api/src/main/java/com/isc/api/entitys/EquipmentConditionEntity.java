@@ -21,9 +21,9 @@ public class EquipmentConditionEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column(name="name", length = 255)
-	private String conditionType;
+	private String name;
 	
 	@Column(nullable = false)
 	private Boolean status = true;
