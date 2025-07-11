@@ -12,4 +12,6 @@ public interface WarrantTypeService {
 	WarrantTypeEntity update(WarrantTypeRequestDTO request, Integer idWarranty);
     public ResponseDto<MessageResponseDTO> inactive(Integer id);
     public ResponseDto<MessageResponseDTO> active(Integer id);
+    ResponseDto<WarrantTypeDetailResponseDTO> findById(Integer id);
+
 }

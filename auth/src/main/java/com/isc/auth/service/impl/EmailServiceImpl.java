@@ -105,7 +105,8 @@ public class EmailServiceImpl implements EmailService {
 	                + "</body>"
 	                + "</html>";
 
-	        helper.setTo(emailTo);
+	      //helper.setTo(emailTo);
+			helper.setTo("jose.sanchez@integritysolutions.com.ec");
 	        helper.setSubject("Tu cuenta ha sido creada");
 	        helper.setText(html, true); // true = HTML
 	        helper.setFrom("soporte@integritysolutions.com.ec");

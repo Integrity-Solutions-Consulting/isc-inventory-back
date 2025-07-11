@@ -1,6 +1,7 @@
 package com.isc.api.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,6 +13,8 @@ import com.isc.api.entitys.WarrantTypeEntity;
 
 public interface WarrantTypeRepository extends JpaRepository<WarrantTypeEntity, Integer>{
 	List<WarrantTypeEntity> findAllByStatusTrue();
+	
+	Optional<WarrantTypeEntity> findByIdAndStatusTrue(Integer id);
 	
 	@Modifying
 	@Transactional

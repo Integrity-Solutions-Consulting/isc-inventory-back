@@ -21,6 +21,5 @@ public class WarrantTypeDetailResponseDTO {
 	private String SupportContact;
 	private boolean warrantyStatus;
 	private boolean status;
-	private LocalDateTime cretionDate;
-	private LocalDateTime modificationDate;
+
 }

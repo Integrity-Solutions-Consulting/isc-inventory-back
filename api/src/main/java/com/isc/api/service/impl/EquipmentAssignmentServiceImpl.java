@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.isc.api.dto.request.EquipmentAssignmentRequestDTO;
+import com.isc.api.dto.request.EquipmentRevokeRequestDTO;
 import com.isc.api.dto.response.EquipmentAssignmentDetailResponseDTO;
 import com.isc.api.dto.response.EquipmentAssignmentResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
@@ -102,13 +103,21 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
 
     @Override
     @Transactional
-    public ResponseDto<EquipmentAssignmentDetailResponseDTO> revoke(Integer id) {
+    public ResponseDto<EquipmentAssignmentDetailResponseDTO> revoke(Integer id, EquipmentRevokeRequestDTO request) 
+    {
         Optional<EquipmentAssignmentEntity> existingOpt = assignmentRepository.findById(id);
         if (existingOpt.isEmpty()) {
         	throw new RuntimeException("Asignacion no encontrada");
         }
         EquipmentAssignmentEntity assignment = existingOpt.get();
-        assignment.setReturnDate(LocalDate.now());
+        LocalDate returnDate = request != null ? request.getRevokeDate() : null;
+        
+        if (returnDate != null && returnDate.isBefore(LocalDate.now())) 
+        {
+            throw new IllegalArgumentException("La fecha de revocación no puede ser anterior a la fecha actual");
+        }
+        
+        assignment.setReturnDate(returnDate !=null? returnDate:LocalDate.now());
         EquipmentStatusEntity statusAvailable = new EquipmentStatusEntity();
         statusAvailable.setId(this.idAvailable);
         EquipmentEntity equipment = assignment.getEquipment();

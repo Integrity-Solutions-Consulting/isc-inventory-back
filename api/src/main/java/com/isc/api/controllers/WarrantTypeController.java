@@ -28,15 +28,22 @@ import java.util.List;
 public class WarrantTypeController {
 
     private final WarrantTypeService warrantTypeService;
-
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseDto<WarrantTypeDetailResponseDTO>> getById(@PathVariable Integer id) 
+    {
+        return ResponseEntity.ok(warrantTypeService.findById(id));
+    }
 
     @PatchMapping("/inactive/{id}")
-    public ResponseEntity<ResponseDto<MessageResponseDTO>> inactive(@PathVariable Integer id) {
+    public ResponseEntity<ResponseDto<MessageResponseDTO>> inactive(@PathVariable Integer id) 
+    {
         return ResponseEntity.ok(warrantTypeService.inactive(id));
     }
 
     @PatchMapping("/active/{id}")
-    public ResponseEntity<ResponseDto<MessageResponseDTO>> active(@PathVariable Integer id) {
+    public ResponseEntity<ResponseDto<MessageResponseDTO>> active(@PathVariable Integer id) 
+    {
         return ResponseEntity.ok(warrantTypeService.active(id));
     }
 }

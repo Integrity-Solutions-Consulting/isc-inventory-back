@@ -19,7 +19,6 @@ public class EquipmentRequest
     
 	private Integer categoryId;
 	
-	@NotBlank
 	private String categoryName;
     
 	@NotNull(message = "La empresa es obligatoria")

@@ -85,7 +85,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		equipment.setCondition(condition);
 		equipment.setCompany(company);
 		
-		if(request.getCategoryId()!=0) {
+		if(request.getCategoryId()!=null && request.getCategoryId()!=0) {
 			EquipmentCategoryEntity category = categoryRepository.findById(request.getCategoryId())
 					.orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
 			this.upStock(category.getStock());
@@ -94,12 +94,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 		}else {
 			EquipmentCategoryEntity category = new EquipmentCategoryEntity();
 			category.setName(request.getCategoryName());
-			category = categoryRepository.save(category);
-			equipment.setCategory(category);
 			EquipmentCategoryStockEntity stock = new EquipmentCategoryStockEntity();
 			stock.setCategory(category);
 			stock.setStock(1);
-			categoryStockRepository.save(stock);
+			category.setStock(stock);
+			category = categoryRepository.save(category);
+			equipment.setCategory(category);
 		}
 		
 		List<EquipmentCharacteristicEntity> characteristics = new ArrayList<>();
@@ -257,7 +257,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	public ResponseDto<EquipmentDetailResponseDTO> setWarranty(Integer idEquip, WarrantTypeRequestDTO request){
 		EquipmentEntity equipment = equipmentRepository.findById(idEquip)
 				.orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
-		if(request.getId()!=0 || request.getId()!=null) {
+		if(request.getId()!=null && request.getId()!=0 ) {
 			WarrantTypeEntity warranty = warrantyService.update(request,request.getId());
 			equipment.setWarranty(warranty);
 		}else {
