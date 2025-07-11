@@ -1,5 +1,6 @@
 package com.isc.api.dto.response;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ public class InvoiceResponseDTO {
 	private Integer id;
 	private Integer invoiceDetail;
 	private Integer supplier;
-	private LocalDateTime invoiceDate;
+	private LocalDate invoiceDate;
 	private String invoiceNumber;
 	
 }

@@ -12,7 +12,6 @@ public class InvoiceDetailMapper {
         	return null;        
         return new InvoiceDetailEntityResponseDTO(
             entity.getId(),
-            entity.getCategory() != null ? entity.getCategory().getId() : null,
             entity.getDescription(),
             entity.getUnitPrice(),
             entity.getQuantity(),
@@ -27,7 +26,6 @@ public class InvoiceDetailMapper {
         
         return new InvoiceDetailEntityDetailResponseDTO(
             entity.getId(),
-            entity.getCategory() != null ? entity.getCategory().getId() : null,
             entity.getDescription(),
             entity.getUnitPrice(),
             entity.getQuantity(),

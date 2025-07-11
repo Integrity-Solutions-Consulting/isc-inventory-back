@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.isc.api.dto.request.EquipmentAssignmentRequestDTO;
+import com.isc.api.dto.request.EquipmentRevokeRequestDTO;
 import com.isc.api.dto.response.EquipmentAssignmentDetailResponseDTO;
 import com.isc.api.dto.response.EquipmentAssignmentResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
@@ -40,8 +41,9 @@ public class EquipmentAssignmentController {
 
     @PutMapping("/revoke/{id}")
     public ResponseEntity<ResponseDto<EquipmentAssignmentDetailResponseDTO>> revoke(
-            @PathVariable Integer id) {
-        return ResponseEntity.ok(assignmentService.revoke(id));
+    		@PathVariable Integer id,
+            @Valid@RequestBody EquipmentRevokeRequestDTO  request) {
+        return ResponseEntity.ok(assignmentService.revoke(id,request));
     }
 
     // Desactivar asignación

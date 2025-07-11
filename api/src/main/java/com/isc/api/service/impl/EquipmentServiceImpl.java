@@ -237,7 +237,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	public ResponseDto<EquipmentDetailResponseDTO> setInvoice(Integer idEquipo,InvoiceRequestDTO request){
 		EquipmentEntity equipment = equipmentRepository.findById(idEquipo)
 				.orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
-		if(request.getId()!=0 || request.getId()!=null) {
+		if(request.getId()!=null && request.getId()!=0 ) {
 			InvoiceEntity invoice = invoiceService.update(request,request.getId());
 			invoice.getInvoiceDetail().setCategory(equipment.getCategory());
 			equipment.setInvoice(invoice);
