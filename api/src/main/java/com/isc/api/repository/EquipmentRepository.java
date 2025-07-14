@@ -1,6 +1,7 @@
 package com.isc.api.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,6 +21,9 @@ public interface EquipmentRepository extends JpaRepository<EquipmentEntity, Inte
 	@EntityGraph(attributePaths = { "invoice", "condition", "equipStatus", "category", "warranty", "company",
 			"characteristic" })
 	List<EquipmentEntity> findAllByOrderByStatusDesc();
+	
+	@EntityGraph(attributePaths = { "invoice", "condition", "equipStatus", "category", "warranty", "company", "characteristic" })
+	Optional<EquipmentEntity> findWithAllDetailsById(Integer id);
 
 	@Modifying
 	@Transactional

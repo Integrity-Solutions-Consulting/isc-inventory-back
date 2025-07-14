@@ -41,6 +41,12 @@ public class EquipmentController {
     public ResponseEntity<ResponseDto<List<EquipmentResponseDTO>>> getSimpleList() {
         return ResponseEntity.ok(equipmentService.getSimpleList());
     }
+    
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<ResponseDto<EquipmentDetailResponseDTO>> getFullDetailById(@PathVariable Integer id) {
+        ResponseDto<EquipmentDetailResponseDTO> response = equipmentService.getFullEquipmentDetailById(id);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("/save")
     public ResponseEntity<ResponseDto<EquipmentDetailResponseDTO>> save(

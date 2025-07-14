@@ -19,7 +19,6 @@ import com.isc.api.dto.response.MessageResponseDTO;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
 import com.isc.api.entitys.*;
-import com.isc.api.mapper.EquipmentCategoryMapper;
 import com.isc.api.mapper.EquipmentMapper;
 import com.isc.api.repository.*;
 import com.isc.api.service.EquipmentCharacteristicService;
@@ -27,6 +26,7 @@ import com.isc.api.service.EquipmentService;
 import com.isc.api.service.InvoiceService;
 import com.isc.api.service.WarrantTypeService;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -57,6 +57,18 @@ public class EquipmentServiceImpl implements EquipmentService {
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipos listados correctamente");
 		return new ResponseDto<>(response, metadata);
 	}
+	
+	@Override
+	public ResponseDto<EquipmentDetailResponseDTO> getFullEquipmentDetailById(Integer id) {
+	    EquipmentEntity entity = equipmentRepository.findWithAllDetailsById(id)
+	            .orElseThrow(() -> new EntityNotFoundException("Equipo no encontrado con ID: " + id));
+
+	    EquipmentDetailResponseDTO response = EquipmentMapper.toDetailDtoFull(entity);
+	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Detalles completos del equipo obtenidos correctamente");
+
+	    return new ResponseDto<>(response, metadata);
+	}
+
 
 	@Override
 	public ResponseDto<List<EquipmentResponseDTO>> getSimpleList() {
@@ -262,7 +274,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 			WarrantTypeEntity warranty = warrantyService.update(request,request.getId());
 			equipment.setWarranty(warranty);
 		} else {
-			WarrantTypeEntity warranty = warrantyService.save(request);
+			WarrantTypeEntity warranty = warrantyService.save(request, equipment);
 			equipment.setWarranty(warranty);
 		}
 

@@ -16,6 +16,8 @@ import com.isc.api.mapper.WarrantTypeMapper;
 import com.isc.api.repository.EquipmentRepository;
 import com.isc.api.repository.WarrantTypeRepository;
 import com.isc.api.service.WarrantTypeService;
+import com.isc.api.entitys.EquipmentEntity;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,14 +28,14 @@ public class WarrantTypeServiceImpl implements WarrantTypeService {
     private final WarrantTypeRepository warrantTypeRepository;
     private final EquipmentRepository equipmentRepository;
 
-
     @Override
-    public WarrantTypeEntity save(WarrantTypeRequestDTO request) {
+    public WarrantTypeEntity save(WarrantTypeRequestDTO request, EquipmentEntity equipment) {
         WarrantTypeEntity entity = new WarrantTypeEntity();
         entity.setConditions(request.getConditions());
         entity.setWarrantyStartDate(request.getWarrantyStartDate());
         entity.setWarrantyEndDate(request.getWarrantyEndDate());
         entity.setSupportContact(request.getSupportContact());
+        entity.setEquipment(equipment);
 
         return entity;
     }

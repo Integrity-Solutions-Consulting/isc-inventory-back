@@ -20,4 +20,6 @@ public interface EquipmentService {
     ResponseDto<MessageResponseDTO> changeStatus(Integer idEquipo, Integer newStatus);
     ResponseDto<EquipmentDetailResponseDTO> setInvoice(Integer idEquipo,InvoiceRequestDTO request);
     ResponseDto<EquipmentDetailResponseDTO> setWarranty(Integer idEquip, WarrantTypeRequestDTO request);
+    ResponseDto<EquipmentDetailResponseDTO> getFullEquipmentDetailById(Integer id);
+
 }

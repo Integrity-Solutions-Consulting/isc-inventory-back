@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/warrant-types")
+@RequestMapping("/api/v1/warranty-types")
 @RequiredArgsConstructor
 public class WarrantTypeController {
 
     private final WarrantTypeService warrantTypeService;
     
-    @GetMapping("/{id}")
+    @GetMapping("/getDetailsWarranty/{id}")
     public ResponseEntity<ResponseDto<WarrantTypeDetailResponseDTO>> getById(@PathVariable Integer id) 
     {
         return ResponseEntity.ok(warrantTypeService.findById(id));
