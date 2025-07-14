@@ -1,20 +1,28 @@
 package com.isc.auth.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isc.auth.dto.request.PasswordChangeRequestDTO;
 import com.isc.auth.dto.request.UserRequestoDTO;
 import com.isc.auth.dto.response.MessageResponseDTO;
+import com.isc.auth.dto.response.PrivilegeResponseDTO;
 import com.isc.auth.dto.response.RoleDetailsResponseDTO;
+import com.isc.auth.dto.response.RolesResponseDTO;
 import com.isc.auth.dto.response.UserDetailsResponseDTO;
+import com.isc.auth.dto.response.UserLoginResponseDTO;
 import com.isc.auth.dto.response.UserResponseDTO;
 import com.isc.auth.entitys.MenuEntity;
 import com.isc.auth.entitys.MenuRoleEntity;
@@ -51,6 +59,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public ResponseDto<List<UserResponseDTO>> getAll() {
+		List<UserEntity> u = userRepository.findAll();
+		System.out.println(u);
 		List<UserResponseDTO> usuarios = userRepository.findAll().stream().map(UserMapper::toDto)
 				.collect(Collectors.toList());
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Usuarios listados correctamente");
@@ -68,93 +78,175 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public ResponseDto<UserResponseDTO> updateUser(UserRequestoDTO request, Integer id) {
-		UserEntity userConnected = authenticatedUserService.getAuthenticatedUser();
-		if (!authenticatedUserService.isSelfOrAdmin(userConnected, id)) {
-			throw new RuntimeException("No tienes permiso para modificar este usuario");
-		}
-		UserEntity user = new UserEntity();
-		if (authenticatedUserService.isAdmin(userConnected)) {
-			user = userRepository.findById(id)
-					.orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+	    UserEntity userConnected = authenticatedUserService.getAuthenticatedUser();
+	    if (!authenticatedUserService.isSelfOrAdmin(userConnected, id)) {
+	        throw new RuntimeException("No tienes permiso para modificar este usuario");
+	    }
 
-			// Obtener nuevos roles y privilegios desde la request
-			Set<RolesEntity> roles = rolesRepository.findByIdIn(request.getRolesId());
-			Set<PrivilegeEntity> privileges = privilegesRepository.findByIdIn(request.getPrivilegesId());
-			Set<MenuEntity> menus = menuRepository.findByIdIn(request.getMenusId());
+	    UserEntity user = authenticatedUserService.isAdmin(userConnected)
+	        ? userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id))
+	        : userConnected;
+	    System.out.println(user);
 
-			if(roles.size()==0) {
-				throw new RuntimeException("Roles not found");
-			}
-			// Limpiar roles y privilegios anteriores
-			if (user.getUserRoles() != null) {
-				user.getUserRoles().clear();
-			}
-			if (user.getUserPrivilegies() != null) {
-				user.getUserPrivilegies().clear();
-			}
+	    if (authenticatedUserService.isAdmin(userConnected)) {
+	        // Obtener nuevos datos
+	        Set<RolesEntity> roles = rolesRepository.findByIdIn(request.getRolesId());
+	        Set<PrivilegeEntity> privileges = privilegesRepository.findByIdIn(request.getPrivilegesId());
+	        Set<MenuEntity> menus = menuRepository.findByIdIn(request.getMenusId());
 
-			// Asignar nuevos roles
-			Set<UserRoleEntity> usuarioRoles = new HashSet<>();
-			Set<PrivilegeRoleEntity> rolePrivileges = new HashSet<>();
-			Set<MenuRoleEntity> roleMenus = new HashSet<>();
+	        if (roles.isEmpty()) {
+	            throw new RuntimeException("Roles not found");
+	        }
 
-			for (RolesEntity rol : roles) {
-				rolePrivileges.addAll(rol.getRolesPrivilegies());
-				roleMenus.addAll(rol.getRoleMenus());
-			}
+	        // === ROLES ===
+	        Set<UserRoleEntity> currentRoles = user.getUserRoles();
+	        Set<Integer> requestedRoleIds = roles.stream().map(RolesEntity::getId).collect(Collectors.toSet());
 
-			// Extraer privilegios de roles para evitar duplicados
-			Set<PrivilegeEntity> privilegesFromRoles = rolePrivileges.stream().map(PrivilegeRoleEntity::getPrivilege)
-					.collect(Collectors.toSet());
+	        // Desactivar roles no solicitados
+	        for (UserRoleEntity ur : currentRoles) {
+	            if (!requestedRoleIds.contains(ur.getRole().getId()) && ur.isActive()) {
+	                ur.setActive(false);
+	            }
+	        }
 
-			// Asignar privilegios que no están ya en los roles
-			Set<PrivilegeUserEntity> userPrivileges = new HashSet<>();
-			for (PrivilegeEntity privilege : privileges) {
-				if (!privilegesFromRoles.contains(privilege)) {
-					PrivilegeUserEntity privilegeUser = new PrivilegeUserEntity();
-					privilegeUser.setUserId(user.getId());
-					privilegeUser.setPrivilege(privilege);
-					userPrivileges.add(privilegeUser);
-				}
-			}
+	        // Activar roles existentes inactivos o agregar nuevos
+	        Set<Integer> currentRoleIds = currentRoles.stream()
+	            .map(ur -> ur.getRole().getId())
+	            .collect(Collectors.toSet());
 
-			Set<MenuEntity> menusFromRoles = roleMenus.stream().map(MenuRoleEntity::getMenu)
-					.collect(Collectors.toSet());
+	        for (RolesEntity role : roles) {
+	            Optional<UserRoleEntity> existing = currentRoles.stream()
+	                .filter(ur -> ur.getRole().getId().equals(role.getId()))
+	                .findFirst();
 
-			// Asignar menús
-			Set<MenuUserEntity> userMenus = new HashSet<>();
-			for (MenuEntity menu : menus) {
-				if (!menusFromRoles.contains(menu)) {
-					MenuUserEntity menuUser = new MenuUserEntity();
-					menuUser.setUserId(user.getId());
-					menuUser.setMenu(menu);
-					userMenus.add(menuUser);
-				}
-			}
+	            if (existing.isPresent()) {
+	                UserRoleEntity ur = existing.get();
+	                if (!ur.isActive()) {
+	                    ur.setActive(true);
+	                }
+	            } else {
+	                UserRoleEntity userRole = new UserRoleEntity();
+	                userRole.setRole(role);
+	                userRole.setUserId(user.getId());
+	                userRole.setActive(true);
+	                currentRoles.add(userRole);
+	            }
+	        }
 
-			// Asignar todo al usuario
-			user.getUserRoles().addAll(usuarioRoles);
-			user.getUserPrivilegies().addAll(userPrivileges);
-			user.getUserMenus().addAll(userMenus);
-			user.setEmployeeId(request.getEmployeeId());
-		} else {
-			user = userConnected;
-		}
-		user.setFirstNames(request.getFirstNames());
-		user.setEmail(request.getEmail());
-		user.setUsername(request.getUsername());
-		user.setLastConnection(LocalDateTime.now());
-		UserEntity updatedUser = userRepository.save(user);
-		UserResponseDTO responseDTO = UserMapper.toDto(updatedUser);
-		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Usuario actualizado correctamente");
+	        // === PRIVILEGIOS ===
+	        Set<PrivilegeRoleEntity> rolePrivileges = roles.stream()
+	            .flatMap(r -> r.getRolesPrivilegies().stream())
+	            .collect(Collectors.toSet());
 
-		return new ResponseDto<>(responseDTO, metadata);
+	        Set<PrivilegeEntity> privilegesFromRoles = rolePrivileges.stream()
+	            .map(PrivilegeRoleEntity::getPrivilege)
+	            .collect(Collectors.toSet());
+
+	        Set<PrivilegeUserEntity> currentPrivileges = user.getUserPrivilegies();
+	        Set<Integer> requestedPrivilegeIds = privileges.stream().map(PrivilegeEntity::getId).collect(Collectors.toSet());
+
+	        // Desactivar privilegios no solicitados
+	        for (PrivilegeUserEntity pu : currentPrivileges) {
+	            if (!requestedPrivilegeIds.contains(pu.getPrivilege().getId()) && pu.getActive()) {
+	                pu.setActive(false);
+	            }
+	        }
+
+	        // Activar privilegios existentes inactivos o agregar nuevos que no vienen por rol
+	        Set<Integer> currentPrivilegeIds = currentPrivileges.stream()
+	            .map(pu -> pu.getPrivilege().getId())
+	            .collect(Collectors.toSet());
+
+	        for (PrivilegeEntity p : privileges) {
+	            Optional<PrivilegeUserEntity> existing = currentPrivileges.stream()
+	                .filter(pu -> pu.getPrivilege().getId().equals(p.getId()))
+	                .findFirst();
+
+	            if (existing.isPresent()) {
+	                PrivilegeUserEntity pu = existing.get();
+	                if (!pu.getActive()) {
+	                    pu.setActive(true);
+	                }
+	            } else {
+	                if (!privilegesFromRoles.contains(p)) {
+	                    PrivilegeUserEntity newPU = new PrivilegeUserEntity();
+	                    newPU.setUserId(user.getId());
+	                    newPU.setPrivilege(p);
+	                    newPU.setActive(true);
+	                    currentPrivileges.add(newPU);
+	                }
+	            }
+	        }
+
+	        // === MENÚS ===
+	        Set<MenuRoleEntity> roleMenus = roles.stream()
+	            .flatMap(r -> r.getRoleMenus().stream())
+	            .collect(Collectors.toSet());
+
+	        Set<MenuEntity> menusFromRoles = roleMenus.stream()
+	            .map(MenuRoleEntity::getMenu)
+	            .collect(Collectors.toSet());
+
+	        Set<MenuUserEntity> currentMenus = user.getUserMenus();
+	        Set<Integer> requestedMenuIds = menus.stream().map(MenuEntity::getId).collect(Collectors.toSet());
+
+	        // Desactivar menús no solicitados (que no vienen por rol)
+	        for (MenuUserEntity mu : currentMenus) {
+	            if (!requestedMenuIds.contains(mu.getMenu().getId()) && mu.getActive() && !menusFromRoles.contains(mu.getMenu())) {
+	                mu.setActive(false);
+	            }
+	        }
+
+	        // Activar menús existentes inactivos o agregar nuevos que no están en roles
+	        Set<Integer> currentMenuIds = currentMenus.stream()
+	            .map(mu -> mu.getMenu().getId())
+	            .collect(Collectors.toSet());
+
+	        for (MenuEntity menu : menus) {
+	            Optional<MenuUserEntity> existing = currentMenus.stream()
+	                .filter(mu -> mu.getMenu().getId().equals(menu.getId()))
+	                .findFirst();
+
+	            if (existing.isPresent()) {
+	                MenuUserEntity mu = existing.get();
+	                if (!mu.getActive()) {
+	                    mu.setActive(true);
+	                }
+	            } else if (!menusFromRoles.contains(menu)) {
+	                MenuUserEntity menuUser = new MenuUserEntity();
+	                menuUser.setUserId(user.getId());
+	                menuUser.setMenu(menu);
+	                menuUser.setActive(true);
+	                currentMenus.add(menuUser);
+	            }
+	        }
+
+	        // Employee
+	        user.setEmployeeId(request.getEmployeeId());
+	    }
+
+	    // Datos comunes
+	    user.setFirstNames(request.getFirstNames());
+	    user.setEmail(request.getEmail());
+	    user.setUsername(request.getUsername());
+	    user.setLastModificationDate(LocalDateTime.now());
+
+	    UserEntity updatedUser = userRepository.save(user);
+	    UserResponseDTO responseDTO = UserMapper.toDto(updatedUser);
+	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Usuario actualizado correctamente");
+
+	    return new ResponseDto<>(responseDTO, metadata);
 	}
+
 
 	@Override
 	public ResponseDto<MessageResponseDTO> changePassword(PasswordChangeRequestDTO request, Integer id) {
 		UserEntity userConnected = authenticatedUserService.getAuthenticatedUser();
+		if (!encoder.matches(request.getActualPassword(), userConnected.getPassword())) {
+		    throw new RuntimeException("La contraseña actual es incorrecta");
+		}
 		if (!authenticatedUserService.isSelfOrAdmin(userConnected, id)) {
 			throw new RuntimeException("No tienes permiso para modificar este usuario");
 		}
@@ -174,6 +266,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public ResponseDto<MessageResponseDTO> deleteUser(Integer id) {
+		UserEntity userConnected = authenticatedUserService.getAuthenticatedUser();
+		if(authenticatedUserService.isSelfOrAdmin(userConnected, id)) {
+			throw new RuntimeException("No tiene permisos para realizar esta acción");
+		}
 		int rowsAffected = userRepository.softDelete(id);
 		if (rowsAffected == 0) {
 			throw new RuntimeException("No se pudo realizar la operacion en el id: " + id);
@@ -214,6 +310,32 @@ public class UserServiceImpl implements UserService {
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Operacion exitosa");
 		MessageResponseDTO message = new MessageResponseDTO("Operacion exitosa");
 		return new ResponseDto<>(message, metadata);
+	}
+	
+	@Override
+	public ResponseDto<List<UserResponseDTO>> getAllUserDTOs() {
+	    List<UserEntity> users = userRepository.findAllWithRolesPrivilegesAndMenus();
+
+	    List<UserResponseDTO> usersMaped = users.stream().map(UserMapper::toDto)
+				.collect(Collectors.toList());
+
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Operacion exitosa");
+		return new ResponseDto<>(usersMaped, metadata);
+	    
+	}
+	
+	@Override
+	@Transactional
+	public UserLoginResponseDTO processLogin(String email, Collection<? extends GrantedAuthority> authorities) {
+		UserEntity userEntity = userRepository.findByEmail(email)
+				.orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+		userEntity.setLoggedIn(true);
+		userEntity.setLastConnection(LocalDateTime.now());
+
+		userRepository.save(userEntity);
+
+		return UserMapper.detailsLoginToDto(userEntity);
 	}
 
 }

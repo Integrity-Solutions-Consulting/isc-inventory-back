@@ -17,9 +17,9 @@ public class AuthenticatedUserServiceImpl implements AuthenticatedUserService {
 
 	public UserEntity getAuthenticatedUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = authentication.getName();
+		String email = authentication.getName();
 
-		return repository.findByUsername(username)
+		return repository.findByEmail(email)
 				.orElseThrow(() -> new RuntimeException("Usuario autenticado no encontrado"));
 	}
 
@@ -29,5 +29,9 @@ public class AuthenticatedUserServiceImpl implements AuthenticatedUserService {
 
 	public boolean isSelfOrAdmin(UserEntity currentUser, Integer targetUserId) {
 		return isAdmin(currentUser) || currentUser.getId().equals(targetUserId);
+	}
+	
+	public boolean isSelf(UserEntity currentUser, Integer targetUserId) {
+		return currentUser.getId().equals(targetUserId);
 	}
 }

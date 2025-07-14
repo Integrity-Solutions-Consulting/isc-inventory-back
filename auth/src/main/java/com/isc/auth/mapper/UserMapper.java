@@ -21,102 +21,70 @@ import com.isc.auth.entitys.UserEntity;
 import com.isc.auth.entitys.UserRoleEntity;
 
 public class UserMapper {
-	 public static UserResponseDTO toDto(UserEntity entity) {
-	        if (entity == null) return null;
+	public static UserResponseDTO toDto(UserEntity entity) {
+		if (entity == null)
+			return null;
 
-	        Set<RolesResponseDTO> roles = entity.getUserRoles().stream()
-	                .map(UserRoleEntity::getRole)
-	                .map(RolesMapper::toDto)
-	                .collect(Collectors.toSet());
-	        Set<PrivilegeResponseDTO> privileges = entity.getUserPrivilegies().stream()
-	                .map(PrivilegeUserEntity::getPrivilege)
-	                .map(PrivilegeMapper::toDto)
-	                .collect(Collectors.toSet());
+		Set<RolesResponseDTO> roles = entity.getUserRoles().stream().filter(UserRoleEntity::isActive) // Solo activos
+				.map(UserRoleEntity::getRole).map(RolesMapper::toDto).collect(Collectors.toSet());
 
-	        return new UserResponseDTO(
-	                entity.getId(),
-	                entity.getUsername(),
-	                entity.getEmail(),
-	                entity.getFirstNames(),
-	                entity.getEmployeeId(),
-	                entity.getLastModificationDate(),
-	                entity.getLastConnection(),
-	                entity.isLoggedIn(),
-	                entity.isActive(),
-	                entity.isSuspended(),
-	                roles,
-	                privileges
-	        );
-	    }
-	 
-	 public static UserDetailsResponseDTO detailsToDto(UserEntity entity) {
-	        if (entity == null) return null;
+		Set<PrivilegeResponseDTO> privileges = entity.getUserPrivilegies().stream()
+				.filter(PrivilegeUserEntity::getActive) // Solo activos
+				.map(PrivilegeUserEntity::getPrivilege).map(PrivilegeMapper::toDto).collect(Collectors.toSet());
 
-	        Set<RoleDetailsResponseDTO> roles = entity.getUserRoles().stream()
-	                .map(UserRoleEntity::getRole)
-	                .map(RolesMapper::detailToDto)
-	                .collect(Collectors.toSet());
-	        Set<PrivilegeResponseDTO> privileges = entity.getUserPrivilegies().stream()
-	                .map(PrivilegeUserEntity::getPrivilege)
-	                .map(PrivilegeMapper::toDto)
-	                .collect(Collectors.toSet());
-	        Set<MenuResponseDTO> menus = entity.getUserMenus().stream()
-	                .map(MenuUserEntity::getMenu)
-	                .map(MenuMapper::toDto)
-	                .collect(Collectors.toSet());
+		Set<MenuResponseDTO> menus = entity.getUserMenus().stream().filter(MenuUserEntity::getActive) // Solo activos
+				.map(MenuUserEntity::getMenu).map(MenuMapper::toDto).collect(Collectors.toSet());
+		
+		return new UserResponseDTO(entity.getId(), entity.getUsername(), entity.getEmail(), entity.getFirstNames(),
+				entity.getEmployeeId(), entity.getLastModificationDate(), entity.getLastConnection(),
+				entity.isLoggedIn(), entity.isActive(), entity.isSuspended(), roles, privileges, menus);
+	}
 
-	        return new UserDetailsResponseDTO(
-	                entity.getId(),
-	                entity.getUsername(),
-	                entity.getEmail(),
-	                entity.getFirstNames(),
-	                entity.getEmployeeId(),
-	                entity.getLastModificationDate(),
-	                entity.getLastConnection(),
-	                entity.isLoggedIn(),
-	                entity.isActive(),
-	                entity.isSuspended(),
-	                roles,
-	                privileges,
-	                menus
-	        );
-	    }
-	 
-	 public static UserLoginResponseDTO detailsLoginToDto(UserEntity entity) {
-	        if (entity == null) return null;
-	        
+	public static UserDetailsResponseDTO detailsToDto(UserEntity entity) {
+		if (entity == null)
+			return null;
 
-	        Set<RolesResponseDTO> roles = entity.getUserRoles().stream()
-	                .map(UserRoleEntity::getRole)
-	                .map(RolesMapper::toDto)
-	                .collect(Collectors.toSet());
+		Set<RoleDetailsResponseDTO> roles = entity.getUserRoles().stream().map(UserRoleEntity::getRole)
+				.map(RolesMapper::detailToDto).collect(Collectors.toSet());
+		Set<PrivilegeResponseDTO> privileges = entity.getUserPrivilegies().stream()
+				.map(PrivilegeUserEntity::getPrivilege).map(PrivilegeMapper::toDto).collect(Collectors.toSet());
+		Set<MenuResponseDTO> menus = entity.getUserMenus().stream().map(MenuUserEntity::getMenu).map(MenuMapper::toDto)
+				.collect(Collectors.toSet());
 
-	        Set<PrivilegeResponseDTO> privileges = entity.getUserPrivilegies().stream()
-	                .map(PrivilegeUserEntity::getPrivilege)
-	                .map(PrivilegeMapper::toDto)
-	                .collect(Collectors.toSet());
+		return new UserDetailsResponseDTO(entity.getId(), entity.getUsername(), entity.getEmail(),
+				entity.getFirstNames(), entity.getEmployeeId(), entity.getLastModificationDate(),
+				entity.getLastConnection(), entity.isLoggedIn(), entity.isActive(), entity.isSuspended(), roles,
+				privileges, menus);
+	}
 
-	        // Menús del usuario
-	        Set<MenuEntity> userMenus = entity.getUserMenus().stream()
-	                .map(MenuUserEntity::getMenu)
-	                .collect(Collectors.toSet());
+	public static UserLoginResponseDTO detailsLoginToDto(UserEntity entity) {
+		if (entity == null)
+			return null;
 
-	        // Menús de los roles
-	        Set<MenuEntity> roleMenus = entity.getUserRoles().stream()
-	                .flatMap(role -> role.getRole().getRoleMenus().stream())
-	                .map(MenuRoleEntity::getMenu)
-	                .collect(Collectors.toSet());
-	        
-	        Set<MenuEntity> combinedMenus = new HashSet<>();
-	        combinedMenus.addAll(userMenus);
-	        combinedMenus.addAll(roleMenus);
-	        Set<MenuResponseDTO> flatMenuDtos = combinedMenus.stream()
-	                .map(MenuMapper::toDto)
-	                .collect(Collectors.toSet());
-	        
-	        Set<MenuResponseDTO> treeMenus = MenuMapper.buildMenuTree(flatMenuDtos);
+		Set<RolesResponseDTO> roles = entity.getUserRoles().stream().map(UserRoleEntity::getRole)
+				.map(RolesMapper::toDto).collect(Collectors.toSet());
 
-	        return new UserLoginResponseDTO(
-	        		entity.getUsername(),entity.getEmail(),entity.getFirstNames(),null,roles,privileges,treeMenus);
-	    }
+		Set<PrivilegeResponseDTO> privileges = entity.getUserPrivilegies().stream()
+				.map(PrivilegeUserEntity::getPrivilege).map(PrivilegeMapper::toDto).collect(Collectors.toSet());
+
+		// Menús del usuario
+		Set<MenuEntity> userMenus = entity.getUserMenus().stream().map(MenuUserEntity::getMenu)
+				.collect(Collectors.toSet());
+
+		// Menús de los roles
+		Set<MenuEntity> roleMenus = entity.getUserRoles().stream()
+				.flatMap(role -> role.getRole().getRoleMenus().stream()).map(MenuRoleEntity::getMenu)
+				.collect(Collectors.toSet());
+
+		Set<MenuEntity> combinedMenus = new HashSet<>();
+		combinedMenus.addAll(userMenus);
+		combinedMenus.addAll(roleMenus);
+		Set<MenuResponseDTO> flatMenuDtos = combinedMenus.stream().map(MenuMapper::toDto).collect(Collectors.toSet());
+
+		Set<MenuResponseDTO> treeMenus = MenuMapper.buildMenuTree(flatMenuDtos);
+
+		return new UserLoginResponseDTO(entity.getUsername(), entity.getEmail(), entity.getFirstNames(), null, roles,
+				privileges, treeMenus);
+	}
+
 }
