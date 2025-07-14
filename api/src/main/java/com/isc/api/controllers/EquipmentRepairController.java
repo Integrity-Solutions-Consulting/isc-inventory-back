@@ -21,7 +21,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/equipment-repairs")
+@RequestMapping("/api/v1/equipment-repairs")
 @RequiredArgsConstructor
 
 
@@ -50,14 +50,14 @@ public class EquipmentRepairController
         return new ResponseEntity<>(response, response.getMeta().getStatus());
     }
     
-    @PutMapping("/{id}/updateEquimentRepair")
+    @PutMapping("/updateEquimentRepair/{id}")
     public ResponseEntity<ResponseDto<EquipmentRepairDetailResponseDTO>> updateEquipmentRepair(
     		@PathVariable Integer id,@Valid @RequestBody EquipmentRepairRequestDTO request)
     {
     	return ResponseEntity.ok(equipmentRepairService.update(request, id));
     }
     
-    @PatchMapping("/{id}/inactivar")
+    @PatchMapping("/inactivar/{id}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> inactivateEquipment(@PathVariable Integer id) 
     {
         return ResponseEntity.ok(equipmentRepairService.inactive(id));

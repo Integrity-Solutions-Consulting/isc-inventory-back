@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @Service
 public class ComponentTypeServiceImpl implements ComponentTypeService {
 
-    @Autowired
     private ComponentTypeRepository componentTypeRepository;
 
     @Override

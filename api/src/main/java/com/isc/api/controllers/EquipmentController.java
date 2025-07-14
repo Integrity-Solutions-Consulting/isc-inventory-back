@@ -19,6 +19,7 @@ import com.isc.api.dto.request.InvoiceRequestDTO;
 import com.isc.api.dto.request.WarrantTypeRequestDTO;
 import com.isc.api.dto.response.EquipmentDetailResponseDTO;
 import com.isc.api.dto.response.EquipmentResponseDTO;
+import com.isc.api.dto.response.InvoiceDetailResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
 import com.isc.dtos.ResponseDto;
 import com.isc.api.service.EquipmentService;
@@ -74,7 +75,7 @@ public class EquipmentController {
     }
     
     @PutMapping("/setInvoice/{id}")
-    public ResponseEntity<ResponseDto<EquipmentDetailResponseDTO>> setInvoice(@PathVariable Integer id,
+    public ResponseEntity<ResponseDto<InvoiceDetailResponseDTO>> setInvoice(@PathVariable Integer id,
             @RequestBody InvoiceRequestDTO request) {
         return ResponseEntity.ok(equipmentService.setInvoice(id,request));
     }

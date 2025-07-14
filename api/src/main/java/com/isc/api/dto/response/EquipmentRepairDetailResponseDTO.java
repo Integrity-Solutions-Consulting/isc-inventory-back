@@ -14,7 +14,7 @@ public class EquipmentRepairDetailResponseDTO {
 	private Integer id;
 	
 	private Integer equipment;
-	private String SerialNumber;
+	private String serialNumber;
 	
 	private LocalDateTime repairDate;
 	private String description;
