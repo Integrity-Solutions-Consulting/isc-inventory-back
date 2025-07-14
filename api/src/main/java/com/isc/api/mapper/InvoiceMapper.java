@@ -2,6 +2,7 @@ package com.isc.api.mapper;
 
 import com.isc.api.dto.response.InvoiceResponseDTO;
 import com.isc.api.dto.response.InvoiceDetailResponseDTO;
+import com.isc.api.entitys.InvoiceDetailEntity;
 import com.isc.api.entitys.InvoiceEntity;
 
 public class InvoiceMapper {
@@ -23,14 +24,17 @@ public class InvoiceMapper {
 
         return new InvoiceDetailResponseDTO(
             entity.getId(),
-            entity.getInvoiceDetail() != null ? entity.getInvoiceDetail().getCategory().getId() : null,
-            entity.getInvoiceDetail() != null ? entity.getInvoiceDetail().getDescription() : null,
-            entity.getInvoiceDetail() != null ? entity.getInvoiceDetail().getUnitPrice() : null,
-            entity.getInvoiceDetail() != null ? entity.getInvoiceDetail().getQuantity() : null,
-            entity.getInvoiceDetail() != null ? entity.getInvoiceDetail().getSubtotal() : null,
-            entity.getInvoiceDetail() != null ? entity.getInvoiceDetail().getTax() : null,
-            entity.getInvoiceDetail() != null ? entity.getInvoiceDetail().getDiscount() : null,
-            entity.getInvoiceDetail() != null ? entity.getInvoiceDetail().getTotal() : null,
+            entity.getInvoiceDetail().getDescription() != null ? entity.getInvoiceDetail().getDescription() : null,
+            entity.getInvoiceDetail().getUnitPrice() != null ? entity.getInvoiceDetail().getUnitPrice() : null,
+            entity.getInvoiceDetail().getQuantity() != null ? entity.getInvoiceDetail().getQuantity(): null,
+            entity.getInvoiceDetail().getSubtotal() != null ? entity.getInvoiceDetail().getSubtotal() : null,
+            entity.getInvoiceDetail().getTax() != null ? entity.getInvoiceDetail().getTax() : null,
+            entity.getInvoiceDetail().getDiscount() != null ? entity.getInvoiceDetail().getDiscount() : null,
+            entity.getInvoiceDetail().getTotal() != null ? entity.getInvoiceDetail().getTotal() : null,
+            entity.getInvoiceDetail() != null ? entity.getInvoiceDetail().getId() : null,
+            entity.getSupplier() != null ? entity.getSupplier().getBusinessName() : null,
+            entity.getInvoiceDate(),
+            entity.getInvoiceNumber(),		
             entity.getStatus(),
             entity.getCreationDate(),
             entity.getModificationDate()

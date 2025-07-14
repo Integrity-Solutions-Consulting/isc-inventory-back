@@ -29,7 +29,7 @@ public class EquipmentRepairEntity {
     @JoinColumn(name = "id_equipment", nullable = false)
     private EquipmentEntity equipment;
 	
-	@Column(name = "repair_date", nullable = false)
+	@Column(name = "repair_date")
 	private LocalDateTime repairDate;
 	
 	@Column(length = 100)

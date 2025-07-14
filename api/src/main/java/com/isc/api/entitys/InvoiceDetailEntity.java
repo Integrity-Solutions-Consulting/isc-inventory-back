@@ -38,7 +38,7 @@ public class InvoiceDetailEntity {
     private Integer quantity;
     
     @Column(precision = 10, scale = 2)
-    private BigDecimal subtotal;
+    private BigDecimal subtotal;//UnitPrice*quantity
     
     @Column(precision = 10, scale = 2)
     private BigDecimal tax;
@@ -47,7 +47,7 @@ public class InvoiceDetailEntity {
     private BigDecimal discount;
     
     @Column(precision = 10, scale = 2)
-    private BigDecimal total;
+    private BigDecimal total;//subtotal + tax - discount
     
     @Column(nullable = false)
 	private Boolean status = true;

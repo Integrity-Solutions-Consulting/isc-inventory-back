@@ -1,5 +1,6 @@
 package com.isc.api.entitys;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -34,7 +35,7 @@ public class InvoiceEntity {
     private SupplierEntity supplier;
     
     @Column(name = "invoice_date")
-    private LocalDateTime invoiceDate;
+    private LocalDate invoiceDate;
     
     @Column(name = "invoice_number", length = 50)
     private String invoiceNumber;

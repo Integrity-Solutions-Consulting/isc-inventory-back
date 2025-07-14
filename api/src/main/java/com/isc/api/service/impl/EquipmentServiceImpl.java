@@ -15,11 +15,13 @@ import com.isc.api.dto.request.InvoiceRequestDTO;
 import com.isc.api.dto.request.WarrantTypeRequestDTO;
 import com.isc.api.dto.response.EquipmentDetailResponseDTO;
 import com.isc.api.dto.response.EquipmentResponseDTO;
+import com.isc.api.dto.response.InvoiceDetailResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
 import com.isc.api.entitys.*;
 import com.isc.api.mapper.EquipmentMapper;
+import com.isc.api.mapper.InvoiceMapper;
 import com.isc.api.repository.*;
 import com.isc.api.service.EquipmentCharacteristicService;
 import com.isc.api.service.EquipmentService;
@@ -246,23 +248,23 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 
 	@Override
-	public ResponseDto<EquipmentDetailResponseDTO> setInvoice(Integer idEquipo, InvoiceRequestDTO request) {
+	public ResponseDto<InvoiceDetailResponseDTO> setInvoice(Integer idEquipo, InvoiceRequestDTO request) {
 		EquipmentEntity equipment = equipmentRepository.findById(idEquipo)
 				.orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
-		if (request.getId() != null && request.getId() != 0) {
-			InvoiceEntity invoice = invoiceService.update(request, request.getId());
+		InvoiceEntity invoice = new InvoiceEntity();
+		if (request.getId() != 0 || request.getId() != null) {
+			invoice = invoiceService.update(request, request.getId());
 			invoice.getInvoiceDetail().setCategory(equipment.getCategory());
 			equipment.setInvoice(invoice);
 		} else {
-			InvoiceEntity invoice = invoiceService.save(request);
+			invoice = invoiceService.save(request);
 			invoice.getInvoiceDetail().setCategory(equipment.getCategory());
 			equipment.setInvoice(invoice);
 		}
 
 		equipment = equipmentRepository.save(equipment);
-
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipo actualizado correctamente");
-		return new ResponseDto<>(EquipmentMapper.toDetailDto(equipment), metadata);
+		return new ResponseDto<>(InvoiceMapper.toInvoiceDetailDto(invoice), metadata);
 	}
 
 	@Override

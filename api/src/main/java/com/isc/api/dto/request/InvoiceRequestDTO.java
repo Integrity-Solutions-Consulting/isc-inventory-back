@@ -1,5 +1,6 @@
 package com.isc.api.dto.request;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.FutureOrPresent;
@@ -16,15 +17,14 @@ import lombok.NoArgsConstructor;
 public class InvoiceRequestDTO {
 	private Integer id;
 	
-	@NotNull(message = "El detalle de la factura es obligatorio")
 	private InvoiceDetailRequestDTO invoiceDetail;
-    
+  
 	@NotNull(message = "El proovedor de la factura es obligatorio")
 	private Integer supplier;
     
 	@NotNull(message = "La fecha de la factura es obligatoria")
     @FutureOrPresent(message = "La fecha de la factura no puede estar en el pasado")
-	private LocalDateTime invoiceDate;
+	private LocalDate invoiceDate;
    
 	@NotBlank(message = "El número de factura no puede estar vacío")
     @Size(max = 50, message = "El número de factura no puede exceder los 50 caracteres")

@@ -38,5 +38,8 @@ public interface EquipmentRepository extends JpaRepository<EquipmentEntity, Inte
 	boolean existsBySerialNumber(String serialNumber);
 
 	boolean existsByItemCode(String itemCode);
+	
+	 @Query(value = "SELECT * FROM get_dashboard_totals()", nativeQuery = true)
+	    List<Object[]> getDashboardTotalsRaw();
 
 }
