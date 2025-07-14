@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+
 import com.isc.api.dto.request.EquipmentCategoryRequestDTO;
+import com.isc.api.dto.request.EquipmentCategoryStockRequest;
 import com.isc.api.dto.response.EquipmentCategoryDetailResponseDTO;
 import com.isc.api.dto.response.EquipmentCategoryResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
@@ -16,6 +18,7 @@ import com.isc.api.entitys.EquipmentCategoryEntity;
 import com.isc.api.mapper.EquipmentCategoryMapper;
 import com.isc.api.repository.EquipmentCategoryRepository;
 import com.isc.api.service.EquipmentCategoryService;
+import com.isc.api.service.EquipmentCategoryStockService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class EquipmentCategoryServiceImpl implements EquipmentCategoryService {
 
     private final EquipmentCategoryRepository categoryRepository;
+    private final EquipmentCategoryStockService stockService;
 
     @Override
     public ResponseDto<List<EquipmentCategoryDetailResponseDTO>> getAllDetails() {
@@ -49,9 +53,13 @@ public class EquipmentCategoryServiceImpl implements EquipmentCategoryService {
     public ResponseDto<EquipmentCategoryDetailResponseDTO> save(EquipmentCategoryRequestDTO request) {
         EquipmentCategoryEntity entity = new EquipmentCategoryEntity();
         entity.setName(request.getName());
-
         entity = categoryRepository.save(entity);
 
+        EquipmentCategoryStockRequest stockRequest = new EquipmentCategoryStockRequest();
+        stockRequest.setCategory(entity.getId());
+        stockRequest.setStock(1); 
+        stockService.save(stockRequest);
+        
         EquipmentCategoryDetailResponseDTO response = EquipmentCategoryMapper.toDetailDto(entity);
         MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED, "Categoría creada correctamente");
         return new ResponseDto<>(response, metadata);
@@ -78,6 +86,8 @@ public class EquipmentCategoryServiceImpl implements EquipmentCategoryService {
         if (rowsAffected == 0) {
             throw new RuntimeException("No se pudo inactivar la categoría con ID: " + id);
         }
+        
+        stockService.inactiveByCategoryId(id);
         MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Categoría inactivada correctamente");
         return new ResponseDto<>(new MessageResponseDTO("Operación exitosa"), metadata);
     }
@@ -88,6 +98,8 @@ public class EquipmentCategoryServiceImpl implements EquipmentCategoryService {
         if (rowsAffected == 0) {
             throw new RuntimeException("No se pudo activar la categoría con ID: " + id);
         }
+        
+        stockService.activeByCategoryId(id);
         MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Categoría activada correctamente");
         return new ResponseDto<>(new MessageResponseDTO("Operación exitosa"), metadata);
     }

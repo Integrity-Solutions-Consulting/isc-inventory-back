@@ -21,7 +21,7 @@ public class EquipmentRepairMapper
         entity.setEquipment(equipment);
         entity.setDescription(request.getDescription() != null ? request.getDescription() : null);
         entity.setServiceProvider(request.getServiceProvider() != null ? request.getServiceProvider() : null);
-        entity.setRepairDate(LocalDateTime.now()); 
+        entity.setCost(request.getCost());
         return entity;
     }
 

@@ -29,8 +29,9 @@ public class CompanyController
 {
     private final CompanyService companyService;
 
-    @GetMapping("/getAllDetails")
-    public ResponseEntity<ResponseDto<List<CompanyDetailResponseDTO>>> getAllCompanies() 
+
+    @GetMapping("/getAll")
+public ResponseEntity<ResponseDto<List<CompanyDetailResponseDTO>>> getAllCompanies() 
     {
         return ResponseEntity.ok(companyService.getAllDetails());
     }
@@ -47,7 +48,7 @@ public class CompanyController
         return ResponseEntity.ok(companyService.save(request));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<ResponseDto<CompanyDetailResponseDTO>> updateCompany(
             @PathVariable Integer id,
             @Valid @RequestBody CompanyRequestDTO request) 
@@ -55,13 +56,13 @@ public class CompanyController
         return ResponseEntity.ok(companyService.update(request, id));
     }
 
-    @PatchMapping("/{id}/deactivate")
+    @PatchMapping("/inactive/{id}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> deactivateCompany(@PathVariable Integer id) 
     {
         return ResponseEntity.ok(companyService.inactive(id));
     }
 
-    @PatchMapping("/{id}/activate")
+    @PatchMapping("/activate/{id}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> activateCompany(@PathVariable Integer id) 
     {
         return ResponseEntity.ok(companyService.active(id));

@@ -12,11 +12,11 @@ import com.isc.api.dto.response.InvoiceResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
+
 import com.isc.api.entitys.InvoiceDetailEntity;
 import com.isc.api.entitys.InvoiceEntity;
 import com.isc.api.entitys.SupplierEntity;
 import com.isc.api.mapper.InvoiceMapper;
-import com.isc.api.repository.InvoiceDetailRepository;
 import com.isc.api.repository.InvoiceRepository;
 import com.isc.api.repository.SupplierRepository;
 import com.isc.api.service.InvoiceDetailService;
@@ -29,9 +29,7 @@ import lombok.RequiredArgsConstructor;
 public class InvoiceServiceImpl implements InvoiceService {
 
     private final InvoiceRepository invoiceRepository;
-    private final InvoiceDetailRepository invoiceDetailRepository;
     private final SupplierRepository supplierRepository;
-    
     private final InvoiceDetailService invoiceDetailService;
 
     @Override
@@ -54,18 +52,17 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public InvoiceEntity save(InvoiceRequestDTO request) {
-        SupplierEntity supplier = supplierRepository.findById(request.getSupplier())
+    	SupplierEntity supplier = supplierRepository.findById(request.getSupplier())
                 .orElseThrow(() -> new RuntimeException("Proveedor no encontrado"));
         
         
         InvoiceEntity entity = new InvoiceEntity();
         InvoiceDetailEntity detail = invoiceDetailService.save(request.getInvoiceDetail());
         	
-        entity.setInvoiceDetail(detail);
+        entity.setInvoiceDetailRequest(detail);
         entity.setSupplier(supplier);
         entity.setInvoiceDate(request.getInvoiceDate());
         entity.setInvoiceNumber(request.getInvoiceNumber());
-
         return entity;
     }
 
@@ -75,17 +72,15 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .orElseThrow(() -> new RuntimeException("Factura no encontrada"));
         
         InvoiceDetailEntity detail = invoiceDetailService.update(request.getInvoiceDetail());
-
         if (!entity.getSupplier().getId().equals(request.getSupplier())) {
             SupplierEntity supplier = supplierRepository.findById(request.getSupplier())
                     .orElseThrow(() -> new RuntimeException("Proveedor no encontrado"));
             entity.setSupplier(supplier);
         }
 
-        entity.setInvoiceDetail(detail);
+        entity.setInvoiceDetailRequest(detail);
         entity.setInvoiceDate(request.getInvoiceDate());
         entity.setInvoiceNumber(request.getInvoiceNumber());
-
         return entity;
     }
 

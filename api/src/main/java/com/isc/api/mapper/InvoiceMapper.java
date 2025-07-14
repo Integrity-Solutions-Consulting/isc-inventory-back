@@ -11,7 +11,8 @@ public class InvoiceMapper {
 
         return new InvoiceResponseDTO(
             entity.getId(),
-            entity.getInvoiceDetail() != null ? entity.getInvoiceDetail().getId() : null,
+            entity.getInvoiceDetailRequest() != null ? entity.getInvoiceDetailRequest().getId() : null,
+            entity.getSupplier() != null ? entity.getSupplier().getId() : null,		
             entity.getSupplier() != null ? entity.getSupplier().getBusinessName() : null,
             entity.getInvoiceDate(),
             entity.getInvoiceNumber()
@@ -23,19 +24,19 @@ public class InvoiceMapper {
 
         return new InvoiceDetailResponseDTO(
             entity.getId(),
-            entity.getInvoiceDetail().getDescription() != null ? entity.getInvoiceDetail().getDescription() : null,
-            entity.getInvoiceDetail().getUnitPrice() != null ? entity.getInvoiceDetail().getUnitPrice() : null,
-            entity.getInvoiceDetail().getQuantity() != null ? entity.getInvoiceDetail().getQuantity(): null,
-            entity.getInvoiceDetail().getSubtotal() != null ? entity.getInvoiceDetail().getSubtotal() : null,
-            entity.getInvoiceDetail().getTax() != null ? entity.getInvoiceDetail().getTax() : null,
-            entity.getInvoiceDetail().getDiscount() != null ? entity.getInvoiceDetail().getDiscount() : null,
-            entity.getInvoiceDetail().getTotal() != null ? entity.getInvoiceDetail().getTotal() : null,
-            entity.getInvoiceDetail() != null ? entity.getInvoiceDetail().getId() : null,
+            entity.getInvoiceDetailRequest().getDescription() != null ? entity.getInvoiceDetailRequest().getDescription() : null,
+            entity.getInvoiceDetailRequest().getUnitPrice() != null ? entity.getInvoiceDetailRequest().getUnitPrice() : null,
+            entity.getInvoiceDetailRequest().getQuantity() != null ? entity.getInvoiceDetailRequest().getQuantity(): null,
+            entity.getInvoiceDetailRequest().getSubtotal() != null ? entity.getInvoiceDetailRequest().getSubtotal() : null,
+            entity.getInvoiceDetailRequest().getTax() != null ? entity.getInvoiceDetailRequest().getTax() : null,
+            entity.getInvoiceDetailRequest().getDiscount() != null ? entity.getInvoiceDetailRequest().getDiscount() : null,
+            entity.getInvoiceDetailRequest().getTotal() != null ? entity.getInvoiceDetailRequest().getTotal() : null,
+            entity.getInvoiceDetailRequest() != null ? entity.getInvoiceDetailRequest().getId() : null,
             entity.getSupplier() != null ? entity.getSupplier().getId() : null,	
             entity.getSupplier() != null ? entity.getSupplier().getBusinessName() : null,
             entity.getInvoiceDate(),
-            entity.getInvoiceNumber(),
-            								
+            entity.getInvoiceNumber(),		
+            
             entity.getStatus(),
             entity.getCreationDate(),
             entity.getModificationDate()

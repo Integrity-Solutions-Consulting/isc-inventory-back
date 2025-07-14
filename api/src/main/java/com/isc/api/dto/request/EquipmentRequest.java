@@ -21,7 +21,7 @@ public class EquipmentRequest
 	
 	@NotBlank
 	private String categoryName;
-    
+
 	@NotNull(message = "La empresa es obligatoria")
 	private Integer company;
 	

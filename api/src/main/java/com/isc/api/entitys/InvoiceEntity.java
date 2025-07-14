@@ -28,7 +28,7 @@ public class InvoiceEntity {
 	
 	@ManyToOne
     @JoinColumn(name = "id_invoice_detail", nullable = false)
-    private InvoiceDetailEntity invoiceDetail;
+    private InvoiceDetailEntity invoiceDetailRequest;
 
     @ManyToOne
     @JoinColumn(name = "id_supplier", nullable = false)

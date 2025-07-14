@@ -12,10 +12,8 @@ import com.isc.api.dto.response.InvoiceDetailEntityResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
-import com.isc.api.entitys.EquipmentCategoryEntity;
 import com.isc.api.entitys.InvoiceDetailEntity;
 import com.isc.api.mapper.InvoiceDetailMapper;
-import com.isc.api.repository.EquipmentCategoryRepository;
 import com.isc.api.repository.InvoiceDetailRepository;
 import com.isc.api.service.InvoiceDetailService;
 
@@ -26,7 +24,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class InvoiceDetailServiceImpl implements InvoiceDetailService{
 	private final InvoiceDetailRepository invoiceDetailRepository;
-	private final EquipmentCategoryRepository equipmentCategoryRepository;
 
 	@Override
 	public ResponseDto<List<InvoiceDetailEntityDetailResponseDTO>> getAllDetails() {

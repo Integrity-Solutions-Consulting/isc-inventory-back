@@ -21,31 +21,31 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EquipmentCategoryStockEntity {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
 	@OneToOne
-    @JoinColumn(name = "id_category", referencedColumnName = "id")
-    private EquipmentCategoryEntity category;
-	
+	@JoinColumn(name = "id_category", referencedColumnName = "id")
+	private EquipmentCategoryEntity category;
+
 	@Column(nullable = false)
 	private Integer stock;
-	
+
 	@Column(nullable = false)
 	private Boolean status = true;
-	
+
 	@Column(name = "creation_user", length = 50)
-    private String creationUser;
-	
+	private String creationUser;
+
 	@Column(name = "modification_user", length = 50)
-    private String modificationUser;
-	
+	private String modificationUser;
+
 	@Column(name = "creation_date")
-    private LocalDateTime creationDate = LocalDateTime.now(); 
-	
+	private LocalDateTime creationDate = LocalDateTime.now();
+
 	@Column(name = "modification_date")
-    private LocalDateTime modificationDate;
-	
+	private LocalDateTime modificationDate;
+
 	@Column(name = "creation_ip", length = 45)
 	private String creationIp;
 

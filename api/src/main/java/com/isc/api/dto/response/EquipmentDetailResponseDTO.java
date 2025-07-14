@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class EquipmentDetailResponseDTO {
     private Integer id;
     private Integer invoice;
+    private Integer warranty;
 
     private Integer equipmentStatusId;
     private String equipmentStatusName;
