@@ -12,7 +12,7 @@ public class InvoiceMapper {
         return new InvoiceResponseDTO(
             entity.getId(),
             entity.getInvoiceDetail() != null ? entity.getInvoiceDetail().getId() : null,
-            entity.getSupplier() != null ? entity.getSupplier().getId() : null,
+            entity.getSupplier() != null ? entity.getSupplier().getBusinessName() : null,
             entity.getInvoiceDate(),
             entity.getInvoiceNumber()
         );
@@ -31,6 +31,7 @@ public class InvoiceMapper {
             entity.getInvoiceDetail().getDiscount() != null ? entity.getInvoiceDetail().getDiscount() : null,
             entity.getInvoiceDetail().getTotal() != null ? entity.getInvoiceDetail().getTotal() : null,
             entity.getInvoiceDetail() != null ? entity.getInvoiceDetail().getId() : null,
+            entity.getSupplier() != null ? entity.getSupplier().getId() : null,	
             entity.getSupplier() != null ? entity.getSupplier().getBusinessName() : null,
             entity.getInvoiceDate(),
             entity.getInvoiceNumber(),

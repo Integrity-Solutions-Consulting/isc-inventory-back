@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class InvoiceResponseDTO {
 	private Integer id;
 	private Integer invoiceDetail;
-	private Integer supplier;
+	private String supplier;
 	private LocalDate invoiceDate;
 	private String invoiceNumber;
 	

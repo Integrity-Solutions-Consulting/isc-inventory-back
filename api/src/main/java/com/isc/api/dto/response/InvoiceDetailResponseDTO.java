@@ -22,6 +22,7 @@ public class InvoiceDetailResponseDTO {
 	private BigDecimal discount;
 	private BigDecimal total;
 	private Integer invoiceDetail;
+	private Integer supplierId;
 	private String supplier;
 	private LocalDate invoiceDate;
 	private String invoiceNumber;	

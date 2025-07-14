@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/suppliers")
+@RequestMapping("/api/v1/supplier")
 @RequiredArgsConstructor
 public class SupplierController {
 
     private final SupplierService supplierService;
 
-    @GetMapping("/details")
+    @GetMapping("")
     public ResponseEntity<ResponseDto<List<SupplierDetailResponseDTO>>> getAllDetails() {
         return ResponseEntity.ok(supplierService.getAllDetails());
     }
@@ -39,7 +39,7 @@ public class SupplierController {
         return ResponseEntity.ok(supplierService.getSimpleList());
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<ResponseDto<SupplierDetailResponseDTO>> create(
             @Valid @RequestBody SupplierRequestDTO request) {
         return ResponseEntity.ok(supplierService.save(request));

@@ -25,10 +25,6 @@ public class InvoiceDetailEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 	
-	@ManyToOne
-    @JoinColumn(name = "id_category", nullable = false)
-    private EquipmentCategoryEntity category;
-	
 	@Column(length = 100)
 	private String description;
 	

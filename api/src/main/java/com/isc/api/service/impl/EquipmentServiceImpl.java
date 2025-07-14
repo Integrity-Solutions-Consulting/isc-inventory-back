@@ -239,11 +239,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 				.orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
 		if(request.getId()!=null && request.getId()!=0 ) {
 			InvoiceEntity invoice = invoiceService.update(request,request.getId());
-			invoice.getInvoiceDetail().setCategory(equipment.getCategory());
 			equipment.setInvoice(invoice);
 		}else {
 			InvoiceEntity invoice = invoiceService.save(request);
-			invoice.getInvoiceDetail().setCategory(equipment.getCategory());
 			equipment.setInvoice(invoice);
 		}
 		
