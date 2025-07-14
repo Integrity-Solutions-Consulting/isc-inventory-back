@@ -1,6 +1,7 @@
 package com.isc.api.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,6 +15,8 @@ import com.isc.api.entitys.EquipmentRepairEntity;
 @Repository
 public interface EquipmentRepairRepository extends JpaRepository<EquipmentRepairEntity, Integer>{
 	List<EquipmentRepairEntity> findAllByStatusTrue();
+	
+	Optional<EquipmentRepairEntity> findByEquipment_IdAndRepairDateIsNullAndStatusTrue(Integer equipmentId);
 	
 	@Modifying
 	@Transactional

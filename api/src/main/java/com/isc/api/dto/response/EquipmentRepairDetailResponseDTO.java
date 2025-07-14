@@ -1,6 +1,7 @@
 package com.isc.api.dto.response;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -12,15 +13,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EquipmentRepairDetailResponseDTO {
 	private Integer id;
-	
+
 	private Integer equipment;
 	private String serialNumber;
-	
-	private LocalDateTime repairDate;
+	private EquipmentStatusResponseDTO equipmentStatus;
+	private LocalDate repairDate;
 	private String description;
 	private BigDecimal cost;
 	private String serviceProvider;
 	private boolean status;
-	private LocalDateTime cretionDate;
+	private LocalDateTime creationDate;
 	private LocalDateTime modificationDate;
 }

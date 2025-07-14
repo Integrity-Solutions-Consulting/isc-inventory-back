@@ -25,6 +25,7 @@ import com.isc.api.mapper.EquipmentMapper;
 import com.isc.api.mapper.InvoiceMapper;
 import com.isc.api.repository.*;
 import com.isc.api.service.EquipmentCharacteristicService;
+import com.isc.api.service.EquipmentRepairService;
 import com.isc.api.service.EquipmentService;
 import com.isc.api.service.InvoiceService;
 import com.isc.api.service.WarrantTypeService;
@@ -42,10 +43,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 	private final EquipmentCategoryRepository categoryRepository;
 	private final CompanyRepository companyRepository;
 	private final EquipmentCategoryStockRepository categoryStockRepository;
+	private final EquipmentAssignmentRepository assignmentRepository;
 
 	private final EquipmentCharacteristicService characteristService;
 	private final InvoiceService invoiceService;
 	private final WarrantTypeService warrantyService;
+	private final EquipmentRepairService repairService;
 
 	private final Integer outOfService = 7;
 	private final Integer available = 1;
@@ -225,9 +228,17 @@ public class EquipmentServiceImpl implements EquipmentService {
 		EquipmentStatusEntity status = statusRepository.findById(newStatus)
 				.orElseThrow(() -> new RuntimeException("Estado no encontrado: " + newStatus));
 		if (status.getId() == 1) {
-			this.upStock(equipo.getCategory().getStock());
-		}
-
+			Optional<EquipmentAssignmentEntity> assignmentEntity = assignmentRepository.findTopByEquipment_IdOrderByAssignmentDateDesc(idEquipo);
+			if(assignmentEntity.isPresent()) {
+				status = statusRepository.findById(2)
+						.orElseThrow(() -> new RuntimeException("Estado no encontrado: " + 2));
+			}else {
+				this.upStock(equipo.getCategory().getStock());
+			}
+			
+		} else if(status.getId() == 6) {
+			this.repairService.registerRepairDate(idEquipo);
+		} 
 		equipo.setEquipStatus(status);
 		equipmentRepository.save(equipo);
 
@@ -243,11 +254,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 		InvoiceEntity invoice = new InvoiceEntity();
 		if (request.getId() != 0 || request.getId() != null) {
 			invoice = invoiceService.update(request, request.getId());
-			invoice.getInvoiceDetail().setCategory(equipment.getCategory());
 			equipment.setInvoice(invoice);
 		} else {
 			invoice = invoiceService.save(request);
-			invoice.getInvoiceDetail().setCategory(equipment.getCategory());
 			equipment.setInvoice(invoice);
 		}
 

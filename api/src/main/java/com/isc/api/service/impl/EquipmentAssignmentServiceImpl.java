@@ -48,7 +48,7 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
 
     @Override
     public ResponseDto<List<EquipmentAssignmentDetailResponseDTO>> getAllDetails() {
-        List<EquipmentAssignmentDetailResponseDTO> response = assignmentRepository.findAll().stream()
+        List<EquipmentAssignmentDetailResponseDTO> response = assignmentRepository.findAllOrderByReturnDateNullsFirst().stream()
                 .map(EquipmentAssignmentMapper::toDetailDTO)
                 .collect(Collectors.toList());
 
@@ -78,7 +78,7 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
         }
         
         EquipmentEntity equipment = equipmentOpt.get();
-        if(equipment.getEquipStatus().getId()==this.idAssigned && equipment.getStatus()==true && equipment.getCondition().getId()!=this.outOfService) {
+        if(equipment.getEquipStatus().getId()!=this.idAvailable && equipment.getStatus()==true && equipment.getCondition().getId()!=this.outOfService) {
         	throw new RuntimeException("No fue posible realizar la asignación");   
         }
         EquipmentStatusEntity statusAsignado = new EquipmentStatusEntity();

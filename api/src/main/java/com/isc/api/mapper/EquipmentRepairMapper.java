@@ -53,13 +53,14 @@ public class EquipmentRepairMapper
     EquipmentRepairDetailResponseDTO dto=new  EquipmentRepairDetailResponseDTO();
     dto.setId(entityRepair.getId() !=null ? entityRepair.getId():null );
     dto.setEquipment(entityRepair.getEquipment() !=null ? entityRepair.getEquipment().getId():null);
+    dto.setEquipmentStatus(entityRepair.getEquipment() !=null ? EquipmentStatusMapper.toSimpleDto(entityRepair.getEquipment().getEquipStatus()):null);
     dto.setSerialNumber(entityRepair.getEquipment().getSerialNumber());
     dto.setRepairDate(entityRepair.getRepairDate());
     dto.setDescription(entityRepair.getDescription() !=null ? entityRepair.getDescription():null);
     dto.setCost(entityRepair.getCost() !=null ? entityRepair.getCost():null);
     dto.setServiceProvider(entityRepair.getServiceProvider() !=null ? entityRepair.getServiceProvider():null);
     dto.setStatus(entityRepair.getStatus());
-    dto.setCretionDate(entityRepair.getCreationDate());
+    dto.setCreationDate(entityRepair.getCreationDate());
     dto.setModificationDate(entityRepair.getModificationDate());
     
     return dto;
