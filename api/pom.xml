@@ -102,6 +102,12 @@
     		 <artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 		
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>6.21.5</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
@@ -109,6 +115,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+                <mainClass>com.isc.api.ApiApplication</mainClass>
+            </configuration>
 			</plugin>
 		</plugins>
 	</build>

@@ -17,11 +17,13 @@ import com.isc.api.dto.response.EquipmentDetailResponseDTO;
 import com.isc.api.dto.response.EquipmentResponseDTO;
 import com.isc.api.dto.response.InvoiceDetailResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
+import com.isc.api.dto.response.WarrantTypeDetailResponseDTO;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
 import com.isc.api.entitys.*;
 import com.isc.api.mapper.EquipmentMapper;
 import com.isc.api.mapper.InvoiceMapper;
+import com.isc.api.mapper.WarrantTypeMapper;
 import com.isc.api.repository.*;
 import com.isc.api.service.EquipmentCharacteristicService;
 import com.isc.api.service.EquipmentService;
@@ -268,7 +270,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 
 	@Override
-	public ResponseDto<EquipmentDetailResponseDTO> setWarranty(Integer idEquip, WarrantTypeRequestDTO request) {
+	public ResponseDto<WarrantTypeDetailResponseDTO> setWarranty(Integer idEquip, WarrantTypeRequestDTO request) {
 		EquipmentEntity equipment = equipmentRepository.findById(idEquip)
 				.orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
 
@@ -283,7 +285,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		equipment = equipmentRepository.save(equipment);
 
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipo actualizado correctamente");
-		return new ResponseDto<>(EquipmentMapper.toDetailDto(equipment), metadata);
+		return new ResponseDto<>(WarrantTypeMapper.toDetailResponseDTO(equipment.getWarranty()), metadata);
 	}
 
 	private void upStock(EquipmentCategoryStockEntity stock) {
