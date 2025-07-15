@@ -3,7 +3,6 @@ package com.isc.api.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.isc.api.dto.request.EquipmentRequest;
 import com.isc.api.dto.response.EquipmentResponseDTO;
 import com.isc.api.dto.response.EquipmentCharacteristicResponseDTO;
 import com.isc.api.dto.response.EquipmentDetailResponseDTO;
@@ -107,6 +106,4 @@ public class EquipmentMapper {
 
         return dto;
     }
-    
-
 }

@@ -1,7 +1,5 @@
 package com.isc.api.mapper;
 
-import java.time.LocalDateTime;
-
 import com.isc.api.dto.request.EquipmentRepairRequestDTO;
 import com.isc.api.dto.response.EquipmentRepairDetailResponseDTO;
 import com.isc.api.dto.response.EquipmentRepairResponseDTO;
@@ -59,12 +57,9 @@ public class EquipmentRepairMapper
     dto.setCost(entityRepair.getCost() !=null ? entityRepair.getCost():null);
     dto.setServiceProvider(entityRepair.getServiceProvider() !=null ? entityRepair.getServiceProvider():null);
     dto.setStatus(entityRepair.getStatus());
-    dto.setCretionDate(entityRepair.getCreationDate());
+    dto.setCreationDate(entityRepair.getCreationDate());
     dto.setModificationDate(entityRepair.getModificationDate());
     
     return dto;
     }
-    
-    
-    
 }

@@ -1,12 +1,10 @@
 package com.isc.api.service.impl;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +23,6 @@ import com.isc.api.entitys.EquipmentCategoryStockEntity;
 import com.isc.api.mapper.EquipmentAssignmentMapper;
 import com.isc.api.repository.EmployeeRepository;
 import com.isc.api.repository.EquipmentRepository;
-import com.isc.api.repository.EquipmentStatusRepository;
 import com.isc.api.repository.EquipmentAssignmentRepository;
 import com.isc.api.repository.EquipmentCategoryStockRepository;
 import com.isc.api.service.EquipmentAssignmentService;
@@ -126,10 +123,10 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
         EquipmentCategoryStockEntity stock = equipment.getCategory().getStock();
         stock.setStock(stock.getStock()+1);
         categoryStockRepository.save(stock);
-
+ 
         EquipmentAssignmentEntity updated = assignmentRepository.save(assignment);
         EquipmentAssignmentDetailResponseDTO dto = EquipmentAssignmentMapper.toDetailDTO(updated);
-
+ 
         return new ResponseDto<>(dto, new MetadataResponseDto(HttpStatus.OK, "Asignación actualizada correctamente"));
     }
 

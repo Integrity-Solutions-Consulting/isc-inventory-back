@@ -3,8 +3,6 @@ package com.isc.api.entitys;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.isc.api.dto.request.EmployeeRequestDTO;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

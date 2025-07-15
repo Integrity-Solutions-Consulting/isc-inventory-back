@@ -18,6 +18,7 @@ INDEX VERSION 1.134+C:\Users\XAVIER TIRADO I\isc-inventory-back\.metadata\.plugi
 1049191584.index
 3157197440.index
 2246565942.index
+618283269.index
 2973634008.index
 3238086985.index
 1995100302.index
@@ -51,6 +52,7 @@ INDEX VERSION 1.134+C:\Users\XAVIER TIRADO I\isc-inventory-back\.metadata\.plugi
 2224157463.index
 3481259976.index
 537344546.index
+1418011569.index
 1867018121.index
 1221973889.index
 3853935279.index
@@ -75,6 +77,7 @@ INDEX VERSION 1.134+C:\Users\XAVIER TIRADO I\isc-inventory-back\.metadata\.plugi
 3040599398.index
 2759636072.index
 1528261941.index
+615502225.index
 1865797976.index
 3952020407.index
 3680516940.index
@@ -93,6 +96,7 @@ INDEX VERSION 1.134+C:\Users\XAVIER TIRADO I\isc-inventory-back\.metadata\.plugi
 445013286.index
 1821104742.index
 2481854397.index
+2169348390.index
 4010096586.index
 2172691145.index
 2171808685.index
@@ -116,8 +120,9 @@ INDEX VERSION 1.134+C:\Users\XAVIER TIRADO I\isc-inventory-back\.metadata\.plugi
 583995000.index
 2028601506.index
 2209028323.index
-3377564043.index
 994500497.index
+3377564043.index
+551306859.index
 172836898.index
 1015918220.index
 2442602556.index

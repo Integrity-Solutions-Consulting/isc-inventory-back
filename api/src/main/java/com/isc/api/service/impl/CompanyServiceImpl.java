@@ -2,10 +2,8 @@ package com.isc.api.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import com.isc.api.dto.request.CompanyRequestDTO;
 import com.isc.api.dto.response.CompanyDetailResponseDTO;
 import com.isc.api.dto.response.CompanyResponseDTO;
@@ -21,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+
 public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository repository;
@@ -99,4 +98,3 @@ public class CompanyServiceImpl implements CompanyService {
 		return new ResponseDto<>(message, metadata);
     }
 }
-

@@ -3,7 +3,6 @@ package com.isc.api.service.impl;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -253,14 +252,13 @@ public class EquipmentServiceImpl implements EquipmentService {
 	public ResponseDto<InvoiceDetailResponseDTO> setInvoice(Integer idEquipo, InvoiceRequestDTO request) {
 		EquipmentEntity equipment = equipmentRepository.findById(idEquipo)
 				.orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
+
 		InvoiceEntity invoice = new InvoiceEntity();
 		if (request.getId() != 0 || request.getId() != null) {
 			invoice = invoiceService.update(request, request.getId());
-			invoice.getInvoiceDetail().setCategory(equipment.getCategory());
 			equipment.setInvoice(invoice);
 		} else {
 			invoice = invoiceService.save(request);
-			invoice.getInvoiceDetail().setCategory(equipment.getCategory());
 			equipment.setInvoice(invoice);
 		}
 
@@ -297,5 +295,4 @@ public class EquipmentServiceImpl implements EquipmentService {
 		stock.setStock(stock.getStock() - 1);
 		categoryStockRepository.save(stock);
 	}
-
 }

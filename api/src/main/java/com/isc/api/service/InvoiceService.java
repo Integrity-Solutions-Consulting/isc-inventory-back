@@ -7,14 +7,18 @@ import com.isc.api.dto.response.InvoiceDetailResponseDTO;
 import com.isc.api.dto.response.InvoiceResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
 import com.isc.dtos.ResponseDto;
-import com.isc.api.entitys.InvoiceDetailEntity;
 import com.isc.api.entitys.InvoiceEntity;
 
 public interface InvoiceService {
-    ResponseDto<List<InvoiceDetailResponseDTO>> getAllDetails();
-    ResponseDto<List<InvoiceResponseDTO>> getSimpleList();
-    InvoiceEntity save(InvoiceRequestDTO request);
-    InvoiceEntity update(InvoiceRequestDTO request, Integer id);
-    ResponseDto<MessageResponseDTO> inactive(Integer id);
-    ResponseDto<MessageResponseDTO> active(Integer id);
+	ResponseDto<List<InvoiceDetailResponseDTO>> getAllDetails();
+	ResponseDto<List<InvoiceResponseDTO>> getSimpleList();
+	InvoiceEntity save(InvoiceRequestDTO request);
+	InvoiceEntity update(InvoiceRequestDTO request, Integer id);
+	
+	ResponseDto<MessageResponseDTO> inactive(Integer id);
+	ResponseDto<MessageResponseDTO> active(Integer id);
+	ResponseDto<InvoiceDetailResponseDTO> getInvoiceById(Integer id);
+	ResponseDto<InvoiceDetailResponseDTO> getInvoiceByInvoiceNumber(String invoiceNumber);
+	ResponseDto<InvoiceDetailResponseDTO> getInvoiceBySerialNumber(String serialNumber);
+
 }

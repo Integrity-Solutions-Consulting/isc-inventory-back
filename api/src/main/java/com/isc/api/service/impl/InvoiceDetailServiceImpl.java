@@ -12,13 +12,10 @@ import com.isc.api.dto.response.InvoiceDetailEntityResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
-import com.isc.api.entitys.EquipmentCategoryEntity;
 import com.isc.api.entitys.InvoiceDetailEntity;
 import com.isc.api.mapper.InvoiceDetailMapper;
-import com.isc.api.repository.EquipmentCategoryRepository;
 import com.isc.api.repository.InvoiceDetailRepository;
 import com.isc.api.service.InvoiceDetailService;
-
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class InvoiceDetailServiceImpl implements InvoiceDetailService{
 	private final InvoiceDetailRepository invoiceDetailRepository;
-	private final EquipmentCategoryRepository equipmentCategoryRepository;
 
 	@Override
 	public ResponseDto<List<InvoiceDetailEntityDetailResponseDTO>> getAllDetails() {
@@ -60,7 +56,7 @@ public class InvoiceDetailServiceImpl implements InvoiceDetailService{
 	}
 
 	@Override
-	public InvoiceDetailEntity update(InvoiceDetailRequestDTO request) {
+	public InvoiceDetailEntity update(InvoiceDetailRequestDTO request, Integer id) {
 		InvoiceDetailEntity entity = invoiceDetailRepository.findById(request.getId())
 	            .orElseThrow(() -> new RuntimeException("Detalles de factura no encontrada"));
 		entity.setDescription(request.getDescription());;
@@ -71,6 +67,7 @@ public class InvoiceDetailServiceImpl implements InvoiceDetailService{
 		entity.setDiscount(request.getDiscount());
 		entity.setTotal(request.getTotal());
 		entity = invoiceDetailRepository.save(entity);
+
 		return entity;
 	}
 
@@ -95,6 +92,4 @@ public class InvoiceDetailServiceImpl implements InvoiceDetailService{
 		MessageResponseDTO message = new MessageResponseDTO("Operacion exitosa");
 		return new ResponseDto<>(message, metadata);
 	}
-
-	
 }

@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import com.isc.api.dto.request.EquipmentCategoryStockRequest;
 import com.isc.api.dto.response.EquipmentCategoryStockDetailResponseDTO;
 import com.isc.api.dto.response.EquipmentCategoryStockResponseDTO;
@@ -15,7 +14,6 @@ import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
 import com.isc.api.entitys.EquipmentCategoryStockEntity;
 import com.isc.api.mapper.EquipmentCategoryStockMapper;
-import com.isc.api.repository.EquipmentCategoryRepository;
 import com.isc.api.repository.EquipmentCategoryStockRepository;
 import com.isc.api.service.EquipmentCategoryStockService;
 
@@ -27,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 public class EquipmentCategoryStockServiceImpl implements EquipmentCategoryStockService {
 
 	private final EquipmentCategoryStockRepository stockRepository;
-	private final EquipmentCategoryRepository categoryRepository;
 
 	@Override
 	public ResponseDto<List<EquipmentCategoryStockDetailResponseDTO>> getAllDetails() {

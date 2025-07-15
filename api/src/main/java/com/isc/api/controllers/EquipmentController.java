@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isc.api.dto.request.EquipmentRequest;
@@ -86,7 +85,7 @@ public class EquipmentController {
     
     @PutMapping("/setInvoice/{id}")
     public ResponseEntity<ResponseDto<InvoiceDetailResponseDTO>> setInvoice(@PathVariable Integer id,
-            @Valid@RequestBody InvoiceRequestDTO request) {
+    		@Valid @RequestBody InvoiceRequestDTO request) {
         return ResponseEntity.ok(equipmentService.setInvoice(id,request));
     }
     
