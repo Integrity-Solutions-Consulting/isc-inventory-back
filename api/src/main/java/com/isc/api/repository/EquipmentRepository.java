@@ -1,6 +1,7 @@
 package com.isc.api.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +16,8 @@ import com.isc.api.entitys.EquipmentEntity;
 @Repository
 public interface EquipmentRepository extends JpaRepository<EquipmentEntity, Integer> {
 	List<EquipmentEntity> findAllByStatusTrue();
+	Optional<EquipmentEntity> findBySerialNumber(String serialNumber);
+
 
 	@EntityGraph(attributePaths = { "invoice", "condition", "equipStatus", "category", "warranty", "company",
 			"characteristic" })

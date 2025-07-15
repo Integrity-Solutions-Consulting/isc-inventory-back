@@ -6,6 +6,9 @@ import com.isc.api.dto.response.ComponentTypeResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
+
+import lombok.RequiredArgsConstructor;
+
 import com.isc.api.entitys.ComponentTypeEntity;
 import com.isc.api.mapper.ComponentTypeServiceMapper;
 import com.isc.api.repository.ComponentTypeRepository;
@@ -18,9 +21,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ComponentTypeServiceImpl implements ComponentTypeService {
 
-    private ComponentTypeRepository componentTypeRepository;
+    private final ComponentTypeRepository componentTypeRepository;
 
     @Override
     public ResponseDto<ComponentTypeDetailResponseDTO> save(ComponentTypeRequestDTO request) {

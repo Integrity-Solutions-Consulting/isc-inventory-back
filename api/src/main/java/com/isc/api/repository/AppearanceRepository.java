@@ -22,7 +22,7 @@ public interface AppearanceRepository extends JpaRepository<AppearanceEntity, In
 	
     @Modifying
     @Transactional
-    @Query("UPDATE AppearanceEntity u SET u.active = true, u.updatedAt = CURRENT_TIMESTAMP WHERE u.id = :id AND u.active = false")
+    @Query("UPDATE AppearanceEntity u SET u.active = true, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.active = false")
     int active(@Param("id") Integer id);
 }
 

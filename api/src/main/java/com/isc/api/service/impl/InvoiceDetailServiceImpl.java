@@ -56,7 +56,7 @@ public class InvoiceDetailServiceImpl implements InvoiceDetailService{
 	}
 
 	@Override
-	public InvoiceDetailEntity update(InvoiceDetailRequestDTO request) {
+	public InvoiceDetailEntity update(InvoiceDetailRequestDTO request, Integer id) {
 		InvoiceDetailEntity entity = invoiceDetailRepository.findById(request.getId())
 	            .orElseThrow(() -> new RuntimeException("Detalles de factura no encontrada"));
 		entity.setDescription(request.getDescription());;
