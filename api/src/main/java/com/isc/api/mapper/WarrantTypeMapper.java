@@ -53,8 +53,7 @@ public class WarrantTypeMapper {
         dto.setSupportContact(entity.getSupportContact());
         dto.setWarrantyStatus(entity.isWarrantyStatus());
         dto.setStatus(entity.isWarrantyStatus());
-        dto.setCretionDate(entity.getCreationDate());
-        dto.setModificationDate(entity.getModificationDate());
+     
 
         return dto;
     }

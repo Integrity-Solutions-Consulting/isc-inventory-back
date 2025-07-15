@@ -71,5 +71,42 @@ public class EquipmentMapper {
         return dto;
     }
     
+    public static EquipmentDetailResponseDTO toDetailDtoFull(EquipmentEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+
+        EquipmentDetailResponseDTO dto = new EquipmentDetailResponseDTO();
+        dto.setId(entity.getId());
+        if (entity.getInvoice() != null) dto.setInvoice(entity.getInvoice().getId());
+        dto.setWarranty(entity.getWarranty() != null ? entity.getWarranty().getId() : null);
+        dto.setEquipmentStatusId(entity.getEquipStatus() != null ? entity.getEquipStatus().getId() : null);
+        dto.setEquipmentStatusName(entity.getEquipStatus() != null ? entity.getEquipStatus().getName() : null);
+        dto.setCategoryId(entity.getCategory() != null ? entity.getCategory().getId() : null);
+        dto.setCategoryName(entity.getCategory() != null ? entity.getCategory().getName() : null);
+        dto.setCategoryStock(entity.getCategory() != null ? entity.getCategory().getStock().getStock() : null);
+        dto.setCompanyId(entity.getCompany() != null ? entity.getCompany().getId() : null);
+        dto.setCompanyName(entity.getCompany() != null ? entity.getCompany().getName() : null);
+        dto.setObservations(entity.getObservations());
+        dto.setEquipmentConditionId(entity.getCondition().getId());
+        dto.setEquipmentConditionName(entity.getCondition().getName());
+
+        List<EquipmentCharacteristicResponseDTO> characteristics = new ArrayList<>();
+        for (EquipmentCharacteristicEntity ch : entity.getCharacteristic()) {
+            characteristics.add(EquipmentCharacteristicMapper.toSimpleDto(ch));
+        }
+        dto.setCharacteristics(characteristics);
+
+        dto.setBrand(entity.getBrand());
+        dto.setModel(entity.getModel());
+        dto.setSerialNumber(entity.getSerialNumber());
+        dto.setItemCode(entity.getItemCode());
+        dto.setStatus(entity.getStatus());
+        dto.setCreationDate(entity.getCreationDate());
+        dto.setModificationDate(entity.getModificationDate());
+
+        return dto;
+    }
+    
 
 }

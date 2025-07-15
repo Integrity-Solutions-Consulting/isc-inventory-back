@@ -6,6 +6,7 @@ import com.isc.api.dto.request.EquipmentRequest;
 import com.isc.api.dto.request.InvoiceRequestDTO;
 import com.isc.api.dto.request.WarrantTypeRequestDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
+import com.isc.api.dto.response.WarrantTypeDetailResponseDTO;
 import com.isc.api.dto.response.EquipmentDetailResponseDTO;
 import com.isc.api.dto.response.EquipmentResponseDTO;
 import com.isc.api.dto.response.InvoiceDetailResponseDTO;
@@ -20,5 +21,7 @@ public interface EquipmentService {
     ResponseDto<MessageResponseDTO> active(Integer id);
     ResponseDto<MessageResponseDTO> changeStatus(Integer idEquipo, Integer newStatus);
     ResponseDto<InvoiceDetailResponseDTO> setInvoice(Integer idEquipo,InvoiceRequestDTO request);
-    ResponseDto<EquipmentDetailResponseDTO> setWarranty(Integer idEquip, WarrantTypeRequestDTO request);
+    ResponseDto<WarrantTypeDetailResponseDTO> setWarranty(Integer idEquip, WarrantTypeRequestDTO request);
+    ResponseDto<EquipmentDetailResponseDTO> getFullEquipmentDetailById(Integer id);
+
 }
