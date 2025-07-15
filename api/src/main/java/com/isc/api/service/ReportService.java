@@ -1,4 +1,4 @@
-package com.isc.report;
+package com.isc.api.service;
 
 import java.io.InputStream;
 import java.util.Map;
@@ -11,8 +11,8 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
 @Service
-public class ReportInventory {
-		public byte[] genearReport(String reportName) throws JRException
+public class ReportService {
+		public byte[] generateReport(String reportName) throws JRException
 		{
 			//Cargar el report
 			InputStream reportStream= this.getClass().getResourceAsStream("/reports/"+reportName+".jasper");
@@ -20,8 +20,7 @@ public class ReportInventory {
 			Map<String,Object>parms=null;
 			//llenado 
 			JasperPrint jasperPint= JasperFillManager.fillReport(reportStream,parms,new JREmptyDataSource());
-			
+			//exporta a un report a tipo pdf
 			return JasperExportManager.exportReportToPdf(jasperPint);
 		}
-
 }

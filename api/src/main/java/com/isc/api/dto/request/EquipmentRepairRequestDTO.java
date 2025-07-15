@@ -26,4 +26,6 @@ public class EquipmentRepairRequestDTO {
 	
 	@DecimalMin(value = "0.01", message = "El costo debe ser mayor a 0")
 	private BigDecimal cost;
+	
+	private boolean revoke;
 }

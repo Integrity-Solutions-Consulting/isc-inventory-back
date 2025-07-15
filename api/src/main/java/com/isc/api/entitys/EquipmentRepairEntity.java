@@ -1,6 +1,7 @@
 package com.isc.api.entitys;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -30,7 +31,7 @@ public class EquipmentRepairEntity {
     private EquipmentEntity equipment;
 	
 	@Column(name = "repair_date")
-	private LocalDateTime repairDate;
+	private LocalDate repairDate;
 	
 	@Column(length = 100)
 	private String description;
