@@ -82,11 +82,13 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
 
 		
 		if(request.isRevoke()) {
-			EquipmentAssignmentEntity assignmentEntity = assignmentRepository.findTopByEquipment_IdOrderByAssignmentDateDesc(request.getEquipment()).orElseThrow(
-					()-> new RuntimeException("No se ah encontrado una asignacion de este equipo"));
-			this.assignmentService.revoke(assignmentEntity.getId());
-		
+		    EquipmentAssignmentEntity assignmentEntity = assignmentRepository
+		        .findTopByEquipment_IdOrderByAssignmentDateDesc(request.getEquipment())
+		        .orElseThrow(() -> new RuntimeException("No se ha encontrado una asignación de este equipo"));
+
+		    this.assignmentService.revoke(assignmentEntity.getId(),request);
 		}
+
 		
 		// 6. Crear metadatos y respuesta
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED,

@@ -1,7 +1,7 @@
 package com.isc.api.service.impl;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -9,15 +9,15 @@ import org.springframework.stereotype.Service;
 import com.isc.api.dto.request.WarrantTypeRequestDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
 import com.isc.api.dto.response.WarrantTypeDetailResponseDTO;
-import com.isc.api.dto.response.WarrantTypeResponseDTO;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
-import com.isc.api.entitys.EquipmentEntity;
 import com.isc.api.entitys.WarrantTypeEntity;
 import com.isc.api.mapper.WarrantTypeMapper;
 import com.isc.api.repository.EquipmentRepository;
 import com.isc.api.repository.WarrantTypeRepository;
 import com.isc.api.service.WarrantTypeService;
+import com.isc.api.entitys.EquipmentEntity;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,14 +28,14 @@ public class WarrantTypeServiceImpl implements WarrantTypeService {
     private final WarrantTypeRepository warrantTypeRepository;
     private final EquipmentRepository equipmentRepository;
 
-
     @Override
-    public WarrantTypeEntity save(WarrantTypeRequestDTO request) {
+    public WarrantTypeEntity save(WarrantTypeRequestDTO request, EquipmentEntity equipment) {
         WarrantTypeEntity entity = new WarrantTypeEntity();
         entity.setConditions(request.getConditions());
         entity.setWarrantyStartDate(request.getWarrantyStartDate());
         entity.setWarrantyEndDate(request.getWarrantyEndDate());
         entity.setSupportContact(request.getSupportContact());
+        entity.setEquipment(equipment);
 
         return entity;
     }
@@ -75,4 +75,20 @@ public class WarrantTypeServiceImpl implements WarrantTypeService {
         MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Garantía activada correctamente");
         return new ResponseDto<>(new MessageResponseDTO("Operación exitosa"), metadata);
     }
+    
+    
+    @Override
+    public ResponseDto<WarrantTypeDetailResponseDTO> findById(Integer id) {
+        Optional<WarrantTypeEntity> warranties = warrantTypeRepository.findByIdAndStatusTrue(id);
+
+        if (warranties.isEmpty()) {
+            throw new RuntimeException("No se encontró una garantía activa con el ID: " + id);
+        }
+
+        WarrantTypeDetailResponseDTO dto = WarrantTypeMapper.toDetailResponseDTO(warranties.get());
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Garantía encontrada correctamente");
+
+        return new ResponseDto<>(dto, metadata);
+    }
+
 }

@@ -41,10 +41,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 				.orElseThrow(() -> new UsernameNotFoundException("Usuario " + email + " no existe"));
 
 		Set<GrantedAuthority> authorities = new HashSet<>();
-		System.out.println(user);
 		user.getUserRoles().stream().filter(UserRoleEntity::isActive).map(ur -> "ROLE_" + ur.getRole().getName())
 				.map(SimpleGrantedAuthority::new).forEach(authorities::add);
-		System.out.println(authorities);
 		user.getUserRoles().stream().filter(UserRoleEntity::isActive).map(UserRoleEntity::getRole)
 				.filter(RolesEntity::isActive).flatMap(role -> role.getRolesPrivilegies().stream())
 				.filter(PrivilegeRoleEntity::getActive).map(PrivilegeRoleEntity::getPrivilege)
@@ -56,11 +54,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		return new User(user.getEmail(), user.getPassword(), true, true, true, true, authorities);
 
 	}
-
-	/*
-	 * Collection<? extends GrantedAuthority> authorities =
-	 * user.getUserRoles().stream() .filter(UserRoleEntity::isActive) // Solo roles
-	 * activos .map(usuarioRol -> new SimpleGrantedAuthority("ROLE_" +
-	 * usuarioRol.getRole().getName())) .collect(Collectors.toSet());
-	 */
 }

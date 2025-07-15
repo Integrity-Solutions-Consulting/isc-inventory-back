@@ -17,12 +17,13 @@ import com.isc.api.dto.response.EquipmentDetailResponseDTO;
 import com.isc.api.dto.response.EquipmentResponseDTO;
 import com.isc.api.dto.response.InvoiceDetailResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
+import com.isc.api.dto.response.WarrantTypeDetailResponseDTO;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
 import com.isc.api.entitys.*;
-import com.isc.api.mapper.EquipmentCategoryMapper;
 import com.isc.api.mapper.EquipmentMapper;
 import com.isc.api.mapper.InvoiceMapper;
+import com.isc.api.mapper.WarrantTypeMapper;
 import com.isc.api.repository.*;
 import com.isc.api.service.EquipmentCharacteristicService;
 import com.isc.api.service.EquipmentRepairService;
@@ -30,6 +31,7 @@ import com.isc.api.service.EquipmentService;
 import com.isc.api.service.InvoiceService;
 import com.isc.api.service.WarrantTypeService;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -62,6 +64,18 @@ public class EquipmentServiceImpl implements EquipmentService {
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipos listados correctamente");
 		return new ResponseDto<>(response, metadata);
 	}
+	
+	@Override
+	public ResponseDto<EquipmentDetailResponseDTO> getFullEquipmentDetailById(Integer id) {
+	    EquipmentEntity entity = equipmentRepository.findWithAllDetailsById(id)
+	            .orElseThrow(() -> new EntityNotFoundException("Equipo no encontrado con ID: " + id));
+
+	    EquipmentDetailResponseDTO response = EquipmentMapper.toDetailDtoFull(entity);
+	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Detalles completos del equipo obtenidos correctamente");
+
+	    return new ResponseDto<>(response, metadata);
+	}
+
 
 	@Override
 	public ResponseDto<List<EquipmentResponseDTO>> getSimpleList() {
@@ -89,8 +103,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 				.orElseThrow(() -> new RuntimeException("Empresa no encontrada"));
 		equipment.setCondition(condition);
 		equipment.setCompany(company);
-
-		if (request.getCategoryId() != 0) {
+		if(request.getCategoryId()!=null && request.getCategoryId()!=0) {
 			EquipmentCategoryEntity category = categoryRepository.findById(request.getCategoryId())
 					.orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
 			this.upStock(category.getStock());
@@ -99,12 +112,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 		} else {
 			EquipmentCategoryEntity category = new EquipmentCategoryEntity();
 			category.setName(request.getCategoryName());
-			category = categoryRepository.save(category);
-			equipment.setCategory(category);
 			EquipmentCategoryStockEntity stock = new EquipmentCategoryStockEntity();
 			stock.setCategory(category);
 			stock.setStock(1);
-			categoryStockRepository.save(stock);
+			category.setStock(stock);
+			category = categoryRepository.save(category);
+			equipment.setCategory(category);
 		}
 
 		List<EquipmentCharacteristicEntity> characteristics = new ArrayList<>();
@@ -266,21 +279,22 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 
 	@Override
-	public ResponseDto<EquipmentDetailResponseDTO> setWarranty(Integer idEquip, WarrantTypeRequestDTO request) {
+	public ResponseDto<WarrantTypeDetailResponseDTO> setWarranty(Integer idEquip, WarrantTypeRequestDTO request) {
 		EquipmentEntity equipment = equipmentRepository.findById(idEquip)
 				.orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
-		if (request.getId() != 0 || request.getId() != null) {
-			WarrantTypeEntity warranty = warrantyService.update(request, request.getId());
+
+		if(request.getId()!=null && request.getId()!=0 ) {
+			WarrantTypeEntity warranty = warrantyService.update(request,request.getId());
 			equipment.setWarranty(warranty);
 		} else {
-			WarrantTypeEntity warranty = warrantyService.save(request);
+			WarrantTypeEntity warranty = warrantyService.save(request, equipment);
 			equipment.setWarranty(warranty);
 		}
 
 		equipment = equipmentRepository.save(equipment);
 
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipo actualizado correctamente");
-		return new ResponseDto<>(EquipmentMapper.toDetailDto(equipment), metadata);
+		return new ResponseDto<>(WarrantTypeMapper.toDetailResponseDTO(equipment.getWarranty()), metadata);
 	}
 
 	private void upStock(EquipmentCategoryStockEntity stock) {
