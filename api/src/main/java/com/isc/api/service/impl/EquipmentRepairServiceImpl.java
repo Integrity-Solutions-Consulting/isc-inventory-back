@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.isc.api.dto.request.EquipmentRepairRequestDTO;
+import com.isc.api.dto.request.EquipmentRevokeRequestDTO;
 import com.isc.api.dto.response.EquipmentRepairDetailResponseDTO;
 import com.isc.api.dto.response.EquipmentRepairResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
@@ -82,11 +83,9 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
 
 		
 		if(request.isRevoke()) {
-		    EquipmentAssignmentEntity assignmentEntity = assignmentRepository
-		        .findTopByEquipment_IdOrderByAssignmentDateDesc(request.getEquipment())
-		        .orElseThrow(() -> new RuntimeException("No se ha encontrado una asignación de este equipo"));
-
-		    this.assignmentService.revoke(assignmentEntity.getId(),request);
+			EquipmentAssignmentEntity assignmentEntity = assignmentRepository.findTopByEquipment_IdOrderByAssignmentDateDesc(request.getEquipment()).orElseThrow(
+					()-> new RuntimeException("No se ah encontrado una asignacion de este equipo"));
+			this.assignmentService.revoke(assignmentEntity.getId(), new EquipmentRevokeRequestDTO(LocalDate.now()));
 		}
 
 		
