@@ -1,0 +1,64 @@
+<<<<<<< HEAD:api/src/main/java/com/isc/mapper/EquipmentCharacteristicMapper.java
+package com.isc.mapper;
+
+import com.isc.dto.response.EquipmentCharacteristicDetailResponseDTO;
+import com.isc.dto.response.EquipmentCharacteristicResponseDTO;
+import com.isc.entitys.EquipmentCharacteristicEntity;
+
+public class EquipmentCharacteristicMapper {
+	public static EquipmentCharacteristicResponseDTO toSimpleDto(EquipmentCharacteristicEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return new EquipmentCharacteristicResponseDTO(
+            entity.getId(),
+            entity.getDescription(),
+            entity.getComponent() != null ? entity.getComponent().getId() : null
+        );
+    }
+    
+    public static EquipmentCharacteristicDetailResponseDTO toDetailDto(EquipmentCharacteristicEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        return new EquipmentCharacteristicDetailResponseDTO(
+            entity.getId(),
+            entity.getDescription(),
+            entity.getComponent() != null ? entity.getComponent().getId() : null,
+            entity.getStatus(),
+            entity.getCreationDate(),
+            entity.getModificationDate()
+        );
+    }
+}
+=======
+package com.isc.api.mapper;
+
+import com.isc.api.dto.response.EquipmentCharacteristicDetailResponseDTO;
+import com.isc.api.dto.response.EquipmentCharacteristicResponseDTO;
+import com.isc.api.entitys.EquipmentCharacteristicEntity;
+
+public class EquipmentCharacteristicMapper {
+	public static EquipmentCharacteristicResponseDTO toSimpleDto(EquipmentCharacteristicEntity entity) {
+		if (entity == null) {
+			return null;
+		}
+
+		return new EquipmentCharacteristicResponseDTO(entity.getId(), entity.getDescription(),
+				entity.getComponent() != null ? entity.getComponent().getId() : null,
+				entity.getComponent() != null ? entity.getComponent().getDescription() : null);
+	}
+
+	public static EquipmentCharacteristicDetailResponseDTO toDetailDto(EquipmentCharacteristicEntity entity) {
+		if (entity == null) {
+			return null;
+		}
+
+		return new EquipmentCharacteristicDetailResponseDTO(entity.getId(), entity.getDescription(),
+				entity.getComponent() != null ? entity.getComponent().getId() : null, entity.getStatus(),
+				entity.getCreationDate(), entity.getModificationDate());
+	}
+}
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/mapper/EquipmentCharacteristicMapper.java

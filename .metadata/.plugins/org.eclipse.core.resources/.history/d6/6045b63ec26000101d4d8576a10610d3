@@ -1,0 +1,32 @@
+<<<<<<< HEAD:api/src/main/java/com/isc/dto/response/InvoiceDetailEntityResponseDTO.java
+package com.isc.dto.response;
+=======
+package com.isc.api.dto.response;
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/dto/response/InvoiceDetailEntityResponseDTO.java
+
+import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class InvoiceDetailEntityResponseDTO {
+	private Integer id;
+<<<<<<< HEAD:api/src/main/java/com/isc/dto/response/InvoiceDetailEntityResponseDTO.java
+	private Integer category;
+=======
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/dto/response/InvoiceDetailEntityResponseDTO.java
+	private String description;
+	private BigDecimal unitPrice;
+	private Integer quantity;
+	private BigDecimal subtotal;
+	private BigDecimal tax;
+	private BigDecimal discount;
+	private BigDecimal total;	
+<<<<<<< HEAD:api/src/main/java/com/isc/dto/response/InvoiceDetailEntityResponseDTO.java
+}
+=======
+}
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/dto/response/InvoiceDetailEntityResponseDTO.java

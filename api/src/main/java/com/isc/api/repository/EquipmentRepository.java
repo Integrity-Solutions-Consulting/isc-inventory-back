@@ -11,12 +11,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.isc.api.dto.response.EquipmentDetailResponseDTO;
 import com.isc.api.entitys.EquipmentEntity;
 
 @Repository
 public interface EquipmentRepository extends JpaRepository<EquipmentEntity, Integer> {
 	List<EquipmentEntity> findAllByStatusTrue();
+	Optional<EquipmentEntity> findBySerialNumber(String serialNumber);
 
 	@EntityGraph(attributePaths = { "invoice", "condition", "equipStatus", "category", "warranty", "company",
 			"characteristic" })

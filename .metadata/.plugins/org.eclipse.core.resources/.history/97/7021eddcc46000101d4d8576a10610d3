@@ -1,0 +1,60 @@
+<<<<<<< HEAD:api/src/main/java/com/isc/mapper/InvoiceDetailMapper.java
+package com.isc.mapper;
+
+import com.isc.dto.response.InvoiceDetailEntityDetailResponseDTO;
+import com.isc.dto.response.InvoiceDetailEntityResponseDTO;
+import com.isc.entitys.InvoiceDetailEntity;
+=======
+package com.isc.api.mapper;
+
+import com.isc.api.dto.response.InvoiceDetailEntityDetailResponseDTO;
+import com.isc.api.dto.response.InvoiceDetailEntityResponseDTO;
+import com.isc.api.entitys.InvoiceDetailEntity;
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/mapper/InvoiceDetailMapper.java
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+public class InvoiceDetailMapper {
+	public static InvoiceDetailEntityResponseDTO toInvoiceDetailEntityResponseDTO(InvoiceDetailEntity entity) {
+        if (entity == null) 
+        	return null;        
+        return new InvoiceDetailEntityResponseDTO(
+            entity.getId(),
+<<<<<<< HEAD:api/src/main/java/com/isc/mapper/InvoiceDetailMapper.java
+            entity.getCategory() != null ? entity.getCategory().getId() : null,
+=======
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/mapper/InvoiceDetailMapper.java
+            entity.getDescription(),
+            entity.getUnitPrice(),
+            entity.getQuantity(),
+            entity.getSubtotal(),
+            entity.getTax(),
+            entity.getDiscount(),
+            entity.getTotal());
+		}
+	
+	public static InvoiceDetailEntityDetailResponseDTO toInvoiceDetailEntityDetailResponseDTO(InvoiceDetailEntity entity) {
+        if (entity == null) return null;
+        
+        return new InvoiceDetailEntityDetailResponseDTO(
+            entity.getId(),
+<<<<<<< HEAD:api/src/main/java/com/isc/mapper/InvoiceDetailMapper.java
+            entity.getCategory() != null ? entity.getCategory().getId() : null,
+=======
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/mapper/InvoiceDetailMapper.java
+            entity.getDescription(),
+            entity.getUnitPrice(),
+            entity.getQuantity(),
+            entity.getSubtotal(),
+            entity.getTax(),
+            entity.getDiscount(),
+            entity.getTotal(),
+            entity.getStatus(),
+            entity.getCreationDate(),
+            entity.getModificationDate());
+	}
+<<<<<<< HEAD:api/src/main/java/com/isc/mapper/InvoiceDetailMapper.java
+}
+=======
+}
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/mapper/InvoiceDetailMapper.java

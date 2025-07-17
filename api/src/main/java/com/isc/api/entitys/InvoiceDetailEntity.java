@@ -8,8 +8,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,11 +22,7 @@ public class InvoiceDetailEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-	
-	@ManyToOne
-    @JoinColumn(name = "id_category", nullable = false)
-    private EquipmentCategoryEntity category;
-	
+
 	@Column(length = 100)
 	private String description;
 	

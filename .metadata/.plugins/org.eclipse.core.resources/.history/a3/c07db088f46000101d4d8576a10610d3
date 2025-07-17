@@ -1,0 +1,140 @@
+package com.isc.api.service.impl;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import com.isc.api.dto.request.InvoiceRequestDTO;
+import com.isc.api.dto.response.EquipmentDetailResponseDTO;
+import com.isc.api.dto.response.InvoiceDetailResponseDTO;
+import com.isc.api.dto.response.InvoiceResponseDTO;
+import com.isc.api.dto.response.MessageResponseDTO;
+import com.isc.dtos.MetadataResponseDto;
+import com.isc.dtos.ResponseDto;
+import com.isc.api.entitys.EquipmentEntity;
+import com.isc.api.entitys.InvoiceDetailEntity;
+import com.isc.api.entitys.InvoiceEntity;
+import com.isc.api.entitys.SupplierEntity;
+import com.isc.api.mapper.EquipmentMapper;
+import com.isc.api.mapper.InvoiceMapper;
+import com.isc.api.repository.EquipmentRepository;
+import com.isc.api.repository.InvoiceRepository;
+import com.isc.api.repository.SupplierRepository;
+import com.isc.api.service.InvoiceDetailService;
+import com.isc.api.service.InvoiceService;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class InvoiceServiceImpl implements InvoiceService {
+
+    private final InvoiceRepository invoiceRepository;
+    private final EquipmentRepository equipmentRepository;
+    private final SupplierRepository supplierRepository;
+    private final InvoiceDetailService invoiceDetailService;
+
+    @Override
+    public ResponseDto<List<InvoiceDetailResponseDTO>> getAllDetails() {
+        List<InvoiceDetailResponseDTO> response = invoiceRepository.findAll().stream()
+                .map(InvoiceMapper::toInvoiceDetailDto)
+                .collect(Collectors.toList());
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Facturas listadas correctamente");
+        return new ResponseDto<>(response, metadata);
+    }
+
+    @Override
+    public ResponseDto<List<InvoiceResponseDTO>> getSimpleList() {
+        List<InvoiceResponseDTO> response = invoiceRepository.findAllByStatusTrue().stream()
+                .map(InvoiceMapper::toInvoiceDto)
+                .collect(Collectors.toList());
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Facturas activas listadas correctamente");
+        return new ResponseDto<>(response, metadata);
+    }
+    
+    @Override
+	public ResponseDto<EquipmentDetailResponseDTO> getInvoiceBySerialNumber(String serialNumber) {
+    	EquipmentEntity e = equipmentRepository.findBySerialNumber(serialNumber)
+				.orElseThrow(() -> new RuntimeException("Factura no encontrado"));
+    	EquipmentDetailResponseDTO response = EquipmentMapper.toDetailDto(e);
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK,
+				"Informacion del empleado cargada correctamente");
+		return new ResponseDto<>(response, metadata);
+	}
+    
+    @Override
+   	public ResponseDto<InvoiceDetailResponseDTO> getInvoiceByInvoiceNumber(String invoiceNumber) {
+       	InvoiceEntity e = invoiceRepository.findByInvoiceNumber(invoiceNumber)
+   				.orElseThrow(() -> new RuntimeException("Factura no encontrado"));
+       	InvoiceDetailResponseDTO response = InvoiceMapper.toInvoiceDetailDto(e);
+   		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK,
+   				"Informacion del empleado cargada correctamente");
+   		return new ResponseDto<>(response, metadata);
+   	}
+    
+    @Override
+	public ResponseDto<InvoiceDetailResponseDTO> getInvoiceById(Integer id) {
+    	InvoiceEntity e = invoiceRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Factura no encontrado"));
+    	InvoiceDetailResponseDTO response = InvoiceMapper.toInvoiceDetailDto(e);
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK,
+				"Informacion del empleado cargada correctamente");
+		return new ResponseDto<>(response, metadata);
+	}
+
+    @Override
+    public ResponseDto<ResponseDto<InvoiceDetailResponseDTO>> save(InvoiceRequestDTO request) {
+    	SupplierEntity supplier = supplierRepository.findById(request.getSupplier())
+                .orElseThrow(() -> new RuntimeException("Proveedor no encontrado"));
+        
+        
+        InvoiceEntity entity = new InvoiceEntity();
+        InvoiceDetailEntity detail = invoiceDetailService.save(request.getInvoiceDetail());
+        	
+        entity.setInvoiceDetailRequest(detail);
+        entity.setSupplier(supplier);
+        entity.setInvoiceDate(request.getInvoiceDate());
+        entity.setInvoiceNumber(request.getInvoiceNumber());
+        return entity;
+    }
+
+    @Override
+    public ResponseDto<ResponseDto<InvoiceDetailResponseDTO>> update(InvoiceRequestDTO request, Integer id) {
+        InvoiceEntity entity = invoiceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Factura no encontrada"));
+        
+        InvoiceDetailEntity detail = invoiceDetailService.update(request.getInvoiceDetail());
+        if (!entity.getSupplier().getId().equals(request.getSupplier())) {
+            SupplierEntity supplier = supplierRepository.findById(request.getSupplier())
+                    .orElseThrow(() -> new RuntimeException("Proveedor no encontrado"));
+            entity.setSupplier(supplier);
+        }
+
+        entity.setInvoiceDetailRequest(detail);
+        entity.setInvoiceDate(request.getInvoiceDate());
+        entity.setInvoiceNumber(request.getInvoiceNumber());
+        return entity;
+    }
+
+    @Override
+    public ResponseDto<MessageResponseDTO> inactive(Integer id) {
+        int rowsAffected = invoiceRepository.inactive(id);
+        if (rowsAffected == 0) {
+            throw new RuntimeException("No se pudo inactivar la factura con ID: " + id);
+        }
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Factura inactivada correctamente");
+        return new ResponseDto<>(new MessageResponseDTO("Operación exitosa"), metadata);
+    }
+
+    @Override
+    public ResponseDto<MessageResponseDTO> active(Integer id) {
+        int rowsAffected = invoiceRepository.active(id);
+        if (rowsAffected == 0) {
+            throw new RuntimeException("No se pudo activar la factura con ID: " + id);
+        }
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Factura activada correctamente");
+        return new ResponseDto<>(new MessageResponseDTO("Operación exitosa"), metadata);
+    }
+}

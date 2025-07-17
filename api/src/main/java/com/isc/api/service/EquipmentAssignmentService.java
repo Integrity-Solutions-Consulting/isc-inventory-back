@@ -3,7 +3,6 @@ package com.isc.api.service;
 import java.util.List;
 
 import com.isc.api.dto.request.EquipmentAssignmentRequestDTO;
-import com.isc.api.dto.request.EquipmentRepairRequestDTO;
 import com.isc.api.dto.request.EquipmentRevokeRequestDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
 import com.isc.api.dto.response.EquipmentAssignmentDetailResponseDTO;

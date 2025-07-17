@@ -1,0 +1,31 @@
+<<<<<<< HEAD:api/src/main/java/com/isc/mapper/EquipmentStatusMapper.java
+package com.isc.mapper;
+
+import com.isc.dto.response.EquipmentStatusDetailResponseDTO;
+import com.isc.dto.response.EquipmentStatusResponseDTO;
+import com.isc.entitys.EquipmentStatusEntity;
+=======
+package com.isc.api.mapper;
+
+import com.isc.api.dto.response.EquipmentStatusDetailResponseDTO;
+import com.isc.api.dto.response.EquipmentStatusResponseDTO;
+import com.isc.api.entitys.EquipmentStatusEntity;
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/mapper/EquipmentStatusMapper.java
+
+public class EquipmentStatusMapper {
+	public static EquipmentStatusResponseDTO toSimpleDto(EquipmentStatusEntity entity) {
+		if (entity == null)
+			return null;
+		return new EquipmentStatusResponseDTO(entity.getId(), entity.getName());
+	}
+	
+	public static EquipmentStatusDetailResponseDTO toDetailDto(EquipmentStatusEntity entity) {
+		if (entity == null)
+			return null;
+		return new EquipmentStatusDetailResponseDTO(entity.getId(), entity.getName(),entity.getStatus(),entity.getCreationDate(),entity.getModificationDate());
+	}
+<<<<<<< HEAD:api/src/main/java/com/isc/mapper/EquipmentStatusMapper.java
+}
+=======
+}
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/mapper/EquipmentStatusMapper.java

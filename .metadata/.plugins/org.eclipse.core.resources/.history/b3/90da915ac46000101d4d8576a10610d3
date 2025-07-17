@@ -1,0 +1,19 @@
+package com.isc.api.mapper;
+
+import com.isc.api.dto.response.EquipmentCategoryStockDetailResponseDTO;
+import com.isc.api.dto.response.EquipmentCategoryStockResponseDTO;
+import com.isc.api.entitys.EquipmentCategoryStockEntity;
+
+public class EquipmentCategoryStockMapper {
+	public static EquipmentCategoryStockResponseDTO toSimpleDto(EquipmentCategoryStockEntity entity) {
+		if (entity == null)
+			return null;
+		}
+	
+	public static EquipmentCategoryStockDetailResponseDTO toDetailDto(EquipmentCategoryStockEntity entity) {
+		if (entity == null)
+			return null;
+
+		return null;
+}
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/mapper/EquipmentCategoryStockMapper.java

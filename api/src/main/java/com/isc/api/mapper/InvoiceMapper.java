@@ -2,7 +2,6 @@ package com.isc.api.mapper;
 
 import com.isc.api.dto.response.InvoiceResponseDTO;
 import com.isc.api.dto.response.InvoiceDetailResponseDTO;
-import com.isc.api.entitys.InvoiceDetailEntity;
 import com.isc.api.entitys.InvoiceEntity;
 
 public class InvoiceMapper {
