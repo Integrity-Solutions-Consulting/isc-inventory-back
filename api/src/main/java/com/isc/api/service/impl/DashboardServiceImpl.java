@@ -1,11 +1,14 @@
 package com.isc.api.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.isc.api.dto.response.DashboardEquipmentAssignedByCategoryResponseDTO;
 import com.isc.api.dto.response.DashboardResponseDTO;
+import com.isc.api.repository.EquipmentCategoryRepository;
 import com.isc.api.repository.EquipmentRepository;
 import com.isc.api.service.DashboardService;
 import com.isc.dtos.MetadataResponseDto;
@@ -18,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class DashboardServiceImpl implements DashboardService {
 
 	private final EquipmentRepository equipmentRepository;
+	private final EquipmentCategoryRepository categoryRepository;
 
 	@Override
 	public ResponseDto<DashboardResponseDTO> getCards() {
@@ -39,5 +43,23 @@ public class DashboardServiceImpl implements DashboardService {
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Empleados listados correctamente");
 		return new ResponseDto<>(response, metadata);
 	}
+	
+	@Override
+	public ResponseDto<List<DashboardEquipmentAssignedByCategoryResponseDTO>> getEquipmentAssignedByCategory() {
+	    List<Object[]> result = categoryRepository.getEquipmentByCategory();
+	    
+	    List<DashboardEquipmentAssignedByCategoryResponseDTO> data = new ArrayList<>();
+
+	    for (Object[] row : result) {
+	        DashboardEquipmentAssignedByCategoryResponseDTO dto = new DashboardEquipmentAssignedByCategoryResponseDTO();
+	        dto.setCategoria((String) row[0]);
+	        dto.setTotal((int) ((Number) row[1]).longValue());
+	        data.add(dto);
+	    }
+
+	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipos asignados por categoría listados correctamente");
+	    return new ResponseDto<>(data, metadata);
+	}
+
 
 }
