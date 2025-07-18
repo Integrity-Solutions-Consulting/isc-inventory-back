@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isc.api.dto.request.EquipmentRequest;
@@ -68,9 +67,10 @@ public class EquipmentController {
     @PutMapping("/changeStatus/{id}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> changeStatus(
             @PathVariable("id") Integer idEquipo,
-            @Valid @RequestBody Integer status) {
+            @Valid @RequestBody Integer status,
+            @PathVariable("id") Integer idRepair) {
 
-        ResponseDto<MessageResponseDTO> response = equipmentService.changeStatus(idEquipo, status);
+        ResponseDto<MessageResponseDTO> response = equipmentService.changeStatus(idEquipo, status, idRepair);
         return ResponseEntity.ok(response);
     }
 

@@ -1,7 +1,5 @@
 package com.isc.api.mapper;
 
-import java.time.LocalDateTime;
-
 import com.isc.api.dto.request.EquipmentRepairRequestDTO;
 import com.isc.api.dto.response.EquipmentRepairDetailResponseDTO;
 import com.isc.api.dto.response.EquipmentRepairResponseDTO;
@@ -33,7 +31,7 @@ public class EquipmentRepairMapper
     	}
     	
     	EquipmentRepairResponseDTO dto = new EquipmentRepairResponseDTO();
-    	dto.setId(entityRepair.getId() !=null ? entityRepair.getId():null );
+    	dto.setId(entityRepair.getIdRepair() !=null ? entityRepair.getIdRepair():null );
     	dto.setEquipment(entityRepair.getEquipment() !=null ? entityRepair.getEquipment().getId():null);
     	dto.setRepairDate(entityRepair.getRepairDate());
     	dto.setDescription(entityRepair.getDescription() !=null ? entityRepair.getDescription():null);
@@ -51,9 +49,9 @@ public class EquipmentRepairMapper
     		return null;
     	}
     EquipmentRepairDetailResponseDTO dto=new  EquipmentRepairDetailResponseDTO();
-    dto.setId(entityRepair.getId() !=null ? entityRepair.getId():null );
+    dto.setId(entityRepair.getIdRepair() !=null ? entityRepair.getIdRepair():null );
     dto.setEquipment(entityRepair.getEquipment() !=null ? entityRepair.getEquipment().getId():null);
-    dto.setEquipmentStatus(entityRepair.getEquipment() !=null ? EquipmentStatusMapper.toSimpleDto(entityRepair.getEquipment().getEquipStatus()):null);
+    dto.setEquipmentStatus(entityRepair.getEquipment() !=null ? EquipmentStatusMapper.toSimpleDto(entityRepair.getRepairStatus()):null);
     dto.setSerialNumber(entityRepair.getEquipment().getSerialNumber());
     dto.setRepairDate(entityRepair.getRepairDate());
     dto.setDescription(entityRepair.getDescription() !=null ? entityRepair.getDescription():null);

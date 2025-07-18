@@ -46,6 +46,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	private final CompanyRepository companyRepository;
 	private final EquipmentCategoryStockRepository categoryStockRepository;
 	private final EquipmentAssignmentRepository assignmentRepository;
+	private final EquipmentRepairRepository equipmentRepairRepository;
 
 	private final EquipmentCharacteristicService characteristService;
 	private final InvoiceService invoiceService;
@@ -55,6 +56,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 	private final Integer outOfService = 7;
 	private final Integer available = 1;
 	private final Integer irreparable = 7;
+	private final Integer reparado = 6;
+	private final Integer en_revision = 4;
 
 	@Override
 	public ResponseDto<List<EquipmentDetailResponseDTO>> getAllDetails() {
@@ -234,12 +237,14 @@ public class EquipmentServiceImpl implements EquipmentService {
 	// Método para cambiar el estado del equipo
 	@Override
 	@Transactional
-	public ResponseDto<MessageResponseDTO> changeStatus(Integer idEquipo, Integer newStatus) {
+	public ResponseDto<MessageResponseDTO> changeStatus(Integer idEquipo, Integer newStatus, Integer idRepair) {
 		EquipmentEntity equipo = equipmentRepository.findById(idEquipo)
 				.orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
-
-		EquipmentStatusEntity status = statusRepository.findById(newStatus)
-				.orElseThrow(() -> new RuntimeException("Estado no encontrado: " + newStatus));
+		//Si recibe el id de raparacion, si lo recibe cambiar equp service, contollers y front. Reapir entity
+		//El estado puede cambiar
+		Integer currentStatusId = newStatus;
+		EquipmentStatusEntity status = statusRepository.findById(currentStatusId)
+				.orElseThrow(() -> new RuntimeException("Estado no encontrado: " + currentStatusId));
 		if (status.getId() == 1) {
 			Optional<EquipmentAssignmentEntity> assignmentEntity = assignmentRepository.findTopByEquipment_IdOrderByAssignmentDateDesc(idEquipo);
 			if(assignmentEntity.isPresent()) {
@@ -251,7 +256,15 @@ public class EquipmentServiceImpl implements EquipmentService {
 			
 		} else if(status.getId() == 6) {
 			this.repairService.registerRepairDate(idEquipo);
-		} 
+		}
+		
+		if(idRepair != null) {
+			EquipmentRepairEntity repair = equipmentRepairRepository.findById(idRepair)
+					.orElseThrow(() -> new RuntimeException("No hay equipo  en reparacion con id:" + idRepair));
+		
+			equipmentRepairRepository.save(repair);
+		}
+		
 		equipo.setEquipStatus(status);
 		equipmentRepository.save(equipo);
 
@@ -306,5 +319,4 @@ public class EquipmentServiceImpl implements EquipmentService {
 		stock.setStock(stock.getStock() - 1);
 		categoryStockRepository.save(stock);
 	}
-
 }

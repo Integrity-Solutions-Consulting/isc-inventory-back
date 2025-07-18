@@ -24,11 +24,16 @@ import lombok.NoArgsConstructor;
 public class EquipmentRepairEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+	@JoinColumn(name = "id")
+    private Integer idRepair;
 	
 	@ManyToOne
     @JoinColumn(name = "id_equipment", nullable = false)
     private EquipmentEntity equipment;
+	
+	@ManyToOne
+    @JoinColumn(name = "id_status", nullable = false)
+    private EquipmentStatusEntity repairStatus;
 	
 	@Column(name = "repair_date")
 	private LocalDate repairDate;
