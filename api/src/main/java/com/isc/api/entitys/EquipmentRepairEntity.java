@@ -24,15 +24,14 @@ import lombok.NoArgsConstructor;
 public class EquipmentRepairEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JoinColumn(name = "id")
-    private Integer idRepair;
+    private Integer id;
 	
 	@ManyToOne
     @JoinColumn(name = "id_equipment", nullable = false)
     private EquipmentEntity equipment;
 	
 	@ManyToOne
-    @JoinColumn(name = "id_status", nullable = false)
+    @JoinColumn(name = "id_equipment_status", nullable = false)
     private EquipmentStatusEntity repairStatus;
 	
 	@Column(name = "repair_date")

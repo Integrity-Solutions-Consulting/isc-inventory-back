@@ -1,8 +1,6 @@
 package com.isc.api.dto.request;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

@@ -67,10 +67,9 @@ public class EquipmentController {
     @PutMapping("/changeStatus/{id}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> changeStatus(
             @PathVariable("id") Integer idEquipo,
-            @Valid @RequestBody Integer status,
-            @PathVariable("id") Integer idRepair) {
+            @Valid @RequestBody Integer id, Integer status) {
 
-        ResponseDto<MessageResponseDTO> response = equipmentService.changeStatus(idEquipo, status, idRepair);
+        ResponseDto<MessageResponseDTO> response = equipmentService.changeStatus(idEquipo, status, id);
         return ResponseEntity.ok(response);
     }
 

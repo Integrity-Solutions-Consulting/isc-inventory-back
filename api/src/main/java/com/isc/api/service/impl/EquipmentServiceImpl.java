@@ -56,8 +56,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 	private final Integer outOfService = 7;
 	private final Integer available = 1;
 	private final Integer irreparable = 7;
-	private final Integer reparado = 6;
-	private final Integer en_revision = 4;
 
 	@Override
 	public ResponseDto<List<EquipmentDetailResponseDTO>> getAllDetails() {
@@ -242,9 +240,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 				.orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
 		//Si recibe el id de raparacion, si lo recibe cambiar equp service, contollers y front. Reapir entity
 		//El estado puede cambiar
-		Integer currentStatusId = newStatus;
-		EquipmentStatusEntity status = statusRepository.findById(currentStatusId)
-				.orElseThrow(() -> new RuntimeException("Estado no encontrado: " + currentStatusId));
+		EquipmentStatusEntity status = statusRepository.findById(newStatus)
+				.orElseThrow(() -> new RuntimeException("Estado no encontrado: " + newStatus));
 		if (status.getId() == 1) {
 			Optional<EquipmentAssignmentEntity> assignmentEntity = assignmentRepository.findTopByEquipment_IdOrderByAssignmentDateDesc(idEquipo);
 			if(assignmentEntity.isPresent()) {

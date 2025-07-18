@@ -1,34 +1,59 @@
-2:01:29 Tab47 StartNav607 #typed
-2:01:29 Tab47 FinishNav607
-2:01:29 Tab47 PageLoad
-2:01:31 Tab47 StartNav608 #typed
-2:01:31 Tab47 FinishNav608
-2:01:31 Tab47 PageLoad
-2:01:32 Tab47 StartNav609 #typed
-2:01:32 Tab47 FinishNav609
-2:01:32 Tab47 PageLoad
-2:01:34 Tab47 StartNav610 #typed
-2:01:34 Tab47 FinishNav610
-2:01:34 Tab47 PageLoad
-2:01:37 Tab47 StartNav611 #typed
-2:01:37 Tab47 FinishNav611
-2:01:37 Tab47 PageLoad
-2:01:37 Tab47 StartNav612 #typed
-2:01:37 Tab47 FinishNav612
-2:01:37 Tab47 PageLoad
-2:01:44 Tab47 StartNav613 #typed
-2:01:44 Tab47 FinishNav613
-2:01:44 Tab47 PageLoad
-2:01:44 Tab47 StartNav614 #typed
-2:01:44 Tab47 FinishNav614
-2:01:44 Tab47 PageLoad
-2:01:45 Tab47 StartNav615 #typed
-2:01:45 Tab47 FinishNav615
-2:01:45 Tab47 PageLoad
-2:01:46 Tab47 StartNav616 #typed
-2:01:46 Tab47 FinishNav616
-2:01:46 Tab47 PageLoad
-2:01:48 Tab47 StartNav617 #typed
-2:01:48 Tab47 FinishNav617
-2:01:48 Tab47 PageLoad
-3:03:00 Microsoft.UnloadController.IsUnclosableApp_IsNotWebApp
+1:03:55 Tab10 PageLoad
+1:03:55 Tab10 FinishNav223
+1:03:55 Tab10 PageLoad
+1:03:56 Tab10 StartNav224 #typed
+1:03:56 Tab10 FinishNav224
+1:03:56 Tab10 PageLoad
+1:03:56 Tab9 StartNav225 #typed
+1:03:56 Tab9 FinishNav225
+1:03:56 Tab9 PageLoad
+1:05:23 Tab10 StartNav226 #typed
+1:05:23 Tab10 FinishNav226
+1:05:23 Tab10 PageLoad
+1:05:29 Tab6 StartNav227 #typed
+1:05:29 Tab6 FinishNav227
+1:05:29 Tab6 PageLoad
+1:05:43 Tab10 StartNav228 #typed
+1:05:43 Tab10 FinishNav228
+1:05:43 Tab10 PageLoad
+1:05:44 Tab10 StartNav229 #typed
+1:05:44 Tab10 FinishNav229
+1:05:44 Tab10 PageLoad
+1:05:51 Tab10 StartNav230 #typed
+1:05:51 Tab10 FinishNav230
+1:05:51 Tab10 PageLoad
+1:06:00 Tab10 StartNav231 #typed
+1:06:00 Tab10 FinishNav231
+1:06:00 Tab10 PageLoad
+1:06:02 Tab10 StartNav232 #typed
+1:06:02 Tab10 FinishNav232
+1:06:02 Tab10 PageLoad
+1:06:04 Tab10 StartNav233 #typed
+1:06:04 Tab10 FinishNav233
+1:06:04 Tab10 PageLoad
+1:07:41 Tab10 StartNav234 #typed
+1:07:41 Tab10 FinishNav234
+1:07:41 Tab10 PageLoad
+1:08:34 Tab9 StartNav235 #typed
+1:08:34 Tab9 FinishNav235
+1:08:34 Tab9 PageLoad
+1:08:36 Tab6 StartNav236 #typed
+1:08:36 Tab6 FinishNav236
+1:08:36 Tab6 PageLoad
+1:08:40 Tab6 StartNav237 #typed
+1:08:40 Tab6 FinishNav237
+1:08:40 Tab6 PageLoad
+1:08:49 Tab6 StartNav238 #typed
+1:08:49 Tab6 FinishNav238
+1:08:49 Tab6 PageLoad
+1:11:10 Tab6 StartNav239 #typed
+1:11:10 Tab6 FinishNav239
+1:11:10 Tab6 PageLoad
+1:11:11 Tab9 StartNav240 #typed
+1:11:11 Tab9 FinishNav240
+1:11:11 Tab9 PageLoad
+1:17:02 Memory Pressure: Moderate
+1:21:43 Tab9 StartNav241 #typed
+1:21:43 Tab9 FinishNav241
+1:21:43 Tab9 PageLoad
+1:21:45 Microsoft.UnloadController.IsUnclosableApp_IsNotWebApp

@@ -2,7 +2,10 @@
 <section name="Workbench">
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<section name="java.lang.Class">
+		<item key="replaceBarOpen" value="false"/>
 		<list key="findhistory">
+			<item value="id_repair"/>
+			<item value="repair"/>
 			<item value="null"/>
 		</list>
 	</section>
