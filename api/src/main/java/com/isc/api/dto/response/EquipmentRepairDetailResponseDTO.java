@@ -24,4 +24,5 @@ public class EquipmentRepairDetailResponseDTO {
 	private boolean status;
 	private LocalDateTime creationDate;
 	private LocalDateTime modificationDate;
+	private EquipmentStatusResponseDTO repairStatus;
 }

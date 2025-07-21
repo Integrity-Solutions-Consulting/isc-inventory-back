@@ -15,6 +15,8 @@ import com.isc.api.entitys.SupplierEntity;
 public interface SupplierRepository extends JpaRepository<SupplierEntity, Integer>{
 	List<SupplierEntity> findAllByStatusTrue();
 	
+	List<SupplierEntity> findBySupplierTypeId(Integer supplierTypeId);
+	
 	@Modifying
 	@Transactional
 	@Query("UPDATE SupplierEntity u SET u.status=false, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.status = true")

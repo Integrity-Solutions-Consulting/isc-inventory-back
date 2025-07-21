@@ -12,6 +12,7 @@ public interface SupplierService
 {
 	ResponseDto<List<SupplierDetailResponseDTO>> getAllDetails();
 	ResponseDto<List<SupplierResponseDTO>> getSimpleList();
+    ResponseDto<List<SupplierResponseDTO>> getBySupplierType(Integer supplierTypeId);
 	ResponseDto<SupplierDetailResponseDTO> save(SupplierRequestDTO request);
     ResponseDto<SupplierDetailResponseDTO> update(SupplierRequestDTO request, Integer id);
 	ResponseDto<MessageResponseDTO> inactive(Integer id);

@@ -8,4 +8,5 @@ import com.isc.dtos.ResponseDto;
 public interface SupplierTypeService 
 {
     ResponseDto<List<SupplierTypeResponseDTO>>getAllActive();
+    ResponseDto<SupplierTypeResponseDTO> getById(Integer id);
 }

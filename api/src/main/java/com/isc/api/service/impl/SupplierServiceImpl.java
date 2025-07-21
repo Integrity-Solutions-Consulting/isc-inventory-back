@@ -38,6 +38,28 @@ public class SupplierServiceImpl implements SupplierService {
         MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Proveedores listados correctamente");
         return new ResponseDto<>(response, metadata);
     }
+    
+    @Override
+    public ResponseDto<List<SupplierResponseDTO>> getBySupplierType(Integer supplierTypeId) {
+        // Validar que el tipo de proveedor existe
+        if (!supplierTypeRepository.existsById(supplierTypeId)) {
+            throw new RuntimeException("Tipo de proveedor no encontrado con ID: " + supplierTypeId);
+        }
+        
+        // Obtener todos los proveedores por tipo (activos e inactivos)
+        List<SupplierResponseDTO> response = supplierRepository.findBySupplierTypeId(supplierTypeId)
+                .stream()
+                .map(SupplierMapper::toSimpleDto)
+                .collect(Collectors.toList());
+        
+        MetadataResponseDto metadata = new MetadataResponseDto(
+            HttpStatus.OK, 
+            "Proveedores del tipo " + supplierTypeId + " listados correctamente"
+        );
+        
+        return new ResponseDto<>(response, metadata);
+    }
+    
 
     @Override
     public ResponseDto<List<SupplierResponseDTO>> getSimpleList() {

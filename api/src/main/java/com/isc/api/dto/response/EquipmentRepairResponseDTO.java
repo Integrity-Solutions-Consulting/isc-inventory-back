@@ -17,5 +17,6 @@ public class EquipmentRepairResponseDTO {
 	private String description;
 	private BigDecimal cost;
 	private String serviceProvider;
+	private EquipmentStatusResponseDTO repairStatus;
 	
 }

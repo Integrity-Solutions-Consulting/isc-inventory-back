@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.isc.api.dto.request.EquipmentRepairRequestDTO;
+import com.isc.api.dto.request.UpdateRepairStatusRequestDTO;
 import com.isc.api.dto.response.EquipmentRepairDetailResponseDTO;
 import com.isc.api.dto.response.EquipmentRepairResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
@@ -55,5 +56,4 @@ public class EquipmentRepairController {
 	public ResponseEntity<ResponseDto<MessageResponseDTO>> inactivateEquipment(@PathVariable Integer id) {
 		return ResponseEntity.ok(equipmentRepairService.inactive(id));
 	}
-
 }

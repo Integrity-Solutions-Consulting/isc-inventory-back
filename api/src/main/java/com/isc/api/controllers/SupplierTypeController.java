@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,5 +25,10 @@ public class SupplierTypeController
     @GetMapping("/list")
     public ResponseEntity<ResponseDto<List<SupplierTypeResponseDTO>>> getAllActive() {
         return ResponseEntity.ok(supplierTypeService.getAllActive());
+    }
+    
+    @GetMapping("/idProveedor/{id}")
+    public ResponseDto<SupplierTypeResponseDTO> getById(@PathVariable Integer id) {
+        return supplierTypeService.getById(id);
     }
 }

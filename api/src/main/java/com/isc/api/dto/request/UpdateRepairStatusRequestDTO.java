@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EquipmentRepairStatusChangeRequestDTO {
-	private Integer statusChange;
-	private Integer idRepair;
-	
+public class UpdateRepairStatusRequestDTO 
+{
+	private Integer repairId;
+    private Integer repairStatusId;
 }
