@@ -48,9 +48,25 @@ public class EquipmentServiceImpl implements EquipmentService {
 	private final InvoiceService invoiceService;
 	private final WarrantTypeService warrantyService;
 
-	private final Integer outOfService = 7;
+	//status
 	private final Integer available = 1;
+	private final Integer assigned=2;
+	private final Integer underRepair=3;
+	private final Integer underReview=4;
+	private final Integer bugReported=5;
+	private final Integer repaired=6;
+	private final Integer inProgress=7;
+	private final Integer outOfService = 8;
+	
+	//conditions
+	private final Integer newEquip = 1;
+	private final Integer likeNew = 2;
+	private final Integer used = 3;
+	private final Integer wornOut = 4;
+	private final Integer minorIssue = 5;
+	private final Integer majorIssue = 6;
 	private final Integer irreparable = 7;
+	
 
 	@Override
 	public ResponseDto<List<EquipmentDetailResponseDTO>> getAllDetails() {

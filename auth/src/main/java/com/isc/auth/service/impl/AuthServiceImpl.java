@@ -54,12 +54,14 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	@Transactional
 	public ResponseDto<UserRegisterResponseDTO> register(UserRequestoDTO request) {
-		// TODO Auto-generated method stub
+
 		Set<RolesEntity> roles = rolesRepository.findByIdIn(request.getRolesId());
-		if(roles.size()==0) {
+		if(roles.isEmpty()) {
 			throw new RuntimeException("Roles not found");
 		}
 		Set<PrivilegeEntity> privileges = privilegesRepository.findByIdIn(request.getPrivilegesId());
+		System.out.println("Privilegios solicitados IDs: " + request.getPrivilegesId());
+		System.out.println("Privilegios encontrados: " + privileges.size());
 		Set<MenuEntity> menus = menuRepository.findByIdIn(request.getMenusId());
 		
 		UserEntity user = new UserEntity();
@@ -114,6 +116,7 @@ public class AuthServiceImpl implements AuthService {
 		savedUser.getUserMenus().clear();
 		savedUser.getUserMenus().addAll(userMenus);
 		savedUser = userRepository.save(savedUser);
+		
 		
 		emailService.sendUserCreatedEmail(user.getEmail(), password);
 		

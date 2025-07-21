@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RoleDetailsResponseDTO {
 	private Integer id;
-	private String nombre;
+	private String name;
 	private String description;
 	private boolean active;
 	private Set<PrivilegeResponseDTO> rolePrivileges;

@@ -41,21 +41,59 @@ public class UserMapper {
 	}
 
 	public static UserDetailsResponseDTO detailsToDto(UserEntity entity) {
-		if (entity == null)
-			return null;
+	    if (entity == null)
+	        return null;
 
-		Set<RoleDetailsResponseDTO> roles = entity.getUserRoles().stream().map(UserRoleEntity::getRole)
-				.map(RolesMapper::detailToDto).collect(Collectors.toSet());
-		Set<PrivilegeResponseDTO> privileges = entity.getUserPrivilegies().stream()
-				.map(PrivilegeUserEntity::getPrivilege).map(PrivilegeMapper::toDto).collect(Collectors.toSet());
-		Set<MenuResponseDTO> menus = entity.getUserMenus().stream().map(MenuUserEntity::getMenu).map(MenuMapper::toDto)
-				.collect(Collectors.toSet());
+	    Set<RoleDetailsResponseDTO> roles = entity.getUserRoles().stream()
+	            .map(UserRoleEntity::getRole)
+	            .map(RolesMapper::detailToDto)
+	            .collect(Collectors.toSet());
 
-		return new UserDetailsResponseDTO(entity.getId(), entity.getUsername(), entity.getEmail(),
-				entity.getFirstNames(), entity.getEmployeeId(), entity.getLastModificationDate(),
-				entity.getLastConnection(), entity.isLoggedIn(), entity.isActive(), entity.isSuspended(), roles,
-				privileges, menus);
+	    Set<PrivilegeResponseDTO> privileges = entity.getUserPrivilegies().stream()
+	            .map(PrivilegeUserEntity::getPrivilege)
+	            .map(PrivilegeMapper::toDto)
+	            .collect(Collectors.toSet());
+
+	    // Menús del usuario
+	    Set<MenuEntity> userMenus = entity.getUserMenus().stream()
+	            .map(MenuUserEntity::getMenu)
+	            .collect(Collectors.toSet());
+
+	    // Menús de los roles
+	    Set<MenuEntity> roleMenus = entity.getUserRoles().stream()
+	            .flatMap(role -> role.getRole().getRoleMenus().stream())
+	            .map(MenuRoleEntity::getMenu)
+	            .collect(Collectors.toSet());
+
+	    // Combinar y mapear
+	    Set<MenuEntity> combinedMenus = new HashSet<>();
+	    combinedMenus.addAll(userMenus);
+	    combinedMenus.addAll(roleMenus);
+
+	    Set<MenuResponseDTO> flatMenuDtos = combinedMenus.stream()
+	            .map(MenuMapper::toDto)
+	            .collect(Collectors.toSet());
+
+	    // Convertir a estructura jerárquica si tu frontend espera children
+	    Set<MenuResponseDTO> treeMenus = MenuMapper.buildMenuTree(flatMenuDtos);
+
+	    return new UserDetailsResponseDTO(
+	            entity.getId(),
+	            entity.getUsername(),
+	            entity.getEmail(),
+	            entity.getFirstNames(),
+	            entity.getEmployeeId(),
+	            entity.getLastModificationDate(),
+	            entity.getLastConnection(),
+	            entity.isLoggedIn(),
+	            entity.isActive(),
+	            entity.isSuspended(),
+	            roles,
+	            privileges,
+	            treeMenus
+	    );
 	}
+
 
 	public static UserLoginResponseDTO detailsLoginToDto(UserEntity entity) {
 		if (entity == null)

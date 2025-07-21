@@ -1,5 +1,7 @@
 package com.isc.api.dto.request;
 
+import com.isc.api.dto.response.SupplierTypeResponseDTO;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -36,4 +38,7 @@ public class SupplierRequestDTO {
 	@NotBlank(message = "El RUC es obligatorio")
     @Size(max = 50, message = "El RUC no puede exceder los 50 caracteres")
 	private String taxId;
+	
+	private SupplierTypeRequestDTO supplierType;
+
 }
