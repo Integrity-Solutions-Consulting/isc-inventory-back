@@ -1,0 +1,228 @@
+<<<<<<< HEAD:api/src/main/java/com/isc/service/impl/EquipmentCharacteristicServiceImpl.java
+package com.isc.service.impl;
+
+import java.time.LocalDateTime;
+=======
+package com.isc.api.service.impl;
+
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/service/impl/EquipmentCharacteristicServiceImpl.java
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+<<<<<<< HEAD:api/src/main/java/com/isc/service/impl/EquipmentCharacteristicServiceImpl.java
+
+import com.isc.dto.request.EquipmentCharacteristicRequestDTO;
+import com.isc.dto.request.ComponentTypeRequestDTO;
+import com.isc.dto.response.EquipmentCharacteristicDetailResponseDTO;
+import com.isc.dto.response.EquipmentCharacteristicResponseDTO;
+import com.isc.entitys.ComponentTypeEntity;
+import com.isc.entitys.EquipmentCharacteristicEntity;
+import com.isc.entitys.IdentificationTypeEntity;
+import com.isc.dto.response.MessageResponseDTO;
+import com.isc.dtos.MetadataResponseDto;
+import com.isc.dtos.ResponseDto;
+import com.isc.mapper.EquipmentCharacteristicMapper;
+import com.isc.repository.ComponentTypeRepository;
+import com.isc.repository.EquipmentCharacteristicRepository;
+import com.isc.service.EquipmentCharacteristicService;
+=======
+import com.isc.api.dto.request.EquipmentCharacteristicRequestDTO;
+import com.isc.api.dto.response.EquipmentCharacteristicDetailResponseDTO;
+import com.isc.api.dto.response.EquipmentCharacteristicResponseDTO;
+import com.isc.api.dto.response.MessageResponseDTO;
+import com.isc.dtos.MetadataResponseDto;
+import com.isc.dtos.ResponseDto;
+import com.isc.api.entitys.ComponentTypeEntity;
+import com.isc.api.entitys.EquipmentCharacteristicEntity;
+import com.isc.api.entitys.EquipmentEntity;
+import com.isc.api.mapper.EquipmentCharacteristicMapper;
+import com.isc.api.repository.ComponentTypeRepository;
+import com.isc.api.repository.EquipmentCharacteristicRepository;
+import com.isc.api.service.EquipmentCharacteristicService;
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/service/impl/EquipmentCharacteristicServiceImpl.java
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+<<<<<<< HEAD:api/src/main/java/com/isc/service/impl/EquipmentCharacteristicServiceImpl.java
+public class EquipmentCharacteristicServiceImpl implements EquipmentCharacteristicService{
+	private final EquipmentCharacteristicRepository equipmentCharacteristicRepository;
+	private final ComponentTypeRepository componentTypeRepository;
+	
+	@Override
+	public ResponseDto<List<EquipmentCharacteristicDetailResponseDTO>> getAllDetails(){
+		List<EquipmentCharacteristicDetailResponseDTO> response = equipmentCharacteristicRepository.findAll().stream().map(EquipmentCharacteristicMapper::toDetailDto)
+				.collect(Collectors.toList());
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Categoria de equipos listados correctamente");
+		return new ResponseDto<>(response, metadata);
+	}
+	
+	@Override
+	public ResponseDto<List<EquipmentCharacteristicResponseDTO>> getSimpleList(){
+		List<EquipmentCharacteristicResponseDTO> response = equipmentCharacteristicRepository.findAllByStatusTrue().stream()
+				.map(EquipmentCharacteristicMapper::toSimpleDto).collect(Collectors.toList());
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Generos listados correctamente");
+		return new ResponseDto<>(response, metadata);
+	}
+	
+	@Override
+	public ResponseDto<EquipmentCharacteristicDetailResponseDTO> save(EquipmentCharacteristicRequestDTO request){
+		ComponentTypeEntity componentType = componentTypeRepository.findById(request.getComponent())
+				.orElseThrow(() -> new RuntimeException("Tipo de componente no encontrada"));		
+		EquipmentCharacteristicEntity entity = new EquipmentCharacteristicEntity();
+		entity.setDescription(request.getDescription());
+		entity = equipmentCharacteristicRepository.save(entity);
+		EquipmentCharacteristicDetailResponseDTO response = EquipmentCharacteristicMapper.toDetailDto(entity);
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Genero guardado correctamente");
+		return new ResponseDto<>(response, metadata);
+	}
+	
+	@Override
+	public ResponseDto<EquipmentCharacteristicDetailResponseDTO> update(EquipmentCharacteristicRequestDTO request, Integer id){
+		EquipmentCharacteristicEntity entity = equipmentCharacteristicRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Genero no encontrado"));
+		if(entity.getComponent().getId()!=request.getComponent()) {
+			ComponentTypeEntity componentType = componentTypeRepository.findById(request.getComponent())
+		            .orElseThrow(() -> new RuntimeException("Tipo de componente no encontrado"));
+		    entity.setComponent(componentType);
+		}		
+		entity.setDescription(request.getDescription());
+		entity.setModificationDate(LocalDateTime.now());
+		entity = equipmentCharacteristicRepository.save(entity);
+		EquipmentCharacteristicDetailResponseDTO response = EquipmentCharacteristicMapper.toDetailDto(entity);
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Genero actualizado correctamente");
+		return new ResponseDto<>(response, metadata);
+	}
+	
+	@Override
+	public ResponseDto<MessageResponseDTO> inactive(Integer id){
+		int rowsAffected =  equipmentCharacteristicRepository.inactive(id);
+		if(rowsAffected == 0) {
+			 throw new RuntimeException("No se pudo realizar la operacion en el id: " + id);
+		}
+	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Operacion exitosa");
+		MessageResponseDTO message = new MessageResponseDTO("Operacion exitosa");
+		return new ResponseDto<>(message, metadata);
+	}
+	
+	@Override
+	public ResponseDto<MessageResponseDTO> active(Integer id){
+		int rowsAffected =  equipmentCharacteristicRepository.active(id);
+		if(rowsAffected == 0) {
+			 throw new RuntimeException("No se pudo realizar la operacion en el id: " + id);
+		}
+	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Operacion exitosa");
+		MessageResponseDTO message = new MessageResponseDTO("Operacion exitosa");
+		return new ResponseDto<>(message, metadata);
+	}
+	
+=======
+public class EquipmentCharacteristicServiceImpl implements EquipmentCharacteristicService {
+
+    private final EquipmentCharacteristicRepository characteristicRepository;
+    private final ComponentTypeRepository componentRepository;
+
+    @Override
+    public ResponseDto<List<EquipmentCharacteristicDetailResponseDTO>> getAllDetails() {
+        List<EquipmentCharacteristicDetailResponseDTO> response = characteristicRepository.findAll().stream()
+                .map(EquipmentCharacteristicMapper::toDetailDto)
+                .collect(Collectors.toList());
+
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Características listadas correctamente");
+        return new ResponseDto<>(response, metadata);
+    }
+
+    @Override
+    public ResponseDto<List<EquipmentCharacteristicResponseDTO>> getSimpleList() {
+        List<EquipmentCharacteristicResponseDTO> response = characteristicRepository.findAllByStatusTrue().stream()
+                .map(EquipmentCharacteristicMapper::toSimpleDto)
+                .collect(Collectors.toList());
+
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Características activas listadas correctamente");
+        return new ResponseDto<>(response, metadata);
+    }
+
+    @Override
+    public ResponseDto<EquipmentCharacteristicDetailResponseDTO> save(EquipmentCharacteristicRequestDTO request) {
+        ComponentTypeEntity component = componentRepository.findById(request.getComponent())
+                .orElseThrow(() -> new RuntimeException("Componente no encontrado"));
+
+        EquipmentCharacteristicEntity entity = new EquipmentCharacteristicEntity();
+        entity.setDescription(request.getDescription());
+        entity.setComponent(component);
+
+        entity = characteristicRepository.save(entity);
+
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED, "Característica creada correctamente");
+        return new ResponseDto<>(EquipmentCharacteristicMapper.toDetailDto(entity), metadata);
+    }
+    
+    @Override
+    public EquipmentCharacteristicEntity saveForEquipment(EquipmentCharacteristicRequestDTO request, EquipmentEntity equipment) {
+        ComponentTypeEntity component = componentRepository.findById(request.getComponent())
+                .orElseThrow(() -> new RuntimeException("Componente no encontrado"));
+
+        EquipmentCharacteristicEntity entity = new EquipmentCharacteristicEntity();
+        entity.setDescription(request.getDescription());
+        entity.setComponent(component);
+
+        entity.setEquipo(equipment);
+        return entity;
+    }
+    
+    @Override
+    public EquipmentCharacteristicEntity updateForEntity(EquipmentCharacteristicRequestDTO request) {
+    	 EquipmentCharacteristicEntity entity = characteristicRepository.findById(request.getId())
+                 .orElseThrow(() -> new RuntimeException("Característica no encontrada"));
+    	 
+    	 if(!request.getComponent().equals(entity.getComponent().getId())) {
+    	        ComponentTypeEntity component = componentRepository.findById(request.getComponent())
+    	                .orElseThrow(() -> new RuntimeException("Componente no encontrado"));
+    	        entity.setComponent(component);
+    	 }
+        entity.setDescription(request.getDescription());
+        return entity;
+    }
+
+    @Override
+    public ResponseDto<EquipmentCharacteristicDetailResponseDTO> update(EquipmentCharacteristicRequestDTO request, Integer id) {
+        EquipmentCharacteristicEntity entity = characteristicRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Característica no encontrada"));
+
+        ComponentTypeEntity component = componentRepository.findById(request.getComponent())
+                .orElseThrow(() -> new RuntimeException("Componente no encontrado"));
+
+        entity.setDescription(request.getDescription());
+        entity.setComponent(component);
+        entity.setModificationDate(java.time.LocalDateTime.now());
+
+        entity = characteristicRepository.save(entity);
+
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Característica actualizada correctamente");
+        return new ResponseDto<>(EquipmentCharacteristicMapper.toDetailDto(entity), metadata);
+    }
+
+    @Override
+    public ResponseDto<MessageResponseDTO> inactive(Integer id) {
+        int rowsAffected = characteristicRepository.inactive(id);
+        if (rowsAffected == 0) {
+            throw new RuntimeException("No se pudo inactivar la característica con ID: " + id);
+        }
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Característica inactivada correctamente");
+        return new ResponseDto<>(new MessageResponseDTO("Operación exitosa"), metadata);
+    }
+
+    @Override
+    public ResponseDto<MessageResponseDTO> active(Integer id) {
+        int rowsAffected = characteristicRepository.active(id);
+        if (rowsAffected == 0) {
+            throw new RuntimeException("No se pudo activar la característica con ID: " + id);
+        }
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Característica activada correctamente");
+        return new ResponseDto<>(new MessageResponseDTO("Operación exitosa"), metadata);
+    }
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/service/impl/EquipmentCharacteristicServiceImpl.java
+}

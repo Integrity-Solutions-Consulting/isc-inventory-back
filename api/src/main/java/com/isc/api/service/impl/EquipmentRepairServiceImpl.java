@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,7 +46,8 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
 	private final EquipmentAssignmentService assignmentService;
 
 	private final Integer available = 1;
-	private final Integer rapairing = 3;
+
+	private final Integer rapairing = 4;
 
 	@Override
 	@Transactional
@@ -62,7 +62,7 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
 			return new ResponseDto<>(null, repairmessage);
 		}
 
-		// 2. Buscar o crear el estado "EN_REPARACION"
+		// 2. Buscar o crear el estado "EN_REVISION"
 
 		EquipmentStatusEntity repairStatus = new EquipmentStatusEntity();
 		repairStatus.setId(rapairing);
@@ -76,6 +76,8 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
 		EquipmentRepairEntity repair = EquipmentRepairMapper.toEntity(request, equipment);
 		repair.setCreationDate(LocalDateTime.now());
 		repair.setStatus(true);
+
+		repair.setRepairStatus(repairStatus);
 		EquipmentRepairEntity savedRepair = repairRepository.save(repair);
 
 		// 5. Convertir a DTO de respuesta
@@ -86,8 +88,9 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
 			EquipmentAssignmentEntity assignmentEntity = assignmentRepository.findTopByEquipment_IdOrderByAssignmentDateDesc(request.getEquipment()).orElseThrow(
 					()-> new RuntimeException("No se ah encontrado una asignacion de este equipo"));
 			this.assignmentService.revoke(assignmentEntity.getId(), new EquipmentRevokeRequestDTO(LocalDate.now()));
-		
+
 		}
+
 		
 		// 6. Crear metadatos y respuesta
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED,

@@ -1,6 +1,7 @@
 package com.isc.api.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -65,14 +66,18 @@ public class EquipmentCharacteristicServiceImpl implements EquipmentCharacterist
     
     @Override
     public EquipmentCharacteristicEntity saveForEquipment(EquipmentCharacteristicRequestDTO request, EquipmentEntity equipment) {
-        ComponentTypeEntity component = componentRepository.findById(request.getComponent())
-                .orElseThrow(() -> new RuntimeException("Componente no encontrado"));
-
+        Optional<ComponentTypeEntity> component = componentRepository.findById(request.getComponent());
         EquipmentCharacteristicEntity entity = new EquipmentCharacteristicEntity();
         entity.setDescription(request.getDescription());
-        entity.setComponent(component);
-
         entity.setEquipo(equipment);
+        if(component.isPresent()) {
+        	entity.setComponent(component.get());
+        }else {
+        	ComponentTypeEntity componentNew = new ComponentTypeEntity();
+        	/*Logica para crear el componente*/
+        	componentNew.setDescription(request.getDescription());	
+        	entity.setComponent(componentNew);
+        }               
         return entity;
     }
     

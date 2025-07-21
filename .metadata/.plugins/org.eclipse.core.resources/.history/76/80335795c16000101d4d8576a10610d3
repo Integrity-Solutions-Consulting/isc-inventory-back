@@ -1,0 +1,25 @@
+package com.isc.api.dto.response;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class EquipmentAssignmentResponseDTO {
+	private Integer id;
+	private Integer employee;
+	private Integer equipment;
+<<<<<<< HEAD:api/src/main/java/com/isc/dto/response/EquipmentAssignmentResponseDTO.java
+	private LocalDateTime assignmentDate;
+	private LocalDateTime returnDate;
+=======
+	private LocalDate assignmentDate;
+	private LocalDate returnDate;
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/dto/response/EquipmentAssignmentResponseDTO.java
+	
+}

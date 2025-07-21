@@ -24,43 +24,36 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/equipment-repairs")
 @RequiredArgsConstructor
 
+public class EquipmentRepairController {
+	private final EquipmentRepairService equipmentRepairService;
 
+	@GetMapping("/allDetailList")
+	public ResponseEntity<ResponseDto<List<EquipmentRepairDetailResponseDTO>>> getAllDetails() {
+		return ResponseEntity.ok(equipmentRepairService.getAllDetails());
+	}
 
-public class EquipmentRepairController 
-{
-    private final EquipmentRepairService equipmentRepairService;
-    
-    @GetMapping("/allDetailList")
-    public ResponseEntity<ResponseDto<List<EquipmentRepairDetailResponseDTO>>> getAllDetails()
-    {
-    	return ResponseEntity.ok(equipmentRepairService.getAllDetails());
-    }
-    
-    @GetMapping("/simpleList")
-    public ResponseEntity<ResponseDto<List<EquipmentRepairResponseDTO>>> getSimpleList()
-    {
-    	return ResponseEntity.ok(equipmentRepairService.getSimpleList());
-    }
-    
-    @PostMapping("/createEquimentRepair")
-    public ResponseEntity<ResponseDto<EquipmentRepairDetailResponseDTO>> createRepair(
-            @Valid @RequestBody EquipmentRepairRequestDTO request) {
-        
-        ResponseDto<EquipmentRepairDetailResponseDTO> response = equipmentRepairService.save(request);
-        return new ResponseEntity<>(response, response.getMeta().getStatus());
-    }
-    
-    @PutMapping("/updateEquimentRepair/{id}")
-    public ResponseEntity<ResponseDto<EquipmentRepairDetailResponseDTO>> updateEquipmentRepair(
-    		@PathVariable Integer id,@Valid @RequestBody EquipmentRepairRequestDTO request)
-    {
-    	return ResponseEntity.ok(equipmentRepairService.update(request, id));
-    }
-    
-    @PatchMapping("/inactivar/{id}")
-    public ResponseEntity<ResponseDto<MessageResponseDTO>> inactivateEquipment(@PathVariable Integer id) 
-    {
-        return ResponseEntity.ok(equipmentRepairService.inactive(id));
-    }
-    
+	@PostMapping("/createEquimentRepair")
+	public ResponseEntity<ResponseDto<EquipmentRepairDetailResponseDTO>> createRepair(
+			@Valid @RequestBody EquipmentRepairRequestDTO request) {
+
+		ResponseDto<EquipmentRepairDetailResponseDTO> response = equipmentRepairService.save(request);
+		return new ResponseEntity<>(response, response.getMeta().getStatus());
+	}
+
+	@PutMapping("/updateEquimentRepair/{id}")
+	public ResponseEntity<ResponseDto<EquipmentRepairDetailResponseDTO>> updateEquipmentRepair(@PathVariable Integer id,
+			@Valid @RequestBody EquipmentRepairRequestDTO request) {
+		return ResponseEntity.ok(equipmentRepairService.update(request, id));
+	}
+
+	@GetMapping("/simpleList")
+	public ResponseEntity<ResponseDto<List<EquipmentRepairResponseDTO>>> getSimpleList() {
+		return ResponseEntity.ok(equipmentRepairService.getSimpleList());
+	}
+
+	@PatchMapping("/inactive/{id}")
+	public ResponseEntity<ResponseDto<MessageResponseDTO>> inactivateEquipment(@PathVariable Integer id) {
+		return ResponseEntity.ok(equipmentRepairService.inactive(id));
+	}
+
 }

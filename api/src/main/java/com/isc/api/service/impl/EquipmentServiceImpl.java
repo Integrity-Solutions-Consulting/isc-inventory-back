@@ -25,6 +25,7 @@ import com.isc.api.mapper.InvoiceMapper;
 import com.isc.api.mapper.WarrantTypeMapper;
 import com.isc.api.repository.*;
 import com.isc.api.service.EquipmentCharacteristicService;
+import com.isc.api.service.EquipmentRepairService;
 import com.isc.api.service.EquipmentService;
 import com.isc.api.service.InvoiceService;
 import com.isc.api.service.WarrantTypeService;
@@ -43,10 +44,13 @@ public class EquipmentServiceImpl implements EquipmentService {
 	private final EquipmentCategoryRepository categoryRepository;
 	private final CompanyRepository companyRepository;
 	private final EquipmentCategoryStockRepository categoryStockRepository;
+	private final EquipmentAssignmentRepository assignmentRepository;
+	private final EquipmentRepairRepository equipmentRepairRepository;
 
 	private final EquipmentCharacteristicService characteristService;
 	private final InvoiceService invoiceService;
 	private final WarrantTypeService warrantyService;
+	private final EquipmentRepairService repairService;
 
 	//status
 	private final Integer available = 1;
@@ -246,16 +250,33 @@ public class EquipmentServiceImpl implements EquipmentService {
 	// Método para cambiar el estado del equipo
 	@Override
 	@Transactional
-	public ResponseDto<MessageResponseDTO> changeStatus(Integer idEquipo, Integer newStatus) {
+	public ResponseDto<MessageResponseDTO> changeStatus(Integer idEquipo, Integer newStatus, Integer idRepair) {
 		EquipmentEntity equipo = equipmentRepository.findById(idEquipo)
 				.orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
-
+		//Si recibe el id de raparacion, si lo recibe cambiar equp service, contollers y front. Reapir entity
+		//El estado puede cambiar
 		EquipmentStatusEntity status = statusRepository.findById(newStatus)
 				.orElseThrow(() -> new RuntimeException("Estado no encontrado: " + newStatus));
 		if (status.getId() == 1) {
-			this.upStock(equipo.getCategory().getStock());
+			Optional<EquipmentAssignmentEntity> assignmentEntity = assignmentRepository.findTopByEquipment_IdOrderByAssignmentDateDesc(idEquipo);
+			if(assignmentEntity.isPresent()) {
+				status = statusRepository.findById(2)
+						.orElseThrow(() -> new RuntimeException("Estado no encontrado: " + 2));
+			}else {
+				this.upStock(equipo.getCategory().getStock());
+			}
+			
+		} else if(status.getId() == 6) {
+			this.repairService.registerRepairDate(idEquipo);
 		}
-
+		
+		if(idRepair != null) {
+			EquipmentRepairEntity repair = equipmentRepairRepository.findById(idRepair)
+					.orElseThrow(() -> new RuntimeException("No hay equipo  en reparacion con id:" + idRepair));
+		
+			equipmentRepairRepository.save(repair);
+		}
+		
 		equipo.setEquipStatus(status);
 		equipmentRepository.save(equipo);
 

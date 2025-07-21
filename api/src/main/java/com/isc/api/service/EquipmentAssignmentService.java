@@ -13,7 +13,7 @@ public interface EquipmentAssignmentService {
 	public ResponseDto<List<EquipmentAssignmentDetailResponseDTO>> getAllDetails();
 	public ResponseDto<List<EquipmentAssignmentResponseDTO>> getSimpleList();
 	public ResponseDto<EquipmentAssignmentDetailResponseDTO> assign(EquipmentAssignmentRequestDTO request);
-	ResponseDto<EquipmentAssignmentDetailResponseDTO> revoke(Integer id,EquipmentRevokeRequestDTO  request) ;
+	public ResponseDto<EquipmentAssignmentDetailResponseDTO> revoke(Integer id, EquipmentRevokeRequestDTO request);
 	public ResponseDto<MessageResponseDTO> inactive(Integer id);
 	public ResponseDto<MessageResponseDTO> active(Integer id);
 }

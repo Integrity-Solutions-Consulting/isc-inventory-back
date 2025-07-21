@@ -1,0 +1,52 @@
+<<<<<<< HEAD:api/src/main/java/com/isc/dto/response/InvoiceDetailEntityDetailResponseDTO.java
+package com.isc.dto.response;
+
+import java.math.BigDecimal;
+=======
+package com.isc.api.dto.response;
+
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/dto/response/InvoiceDetailEntityDetailResponseDTO.java
+import java.time.LocalDateTime;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class InvoiceDetailEntityDetailResponseDTO {
+	private Integer id;
+<<<<<<< HEAD:api/src/main/java/com/isc/dto/response/InvoiceDetailEntityDetailResponseDTO.java
+	private Integer category;
+=======
+<<<<<<<< HEAD:api/src/main/java/com/isc/dto/response/InvoiceDetailResponseDTO.java
+	private Integer invoiceDetail;
+	private Integer supplier;
+	private LocalDateTime invoiceDate;
+	private String invoiceNumber;
+========
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/dto/response/InvoiceDetailEntityDetailResponseDTO.java
+	private String description;
+	private BigDecimal unitPrice;
+	private Integer quantity;
+	private BigDecimal subtotal;
+	private BigDecimal tax;
+	private BigDecimal discount;
+	private BigDecimal total;
+<<<<<<< HEAD:api/src/main/java/com/isc/dto/response/InvoiceDetailEntityDetailResponseDTO.java
+	private boolean status;
+	private LocalDateTime creationDate;
+	private LocalDateTime modificationDate;
+}
+=======
+>>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/dto/response/InvoiceDetailEntityDetailResponseDTO.java
+	private boolean status;
+	private LocalDateTime creationDate;
+	private LocalDateTime modificationDate;
+<<<<<<<< HEAD:api/src/main/java/com/isc/dto/response/InvoiceDetailResponseDTO.java
+}
+========
+}
+>>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/dto/response/InvoiceDetailEntityDetailResponseDTO.java
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/dto/response/InvoiceDetailEntityDetailResponseDTO.java

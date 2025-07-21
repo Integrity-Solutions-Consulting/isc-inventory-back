@@ -45,8 +45,8 @@ public class InvoiceController {
     @GetMapping("/get-by-serial/{serialNumber}")
     public ResponseEntity<ResponseDto<InvoiceDetailResponseDTO>> getBySerialNumber(@PathVariable String serialNumber) {
     	return ResponseEntity.ok(invoiceService.getInvoiceBySerialNumber(serialNumber));
-
     }
+
     
     @GetMapping("/get-number/{invoiceNumber}")
     public ResponseEntity<ResponseDto<InvoiceDetailResponseDTO>> getByInvoiceNumber(@PathVariable String invoiceNumber) {

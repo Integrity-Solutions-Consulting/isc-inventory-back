@@ -18,7 +18,6 @@ public interface EquipmentRepository extends JpaRepository<EquipmentEntity, Inte
 	List<EquipmentEntity> findAllByStatusTrue();
 	Optional<EquipmentEntity> findBySerialNumber(String serialNumber);
 
-
 	@EntityGraph(attributePaths = { "invoice", "condition", "equipStatus", "category", "warranty", "company",
 			"characteristic" })
 	List<EquipmentEntity> findAllByOrderByStatusDesc();

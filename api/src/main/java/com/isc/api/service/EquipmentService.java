@@ -19,7 +19,7 @@ public interface EquipmentService {
     ResponseDto<EquipmentDetailResponseDTO> update(EquipmentRequest request, Integer id);
     ResponseDto<MessageResponseDTO> inactive(Integer id);
     ResponseDto<MessageResponseDTO> active(Integer id);
-    ResponseDto<MessageResponseDTO> changeStatus(Integer idEquipo, Integer newStatus);
+    ResponseDto<MessageResponseDTO> changeStatus(Integer idEquipo, Integer newStatus, Integer idRepair);
     ResponseDto<InvoiceDetailResponseDTO> setInvoice(Integer idEquipo,InvoiceRequestDTO request);
     ResponseDto<WarrantTypeDetailResponseDTO> setWarranty(Integer idEquip, WarrantTypeRequestDTO request);
     ResponseDto<EquipmentDetailResponseDTO> getFullEquipmentDetailById(Integer id);

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class InvoiceDetailEntityResponseDTO {
 	private Integer id;
-
 	private String description;
 	private BigDecimal unitPrice;
 	private Integer quantity;

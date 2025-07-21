@@ -4,7 +4,12 @@
 	<section name="java.lang.Class">
 		<item key="replaceBarOpen" value="false"/>
 		<list key="findhistory">
+<<<<<<< HEAD
 			<item value="getde"/>
+=======
+			<item value="id_repair"/>
+			<item value="repair"/>
+>>>>>>> origin/developXavier
 			<item value="null"/>
 		</list>
 	</section>

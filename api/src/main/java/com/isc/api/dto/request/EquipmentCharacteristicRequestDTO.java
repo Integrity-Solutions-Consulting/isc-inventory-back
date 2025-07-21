@@ -21,4 +21,6 @@ public class EquipmentCharacteristicRequestDTO  {
 
     @NotNull(message = "El componente es obligatorio")
 	private Integer component;
+    
+    private String componentName;
 }
