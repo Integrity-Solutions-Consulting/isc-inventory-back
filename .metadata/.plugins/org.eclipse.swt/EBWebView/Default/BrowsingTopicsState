@@ -20,8 +20,12 @@
    } ],
    "hex_encoded_hmac_key": "DEE6683BF3EC65B8D8FB67520D43B9C2463E383C796D9A1C38B6626431A9DC7C",
 <<<<<<< HEAD
+<<<<<<< HEAD
    "next_scheduled_calculation_time": "13397580031048000"
 =======
    "next_scheduled_calculation_time": "13397685078782919"
 >>>>>>> origin/developXavier
+=======
+   "next_scheduled_calculation_time": "13397685078782837"
+>>>>>>> origin/developAdrian
 }

@@ -12,6 +12,9 @@ import com.isc.api.dto.response.EquipmentCharacteristicResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
+
+import jakarta.transaction.Transactional;
+
 import com.isc.api.entitys.ComponentTypeEntity;
 import com.isc.api.entitys.EquipmentCharacteristicEntity;
 import com.isc.api.entitys.EquipmentEntity;
@@ -48,7 +51,8 @@ public class EquipmentCharacteristicServiceImpl implements EquipmentCharacterist
         MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Características activas listadas correctamente");
         return new ResponseDto<>(response, metadata);
     }
-
+    
+    @Transactional
     @Override
     public ResponseDto<EquipmentCharacteristicDetailResponseDTO> save(EquipmentCharacteristicRequestDTO request) {
         ComponentTypeEntity component = componentRepository.findById(request.getComponent())
@@ -64,25 +68,31 @@ public class EquipmentCharacteristicServiceImpl implements EquipmentCharacterist
         return new ResponseDto<>(EquipmentCharacteristicMapper.toDetailDto(entity), metadata);
     }
     
+    @Transactional
     @Override
-    public EquipmentCharacteristicEntity saveForEquipment(EquipmentCharacteristicRequestDTO request, EquipmentEntity equipment) {
-        Optional<ComponentTypeEntity> component = componentRepository.findById(request.getComponent());
-        EquipmentCharacteristicEntity entity = new EquipmentCharacteristicEntity();
+    public EquipmentCharacteristicEntity saveForEquipment(EquipmentCharacteristicRequestDTO request, EquipmentEntity equipment) 
+    {
+
+    	Optional<ComponentTypeEntity> component = componentRepository.findById(request.getComponent());
+    	EquipmentCharacteristicEntity entity = new EquipmentCharacteristicEntity();
         entity.setDescription(request.getDescription());
         entity.setEquipo(equipment);
-        if(component.isPresent()) {
-        	entity.setComponent(component.get());
-        }else {
-        	ComponentTypeEntity componentNew = new ComponentTypeEntity();
-        	/*Logica para crear el componente*/
-        	componentNew.setDescription(request.getDescription());	
-        	entity.setComponent(componentNew);
-        }               
+    	if(component.isPresent()) 
+    	{
+    		entity.setComponent(component.get());
+    	}else 
+    	{
+    		ComponentTypeEntity componentNew = new ComponentTypeEntity();
+    		/*Logica para crear el componente*/
+    		entity.setComponent(componentNew);
+    	}
         return entity;
     }
     
+    @Transactional
     @Override
-    public EquipmentCharacteristicEntity updateForEntity(EquipmentCharacteristicRequestDTO request) {
+    public EquipmentCharacteristicEntity updateForEntity(EquipmentCharacteristicRequestDTO request) 
+    {
     	 EquipmentCharacteristicEntity entity = characteristicRepository.findById(request.getId())
                  .orElseThrow(() -> new RuntimeException("Característica no encontrada"));
     	 
@@ -95,6 +105,7 @@ public class EquipmentCharacteristicServiceImpl implements EquipmentCharacterist
         return entity;
     }
 
+    @Transactional
     @Override
     public ResponseDto<EquipmentCharacteristicDetailResponseDTO> update(EquipmentCharacteristicRequestDTO request, Integer id) {
         EquipmentCharacteristicEntity entity = characteristicRepository.findById(id)

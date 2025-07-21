@@ -26,9 +26,11 @@ import com.isc.api.repository.EquipmentRepository;
 import com.isc.api.repository.EquipmentAssignmentRepository;
 import com.isc.api.repository.EquipmentCategoryStockRepository;
 import com.isc.api.service.EquipmentAssignmentService;
+import com.isc.api.service.ReportService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import net.sf.jasperreports.engine.JRException;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +41,8 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
     private final EmployeeRepository employeeRepository;
     private final EquipmentRepository equipmentRepository;
     private final EquipmentCategoryStockRepository categoryStockRepository;
+    
+    private final ReportService reportService;
     
     private final Integer idAvailable = 1;
     private final Integer idAssigned = 2;
@@ -161,5 +165,12 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
 
         return new ResponseDto<>(new MessageResponseDTO("Asignación activada correctamente"),
                 new MetadataResponseDto(HttpStatus.OK, "Operación exitosa"));
+    }
+    
+    @Override
+    @Transactional
+    public byte[] generateReport(Integer id) throws JRException {
+    	EquipmentAssignmentEntity assigment = assignmentRepository.findById(id).orElseThrow(()-> new RuntimeException("Asignacion no encontrada"));
+    	return reportService.generateReport(assigment);
     }
 }

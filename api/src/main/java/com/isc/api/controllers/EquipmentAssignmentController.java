@@ -3,6 +3,9 @@ package com.isc.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +18,7 @@ import com.isc.dtos.ResponseDto;
 import com.isc.api.service.EquipmentAssignmentService;
 
 import jakarta.validation.Valid;
+import net.sf.jasperreports.engine.JRException;
 
 @RestController
 @RequestMapping("/api/v1/equipment-assignment")
@@ -59,5 +63,24 @@ public class EquipmentAssignmentController {
     @PutMapping("/{id}/active")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> active(@PathVariable Integer id) {
         return ResponseEntity.ok(assignmentService.active(id));
+    }
+    
+    @GetMapping("/{id}/report")
+    public ResponseEntity<byte[]> downloadReport(@PathVariable Integer id) throws JRException {
+
+        byte[] pdfBytes = assignmentService.generateReport(id);
+
+        // 3. Configura headers para descargar el PDF
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDisposition(ContentDisposition
+            .attachment()
+            .filename("reporte_equipo_" + id + ".pdf")
+            .build());
+
+        // 4. Retorna el ResponseEntity con el pdf y headers
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(pdfBytes);
     }
 }

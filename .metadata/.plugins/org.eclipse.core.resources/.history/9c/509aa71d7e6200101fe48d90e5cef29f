@@ -1,0 +1,5 @@
+package com.isc.api.service;
+
+public class ReportService {
+
+}
