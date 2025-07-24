@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
@@ -35,10 +36,10 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 @Service
-@RequiredArgsConstructor
 public class ReportServiceImpl implements ReportService {
 
-    private final ResourceLoader resourceLoader;
+	@Autowired
+    private ResourceLoader resourceLoader;
 
     @Override
     public byte[] generateReport(EquipmentAssignmentEntity assigment) throws JRException {

@@ -45,5 +45,8 @@ public interface EquipmentRepository extends JpaRepository<EquipmentEntity, Inte
 	
 	@Query("SELECT e.id FROM EquipmentEntity e WHERE e.equipStatus.id = :statusId AND e.status = true")
 	List<Integer> findIdsByStatus(@Param("statusId") Integer statusId);
+	
+	@Query(value = "SELECT * FROM get_equipment_status_summary(:categoryId)", nativeQuery = true)
+	List<Object[]> getEquipmentStatusSummary(@Param("categoryId") Integer categoryId);
 
 }

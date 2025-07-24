@@ -186,7 +186,7 @@
 			<element kind="staticText" uuid="b4e7dbcb-e04d-4b60-ad61-affbf41f8105" x="0" y="230" width="555" height="36" bold="true" hTextAlign="Center" vTextAlign="Middle">
 				<text><![CDATA[Responsabilidades del Receptor]]></text>
 			</element>
-			<element kind="staticText" uuid="c3bf06b3-0620-4689-a98e-79370842482c" x="0" y="260" width="555" height="220" markup="none" hTextAlign="Justified">
+			<element kind="staticText" uuid="c3bf06b3-0620-4689-a98e-79370842482c" x="0" y="260" width="555" height="242" markup="none" hTextAlign="Justified">
 				<paragraph lineSpacing="Single" lineSpacingSize="1.0"/>
 				<text><![CDATA[El receptor acepta la responsabilidad de mantener las laptops en buen estado y utilizarlas de manera adecuada para el propósito acordado. Cualquier daño o pérdida de las laptops debido a negligencia o mal uso por parte del receptor será de su responsabilidad y deberá informarse a INTEGRITY SOLUTIONS de inmediato.
 Las laptops se proporcionan para el uso exclusivo relacionado con fines laborales, Al finalizar el período acordado de uso, las laptops deben ser devueltas en las mismas condiciones en las que fueron entregadas, salvo el desgaste normal.
