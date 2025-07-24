@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+2025/07/15-08:52:29.542 562c Reusing MANIFEST C:\Users\XAVIER TIRADO I\isc-inventory-back\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/MANIFEST-000001
+2025/07/15-08:52:29.556 562c Recovering log #3
+2025/07/15-08:52:29.559 562c Reusing old log C:\Users\XAVIER TIRADO I\isc-inventory-back\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/000003.log 
+=======
+2025/07/18-14:02:51.555 4d50 Reusing MANIFEST C:\Users\XAVIER TIRADO I\isc-inventory-back\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/MANIFEST-000001
+2025/07/18-14:02:51.570 4d50 Recovering log #3
+2025/07/18-14:02:51.574 4d50 Reusing old log C:\Users\XAVIER TIRADO I\isc-inventory-back\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/000003.log 
+>>>>>>> origin/developXavier
+=======
 2025/07/16-16:09:09.903 6d04 Reusing MANIFEST C:\Users\Adrian.Siavichay\Desktop\Adrian Siavichay\isc-inventory-back\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/MANIFEST-000001
 2025/07/16-16:09:09.909 6d04 Recovering log #3
 2025/07/16-16:09:09.911 6d04 Reusing old log C:\Users\Adrian.Siavichay\Desktop\Adrian Siavichay\isc-inventory-back\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/000003.log 
+>>>>>>> origin/developAdrian

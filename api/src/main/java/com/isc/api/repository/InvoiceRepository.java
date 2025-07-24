@@ -1,6 +1,7 @@
 package com.isc.api.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,6 +15,7 @@ import com.isc.api.entitys.InvoiceEntity;
 @Repository
 public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>{
 	List<InvoiceEntity> findAllByStatusTrue();
+	Optional<InvoiceEntity> findByInvoiceNumber(String invoiceNumber);
 	
 	@Modifying
 	@Transactional

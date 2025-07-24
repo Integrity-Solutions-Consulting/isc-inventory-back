@@ -1,0 +1,31 @@
+<<<<<<< HEAD:api/src/main/java/com/isc/mapper/EquipmentCategoryMapper.java
+package com.isc.mapper;
+
+import com.isc.dto.response.EquipmentCategoryDetailResponseDTO;
+import com.isc.dto.response.EquipmentCategoryResponseDTO;
+import com.isc.entitys.EquipmentCategoryEntity;
+=======
+package com.isc.api.mapper;
+
+import com.isc.api.dto.response.EquipmentCategoryDetailResponseDTO;
+import com.isc.api.dto.response.EquipmentCategoryResponseDTO;
+import com.isc.api.entitys.EquipmentCategoryEntity;
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/mapper/EquipmentCategoryMapper.java
+
+public class EquipmentCategoryMapper {
+	public static EquipmentCategoryResponseDTO toSimpleDto(EquipmentCategoryEntity entity) {
+		if (entity == null)
+			return null;
+		return new EquipmentCategoryResponseDTO(entity.getId(), entity.getName());
+	}
+	
+	public static EquipmentCategoryDetailResponseDTO toDetailDto(EquipmentCategoryEntity entity) {
+		if (entity == null)
+			return null;
+		return new EquipmentCategoryDetailResponseDTO(entity.getId(), entity.getName(), entity.getStatus(),entity.getCreationDate(),entity.getModificationDate());
+	}
+<<<<<<< HEAD:api/src/main/java/com/isc/mapper/EquipmentCategoryMapper.java
+}
+=======
+}
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/mapper/EquipmentCategoryMapper.java

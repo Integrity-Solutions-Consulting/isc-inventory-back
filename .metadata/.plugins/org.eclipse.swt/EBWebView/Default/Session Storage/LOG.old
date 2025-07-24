@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+2025/07/15-08:52:24.806 4960 Reusing MANIFEST C:\Users\XAVIER TIRADO I\isc-inventory-back\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Session Storage/MANIFEST-000001
+2025/07/15-08:52:24.808 4960 Recovering log #3
+2025/07/15-08:52:24.812 4960 Reusing old log C:\Users\XAVIER TIRADO I\isc-inventory-back\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Session Storage/000003.log 
+=======
+2025/07/18-10:40:25.670 4530 Reusing MANIFEST C:\Users\XAVIER TIRADO I\isc-inventory-back\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Session Storage/MANIFEST-000001
+2025/07/18-10:40:25.672 4530 Recovering log #3
+2025/07/18-10:40:25.679 4530 Reusing old log C:\Users\XAVIER TIRADO I\isc-inventory-back\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Session Storage/000003.log 
+>>>>>>> origin/developXavier
+=======
 2025/07/16-16:06:50.715 71c0 Reusing MANIFEST C:\Users\Adrian.Siavichay\Desktop\Adrian Siavichay\isc-inventory-back\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Session Storage/MANIFEST-000001
 2025/07/16-16:06:50.716 71c0 Recovering log #3
 2025/07/16-16:06:50.718 71c0 Reusing old log C:\Users\Adrian.Siavichay\Desktop\Adrian Siavichay\isc-inventory-back\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Session Storage/000003.log 
+>>>>>>> origin/developAdrian

@@ -11,9 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class EquipmentRevokeRequestDTO 
-{
+public class EquipmentRevokeRequestDTO {
 	@FutureOrPresent(message = "La fecha de revocación debe ser en el presente o en el futuro")
 	private LocalDate revokeDate;
-
 }

@@ -30,6 +30,10 @@ public class EquipmentRepairEntity {
     @JoinColumn(name = "id_equipment", nullable = false)
     private EquipmentEntity equipment;
 	
+	@ManyToOne
+    @JoinColumn(name = "id_equipment_status", nullable = false)
+    private EquipmentStatusEntity repairStatus;
+	
 	@Column(name = "repair_date")
 	private LocalDate repairDate;
 	

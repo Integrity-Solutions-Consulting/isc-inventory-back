@@ -24,7 +24,7 @@ public interface EquipmentAssignmentRepository extends JpaRepository<EquipmentAs
 	@Transactional
 	@Query("UPDATE EquipmentAssignmentEntity u SET u.status=false, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.status = true")
 	int inactive(@Param("id") Integer id);
-
+	
 	@Modifying
 	@Transactional
 	@Query("UPDATE EquipmentAssignmentEntity u SET u.status = true, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.status = false")

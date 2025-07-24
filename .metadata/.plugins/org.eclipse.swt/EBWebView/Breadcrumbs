@@ -1,3 +1,64 @@
+<<<<<<< HEAD
+1:03:55 Tab10 PageLoad
+1:03:55 Tab10 FinishNav223
+1:03:55 Tab10 PageLoad
+1:03:56 Tab10 StartNav224 #typed
+1:03:56 Tab10 FinishNav224
+1:03:56 Tab10 PageLoad
+1:03:56 Tab9 StartNav225 #typed
+1:03:56 Tab9 FinishNav225
+1:03:56 Tab9 PageLoad
+1:05:23 Tab10 StartNav226 #typed
+1:05:23 Tab10 FinishNav226
+1:05:23 Tab10 PageLoad
+1:05:29 Tab6 StartNav227 #typed
+1:05:29 Tab6 FinishNav227
+1:05:29 Tab6 PageLoad
+1:05:43 Tab10 StartNav228 #typed
+1:05:43 Tab10 FinishNav228
+1:05:43 Tab10 PageLoad
+1:05:44 Tab10 StartNav229 #typed
+1:05:44 Tab10 FinishNav229
+1:05:44 Tab10 PageLoad
+1:05:51 Tab10 StartNav230 #typed
+1:05:51 Tab10 FinishNav230
+1:05:51 Tab10 PageLoad
+1:06:00 Tab10 StartNav231 #typed
+1:06:00 Tab10 FinishNav231
+1:06:00 Tab10 PageLoad
+1:06:02 Tab10 StartNav232 #typed
+1:06:02 Tab10 FinishNav232
+1:06:02 Tab10 PageLoad
+1:06:04 Tab10 StartNav233 #typed
+1:06:04 Tab10 FinishNav233
+1:06:04 Tab10 PageLoad
+1:07:41 Tab10 StartNav234 #typed
+1:07:41 Tab10 FinishNav234
+1:07:41 Tab10 PageLoad
+1:08:34 Tab9 StartNav235 #typed
+1:08:34 Tab9 FinishNav235
+1:08:34 Tab9 PageLoad
+1:08:36 Tab6 StartNav236 #typed
+1:08:36 Tab6 FinishNav236
+1:08:36 Tab6 PageLoad
+1:08:40 Tab6 StartNav237 #typed
+1:08:40 Tab6 FinishNav237
+1:08:40 Tab6 PageLoad
+1:08:49 Tab6 StartNav238 #typed
+1:08:49 Tab6 FinishNav238
+1:08:49 Tab6 PageLoad
+1:11:10 Tab6 StartNav239 #typed
+1:11:10 Tab6 FinishNav239
+1:11:10 Tab6 PageLoad
+1:11:11 Tab9 StartNav240 #typed
+1:11:11 Tab9 FinishNav240
+1:11:11 Tab9 PageLoad
+1:17:02 Memory Pressure: Moderate
+1:21:43 Tab9 StartNav241 #typed
+1:21:43 Tab9 FinishNav241
+1:21:43 Tab9 PageLoad
+1:21:45 Microsoft.UnloadController.IsUnclosableApp_IsNotWebApp
+=======
 0:45:14 Microsoft.Shutdown.OnWindowClosing
 0:45:14 Microsoft.Shutdown.OnWindowClosing_DeleteScheduled
 0:45:14 Microsoft.Browser_Removed
@@ -139,3 +200,4 @@
 16:33:12 Memory Pressure: Moderate
 16:33:22 Memory Pressure: Moderate
 16:33:32 Memory Pressure: Moderate
+>>>>>>> origin/developAdrian

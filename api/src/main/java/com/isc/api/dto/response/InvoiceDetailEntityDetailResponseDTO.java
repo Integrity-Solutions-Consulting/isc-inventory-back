@@ -1,8 +1,7 @@
 package com.isc.api.dto.response;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InvoiceDetailEntityDetailResponseDTO {
+	
 	private Integer id;
-	private Integer category;
 	private String description;
 	private BigDecimal unitPrice;
 	private Integer quantity;
@@ -23,4 +22,5 @@ public class InvoiceDetailEntityDetailResponseDTO {
 	private boolean status;
 	private LocalDateTime creationDate;
 	private LocalDateTime modificationDate;
+
 }

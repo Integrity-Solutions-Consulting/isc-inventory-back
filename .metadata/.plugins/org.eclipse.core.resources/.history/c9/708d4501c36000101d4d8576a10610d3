@@ -1,0 +1,100 @@
+<<<<<<< HEAD:api/src/main/java/com/isc/mapper/EquipmentAssignmentMapper.java
+package com.isc.mapper;
+
+import com.isc.dto.response.EquipmentAssignmentDetailResponseDTO;
+import com.isc.dto.response.EquipmentAssignmentResponseDTO;
+import com.isc.entitys.EquipmentAssignmentEntity;
+
+public class EquipmentAssignmentMapper {
+	public static EquipmentAssignmentResponseDTO toSimpleDto(EquipmentAssignmentEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+=======
+package com.isc.api.mapper;
+
+
+import com.isc.api.dto.response.EquipmentAssignmentResponseDTO;
+import com.isc.api.dto.response.EquipmentResponseDTO;
+import com.isc.api.dto.response.CompanyResponseDTO;
+import com.isc.api.dto.response.EmployeeCatalogResponseDTO;
+import com.isc.api.dto.response.EquipmentAssignmentDetailResponseDTO;
+import com.isc.api.entitys.EquipmentAssignmentEntity;
+
+public class EquipmentAssignmentMapper {
+
+    public static EquipmentAssignmentResponseDTO toResponseDTO(EquipmentAssignmentEntity entity) {
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/mapper/EquipmentAssignmentMapper.java
+        return new EquipmentAssignmentResponseDTO(
+            entity.getId(),
+            entity.getEmployee() != null ? entity.getEmployee().getId() : null,
+            entity.getEquipment() != null ? entity.getEquipment().getId() : null,
+            entity.getAssignmentDate(),
+            entity.getReturnDate()
+        );
+    }
+<<<<<<< HEAD:api/src/main/java/com/isc/mapper/EquipmentAssignmentMapper.java
+    
+    public static EquipmentAssignmentDetailResponseDTO toDetailDto(EquipmentAssignmentEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        
+        String fullName = entity.getEmployee() != null ? 
+            entity.getEmployee().getFirstName() + " " + entity.getEmployee().getLastName() : null;
+        
+        Integer identificationType = entity.getEmployee() != null && entity.getEmployee().getIdentificationType() != null ?
+            entity.getEmployee().getIdentificationType().getId() : null;
+        
+        return new EquipmentAssignmentDetailResponseDTO(
+            entity.getId(),
+            entity.getEmployee() != null ? entity.getEmployee().getId() : null,
+            identificationType,
+            fullName,
+            entity.getEquipment() != null ? entity.getEquipment().getId() : null,
+            entity.getEquipment() != null ? entity.getEquipment().getSerialNumber() : null,
+            entity.getAssignmentDate(),
+            entity.getReturnDate(),
+            entity.getStatus(),
+            entity.getCreationDate(),
+            entity.getModificationDate()
+=======
+
+    public static EquipmentAssignmentDetailResponseDTO toDetailDTO(EquipmentAssignmentEntity entity) {
+        String fullName = null;
+        EmployeeCatalogResponseDTO employee = new EmployeeCatalogResponseDTO();
+        if (entity.getEmployee() != null) {
+            String firstName = entity.getEmployee().getFirstName() != null ? entity.getEmployee().getFirstName() : "";
+            String lastName = entity.getEmployee().getLastName() != null ? entity.getEmployee().getLastName() : "";
+            fullName = (firstName + " " + lastName).trim();
+            employee.setId(entity.getEmployee().getId());
+            employee.setFullName(fullName);
+            employee.setEmail(entity.getEmployee().getEmail());
+            employee.setIdentification(entity.getEmployee().getIdentification());
+        }
+        EquipmentResponseDTO equipment = new EquipmentResponseDTO();
+        equipment.setId(entity.getEquipment().getId());
+        equipment.setBrand(entity.getEquipment().getBrand());
+        equipment.setCategory(entity.getEquipment().getCategory().getName());
+        equipment.setItemCode(entity.getEquipment().getItemCode());
+        equipment.setModel(entity.getEquipment().getModel());
+        equipment.setSerialNumber(entity.getEquipment().getSerialNumber());
+        
+        CompanyResponseDTO company = new CompanyResponseDTO();
+        company.setId(entity.getEquipment().getCompany().getId());
+        company.setName(entity.getEquipment().getCompany().getName());
+        company.setTaxId(entity.getEquipment().getCompany().getTaxId());
+
+        return new EquipmentAssignmentDetailResponseDTO(
+            entity.getId(),
+            employee,
+            equipment,
+            company,
+            entity.getAssignmentDate(),
+            entity.getReturnDate(),
+            entity.getStatus()
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/mapper/EquipmentAssignmentMapper.java
+        );
+    }
+}

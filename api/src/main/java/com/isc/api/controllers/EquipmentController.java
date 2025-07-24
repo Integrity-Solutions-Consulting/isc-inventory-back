@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isc.api.dto.request.EquipmentRepairStatusChangeRequestDTO;
 import com.isc.api.dto.request.EquipmentRequest;
 import com.isc.api.dto.request.InvoiceRequestDTO;
 import com.isc.api.dto.request.WarrantTypeRequestDTO;
@@ -68,9 +68,9 @@ public class EquipmentController {
     @PutMapping("/changeStatus/{id}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> changeStatus(
             @PathVariable("id") Integer idEquipo,
-            @Valid @RequestBody Integer status) {
+            @Valid @RequestBody EquipmentRepairStatusChangeRequestDTO request) {
 
-        ResponseDto<MessageResponseDTO> response = equipmentService.changeStatus(idEquipo, status);
+        ResponseDto<MessageResponseDTO> response = equipmentService.changeStatus(idEquipo, request);
         return ResponseEntity.ok(response);
     }
 
@@ -86,7 +86,7 @@ public class EquipmentController {
     
     @PutMapping("/setInvoice/{id}")
     public ResponseEntity<ResponseDto<InvoiceDetailResponseDTO>> setInvoice(@PathVariable Integer id,
-            @Valid@RequestBody InvoiceRequestDTO request) {
+    		@Valid @RequestBody InvoiceRequestDTO request) {
         return ResponseEntity.ok(equipmentService.setInvoice(id,request));
     }
     

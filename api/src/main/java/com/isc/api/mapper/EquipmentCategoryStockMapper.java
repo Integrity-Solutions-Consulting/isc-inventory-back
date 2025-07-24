@@ -13,5 +13,6 @@ public class EquipmentCategoryStockMapper {
 	public static EquipmentCategoryStockDetailResponseDTO toDetailDto(EquipmentCategoryStockEntity entity) {
 		if (entity == null)
 			return null;
+
 		return null;}
 }

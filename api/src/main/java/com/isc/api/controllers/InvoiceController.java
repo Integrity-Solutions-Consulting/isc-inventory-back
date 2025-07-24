@@ -4,10 +4,13 @@ import com.isc.api.dto.request.InvoiceRequestDTO;
 import com.isc.api.dto.response.InvoiceDetailResponseDTO;
 import com.isc.api.dto.response.InvoiceResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
+import com.isc.api.entitys.InvoiceEntity;
 import com.isc.dtos.ResponseDto;
-import com.isc.api.service.InvoiceService;
 
 import jakarta.validation.Valid;
+
+import com.isc.api.service.InvoiceService;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -23,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/invoices")
+@RequestMapping("/api/v1/invoices")
 @RequiredArgsConstructor
 public class InvoiceController {
 
@@ -38,7 +41,28 @@ public class InvoiceController {
     public ResponseEntity<ResponseDto<List<InvoiceResponseDTO>>> getSimpleList() {
         return ResponseEntity.ok(invoiceService.getSimpleList());
     }
+    
+    @GetMapping("/get-by-serial/{serialNumber}")
+    public ResponseEntity<ResponseDto<InvoiceDetailResponseDTO>> getBySerialNumber(@PathVariable String serialNumber) {
+    	return ResponseEntity.ok(invoiceService.getInvoiceBySerialNumber(serialNumber));
+    }
 
+    
+    @GetMapping("/get-number/{invoiceNumber}")
+    public ResponseEntity<ResponseDto<InvoiceDetailResponseDTO>> getByInvoiceNumber(@PathVariable String invoiceNumber) {
+        return ResponseEntity.ok(invoiceService.getInvoiceByInvoiceNumber(invoiceNumber));
+
+    }
+    
+    @PostMapping("/save")
+	public ResponseEntity<InvoiceEntity> save(@Valid@RequestBody InvoiceRequestDTO request){
+		return ResponseEntity.ok(invoiceService.save(request));
+	}
+	
+	@PutMapping("/update/{id}")
+	public ResponseEntity<InvoiceEntity> update(@Valid@RequestBody InvoiceRequestDTO request, @PathVariable Integer id){
+		return ResponseEntity.ok(invoiceService.update(request,id));
+	}
 
     @PatchMapping("/inactive/{id}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> inactive(@PathVariable Integer id) {

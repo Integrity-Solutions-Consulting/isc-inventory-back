@@ -3,13 +3,10 @@ package com.isc.api.mapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.isc.api.dto.request.EmployeeRequestDTO;
 import com.isc.api.dto.response.EmployeeCatalogResponseDTO;
 import com.isc.api.dto.response.EmployeeDetailResponseDTO;
 import com.isc.api.dto.response.EmployeeTableResponseDTO;
 import com.isc.api.entitys.EmployeeEntity;
-import com.isc.api.entitys.GenderEntity;
-import com.isc.api.entitys.IdentificationTypeEntity;
 
 public class EmployeeMapper {
 

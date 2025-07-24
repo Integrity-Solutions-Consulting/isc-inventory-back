@@ -4,10 +4,13 @@ import com.isc.api.dto.request.InvoiceDetailRequestDTO;
 import com.isc.api.dto.response.InvoiceDetailEntityDetailResponseDTO;
 import com.isc.api.dto.response.InvoiceDetailEntityResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
+import com.isc.api.entitys.InvoiceDetailEntity;
 import com.isc.dtos.ResponseDto;
-import com.isc.api.service.InvoiceDetailService;
 
 import jakarta.validation.Valid;
+
+import com.isc.api.service.InvoiceDetailService;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -38,6 +41,16 @@ public class InvoiceDetailController {
     public ResponseEntity<ResponseDto<List<InvoiceDetailEntityResponseDTO>>> getSimpleList() {
         return ResponseEntity.ok(invoiceDetailService.getSimpleList());
     }
+    
+    @PostMapping("/save")
+	public ResponseEntity<InvoiceDetailEntity> save(@Valid@RequestBody InvoiceDetailRequestDTO request){
+		return ResponseEntity.ok(invoiceDetailService.save(request));
+	}
+	
+	@PutMapping("/update/{id}")
+	public ResponseEntity<InvoiceDetailEntity> update(@Valid@RequestBody InvoiceDetailRequestDTO request, @PathVariable Integer id){
+		return ResponseEntity.ok(invoiceDetailService.update(request,id));
+	}
 
 
     @PatchMapping("/inactive/{id}")

@@ -49,6 +49,7 @@ public class AppearanceEntity {
     @Column(name = "active", nullable = false)
 	private Boolean active = true;
 
+
 	@Column(name = "creation_date", nullable = false)
 	private LocalDateTime creationDate = LocalDateTime.now();
 

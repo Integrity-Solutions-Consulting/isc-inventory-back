@@ -11,12 +11,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.isc.api.dto.response.EquipmentDetailResponseDTO;
 import com.isc.api.entitys.EquipmentEntity;
 
 @Repository
 public interface EquipmentRepository extends JpaRepository<EquipmentEntity, Integer> {
 	List<EquipmentEntity> findAllByStatusTrue();
+	Optional<EquipmentEntity> findBySerialNumber(String serialNumber);
 
 	@EntityGraph(attributePaths = { "invoice", "condition", "equipStatus", "category", "warranty", "company",
 			"characteristic" })
@@ -42,5 +42,8 @@ public interface EquipmentRepository extends JpaRepository<EquipmentEntity, Inte
 
 	@Query(value = "SELECT * FROM get_dashboard_totals()", nativeQuery = true)
 	List<Object[]> getDashboardTotalsRaw();
+	
+	@Query("SELECT e.id FROM EquipmentEntity e WHERE e.equipStatus.id = :statusId AND e.status = true")
+	List<Integer> findIdsByStatus(@Param("statusId") Integer statusId);
 
 }

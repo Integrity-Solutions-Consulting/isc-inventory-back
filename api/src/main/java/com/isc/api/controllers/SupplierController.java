@@ -38,6 +38,13 @@ public class SupplierController {
     public ResponseEntity<ResponseDto<List<SupplierResponseDTO>>> getSimpleList() {
         return ResponseEntity.ok(supplierService.getSimpleList());
     }
+    
+    @GetMapping("/supplierType/{supplierTypeId}")
+    public ResponseEntity<ResponseDto<List<SupplierResponseDTO>>> getSuppliersByType(
+            @PathVariable Integer supplierTypeId) {
+        ResponseDto<List<SupplierResponseDTO>> response = supplierService.getBySupplierType(supplierTypeId);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("/save")
     public ResponseEntity<ResponseDto<SupplierDetailResponseDTO>> create(

@@ -1,6 +1,5 @@
 package com.isc.api.service.impl;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,13 +13,12 @@ import com.isc.api.dto.response.MessageResponseDTO;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
 
-import com.isc.api.entitys.EquipmentCategoryEntity;
+import com.isc.api.entitys.EquipmentEntity;
 import com.isc.api.entitys.InvoiceDetailEntity;
 import com.isc.api.entitys.InvoiceEntity;
 import com.isc.api.entitys.SupplierEntity;
 import com.isc.api.mapper.InvoiceMapper;
-import com.isc.api.repository.EquipmentCategoryRepository;
-import com.isc.api.repository.InvoiceDetailRepository;
+import com.isc.api.repository.EquipmentRepository;
 import com.isc.api.repository.InvoiceRepository;
 import com.isc.api.repository.SupplierRepository;
 import com.isc.api.service.InvoiceDetailService;
@@ -33,10 +31,9 @@ import lombok.RequiredArgsConstructor;
 public class InvoiceServiceImpl implements InvoiceService {
 
     private final InvoiceRepository invoiceRepository;
-    private final InvoiceDetailRepository invoiceDetailRepository;
+    private final EquipmentRepository equipmentRepository;
     private final SupplierRepository supplierRepository;
     private final InvoiceDetailService invoiceDetailService;
-    private final EquipmentCategoryRepository categoryRepository;
 
     @Override
     public ResponseDto<List<InvoiceDetailResponseDTO>> getAllDetails() {
@@ -55,6 +52,41 @@ public class InvoiceServiceImpl implements InvoiceService {
         MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Facturas activas listadas correctamente");
         return new ResponseDto<>(response, metadata);
     }
+    
+    @Override
+	public ResponseDto<InvoiceDetailResponseDTO> getInvoiceBySerialNumber(String serialNumber) {
+    	EquipmentEntity equipment = equipmentRepository.findBySerialNumber(serialNumber)
+                .orElseThrow(() -> new RuntimeException("Equipo no encontrado con ese número de serie"));
+
+        InvoiceEntity invoice = equipment.getInvoice();
+        if (invoice == null) {
+            throw new RuntimeException("El equipo no tiene una factura asociada");
+        }
+
+        InvoiceDetailResponseDTO dto = InvoiceMapper.toInvoiceDetailDto(invoice);
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Factura obtenida por número de serie");
+        return new ResponseDto<>(dto, metadata);
+	}
+    
+    @Override
+   	public ResponseDto<InvoiceDetailResponseDTO> getInvoiceByInvoiceNumber(String invoiceNumber) {
+       	InvoiceEntity e = invoiceRepository.findByInvoiceNumber(invoiceNumber)
+   				.orElseThrow(() -> new RuntimeException("Factura no encontrado"));
+       	InvoiceDetailResponseDTO response = InvoiceMapper.toInvoiceDetailDto(e);
+   		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK,
+   				"Informacion de la factura cargada correctamente");
+   		return new ResponseDto<>(response, metadata);
+   	}
+    
+    @Override
+	public ResponseDto<InvoiceDetailResponseDTO> getInvoiceById(Integer id) {
+    	InvoiceEntity e = invoiceRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Factura no encontrado"));
+    	InvoiceDetailResponseDTO response = InvoiceMapper.toInvoiceDetailDto(e);
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK,
+				"Informacion del empleado cargada correctamente");
+		return new ResponseDto<>(response, metadata);
+	}
 
     @Override
     public InvoiceEntity save(InvoiceRequestDTO request) {
@@ -65,7 +97,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         InvoiceEntity entity = new InvoiceEntity();
         InvoiceDetailEntity detail = invoiceDetailService.save(request.getInvoiceDetail());
         	
-        entity.setInvoiceDetail(detail);
+        entity.setInvoiceDetailRequest(detail);
         entity.setSupplier(supplier);
         entity.setInvoiceDate(request.getInvoiceDate());
         entity.setInvoiceNumber(request.getInvoiceNumber());
@@ -77,14 +109,14 @@ public class InvoiceServiceImpl implements InvoiceService {
         InvoiceEntity entity = invoiceRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Factura no encontrada"));
         
-        InvoiceDetailEntity detail = invoiceDetailService.update(request.getInvoiceDetail());
+        InvoiceDetailEntity detail = invoiceDetailService.update(request.getInvoiceDetail(), request.getId());
         if (!entity.getSupplier().getId().equals(request.getSupplier())) {
             SupplierEntity supplier = supplierRepository.findById(request.getSupplier())
                     .orElseThrow(() -> new RuntimeException("Proveedor no encontrado"));
             entity.setSupplier(supplier);
         }
 
-        entity.setInvoiceDetail(detail);
+        entity.setInvoiceDetailRequest(detail);
         entity.setInvoiceDate(request.getInvoiceDate());
         entity.setInvoiceNumber(request.getInvoiceNumber());
         return entity;

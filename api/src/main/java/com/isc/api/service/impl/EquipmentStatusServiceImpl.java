@@ -82,5 +82,4 @@ public class EquipmentStatusServiceImpl implements EquipmentStatusService {
 		MessageResponseDTO message = new MessageResponseDTO("Operacion exitosa");
 		return new ResponseDto<>(message, metadata);
 	}
-
 }

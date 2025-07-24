@@ -3,12 +3,9 @@ package com.isc.api.service;
 import java.util.List;
 
 import com.isc.api.dto.request.EmployeeRequestDTO;
-import com.isc.api.dto.request.GenderRequestDTO;
 import com.isc.api.dto.response.EmployeeCatalogResponseDTO;
 import com.isc.api.dto.response.EmployeeDetailResponseDTO;
 import com.isc.api.dto.response.EmployeeTableResponseDTO;
-import com.isc.api.dto.response.GenderDetailResponseDTO;
-import com.isc.api.dto.response.GenderResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
 import com.isc.dtos.ResponseDto;
 

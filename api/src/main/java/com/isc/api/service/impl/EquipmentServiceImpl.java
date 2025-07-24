@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.isc.api.dto.request.EquipmentCharacteristicRequestDTO;
+import com.isc.api.dto.request.EquipmentRepairStatusChangeRequestDTO;
 import com.isc.api.dto.request.EquipmentRequest;
 import com.isc.api.dto.request.InvoiceRequestDTO;
 import com.isc.api.dto.request.WarrantTypeRequestDTO;
@@ -46,14 +47,19 @@ public class EquipmentServiceImpl implements EquipmentService {
 	private final CompanyRepository companyRepository;
 	private final EquipmentCategoryStockRepository categoryStockRepository;
 	private final EquipmentAssignmentRepository assignmentRepository;
+	private final EquipmentRepairRepository equipmentRepairRepository;
 
 	private final EquipmentCharacteristicService characteristService;
 	private final InvoiceService invoiceService;
 	private final WarrantTypeService warrantyService;
 	private final EquipmentRepairService repairService;
 
-	private final Integer outOfService = 7;
+	// status
 	private final Integer available = 1;
+	private final Integer outOfService = 8;
+	private final Integer repaired=6;
+
+	// conditions
 	private final Integer irreparable = 7;
 
 	@Override
@@ -64,18 +70,18 @@ public class EquipmentServiceImpl implements EquipmentService {
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipos listados correctamente");
 		return new ResponseDto<>(response, metadata);
 	}
-	
+
 	@Override
 	public ResponseDto<EquipmentDetailResponseDTO> getFullEquipmentDetailById(Integer id) {
-	    EquipmentEntity entity = equipmentRepository.findWithAllDetailsById(id)
-	            .orElseThrow(() -> new EntityNotFoundException("Equipo no encontrado con ID: " + id));
+		EquipmentEntity entity = equipmentRepository.findWithAllDetailsById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Equipo no encontrado con ID: " + id));
 
-	    EquipmentDetailResponseDTO response = EquipmentMapper.toDetailDtoFull(entity);
-	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Detalles completos del equipo obtenidos correctamente");
+		EquipmentDetailResponseDTO response = EquipmentMapper.toDetailDtoFull(entity);
+		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK,
+				"Detalles completos del equipo obtenidos correctamente");
 
-	    return new ResponseDto<>(response, metadata);
+		return new ResponseDto<>(response, metadata);
 	}
-
 
 	@Override
 	public ResponseDto<List<EquipmentResponseDTO>> getSimpleList() {
@@ -103,7 +109,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 				.orElseThrow(() -> new RuntimeException("Empresa no encontrada"));
 		equipment.setCondition(condition);
 		equipment.setCompany(company);
-		if(request.getCategoryId()!=null && request.getCategoryId()!=0) {
+		if (request.getCategoryId() != null && request.getCategoryId() != 0) {
 			EquipmentCategoryEntity category = categoryRepository.findById(request.getCategoryId())
 					.orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
 			this.upStock(category.getStock());
@@ -234,24 +240,46 @@ public class EquipmentServiceImpl implements EquipmentService {
 	// Método para cambiar el estado del equipo
 	@Override
 	@Transactional
-	public ResponseDto<MessageResponseDTO> changeStatus(Integer idEquipo, Integer newStatus) {
+	public ResponseDto<MessageResponseDTO> changeStatus(Integer idEquipo,
+			EquipmentRepairStatusChangeRequestDTO request) {
 		EquipmentEntity equipo = equipmentRepository.findById(idEquipo)
 				.orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
+		// Si recibe el id de raparacion, si lo recibe cambiar equp service, contollers
+		// y front. Reapir entity
+		// El estado puede cambiar
+		EquipmentStatusEntity status = statusRepository.findById(request.getStatusChange())
+				.orElseThrow(() -> new RuntimeException("Estado no encontrado: " + request.getStatusChange()));
 
-		EquipmentStatusEntity status = statusRepository.findById(newStatus)
-				.orElseThrow(() -> new RuntimeException("Estado no encontrado: " + newStatus));
 		if (status.getId() == 1) {
-			Optional<EquipmentAssignmentEntity> assignmentEntity = assignmentRepository.findTopByEquipment_IdOrderByAssignmentDateDesc(idEquipo);
-			if(assignmentEntity.isPresent()) {
+			Optional<EquipmentAssignmentEntity> assignmentEntity = assignmentRepository
+					.findTopByEquipment_IdOrderByAssignmentDateDesc(idEquipo);
+			if (assignmentEntity.isPresent()) {
 				status = statusRepository.findById(2)
 						.orElseThrow(() -> new RuntimeException("Estado no encontrado: " + 2));
-			}else {
+			} else {
 				this.upStock(equipo.getCategory().getStock());
 			}
-			
-		} else if(status.getId() == 6) {
-			this.repairService.registerRepairDate(idEquipo);
-		} 
+
+		} else if (status.getId() == 6) {
+			this.repairService.registerRepairDate(request.getIdRepair(), status);
+		}
+
+		if (request.getIdRepair() != null) {
+			if (status.getId() == 3) {
+				EquipmentRepairEntity repair = equipmentRepairRepository.findById(request.getIdRepair()).orElseThrow(
+						() -> new RuntimeException("No hay equipo  en reparacion con id:" + request.getIdRepair()));
+				
+				 if (repair.getRepairStatus().getId() == repaired) {
+			            throw new RuntimeException("El equipo ya se encuentra reparado, no se puede modificar su estado");
+			        }
+			        
+			        repair.setRepairStatus(status);
+			        equipmentRepairRepository.save(repair);
+			    }
+			}
+
+		
+
 		equipo.setEquipStatus(status);
 		equipmentRepository.save(equipo);
 
@@ -264,6 +292,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	public ResponseDto<InvoiceDetailResponseDTO> setInvoice(Integer idEquipo, InvoiceRequestDTO request) {
 		EquipmentEntity equipment = equipmentRepository.findById(idEquipo)
 				.orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
+
 		InvoiceEntity invoice = new InvoiceEntity();
 		if (request.getId() != 0 || request.getId() != null) {
 			invoice = invoiceService.update(request, request.getId());
@@ -283,8 +312,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 		EquipmentEntity equipment = equipmentRepository.findById(idEquip)
 				.orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
 
-		if(request.getId()!=null && request.getId()!=0 ) {
-			WarrantTypeEntity warranty = warrantyService.update(request,request.getId());
+		if (request.getId() != null && request.getId() != 0) {
+			WarrantTypeEntity warranty = warrantyService.update(request, request.getId());
 			equipment.setWarranty(warranty);
 		} else {
 			WarrantTypeEntity warranty = warrantyService.save(request, equipment);
@@ -306,5 +335,4 @@ public class EquipmentServiceImpl implements EquipmentService {
 		stock.setStock(stock.getStock() - 1);
 		categoryStockRepository.save(stock);
 	}
-
 }

@@ -1,6 +1,5 @@
 package com.isc.api.service.impl;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -9,11 +8,11 @@ import org.springframework.stereotype.Service;
 import com.isc.api.dto.request.WarrantTypeRequestDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
 import com.isc.api.dto.response.WarrantTypeDetailResponseDTO;
+
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
 import com.isc.api.entitys.WarrantTypeEntity;
 import com.isc.api.mapper.WarrantTypeMapper;
-import com.isc.api.repository.EquipmentRepository;
 import com.isc.api.repository.WarrantTypeRepository;
 import com.isc.api.service.WarrantTypeService;
 import com.isc.api.entitys.EquipmentEntity;
@@ -26,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 public class WarrantTypeServiceImpl implements WarrantTypeService {
 
     private final WarrantTypeRepository warrantTypeRepository;
-    private final EquipmentRepository equipmentRepository;
 
     @Override
     public WarrantTypeEntity save(WarrantTypeRequestDTO request, EquipmentEntity equipment) {

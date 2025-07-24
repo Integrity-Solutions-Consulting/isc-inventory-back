@@ -1,0 +1,39 @@
+<<<<<<< HEAD:api/src/main/java/com/isc/service/InvoiceDetailService.java
+package com.isc.service;
+
+import java.util.List;
+
+import com.isc.dto.request.InvoiceDetailRequestDTO;
+import com.isc.dto.response.InvoiceDetailEntityDetailResponseDTO;
+import com.isc.dto.response.InvoiceDetailEntityResponseDTO;
+import com.isc.dto.response.MessageResponseDTO;
+import com.isc.dtos.ResponseDto;
+=======
+package com.isc.api.service;
+
+import java.util.List;
+
+import com.isc.api.dto.request.InvoiceDetailRequestDTO;
+import com.isc.api.dto.response.InvoiceDetailEntityDetailResponseDTO;
+import com.isc.api.dto.response.InvoiceDetailEntityResponseDTO;
+import com.isc.api.dto.response.MessageResponseDTO;
+import com.isc.dtos.ResponseDto;
+import com.isc.api.entitys.InvoiceDetailEntity;
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/service/InvoiceDetailService.java
+
+public interface InvoiceDetailService {
+	public ResponseDto<List<InvoiceDetailEntityDetailResponseDTO>> getAllDetails();
+	public ResponseDto<List<InvoiceDetailEntityResponseDTO>> getSimpleList();
+<<<<<<< HEAD:api/src/main/java/com/isc/service/InvoiceDetailService.java
+	public ResponseDto<InvoiceDetailEntityDetailResponseDTO> save(InvoiceDetailRequestDTO request);
+	public ResponseDto<InvoiceDetailEntityDetailResponseDTO> update(InvoiceDetailRequestDTO request, Integer id);
+	public ResponseDto<MessageResponseDTO> inactive(Integer id);
+	public ResponseDto<MessageResponseDTO> active(Integer id);
+}
+=======
+	public InvoiceDetailEntity save(InvoiceDetailRequestDTO request);
+	public InvoiceDetailEntity update(InvoiceDetailRequestDTO request);
+	public ResponseDto<MessageResponseDTO> inactive(Integer id);
+	public ResponseDto<MessageResponseDTO> active(Integer id);
+}
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/service/InvoiceDetailService.java

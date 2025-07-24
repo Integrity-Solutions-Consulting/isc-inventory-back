@@ -1,0 +1,65 @@
+package com.isc.api.entitys;
+
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "appearance", schema = "administration")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class AppearanceEntity {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+	
+	@Column(length = 25, nullable = false)
+	private String loginBackground;
+	
+	@Column(length = 25, nullable = false)
+	private String typography;
+	
+	@Column(name = "fixed_header", nullable = false)
+	private Boolean fixedHeader = true;
+
+	@Column(length = 25, nullable = false)
+    private String menuPosition;
+	
+	@Column(nullable = false)
+	private Boolean collapsedMenu = true;
+
+    @Column(length = 25, nullable = false)
+    private String backgroundColor;
+
+    @Column(nullable = false)
+    private Integer boxBorder;
+    
+    @Column(length = 25, nullable = false)
+	private String boxBackground;
+    
+    @Column(name = "active", nullable = false)
+	private Boolean active = true;
+
+<<<<<<< HEAD:api/src/main/java/com/isc/entitys/AppearanceEntity.java
+	@Column(name = "created_at", nullable = false)
+	private LocalDateTime creationDate = LocalDateTime.now();
+
+	@Column(name = "updated_at")
+	private LocalDateTime ModificationDate;
+=======
+	@Column(name = "creation_date", nullable = false)
+	private LocalDateTime creationDate = LocalDateTime.now();
+
+	@Column(name = "modification_date")
+	private LocalDateTime modificationDate;
+>>>>>>> 0f93e5da78987daf93e729d5c42a36786331c01f:api/src/main/java/com/isc/api/entitys/AppearanceEntity.java
+}

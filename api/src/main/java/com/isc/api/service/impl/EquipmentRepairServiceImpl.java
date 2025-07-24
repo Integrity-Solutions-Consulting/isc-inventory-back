@@ -5,12 +5,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.isc.api.dto.request.EquipmentRepairRequestDTO;
 import com.isc.api.dto.request.EquipmentRevokeRequestDTO;
+import com.isc.api.dto.request.UpdateRepairStatusRequestDTO;
 import com.isc.api.dto.response.EquipmentRepairDetailResponseDTO;
 import com.isc.api.dto.response.EquipmentRepairResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
@@ -43,57 +43,59 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
 	private final EquipmentStatusRepository statusRepository;
 	private final EquipmentCategoryStockRepository categoryStockRepository;
 	private final EquipmentAssignmentRepository assignmentRepository;
-	
+	private final EquipmentStatusRepository equipmentStatusRepository;
 	private final EquipmentAssignmentService assignmentService;
-
 	private final Integer available = 1;
-	private final Integer rapairing = 3;
+
+	private final Integer enRevision = 4;
 
 	@Override
 	@Transactional
-	public ResponseDto<EquipmentRepairDetailResponseDTO> save(EquipmentRepairRequestDTO request) {
+	public ResponseDto<EquipmentRepairDetailResponseDTO> save(EquipmentRepairRequestDTO request) 
+	{
 		// 1. Buscar el equipo y verifica que no este asginado
 		EquipmentEntity equipment = equipmentRepository.findById(request.getEquipment())
 				.orElseThrow(() -> new RuntimeException("Equipo no encontrado con ID: " + request.getEquipment()));
-
-		if (equipment.getEquipStatus() != null && equipment.getEquipStatus().getId() == rapairing) {
+		System.out.println(equipment.getEquipStatus().getId());
+		if (equipment.getEquipStatus() != null && (equipment.getEquipStatus().getId() == 3 || equipment.getEquipStatus().getId() == 4 || equipment.getEquipStatus().getId() == 5 || equipment.getEquipStatus().getId() == 6) ) {
 			MetadataResponseDto repairmessage = new MetadataResponseDto(HttpStatus.BAD_REQUEST,
 					"El equipo ya se encuentra en reparacion.");
 			return new ResponseDto<>(null, repairmessage);
 		}
 
-		// 2. Buscar o crear el estado "EN_REPARACION"
+		// 2. Buscar o crear el estado "EN_REVISION"
 
-		EquipmentStatusEntity repairStatus = new EquipmentStatusEntity();
-		repairStatus.setId(rapairing);
-
-		// 3. Asignar el estado al equipo y guardar
-		equipment.setEquipStatus(repairStatus);
-		equipment.setModificationDate(LocalDateTime.now());
-		equipmentRepository.save(equipment);
-
-		// 4. Crear la reparación
-		EquipmentRepairEntity repair = EquipmentRepairMapper.toEntity(request, equipment);
-		repair.setCreationDate(LocalDateTime.now());
-		repair.setStatus(true);
-		EquipmentRepairEntity savedRepair = repairRepository.save(repair);
-
-		// 5. Convertir a DTO de respuesta
-		EquipmentRepairDetailResponseDTO responseDTO = EquipmentRepairMapper.toDetailDto(savedRepair);
-
+		EquipmentStatusEntity newStatus = equipmentStatusRepository.findById(enRevision)
+	            .orElseThrow(() -> new RuntimeException("Estado no encontrado con ID: " + enRevision)); 
 		
-		if(request.isRevoke()) {
+		// 4. Crear entidad de reparación
+	    EquipmentRepairEntity repairEntity = EquipmentRepairMapper.toEntity(request, equipment);
+	    repairEntity.setRepairStatus(newStatus);
+	    repairEntity.setStatus(true);
+
+	    // 5. Guardar la reparación
+	    EquipmentRepairEntity saved = repairRepository.save(repairEntity);
+
+	    // 6. Actualizar el estado del equipo
+	    equipment.setEquipStatus(newStatus);
+	    equipmentRepository.save(equipment);
+		
+		if(request.isRevoke()) 
+		{
 			EquipmentAssignmentEntity assignmentEntity = assignmentRepository.findTopByEquipment_IdOrderByAssignmentDateDesc(request.getEquipment()).orElseThrow(
 					()-> new RuntimeException("No se ah encontrado una asignacion de este equipo"));
 			this.assignmentService.revoke(assignmentEntity.getId(), new EquipmentRevokeRequestDTO(LocalDate.now()));
+
 		}
 
 		
 		// 6. Crear metadatos y respuesta
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED,
 				"Reparación registrada correctamente");
-		return new ResponseDto<>(responseDTO, metadata);
+		return new ResponseDto<>(EquipmentRepairMapper.toDetailDto(saved), metadata);
 	}
+	
+
 
 	@Override
 	public ResponseDto<List<EquipmentRepairDetailResponseDTO>> getAllDetails() {
@@ -186,13 +188,14 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
 
 	@Override
 	@Transactional
-	public EquipmentRepairEntity registerRepairDate(Integer equipmentId) {
+	public EquipmentRepairEntity registerRepairDate(Integer idRepair, EquipmentStatusEntity status) {
 		// Buscar la reparación pendiente (activa y sin repairDate)
-		EquipmentRepairEntity repair = repairRepository.findByEquipment_IdAndRepairDateIsNullAndStatusTrue(equipmentId)
+		EquipmentRepairEntity repair = repairRepository.findById(idRepair)
 				.orElseThrow(() -> new RuntimeException(
-						"No se encontró reparación pendiente para el equipo con ID: " + equipmentId));
+						"No se encontró reparación con ID: " + idRepair));
 
 		// Asignar la fecha actual
+		repair.setRepairStatus(status);;
 		repair.setRepairDate(LocalDate.now());
 		repair.setModificationDate(LocalDateTime.now());
 

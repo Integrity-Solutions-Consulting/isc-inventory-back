@@ -57,3 +57,4 @@ dist/
 Database.sh
 *.sh~
 fly.toml
+/.metadata/
