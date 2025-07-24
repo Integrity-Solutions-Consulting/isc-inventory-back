@@ -44,8 +44,8 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public byte[] generateReport(EquipmentAssignmentEntity assigment) throws JRException {
 
-        try (InputStream reportStream = resourceLoader.getResource("classpath:templates/report/report.jrxml").getInputStream()) {
-            JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+        try (InputStream reportStream = resourceLoader.getResource("classpath:reports/report.jasper").getInputStream()) {
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(reportStream);
 
             Map<String, Object> params = new HashMap<>();
             params.put("employeeName", assigment.getEmployee().getFirstName() + " " + assigment.getEmployee().getLastName());
@@ -75,6 +75,7 @@ public class ReportServiceImpl implements ReportService {
             throw new RuntimeException("Error generando el reporte", e);
         }
     }
+
 
     private BufferedImage loadPngImage() throws Exception {
         Resource logoResource = resourceLoader.getResource("classpath:logo/logo.png");
