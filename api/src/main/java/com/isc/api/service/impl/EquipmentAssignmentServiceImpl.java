@@ -69,6 +69,18 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
     }
 
     @Override
+    public ResponseDto<List<Integer>> getAvailableEquipmentIds() {
+        List<Integer> availableIds = equipmentRepository.findIdsByStatus(idAvailable);
+        
+        MetadataResponseDto metadata = new MetadataResponseDto(
+            HttpStatus.OK, 
+            "IDs de equipos disponibles obtenidos correctamente"
+        );
+        
+        return new ResponseDto<>(availableIds, metadata);
+    }
+    
+    @Override
     @Transactional
     public ResponseDto<EquipmentAssignmentDetailResponseDTO> assign(EquipmentAssignmentRequestDTO request) {
         Optional<EmployeeEntity> employeeOpt = employeeRepository.findById(request.getEmployee());

@@ -16,4 +16,5 @@ public class EquipmentAssignmentResponseDTO {
 	private LocalDate assignmentDate;
 	private LocalDate returnDate;
 	
+	
 }

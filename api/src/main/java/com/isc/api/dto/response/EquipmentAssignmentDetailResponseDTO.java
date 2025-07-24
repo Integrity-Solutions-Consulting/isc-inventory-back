@@ -21,4 +21,4 @@ public class EquipmentAssignmentDetailResponseDTO {
 	private LocalDate assignmentDate;
 	private LocalDate returnDate;
 	private boolean status;
-}
+	}

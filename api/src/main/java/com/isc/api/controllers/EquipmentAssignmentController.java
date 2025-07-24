@@ -37,6 +37,11 @@ public class EquipmentAssignmentController {
     public ResponseEntity<ResponseDto<List<EquipmentAssignmentResponseDTO>>> getSimpleList() {
         return ResponseEntity.ok(assignmentService.getSimpleList());
     }
+    
+    @GetMapping("/available-ids")
+    public ResponseEntity<ResponseDto<List<Integer>>> getAvailableEquipmentIds() {
+        return ResponseEntity.ok(assignmentService.getAvailableEquipmentIds());
+    }
 
     @PostMapping("/assign")
     public ResponseEntity<ResponseDto<EquipmentAssignmentDetailResponseDTO>> assign(

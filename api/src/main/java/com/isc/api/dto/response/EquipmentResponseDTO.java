@@ -14,4 +14,6 @@ public class EquipmentResponseDTO {
     private String model;
     private String serialNumber;
     private String itemCode;
+    private Integer equipmentStatusId;
+
 }

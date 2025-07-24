@@ -42,5 +42,8 @@ public interface EquipmentRepository extends JpaRepository<EquipmentEntity, Inte
 
 	@Query(value = "SELECT * FROM get_dashboard_totals()", nativeQuery = true)
 	List<Object[]> getDashboardTotalsRaw();
+	
+	@Query("SELECT e.id FROM EquipmentEntity e WHERE e.equipStatus.id = :statusId AND e.status = true")
+	List<Integer> findIdsByStatus(@Param("statusId") Integer statusId);
 
 }

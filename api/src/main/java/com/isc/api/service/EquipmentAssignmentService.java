@@ -14,6 +14,7 @@ import net.sf.jasperreports.engine.JRException;
 public interface EquipmentAssignmentService {
 	public ResponseDto<List<EquipmentAssignmentDetailResponseDTO>> getAllDetails();
 	public ResponseDto<List<EquipmentAssignmentResponseDTO>> getSimpleList();
+	ResponseDto<List<Integer>> getAvailableEquipmentIds();
 	public ResponseDto<EquipmentAssignmentDetailResponseDTO> assign(EquipmentAssignmentRequestDTO request);
 	public ResponseDto<EquipmentAssignmentDetailResponseDTO> revoke(Integer id, EquipmentRevokeRequestDTO request);
 	public ResponseDto<MessageResponseDTO> inactive(Integer id);

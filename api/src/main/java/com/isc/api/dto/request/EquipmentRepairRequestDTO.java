@@ -28,8 +28,4 @@ public class EquipmentRepairRequestDTO {
 	private BigDecimal cost;
 	
 	private boolean revoke;
-	
-	@NotNull(message = "El estado de reparación es obligatorio")
-	private Integer equipmentConditionStatusId;
-
 }

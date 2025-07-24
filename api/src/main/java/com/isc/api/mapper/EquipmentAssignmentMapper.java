@@ -40,6 +40,7 @@ public class EquipmentAssignmentMapper {
         equipment.setItemCode(entity.getEquipment().getItemCode());
         equipment.setModel(entity.getEquipment().getModel());
         equipment.setSerialNumber(entity.getEquipment().getSerialNumber());
+        equipment.setEquipmentStatusId(entity.getEquipment().getEquipStatus().getId());
         
         CompanyResponseDTO company = new CompanyResponseDTO();
         company.setId(entity.getEquipment().getCompany().getId());

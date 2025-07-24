@@ -56,21 +56,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 	// status
 	private final Integer available = 1;
-	private final Integer assigned = 2;
-	private final Integer underRepair = 3;
-	private final Integer underReview = 4;
-	private final Integer bugReported = 5;
-	private final Integer repaired = 6;
-	private final Integer inProgress = 7;
 	private final Integer outOfService = 8;
+	private final Integer repaired=6;
 
 	// conditions
-	private final Integer newEquip = 1;
-	private final Integer likeNew = 2;
-	private final Integer used = 3;
-	private final Integer wornOut = 4;
-	private final Integer minorIssue = 5;
-	private final Integer majorIssue = 6;
 	private final Integer irreparable = 7;
 
 	@Override
@@ -279,11 +268,17 @@ public class EquipmentServiceImpl implements EquipmentService {
 			if (status.getId() == 3) {
 				EquipmentRepairEntity repair = equipmentRepairRepository.findById(request.getIdRepair()).orElseThrow(
 						() -> new RuntimeException("No hay equipo  en reparacion con id:" + request.getIdRepair()));
-				repair.setRepairStatus(status);
-				equipmentRepairRepository.save(repair);
+				
+				 if (repair.getRepairStatus().getId() == repaired) {
+			            throw new RuntimeException("El equipo ya se encuentra reparado, no se puede modificar su estado");
+			        }
+			        
+			        repair.setRepairStatus(status);
+			        equipmentRepairRepository.save(repair);
+			    }
 			}
 
-		}
+		
 
 		equipo.setEquipStatus(status);
 		equipmentRepository.save(equipo);
