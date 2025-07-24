@@ -1,0 +1,5 @@
+package com.isc.api.dto.response;
+
+public class DashboardEquipmentStatusSummaryResponseDTO {
+
+}

@@ -1,0 +1,40 @@
+package com.isc.api.controllers;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.isc.api.dto.response.DashboardResponseDTO;
+import com.isc.api.service.DashboardService;
+import com.isc.dtos.ResponseDto;
+
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequestMapping("/api/v1/dashboard")
+@RequiredArgsConstructor
+public class DashboardController {
+
+	private final DashboardService dashboardService;
+	
+	@GetMapping("/cards")
+	public ResponseEntity<ResponseDto<DashboardResponseDTO>> getCards(){
+		return ResponseEntity.ok(dashboardService.getCards());
+	}
+	
+	@GetMapping("/barChart")
+	public ResponseEntity<ResponseDto<DashboardResponseDTO>> getBar(){
+		return ResponseEntity.ok(dashboardService.getCards());
+	}
+	
+	@GetMapping("/pieChart")
+	public ResponseEntity<ResponseDto<DashboardResponseDTO>> getPie(){
+		return ResponseEntity.ok(dashboardService.getCards());
+	}
+	
+	@GetMapping("/lineChart")
+	public ResponseEntity<ResponseDto<DashboardResponseDTO>> getLine(){
+		return ResponseEntity.ok(dashboardService.getCards());
+	}
+}
