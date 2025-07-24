@@ -12,6 +12,8 @@ import javax.imageio.ImageIO;
 
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 import com.isc.api.dto.response.EquipmentCharacteristicsReportResponseDTO;
@@ -20,6 +22,7 @@ import com.isc.api.entitys.EquipmentEntity;
 import com.isc.api.mapper.EquipmentCharacteristicMapper;
 import com.isc.api.service.ReportService;
 
+import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -32,56 +35,53 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 @Service
-public class ReportServiceImpl implements ReportService{
+@RequiredArgsConstructor
+public class ReportServiceImpl implements ReportService {
 
-	@Override
-	public byte[] generateReport(EquipmentAssignmentEntity assigment) throws JRException {
+    private final ResourceLoader resourceLoader;
 
-        // 1. Cargar y compilar el jrxml desde /resources/templates/report/
-        InputStream reportStream = getClass().getResourceAsStream("/templates/report/report.jrxml");
-        JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+    @Override
+    public byte[] generateReport(EquipmentAssignmentEntity assigment) throws JRException {
 
-        // 2. Crear parámetros
-        Map<String, Object> params = new HashMap<>();
-        params.put("employeeName", assigment.getEmployee().getFirstName()+ " "+assigment.getEmployee().getLastName());
-        params.put("employeeId", assigment.getEmployee().getIdentification());
-        params.put("employeeIdType", assigment.getEmployee().getIdentificationType().getDescription());
-        params.put("itemCode", assigment.getEquipment().getItemCode());
-        params.put("serialNumber", assigment.getEquipment().getSerialNumber());
-        params.put("brand", assigment.getEquipment().getBrand());
-        params.put("model", assigment.getEquipment().getModel());
-        params.put("date", assigment.getAssignmentDate());
-        try {
-			params.put("logo", loadPngImage());
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("Error al cargar el logo");
-		}
-        
-        List<EquipmentCharacteristicsReportResponseDTO> dtos = 
-        		assigment.getEquipment().getCharacteristic().stream()
-        	        .map(EquipmentCharacteristicMapper::toReportDto)
-        	        .collect(Collectors.toList());
+        try (InputStream reportStream = resourceLoader.getResource("classpath:templates/report/report.jrxml").getInputStream()) {
+            JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
 
-        // 3. Dataset para la tabla "caracteristicas"
-        JRBeanCollectionDataSource caracteristicasDataSource =
-                new JRBeanCollectionDataSource(dtos);
+            Map<String, Object> params = new HashMap<>();
+            params.put("employeeName", assigment.getEmployee().getFirstName() + " " + assigment.getEmployee().getLastName());
+            params.put("employeeId", assigment.getEmployee().getIdentification());
+            params.put("employeeIdType", assigment.getEmployee().getIdentificationType().getDescription());
+            params.put("itemCode", assigment.getEquipment().getItemCode());
+            params.put("serialNumber", assigment.getEquipment().getSerialNumber());
+            params.put("brand", assigment.getEquipment().getBrand());
+            params.put("model", assigment.getEquipment().getModel());
+            params.put("date", assigment.getAssignmentDate());
 
-        params.put("caracteristicas", caracteristicasDataSource);
+            params.put("logo", loadPngImage());
 
-        // 4. Llenar el reporte
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JREmptyDataSource());
+            List<EquipmentCharacteristicsReportResponseDTO> dtos =
+                    assigment.getEquipment().getCharacteristic().stream()
+                            .map(EquipmentCharacteristicMapper::toReportDto)
+                            .collect(Collectors.toList());
 
-        // 5. Exportar a PDF
-        return JasperExportManager.exportReportToPdf(jasperPrint);
+            JRBeanCollectionDataSource caracteristicasDataSource = new JRBeanCollectionDataSource(dtos);
+            params.put("caracteristicas", caracteristicasDataSource);
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JREmptyDataSource());
+            return JasperExportManager.exportReportToPdf(jasperPrint);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error generando el reporte", e);
+        }
     }
-	
-	private BufferedImage loadPngImage() throws Exception {
-	    try (InputStream is = getClass().getResourceAsStream("/logo/logo.png")) {
-	        if (is == null) {
-	            throw new IllegalArgumentException("No se encontró logo.png en /resources/logo/");
-	        }
-	        return ImageIO.read(is);
-	    }
-	}
+
+    private BufferedImage loadPngImage() throws Exception {
+        Resource logoResource = resourceLoader.getResource("classpath:logo/logo.png");
+        try (InputStream is = logoResource.getInputStream()) {
+            if (is == null) {
+                throw new IllegalArgumentException("No se encontró logo.png en classpath:logo/");
+            }
+            return ImageIO.read(is);
+        }
+    }
 }

@@ -126,14 +126,24 @@
 	</dependencies>
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
+    <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <includes>
+                <include>**/*.jrxml</include>
+                <include>**/*.png</include>
+            </includes>
+        </resource>
+    </resources>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
                 <mainClass>com.isc.api.ApiApplication</mainClass>
             </configuration>
-			</plugin>
-		</plugins>
-	</build>
+        </plugin>
+    </plugins>
+</build>
+
 </project>
