@@ -15,5 +15,6 @@ public class EquipmentResponseDTO {
     private String serialNumber;
     private String itemCode;
     private Integer equipmentStatusId;
+    private EquipmentConditionResponseDTO condition;
 
 }

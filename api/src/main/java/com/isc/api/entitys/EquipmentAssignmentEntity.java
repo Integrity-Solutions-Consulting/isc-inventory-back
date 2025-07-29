@@ -59,4 +59,5 @@ public class EquipmentAssignmentEntity {
 
 	@Column(name = "modification_ip", length = 45)
 	private String modificationIp;
+	
 }

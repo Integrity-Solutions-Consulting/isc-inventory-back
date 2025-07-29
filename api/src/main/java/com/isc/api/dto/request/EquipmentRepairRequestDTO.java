@@ -1,6 +1,9 @@
 package com.isc.api.dto.request;
 
 import java.math.BigDecimal;
+
+import com.isc.api.dto.response.EquipmentConditionResponseDTO;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.DecimalMin;
@@ -28,4 +31,9 @@ public class EquipmentRepairRequestDTO {
 	private BigDecimal cost;
 	
 	private boolean revoke;
+	
+	private EquipmentConditionResponseDTO condition;
+
+	
+	
 }

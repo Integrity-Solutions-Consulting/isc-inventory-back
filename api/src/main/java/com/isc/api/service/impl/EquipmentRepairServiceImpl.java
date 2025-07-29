@@ -80,13 +80,20 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
 	    equipment.setEquipStatus(newStatus);
 	    equipmentRepository.save(equipment);
 		
-		if(request.isRevoke()) 
-		{
-			EquipmentAssignmentEntity assignmentEntity = assignmentRepository.findTopByEquipment_IdOrderByAssignmentDateDesc(request.getEquipment()).orElseThrow(
-					()-> new RuntimeException("No se ah encontrado una asignacion de este equipo"));
-			this.assignmentService.revoke(assignmentEntity.getId(), new EquipmentRevokeRequestDTO(LocalDate.now()));
+	    if (request.isRevoke()) {
+	        EquipmentAssignmentEntity assignmentEntity = assignmentRepository
+	            .findTopByEquipment_IdOrderByAssignmentDateDesc(request.getEquipment())
+	            .orElseThrow(() -> new RuntimeException("No se ha encontrado una asignación de este equipo"));
 
-		}
+	       
+	        EquipmentRevokeRequestDTO revokeDTO = new EquipmentRevokeRequestDTO();
+	        revokeDTO.setRevokeDate(LocalDate.now());
+	        revokeDTO.setCondition(request.getCondition());
+
+	        this.assignmentService.revoke(assignmentEntity.getId(), revokeDTO);
+	    }
+
+
 
 		
 		// 6. Crear metadatos y respuesta

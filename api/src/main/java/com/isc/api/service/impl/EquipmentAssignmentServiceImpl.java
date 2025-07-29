@@ -20,11 +20,13 @@ import com.isc.api.entitys.EquipmentEntity;
 import com.isc.api.entitys.EquipmentStatusEntity;
 import com.isc.api.entitys.EquipmentAssignmentEntity;
 import com.isc.api.entitys.EquipmentCategoryStockEntity;
+import com.isc.api.entitys.EquipmentConditionEntity;
 import com.isc.api.mapper.EquipmentAssignmentMapper;
 import com.isc.api.repository.EmployeeRepository;
 import com.isc.api.repository.EquipmentRepository;
 import com.isc.api.repository.EquipmentAssignmentRepository;
 import com.isc.api.repository.EquipmentCategoryStockRepository;
+import com.isc.api.repository.EquipmentConditionRepository;
 import com.isc.api.service.EquipmentAssignmentService;
 import com.isc.api.service.ReportService;
 
@@ -41,13 +43,16 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
     private final EmployeeRepository employeeRepository;
     private final EquipmentRepository equipmentRepository;
     private final EquipmentCategoryStockRepository categoryStockRepository;
+    private final EquipmentConditionRepository conditionRepository;
+
     
     private final ReportService reportService;
     
     private final Integer idAvailable = 1;
     private final Integer idAssigned = 2;
-    private final Integer outOfService= 7;
-
+    private final Integer idUnRepairable= 7;
+    private final Integer idOutOfService=7;
+    
     @Override
     public ResponseDto<List<EquipmentAssignmentDetailResponseDTO>> getAllDetails() {
         List<EquipmentAssignmentDetailResponseDTO> response = assignmentRepository.findAllOrderByReturnDateNullsFirst().stream()
@@ -92,7 +97,7 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
         }
         
         EquipmentEntity equipment = equipmentOpt.get();
-        if(equipment.getEquipStatus().getId()!=this.idAvailable && equipment.getStatus()==true && equipment.getCondition().getId()!=this.outOfService) {
+        if(equipment.getEquipStatus().getId()!=this.idAvailable && equipment.getStatus()==true && equipment.getCondition().getId()!=this.idUnRepairable) {
         	throw new RuntimeException("No fue posible realizar la asignación");   
         }
         EquipmentStatusEntity statusAsignado = new EquipmentStatusEntity();
@@ -116,35 +121,54 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
 
     @Override
     @Transactional
-    public ResponseDto<EquipmentAssignmentDetailResponseDTO> revoke(Integer id, EquipmentRevokeRequestDTO request) 
-    {
+    public ResponseDto<EquipmentAssignmentDetailResponseDTO> revoke(Integer id, EquipmentRevokeRequestDTO request) {
         Optional<EquipmentAssignmentEntity> existingOpt = assignmentRepository.findById(id);
         if (existingOpt.isEmpty()) {
-        	throw new RuntimeException("Asignacion no encontrada");
+            throw new RuntimeException("Asignacion no encontrada");
         }
+
         EquipmentAssignmentEntity assignment = existingOpt.get();
         LocalDate returnDate = request != null ? request.getRevokeDate() : null;
-        
-        if (returnDate != null && returnDate.isBefore(LocalDate.now())) 
-        {
+
+        if (returnDate != null && returnDate.isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("La fecha de revocación no puede ser anterior a la fecha actual");
         }
-        
-        assignment.setReturnDate(returnDate !=null? returnDate:LocalDate.now());
-        EquipmentStatusEntity statusAvailable = new EquipmentStatusEntity();
-        statusAvailable.setId(this.idAvailable);
+
+        assignment.setReturnDate(returnDate != null ? returnDate : LocalDate.now());
+
         EquipmentEntity equipment = assignment.getEquipment();
-        equipment.setEquipStatus(statusAvailable);
-        equipment = equipmentRepository.save(equipment);
+
+        if (request.getCondition() != null) {
+            EquipmentConditionEntity condition = conditionRepository.findById(request.getCondition().getId())
+                .orElseThrow(() -> new RuntimeException("Condición no encontrada"));
+            equipment.setCondition(condition);
+            
+            if ("Irreparable".equalsIgnoreCase(condition.getName())) {
+                EquipmentStatusEntity statusOutOfService = new EquipmentStatusEntity();
+                statusOutOfService.setId(this.idOutOfService);
+                equipment.setEquipStatus(statusOutOfService);
+            } else {
+                // Si no es irreparable, vuelve a "Disponible"
+                EquipmentStatusEntity statusAvailable = new EquipmentStatusEntity();
+                statusAvailable.setId(this.idAvailable);
+                equipment.setEquipStatus(statusAvailable);
+            }
+            
+        }
+        
+        equipmentRepository.save(equipment); // ✅ actualizas en la base de datos
+
+        // Actualizar stock
         EquipmentCategoryStockEntity stock = equipment.getCategory().getStock();
-        stock.setStock(stock.getStock()+1);
+        stock.setStock(stock.getStock() + 1);
         categoryStockRepository.save(stock);
- 
+
         EquipmentAssignmentEntity updated = assignmentRepository.save(assignment);
         EquipmentAssignmentDetailResponseDTO dto = EquipmentAssignmentMapper.toDetailDTO(updated);
- 
+
         return new ResponseDto<>(dto, new MetadataResponseDto(HttpStatus.OK, "Asignación actualizada correctamente"));
     }
+
 
     @Override
     public ResponseDto<MessageResponseDTO> inactive(Integer id) {

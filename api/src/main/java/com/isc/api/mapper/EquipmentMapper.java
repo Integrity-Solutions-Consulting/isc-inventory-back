@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.isc.api.dto.response.EquipmentResponseDTO;
 import com.isc.api.dto.response.EquipmentCharacteristicResponseDTO;
+import com.isc.api.dto.response.EquipmentConditionResponseDTO;
 import com.isc.api.dto.response.EquipmentDetailResponseDTO;
 import com.isc.api.entitys.*;
 
@@ -22,6 +23,12 @@ public class EquipmentMapper {
         dto.setModel(entity.getModel());
         dto.setSerialNumber(entity.getSerialNumber());
         dto.setItemCode(entity.getItemCode());
+        
+        EquipmentConditionResponseDTO condition = new EquipmentConditionResponseDTO();
+        condition.setId(entity.getCondition().getId());
+        condition.setName(entity.getCondition().getName());
+
+        dto.setCondition(condition);
 
         return dto;
     }
