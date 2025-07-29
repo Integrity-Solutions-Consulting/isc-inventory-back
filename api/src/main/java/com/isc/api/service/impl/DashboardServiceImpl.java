@@ -1,15 +1,19 @@
 package com.isc.api.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.isc.api.dto.response.DashboardAcquisitionResponseDTO;
 import com.isc.api.dto.response.DashboardEquipmentAssignedByCategoryResponseDTO;
+import com.isc.api.dto.response.DashboardEquipmentStatusSummaryResponseDTO;
 import com.isc.api.dto.response.DashboardResponseDTO;
 import com.isc.api.repository.EquipmentCategoryRepository;
 import com.isc.api.repository.EquipmentRepository;
+import com.isc.api.repository.InvoiceRepository;
 import com.isc.api.service.DashboardService;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
@@ -22,6 +26,7 @@ public class DashboardServiceImpl implements DashboardService {
 
 	private final EquipmentRepository equipmentRepository;
 	private final EquipmentCategoryRepository categoryRepository;
+	private final InvoiceRepository invoiceRepository;
 
 	@Override
 	public ResponseDto<DashboardResponseDTO> getCards() {
@@ -58,6 +63,42 @@ public class DashboardServiceImpl implements DashboardService {
 	    }
 
 	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipos asignados por categoría listados correctamente");
+	    return new ResponseDto<>(data, metadata);
+	}
+	
+	@Override
+	public ResponseDto<List<DashboardEquipmentStatusSummaryResponseDTO>> getEquipmentStatusSummary(Integer categoryId) {
+	    List<Object[]> result = equipmentRepository.getEquipmentStatusSummary(categoryId);
+	    
+	    List<DashboardEquipmentStatusSummaryResponseDTO> data = new ArrayList<>();
+
+	    for (Object[] row : result) {
+	    	DashboardEquipmentStatusSummaryResponseDTO dto = new DashboardEquipmentStatusSummaryResponseDTO();
+	        dto.setStatusName((String) row[0]);
+	        dto.setEquipmentCount((int) ((Number) row[1]).longValue());
+	        data.add(dto);
+	    }
+
+	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipos asignados por categoría listados correctamente");
+	    return new ResponseDto<>(data, metadata);
+	}
+	
+	@Override
+	public ResponseDto<List<DashboardAcquisitionResponseDTO>> getAssetAcquisitionTrends(Integer yearParam) {
+	    List<Object[]> result = invoiceRepository.getAssetAcquisitionTrends(yearParam);
+
+	    List<DashboardAcquisitionResponseDTO> data = new ArrayList<>();
+
+	    for (Object[] row : result) {
+	    	DashboardAcquisitionResponseDTO dto = new DashboardAcquisitionResponseDTO();
+	        dto.setNumeroMes((Integer) row[0]);
+	        dto.setNombreMes((String) row[1]);
+	        dto.setConteoAdquisiciones(((Number) row[2]).longValue());
+	        dto.setValorTotalAdquisiciones((BigDecimal) row[3]);
+	        data.add(dto);
+	    }
+
+	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Tendencia de adquisición de activos listada correctamente");
 	    return new ResponseDto<>(data, metadata);
 	}
 

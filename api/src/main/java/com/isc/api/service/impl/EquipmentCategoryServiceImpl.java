@@ -30,7 +30,7 @@ public class EquipmentCategoryServiceImpl implements EquipmentCategoryService {
 
     @Override
     public ResponseDto<List<EquipmentCategoryDetailResponseDTO>> getAllDetails() {
-        List<EquipmentCategoryDetailResponseDTO> response = categoryRepository.findAll().stream()
+        List<EquipmentCategoryDetailResponseDTO> response = categoryRepository.findAllByStatusTrue().stream()
                 .map(EquipmentCategoryMapper::toDetailDto)
                 .collect(Collectors.toList());
 
