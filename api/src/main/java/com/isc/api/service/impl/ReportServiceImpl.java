@@ -2,6 +2,7 @@ package com.isc.api.service.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +58,7 @@ public class ReportServiceImpl implements ReportService {
             params.put("model", assigment.getEquipment().getModel());
             params.put("date", assigment.getAssignmentDate());
 
-            params.put("logo", loadPngImage());
+            params.put("logo", loadPngImageStream());
 
             List<EquipmentCharacteristicsReportResponseDTO> dtos =
                     assigment.getEquipment().getCharacteristic().stream()
@@ -79,11 +80,18 @@ public class ReportServiceImpl implements ReportService {
 
     private BufferedImage loadPngImage() throws Exception {
         Resource logoResource = resourceLoader.getResource("classpath:logo/logo.png");
+        System.out.println("Logo exists? " + logoResource.exists());
+        System.out.println("Logo URI: " + logoResource.getURI());
         try (InputStream is = logoResource.getInputStream()) {
             if (is == null) {
                 throw new IllegalArgumentException("No se encontró logo.png en classpath:logo/");
             }
             return ImageIO.read(is);
         }
+    }
+    
+    private InputStream loadPngImageStream() throws IOException {
+        Resource logoResource = resourceLoader.getResource("classpath:logo/logo.png");
+        return logoResource.getInputStream();
     }
 }

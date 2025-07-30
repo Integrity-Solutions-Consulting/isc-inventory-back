@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 public class EmailServiceImpl implements EmailService {
 
 	private final JavaMailSender mailSender;
+	
+	private final String sender = "siaft@siaft.net";
 
 	private final String frontUrl = "https://isc-inventory-front.onrender.com/auth/forgot-password?token=";
 
@@ -55,10 +57,10 @@ public class EmailServiceImpl implements EmailService {
 			        + "</html>";
 
 			//helper.setTo(emailTo);
-			helper.setTo("jose.sanchez@integritysolutions.com.ec");
+			helper.setTo("adrian.siavichay@integritysolutions.com.ec");
 			helper.setSubject("Recuperación de contraseña");
 			helper.setText(html, true); // segundo parámetro `true` indica que es HTML
-			helper.setFrom("soporte@integritysolutions.com.ec");
+			helper.setFrom(this.sender);
 			mailSender.send(mensaje);
 		} catch (MessagingException e) {
 			throw new RuntimeException("Error al enviar el mensaje");
@@ -106,10 +108,10 @@ public class EmailServiceImpl implements EmailService {
 	                + "</html>";
 
 	      //helper.setTo(emailTo);
-			helper.setTo("jose.sanchez@integritysolutions.com.ec");
+			helper.setTo("adrian.siavichay@integritysolutions.com.ec");
 	        helper.setSubject("Tu cuenta ha sido creada");
 	        helper.setText(html, true); // true = HTML
-	        helper.setFrom("soporte@integritysolutions.com.ec");
+	        helper.setFrom(this.sender);
 	        mailSender.send(mensaje);
 
 	    } catch (MessagingException e) {
