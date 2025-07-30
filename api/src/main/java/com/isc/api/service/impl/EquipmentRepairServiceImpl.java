@@ -189,6 +189,15 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
 		repair.setModificationDate(LocalDateTime.now());
 		repairRepository.save(repair);
 
+		 // Cambiar estado del equipo a 'Fuera de Servicio'
+	    EquipmentStatusEntity status = equipmentStatusRepository.findById(7)
+	        .orElseThrow(() -> new RuntimeException("Estado 'Fuera de Servicio' no encontrado"));
+
+	    equipment.setEquipStatus(status);
+	    equipment.setStatus(false);
+	    equipment.setModificationDate(LocalDateTime.now());
+	    equipmentRepository.save(equipment);
+		
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Reparación inactivada correctamente");
 		return new ResponseDto<>(new MessageResponseDTO("Operación exitosa"), metadata);
 	}

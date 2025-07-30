@@ -265,7 +265,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		}
 
 		if (request.getIdRepair() != null) {
-			if (status.getId() == 3) {
+			if (request.getIdRepair() != null && (status.getId() == 3 || status.getId() == 7)) {
 				EquipmentRepairEntity repair = equipmentRepairRepository.findById(request.getIdRepair()).orElseThrow(
 						() -> new RuntimeException("No hay equipo  en reparacion con id:" + request.getIdRepair()));
 				
