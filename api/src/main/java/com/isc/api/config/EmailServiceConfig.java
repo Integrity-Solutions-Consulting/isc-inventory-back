@@ -33,9 +33,9 @@ public class EmailServiceConfig {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.starttls.required", "true");
-        props.put("mail.smtp.connectiontimeout", "5000"); // opcional: timeout de conexión
-        props.put("mail.smtp.timeout", "5000");           // opcional: timeout de respuesta
-        props.put("mail.smtp.writetimeout", "5000");      // opcional: timeout de escritura
+        props.put("mail.smtp.connectiontimeout", "10000"); // opcional: timeout de conexión
+        props.put("mail.smtp.timeout", "10000");           // opcional: timeout de respuesta
+        props.put("mail.smtp.writetimeout", "10000");      // opcional: timeout de escritura
         props.put("mail.debug", "true");                  // útil para desarrollo
         
         return mailSender;
