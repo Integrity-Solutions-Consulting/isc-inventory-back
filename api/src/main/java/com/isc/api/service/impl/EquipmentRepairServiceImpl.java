@@ -194,7 +194,6 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
 	        .orElseThrow(() -> new RuntimeException("Estado 'Fuera de Servicio' no encontrado"));
 
 	    equipment.setEquipStatus(status);
-	    equipment.setStatus(false);
 	    equipment.setModificationDate(LocalDateTime.now());
 	    equipmentRepository.save(equipment);
 		

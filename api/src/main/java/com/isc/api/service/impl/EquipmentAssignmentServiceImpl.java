@@ -178,7 +178,7 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
         }
 
         EquipmentAssignmentEntity entity = entityOpt.get();
-        if(entity.getReturnDate().equals(null)) {
+        if(entity.getReturnDate() == null) {
         	throw new RuntimeException("Debe desasignar el equipo primero");
         }
         entity.setStatus(false);
