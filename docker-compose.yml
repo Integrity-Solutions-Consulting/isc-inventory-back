@@ -3,7 +3,8 @@ version: '3.8'
 services:
   api:
     build:
-      context: ./api
+      context: .
+      dockerfile: api/Dockerfile
     image: backend-api
     container_name: backend-api
     ports:
@@ -20,7 +21,8 @@ services:
 
   management:
     build:
-      context: ./auth
+      context: .
+      dockerfile: auth/Dockerfile
     image: backend-auth
     container_name: backend-auth
     ports:
