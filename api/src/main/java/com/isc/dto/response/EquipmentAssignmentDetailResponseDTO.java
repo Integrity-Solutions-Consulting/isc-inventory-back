@@ -17,12 +17,12 @@ public class EquipmentAssignmentDetailResponseDTO {
 	private String fullName;
 	
 	private Integer equipment;
-	private String SerialNumber;
+	private String serialNumber;
 	
-	private LocalDateTime assigmentDate;
+	private LocalDateTime assignmentDate;
 	private LocalDateTime returnDate;
 	private boolean status;
-	private LocalDateTime cretionDate;
+	private LocalDateTime creationDate;
 	private LocalDateTime modificationDate;
 	
 }

@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./api
+    image: backend-api
+    container_name: backend-api
+    ports:
+      - "8081:8080"
+    restart: always
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/isc_inventory
+      - SPRING_DATASOURCE_USERNAME=inventory
+      - SPRING_DATASOURCE_PASSWORD=Zp8#kV42wLp@tR3m
+    depends_on:
+      - postgres
+    networks:
+      - backend-net
+
+  management:
+    build:
+      context: ./auth
+    image: backend-auth
+    container_name: backend-auth
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/isc_inventory
+      - SPRING_DATASOURCE_USERNAME=inventory
+      - SPRING_DATASOURCE_PASSWORD=Zp8#kV42wLp@tR3m
+    depends_on:
+      - postgres
+    networks:
+      - backend-net
+
+  postgres:
+    image: postgres:16
+    container_name: backend-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: isc_inventory
+      POSTGRES_USER: inventory
+      POSTGRES_PASSWORD: Zp8#kV42wLp@tR3m
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - backend-net
+
+volumes:
+  postgres_data:
+
+networks:
+  backend-net:
+    driver: bridge

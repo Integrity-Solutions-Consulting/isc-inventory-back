@@ -90,14 +90,53 @@
 			<artifactId>shared</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
+		<dependency>
+            <groupId>com.sun.mail</groupId>
+    		<artifactId>jakarta.mail</artifactId>
+    		<version>2.0.1</version>
+		</dependency>
+		
+		<dependency>
+   			 <groupId>org.springframework.boot</groupId>
+    		 <artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		
+		<dependency>
+		    <groupId>net.sf.jasperreports</groupId>
+		    <artifactId>jasperreports</artifactId>
+		    <version>7.0.3</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>net.sf.jasperreports</groupId>
+		    <artifactId>jasperreports-fonts</artifactId>
+		    <version>7.0.3</version>
+		</dependency>
+				<dependency>
+		    <groupId>net.sf.jasperreports</groupId>
+		    <artifactId>jasperreports-pdf</artifactId>
+		    <version>7.0.3</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.apache.xmlgraphics</groupId>
+		  <artifactId>batik-transcoder</artifactId>
+		  <version>1.16</version> <!-- O la última estable -->
+		</dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+<build>
+  <plugins>
+    <!-- EXISTENTE -->
+    <plugin>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-maven-plugin</artifactId>
+      <configuration>
+        <mainClass>com.isc.api.ApiApplication</mainClass>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
+
+
 </project>
