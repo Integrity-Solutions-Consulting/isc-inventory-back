@@ -13,6 +13,6 @@ public class SupplierResponseDTO {
 	private String address;
 	private String phone;
 	private String email;
-	private String taxId;
+	private String ruc;
 	private SupplierTypeResponseDTO supplierType;
 }

@@ -52,7 +52,7 @@ public class SupplierController {
         return ResponseEntity.ok(supplierService.save(request));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<ResponseDto<SupplierDetailResponseDTO>> update(
             @Valid @RequestBody SupplierRequestDTO request,
             @PathVariable Integer id) {

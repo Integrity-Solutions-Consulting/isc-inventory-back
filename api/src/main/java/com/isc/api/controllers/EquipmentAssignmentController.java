@@ -56,16 +56,14 @@ public class EquipmentAssignmentController {
         return ResponseEntity.ok(assignmentService.revoke(id,request));
     }
 
-
-
     // Desactivar asignación
-    @PutMapping("/{id}/inactive")
+    @PatchMapping("/inactive/{id}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> inactive(@PathVariable Integer id) {
         return ResponseEntity.ok(assignmentService.inactive(id));
     }
 
     // Activar asignación
-    @PutMapping("/{id}/active")
+    @PatchMapping("/active/{id}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> active(@PathVariable Integer id) {
         return ResponseEntity.ok(assignmentService.active(id));
     }

@@ -56,7 +56,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 	// status
 	private final Integer available = 1;
-	private final Integer outOfService = 8;
+	private final Integer outOfService = 7;
 	private final Integer repaired=6;
 
 	// conditions

@@ -14,8 +14,8 @@ public class SupplierDetailResponseDTO {
 	private String businessName;
 	private String address;
 	private String phone;
+	private String ruc;
 	private String email;
-	private String taxId;
 	private boolean status;
 	private LocalDateTime cretionDate;
 	private LocalDateTime modificationDate;

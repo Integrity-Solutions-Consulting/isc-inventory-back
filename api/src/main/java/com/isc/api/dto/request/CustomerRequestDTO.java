@@ -28,4 +28,8 @@ public class CustomerRequestDTO {
 	        message = "El número de teléfono debe contener solo dígitos, espacios o guiones, y tener entre 7 y 20 caracteres"
 	    )
 	private String phone;
+	
+	@NotBlank(message = "El ruc es obligatorio")
+	@Size(max = 13, message = "El ruc no puede tener más de 13 caracteres")
+	private String ruc;
 }

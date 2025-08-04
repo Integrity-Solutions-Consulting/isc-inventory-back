@@ -13,6 +13,7 @@ public class CustomerMapper {
         entity.setAddress(dto.getAddress());
         entity.setEmail(dto.getEmail());
         entity.setPhone(dto.getPhone());
+        entity.setRuc(dto.getRuc());
         return entity;
     }
 
@@ -21,6 +22,7 @@ public class CustomerMapper {
         entity.setAddress(dto.getAddress());
         entity.setEmail(dto.getEmail());
         entity.setPhone(dto.getPhone());
+        entity.setRuc(dto.getRuc());
     }
 
     public static CustomerResponseDTO toResponseDTO(CustomerEntity entity) {
@@ -29,7 +31,8 @@ public class CustomerMapper {
             entity.getName(),
             entity.getAddress(),
             entity.getEmail(),
-            entity.getPhone()
+            entity.getPhone(),
+            entity.getRuc()
         );
     }
 
@@ -40,6 +43,7 @@ public class CustomerMapper {
             entity.getAddress(),
             entity.getEmail(),
             entity.getPhone(),
+            entity.getRuc(),
             entity.getStatus(),
             entity.getCreationDate(),
             entity.getModificationDate()

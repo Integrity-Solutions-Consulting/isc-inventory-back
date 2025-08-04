@@ -39,7 +39,10 @@ public class CustomerEntity {
     private String email;
 
     @Column(name = "phone", length = 20)
-    private String phone;	
+    private String phone;
+    
+	@Column(name = "ruc", length = 13, unique = true, nullable=false)
+	private String ruc;
 
 	@Column(nullable = false)
 	private Boolean status = true;
@@ -61,5 +64,4 @@ public class CustomerEntity {
 
 	@Column(name = "modification_ip", length = 45)
 	private String modificationIp;
-
 }

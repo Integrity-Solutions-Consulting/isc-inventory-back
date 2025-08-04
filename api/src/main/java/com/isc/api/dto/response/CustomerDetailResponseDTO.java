@@ -15,6 +15,7 @@ public class CustomerDetailResponseDTO {
 	private String address;
 	private String email;
 	private String phone;
+	private String ruc;
 	private boolean status;
 	private LocalDateTime cretionDate;
 	private LocalDateTime modificationDate;

@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.isc.api.dto.request.SupplierRequestDTO;
+import com.isc.api.dto.request.SupplierTypeRequestDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
 import com.isc.api.dto.response.SupplierDetailResponseDTO;
 import com.isc.api.dto.response.SupplierResponseDTO;
@@ -88,8 +89,8 @@ public class SupplierServiceImpl implements SupplierService {
         entity.setBusinessName(request.getBusinessName());
         entity.setAddress(request.getAddress());
         entity.setPhone(request.getPhone());
+        entity.setRuc(request.getRuc());
         entity.setEmail(request.getEmail());
-        entity.setTaxId(request.getTaxId());
         entity.setSupplierType(supplierType);
 
         entity = supplierRepository.save(entity);
@@ -110,7 +111,14 @@ public class SupplierServiceImpl implements SupplierService {
         entity.setAddress(request.getAddress());
         entity.setPhone(request.getPhone());
         entity.setEmail(request.getEmail());
-        entity.setTaxId(request.getTaxId());
+        entity.setRuc(request.getRuc());
+        
+        SupplierTypeRequestDTO supplierTypeDto = request.getSupplierType();
+
+        SupplierTypeEntity supplierTypeEntity = new SupplierTypeEntity();
+        supplierTypeEntity.setId(supplierTypeDto.getId());
+
+        entity.setSupplierType(supplierTypeEntity);
 
         entity = supplierRepository.save(entity);
         SupplierDetailResponseDTO response = SupplierMapper.toDetailDto(entity);

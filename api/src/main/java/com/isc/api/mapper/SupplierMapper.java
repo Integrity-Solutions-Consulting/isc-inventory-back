@@ -5,8 +5,10 @@ import com.isc.api.dto.response.SupplierResponseDTO;
 import com.isc.api.dto.response.SupplierTypeResponseDTO;
 import com.isc.api.entitys.SupplierEntity;
 
-public class SupplierMapper {	
-	public static SupplierResponseDTO toSimpleDto(SupplierEntity entity) {
+public class SupplierMapper 
+{	
+	public static SupplierResponseDTO toSimpleDto(SupplierEntity entity) 
+	{
 	    if (entity == null)
 	        return null;
 
@@ -16,7 +18,7 @@ public class SupplierMapper {
 	        entity.getAddress(),
 	        entity.getPhone(),
 	        entity.getEmail(),
-	        entity.getTaxId(),
+	        entity.getRuc(),
 	        null 
 	    );
 
@@ -33,9 +35,19 @@ public class SupplierMapper {
 
 
 	
-	public static SupplierDetailResponseDTO toDetailDto(SupplierEntity entity) {
+	public static SupplierDetailResponseDTO toDetailDto(SupplierEntity entity) 
+	{
 		if (entity == null)
 			return null;
-		return new SupplierDetailResponseDTO(entity.getId(), entity.getBusinessName(), entity.getAddress(), entity.getPhone(), entity.getEmail(), entity.getTaxId(),entity.getStatus(),entity.getCreationDate(),entity.getModificationDate());
+		return new SupplierDetailResponseDTO(
+				entity.getId(), 
+				entity.getBusinessName(), 
+				entity.getAddress(), 
+				entity.getPhone(),
+				entity.getRuc(),
+				entity.getEmail(),
+				entity.getStatus(),
+				entity.getCreationDate(),
+				entity.getModificationDate());
 	}
 }
