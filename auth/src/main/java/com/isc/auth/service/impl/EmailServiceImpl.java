@@ -16,7 +16,7 @@ public class EmailServiceImpl implements EmailService {
 
 	private final JavaMailSender mailSender;
 	
-	private final String sender = "siaft@siaft.net";
+	private final String sender = "soporte@integritysolutions.com.ec";
 
 	private final String frontUrl = "https://isc-inventory-front.onrender.com/auth/forgot-password?token=";
 

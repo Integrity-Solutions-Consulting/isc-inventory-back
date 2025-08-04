@@ -21,8 +21,8 @@ public class EmailServiceConfig {
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
-        mailSender.setHost("smtp.hostinger.com");
-        mailSender.setPort(465);
+        mailSender.setHost("smtp.office365.com");
+        mailSender.setPort(587);
         mailSender.setUsername(username); // usa tus valores reales
         mailSender.setPassword(password);
         
@@ -31,12 +31,12 @@ public class EmailServiceConfig {
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.ssl.enable", "true");
-        props.put("mail.smtp.starttls.enable", "false");
-        props.put("mail.smtp.starttls.required", "false");
-        props.put("mail.smtp.connectiontimeout", "5000"); // opcional: timeout de conexión
-        props.put("mail.smtp.timeout", "5000");           // opcional: timeout de respuesta
-        props.put("mail.smtp.writetimeout", "5000");      // opcional: timeout de escritura
+        //props.put("mail.smtp.ssl.enable", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.starttls.required", "true");
+        props.put("mail.smtp.connectiontimeout", "25000"); // opcional: timeout de conexión
+        props.put("mail.smtp.timeout", "25000");           // opcional: timeout de respuesta
+        props.put("mail.smtp.writetimeout", "25000");      // opcional: timeout de escritura
         props.put("mail.debug", "true");                  // útil para desarrollo
         
         return mailSender;
