@@ -18,7 +18,7 @@ public class EmailServiceImpl implements EmailService {
 	
 	private final String sender = "siaft@siaft.net";
 
-	private final String frontUrl = "https://isc-inventory-front.onrender.com/auth/forgot-password?token=";
+	private final String frontUrl = "https://app.inventory.integritysolutions.com.ec/auth/forgot-password?token=";
 
 	@Override
 	public void sendForgotPasswordEmail(String emailTo, String token) {
