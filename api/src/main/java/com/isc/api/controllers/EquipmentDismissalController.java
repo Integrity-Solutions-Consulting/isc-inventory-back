@@ -26,19 +26,6 @@ public class EquipmentDismissalController {
         return ResponseEntity.ok(dismissalService.getAllActive());
     }
 
-    @PostMapping("/saveDismissal")
-    public ResponseEntity<ResponseDto<EquipmentDismissalResponseDTO>> save(
-            @Valid @RequestBody EquipmentDismissalRequestDTO request) {
-        return ResponseEntity.ok(dismissalService.saveDismissal(request));
-    }
-
-    @PutMapping("/updateDismissal/{id}")
-    public ResponseEntity<ResponseDto<EquipmentDismissalResponseDTO>> update(
-            @PathVariable Integer id,
-            @Valid @RequestBody EquipmentDismissalRequestDTO request) {
-        return ResponseEntity.ok(dismissalService.updateDismissal(request, id));
-    }
-
     @PatchMapping("/inactiveDismissal/{id}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> inactive(@PathVariable Integer id) {
         return ResponseEntity.ok(dismissalService.inactiveDismissal(id));
