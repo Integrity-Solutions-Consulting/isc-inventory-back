@@ -254,8 +254,13 @@ public class EquipmentServiceImpl implements EquipmentService {
 			Optional<EquipmentAssignmentEntity> assignmentEntity = assignmentRepository
 					.findTopByEquipment_IdOrderByAssignmentDateDesc(idEquipo);
 			if (assignmentEntity.isPresent()) {
-				status = statusRepository.findById(2)
-						.orElseThrow(() -> new RuntimeException("Estado no encontrado: " + 2));
+				EquipmentAssignmentEntity a = assignmentEntity.get();
+				if(a.getReturnDate()==null) {
+					status = statusRepository.findById(2)
+							.orElseThrow(() -> new RuntimeException("Estado no encontrado: " + 2));	
+				}else {
+					this.upStock(equipo.getCategory().getStock());
+				}
 			} else {
 				this.upStock(equipo.getCategory().getStock());
 			}

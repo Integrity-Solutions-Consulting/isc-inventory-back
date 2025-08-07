@@ -74,7 +74,7 @@ public class EquipmentController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/inactive/{id}")
+    @PatchMapping("/inactive/{id}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> inactive(@PathVariable Integer id) {
         return ResponseEntity.ok(equipmentService.inactive(id));
     }
