@@ -34,7 +34,7 @@ public class EquipmentDismissalServiceImpl implements EquipmentDismissalService 
 
     @Override
     public ResponseDto<List<EquipmentDismissalResponseDTO>> getAllActive() {
-        List<EquipmentDismissalResponseDTO> response = dismissalRepository.findAllByStatusTrue()
+        List<EquipmentDismissalResponseDTO> response = dismissalRepository.findAll()
                 .stream()
                 .map(EquipmentDismissalMapper::toSimpleDto)
                 .collect(Collectors.toList());

@@ -11,11 +11,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EquipmentDismissalResponseDTO {
 		private Integer id;
+		
 	    private Integer equipmentId;
+	    
 	    private String equipmentBrand;
 	    private String equipmentModel;
 	    private String equipmentSerialNumber;
 	    private String equipmentItemCode;
+	    
+	    private String conditionName;
+	    private String statusName;
+	    private String categoryName;
+	    private String companyName;
+	    
 	    private Integer dismissalTypeId;
 	    private String dismissalTypeName;
 	    private Boolean status;

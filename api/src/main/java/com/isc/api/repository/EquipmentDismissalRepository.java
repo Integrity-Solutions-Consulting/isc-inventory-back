@@ -13,7 +13,7 @@ import com.isc.api.entitys.EquipmentDismissalTypeEntity;
 @Repository
 public interface EquipmentDismissalRepository extends JpaRepository<EquipmentDismissalEntity, Integer> {
     
-    List<EquipmentDismissalEntity> findAllByStatusTrue();
+    List<EquipmentDismissalEntity> findAll();
     
     List<EquipmentDismissalEntity> findByDismissalTypeId(Integer dismissalTypeId);
     

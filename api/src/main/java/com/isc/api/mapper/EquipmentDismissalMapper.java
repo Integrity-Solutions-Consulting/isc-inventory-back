@@ -22,8 +22,24 @@ public class EquipmentDismissalMapper
 	        dto.setEquipmentModel(equipment.getModel());
 	        dto.setEquipmentSerialNumber(equipment.getSerialNumber());
 	        dto.setEquipmentItemCode(equipment.getItemCode());
+	        
+	        if (equipment.getCondition() != null) {
+	            dto.setConditionName(equipment.getCondition().getName());
+	        }
+
+	        if (equipment.getEquipStatus() != null) {
+	            dto.setStatusName(equipment.getEquipStatus().getName());
+	        }
+
+	        if (equipment.getCategory() != null) {
+	            dto.setCategoryName(equipment.getCategory().getName());
+	        }
+
+	        if (equipment.getCompany() != null) {
+	            dto.setCompanyName(equipment.getCompany().getName());
+	        }
 	    }
-	    
+	    	  
 	    if (entity.getDismissalType() != null) 
 	    {
             dto.setDismissalTypeId(entity.getDismissalType().getId());
