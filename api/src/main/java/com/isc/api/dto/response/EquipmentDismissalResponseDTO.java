@@ -26,6 +26,8 @@ public class EquipmentDismissalResponseDTO {
 	    
 	    private Integer dismissalTypeId;
 	    private String dismissalTypeName;
+	    private String reason;
+	    
 	    private Boolean status;
 	    private LocalDateTime creationDate;
 	    private LocalDateTime modificationDate;

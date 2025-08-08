@@ -34,6 +34,9 @@ public class EquipmentDismissalEntity
 	@JoinColumn(name = "id_dismissal_type")
 	private EquipmentDismissalTypeEntity dismissalType ;
 	
+	@Column(name="reason", length=100)
+	private String reason;
+	
 	@Column(nullable = false)
 	private Boolean status = true;
 	

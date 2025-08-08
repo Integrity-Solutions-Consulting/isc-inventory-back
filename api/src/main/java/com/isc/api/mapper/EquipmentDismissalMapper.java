@@ -46,6 +46,7 @@ public class EquipmentDismissalMapper
             dto.setDismissalTypeName(entity.getDismissalType().getName());
         }
 
+	    dto.setReason(entity.getReason());
         dto.setStatus(entity.getStatus());
         dto.setCreationDate(entity.getCreationDate());
         dto.setModificationDate(entity.getModificationDate());

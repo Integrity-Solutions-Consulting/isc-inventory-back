@@ -9,11 +9,13 @@ import org.springframework.stereotype.Service;
 
 import com.isc.api.dto.request.EquipmentDismissalRequestDTO;
 import com.isc.api.dto.response.EquipmentDismissalResponseDTO;
+import com.isc.api.dto.response.EquipmentDismissalTypeResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
 import com.isc.api.entitys.EquipmentDismissalEntity;
 import com.isc.api.entitys.EquipmentDismissalTypeEntity;
 import com.isc.api.entitys.EquipmentEntity;
 import com.isc.api.mapper.EquipmentDismissalMapper;
+import com.isc.api.mapper.EquipmentDismissalTypeMapper;
 import com.isc.api.repository.EquipmentDismissalRepository;
 import com.isc.api.repository.EquipmentDismissalTypeRepository;
 import com.isc.api.repository.EquipmentRepository;
@@ -42,10 +44,22 @@ public class EquipmentDismissalServiceImpl implements EquipmentDismissalService 
         MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Bajas listadas correctamente");
         return new ResponseDto<>(response, metadata);
     }
+    
+    @Override
+    public ResponseDto<List<EquipmentDismissalTypeResponseDTO>> getAllActiveTypes() {
+        List<EquipmentDismissalTypeResponseDTO> response = dismissalTypeRepository.findAllByStatusTrue()
+                .stream()
+                .map(EquipmentDismissalTypeMapper::toSimpleDto)
+                .collect(Collectors.toList());
+
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Tipos de baja listados correctamente");
+        return new ResponseDto<>(response, metadata);
+    }
 
     @Transactional
     @Override
-    public ResponseDto<EquipmentDismissalResponseDTO> saveDismissal(EquipmentDismissalRequestDTO request) {
+    public ResponseDto<EquipmentDismissalResponseDTO> saveDismissal(EquipmentDismissalRequestDTO request) 
+    {
         EquipmentEntity equipment = equipmentRepository.findById(request.getEquipmentId())
                 .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
 
@@ -55,6 +69,7 @@ public class EquipmentDismissalServiceImpl implements EquipmentDismissalService 
         EquipmentDismissalEntity entity = new EquipmentDismissalEntity();
         entity.setEquipment(equipment);
         entity.setDismissalType(dismissalType);
+        entity.setReason(request.getReason());
         entity.setStatus(true);
         entity.setCreationDate(LocalDateTime.now());
 
@@ -62,7 +77,7 @@ public class EquipmentDismissalServiceImpl implements EquipmentDismissalService 
 
         EquipmentDismissalResponseDTO response = EquipmentDismissalMapper.toSimpleDto(saved);
         MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.CREATED, "Baja registrada correctamente");
-        return new ResponseDto<>(response, metadata);
+        return new ResponseDto<>(response,metadata);
     }
 
     @Transactional

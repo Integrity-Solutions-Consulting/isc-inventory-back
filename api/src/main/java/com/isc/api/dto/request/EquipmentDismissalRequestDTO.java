@@ -14,7 +14,8 @@ public class EquipmentDismissalRequestDTO
 {
 	private Integer equipmentId; 
 	
-	@NotNull(message = "El tipo de baja es obligatorio")
     private Integer dismissalTypeId; 
     
+    @Size(max = 100, message = "La descripción no puede tener más de 100 caracteres")
+    private String reason;
 }
