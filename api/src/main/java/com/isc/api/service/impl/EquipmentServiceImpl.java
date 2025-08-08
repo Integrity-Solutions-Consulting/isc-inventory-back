@@ -255,7 +255,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 					.findTopByEquipment_IdOrderByAssignmentDateDesc(idEquipo);
 			if (assignmentEntity.isPresent()) {
 				EquipmentAssignmentEntity a = assignmentEntity.get();
-				if(a.getReturnDate()!=null) {
+				if(a.getReturnDate()==null) {
 					status = statusRepository.findById(2)
 							.orElseThrow(() -> new RuntimeException("Estado no encontrado: " + 2));	
 				}else {
