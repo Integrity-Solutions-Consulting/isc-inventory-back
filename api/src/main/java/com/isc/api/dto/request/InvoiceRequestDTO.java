@@ -23,7 +23,6 @@ public class InvoiceRequestDTO {
 	private Integer supplier;
     
 	@NotNull(message = "La fecha de la factura es obligatoria")
-    @FutureOrPresent(message = "La fecha de la factura no puede estar en el pasado")
 	private LocalDate invoiceDate;
    
 	@NotBlank(message = "El número de factura no puede estar vacío")

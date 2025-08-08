@@ -299,7 +299,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 				.orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
 
 		InvoiceEntity invoice = new InvoiceEntity();
-		if (request.getId() != 0 || request.getId() != null) {
+		if (request.getId() != 0 && request.getId() != null) {
 			invoice = invoiceService.update(request, request.getId());
 			equipment.setInvoice(invoice);
 		} else {
@@ -309,7 +309,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 		equipment = equipmentRepository.save(equipment);
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Equipo actualizado correctamente");
-		return new ResponseDto<>(InvoiceMapper.toInvoiceDetailDto(invoice), metadata);
+		return new ResponseDto<>(InvoiceMapper.toInvoiceDetailDto(equipment.getInvoice()), metadata);
 	}
 
 	@Override
