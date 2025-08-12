@@ -281,8 +281,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 			        repair.setRepairStatus(status);
 			        equipmentRepairRepository.save(repair);
 			    }
-			}
-
+			} if (status.getId() == this.outOfService) { // outOfService = 7
+		        equipo.setStatus(false);
+		        }
 		
 
 		equipo.setEquipStatus(status);
