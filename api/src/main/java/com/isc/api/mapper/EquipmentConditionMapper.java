@@ -10,9 +10,6 @@ public class EquipmentConditionMapper {
         EquipmentConditionResponseDTO dto = new EquipmentConditionResponseDTO();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
-        dto.setStatus(entity.getStatus());
-        dto.setCreationDate(entity.getCreationDate());
-        dto.setModificationDate(entity.getModificationDate());
         return dto;
     }
 }

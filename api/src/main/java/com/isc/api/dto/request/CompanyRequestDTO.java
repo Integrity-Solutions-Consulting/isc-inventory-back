@@ -15,7 +15,7 @@ public class CompanyRequestDTO {
     
     @NotNull(message = "El tipo de identificación es obligatorio")
     @Size(max = 13, message = "La identificacion no puede tener más de 13 caracteres")
-    private String taxId;
+    private String ruc;
 
     private String address;
 
