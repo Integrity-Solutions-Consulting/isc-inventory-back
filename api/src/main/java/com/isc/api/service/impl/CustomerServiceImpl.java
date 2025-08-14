@@ -25,8 +25,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
-    private final CustomerRepository customerRepository;
-
+    private final CustomerRepository customerRepository;    
+    
+//buscar por RUC
+    @Override
+    public ResponseDto<CustomerDetailResponseDTO> findByRuc(String ruc) {
+        CustomerEntity entity = customerRepository.findByRuc(ruc)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con RUC: " + ruc));
+        
+        return new ResponseDto<>(CustomerMapper.toDetailDTO(entity), 
+                new MetadataResponseDto(HttpStatus.OK, "Cliente encontrado"));
+    }
+    
+    
     @Override
     public ResponseDto<List<CustomerDetailResponseDTO>> getAllDetails() {
         List<CustomerDetailResponseDTO> list = customerRepository.findAll()
@@ -60,9 +71,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public ResponseDto<CustomerDetailResponseDTO> update(CustomerRequestDTO request, Integer id) {
-        CustomerEntity entity = customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + id));
+    public ResponseDto<CustomerDetailResponseDTO> update(CustomerRequestDTO request, String ruc) {
+        CustomerEntity entity = customerRepository.findByRuc(ruc)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + ruc));
 
         CustomerMapper.updateEntityFromDTO(entity, request);
         entity.setModificationDate(LocalDateTime.now());
@@ -73,10 +84,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public ResponseDto<MessageResponseDTO> inactive(Integer id) {
-        int updated = customerRepository.inactive(id);
+    public ResponseDto<MessageResponseDTO> inactive(String ruc) {
+        int updated = customerRepository.inactive(ruc);
         if (updated == 0) {
-            throw new RuntimeException("No se pudo desactivar el cliente con ID: " + id);
+            throw new RuntimeException("No se pudo desactivar el cliente con RUC: " + ruc);
         }
 
         return new ResponseDto<>(new MessageResponseDTO("Cliente desactivado"), new MetadataResponseDto(HttpStatus.OK, "Operación exitosa"));
@@ -84,10 +95,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public ResponseDto<MessageResponseDTO> active(Integer id) {
-        int updated = customerRepository.active(id);
+    public ResponseDto<MessageResponseDTO> active(String ruc) {
+        int updated = customerRepository.active(ruc);
         if (updated == 0) {
-            throw new RuntimeException("No se pudo activar el cliente con ID: " + id);
+            throw new RuntimeException("No se pudo activar el cliente con ID: " + ruc);
         }
 
         return new ResponseDto<>(new MessageResponseDTO("Cliente activado"), new MetadataResponseDto(HttpStatus.OK, "Operación exitosa"));

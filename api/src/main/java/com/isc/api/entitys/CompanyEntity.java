@@ -26,8 +26,8 @@ public class CompanyEntity
     @Column(length = 100, unique = true, nullable = false)
     private String name;
 
-    @Column(name = "tax_id", length = 20)
-    private String taxId;
+    @Column(name = "ruc", length = 20)
+    private String ruc;
 
     @Column(length = 255)
     private String address;

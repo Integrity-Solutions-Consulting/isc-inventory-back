@@ -12,7 +12,7 @@ public class CompanyMapper {
         return new CompanyResponseDTO(
             entity.getId(),
             entity.getName(),
-            entity.getTaxId()
+            entity.getRuc()
         );
     }
 
@@ -20,7 +20,7 @@ public class CompanyMapper {
         return new CompanyDetailResponseDTO(
             entity.getId(),
             entity.getName(),
-            entity.getTaxId(),
+            entity.getRuc(),
             entity.getAddress(),
             entity.getPhone(),
             entity.getEmail(),

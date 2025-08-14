@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class CompanyResponseDTO {
     private Integer id;
     private String name;
-    private String taxId;
+    private String ruc;
 }

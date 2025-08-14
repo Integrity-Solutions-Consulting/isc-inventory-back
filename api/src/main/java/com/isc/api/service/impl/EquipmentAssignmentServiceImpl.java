@@ -137,6 +137,10 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
         assignment.setReturnDate(returnDate != null ? returnDate : LocalDate.now());
 
         EquipmentEntity equipment = assignment.getEquipment();
+        
+        if (request.getObservations() != null && !request.getObservations().isBlank()) {
+            equipment.setObservations(request.getObservations());
+        }
 
         if (request.getCondition() != null) {
             EquipmentConditionEntity condition = conditionRepository.findById(request.getCondition().getId())
@@ -156,8 +160,7 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
             
         }
         
-        equipmentRepository.save(equipment); // ✅ actualizas en la base de datos
-
+        equipmentRepository.save(equipment); 
         // Actualizar stock
         EquipmentCategoryStockEntity stock = equipment.getCategory().getStock();
         stock.setStock(stock.getStock() + 1);
