@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class CompanyDetailResponseDTO {
     private Integer id;
     private String name;
-    private String taxId;
+    private String ruc;
     private String address;
     private String phone;
     private String email;

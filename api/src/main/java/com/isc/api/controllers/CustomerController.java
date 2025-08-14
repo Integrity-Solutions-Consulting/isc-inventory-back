@@ -8,6 +8,8 @@ import com.isc.dtos.ResponseDto;
 import com.isc.api.service.CustomerService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,6 +38,12 @@ public class CustomerController {
     public ResponseEntity<ResponseDto<List<CustomerDetailResponseDTO>>> getAllCustomers() {
         return ResponseEntity.ok(customerService.getAllDetails());
     }
+    
+    @GetMapping("/ruc/{ruc}")
+    public ResponseEntity<ResponseDto<CustomerDetailResponseDTO>> findByRuc(
+            @PathVariable @Valid @NotBlank @Size(max = 13) String ruc) {
+        return ResponseEntity.ok(customerService.findByRuc(ruc));
+    }
 
     @GetMapping("/simple")
     public ResponseEntity<ResponseDto<List<CustomerResponseDTO>>> getSimpleList() {
@@ -50,18 +58,18 @@ public class CustomerController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<ResponseDto<CustomerDetailResponseDTO>> updateCustomer(
-            @PathVariable Integer id,
+            @PathVariable String ruc,
             @Valid @RequestBody CustomerRequestDTO request) {
-        return ResponseEntity.ok(customerService.update(request, id));
+        return ResponseEntity.ok(customerService.update(request, ruc));
     }
 
     @DeleteMapping("/inactive/{id}")
-    public ResponseEntity<ResponseDto<MessageResponseDTO>> deactivateCustomer(@PathVariable Integer id) {
-        return ResponseEntity.ok(customerService.inactive(id));
+    public ResponseEntity<ResponseDto<MessageResponseDTO>> deactivateCustomer(@PathVariable String ruc) {
+        return ResponseEntity.ok(customerService.inactive(ruc));
     }
 
     @PatchMapping("/activate/{id}")
-    public ResponseEntity<ResponseDto<MessageResponseDTO>> activateCustomer(@PathVariable Integer id) {
-        return ResponseEntity.ok(customerService.active(id));
+    public ResponseEntity<ResponseDto<MessageResponseDTO>> activateCustomer(@PathVariable String ruc) {
+        return ResponseEntity.ok(customerService.active(ruc));
     }
 }

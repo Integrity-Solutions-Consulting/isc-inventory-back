@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EquipmentConditionRequestDTO {
-	
+public class EquipmentConditionRequestDTO 
+{	
 	@NotBlank(message = "El tipo condicion no puede estar vacío")
     @Size(max = 255, message = "El tipo de condicion no puede tener más de 255 caracteres")
 	private String name;
-	
+
 }

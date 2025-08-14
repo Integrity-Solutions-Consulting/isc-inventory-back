@@ -47,7 +47,7 @@ public class EquipmentAssignmentMapper {
         CompanyResponseDTO company = new CompanyResponseDTO();
         company.setId(entity.getEquipment().getCompany().getId());
         company.setName(entity.getEquipment().getCompany().getName());
-        company.setTaxId(entity.getEquipment().getCompany().getTaxId());
+        company.setRuc(entity.getEquipment().getCompany().getRuc());
 
         EquipmentConditionResponseDTO condition = null;
         if (entity.getEquipment().getCondition() != null) {

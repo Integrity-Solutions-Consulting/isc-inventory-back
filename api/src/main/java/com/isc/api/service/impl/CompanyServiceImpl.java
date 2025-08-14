@@ -47,7 +47,7 @@ public class CompanyServiceImpl implements CompanyService {
     public ResponseDto<CompanyDetailResponseDTO> save(CompanyRequestDTO request) {
         CompanyEntity entity = new CompanyEntity();
         entity.setName(request.getName());
-        entity.setTaxId(request.getTaxId());
+        entity.setRuc(request.getRuc());
         entity.setAddress(request.getAddress());
         entity.setPhone(request.getPhone());
         entity.setEmail(request.getEmail());
@@ -63,7 +63,7 @@ public class CompanyServiceImpl implements CompanyService {
         CompanyEntity entity = repository.findById(id)
             .orElseThrow(() -> new RuntimeException("Compañía no encontrada"));
         entity.setName(request.getName());
-        entity.setTaxId(request.getTaxId());
+        entity.setRuc(request.getRuc());
         entity.setAddress(request.getAddress());
         entity.setPhone(request.getPhone());
         entity.setEmail(request.getEmail());
