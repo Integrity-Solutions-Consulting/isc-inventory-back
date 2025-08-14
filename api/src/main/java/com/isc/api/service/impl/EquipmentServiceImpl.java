@@ -250,6 +250,17 @@ public class EquipmentServiceImpl implements EquipmentService {
 		EquipmentStatusEntity status = statusRepository.findById(request.getStatusChange())
 				.orElseThrow(() -> new RuntimeException("Estado no encontrado: " + request.getStatusChange()));
 
+		// Nueva validación para estado "Disponible" (1)
+	    if (status.getId() == 1 && request.getIdRepair() != null) {
+	        EquipmentRepairEntity repair = equipmentRepairRepository.findById(request.getIdRepair())
+	                .orElseThrow(() -> new RuntimeException("Reparación no encontrada"));
+	        
+	        // Verificar si ya tiene estado "Disponible" (1)
+	        if (repair.getRepairStatus().getId() == 1) {
+	            throw new RuntimeException("No se puede marcar como Disponible más de una vez");
+	        }
+	    }
+	    
 		if (status.getId() == 1) {
 			Optional<EquipmentAssignmentEntity> assignmentEntity = assignmentRepository
 					.findTopByEquipment_IdOrderByAssignmentDateDesc(idEquipo);
