@@ -57,7 +57,7 @@ public class EmailServiceImpl implements EmailService {
 			        + "</html>";
 
 			//helper.setTo(emailTo);
-			helper.setTo("adrian.siavichay@integritysolutions.com.ec");
+			helper.setTo("sanchezcordovajosedavid@gmail.com");
 			helper.setSubject("Recuperación de contraseña");
 			helper.setText(html, true); // segundo parámetro `true` indica que es HTML
 			helper.setFrom(this.sender);

@@ -109,9 +109,20 @@ public class EquipmentServiceImpl implements EquipmentService {
 				.orElseThrow(() -> new RuntimeException("Empresa no encontrada"));
 		equipment.setCondition(condition);
 		equipment.setCompany(company);
+		
+		
 		if (request.getCategoryId() != null && request.getCategoryId() != 0) {
 			EquipmentCategoryEntity category = categoryRepository.findById(request.getCategoryId())
 					.orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+			
+			if (category.getStock() == null) 
+			{
+		        EquipmentCategoryStockEntity stock = new EquipmentCategoryStockEntity();
+		        stock.setCategory(category);
+		        stock.setStock(0);
+		        category.setStock(stock);
+		    }
+			
 			this.upStock(category.getStock());
 			equipment.setCategory(category);
 
@@ -343,12 +354,14 @@ public class EquipmentServiceImpl implements EquipmentService {
 		return new ResponseDto<>(WarrantTypeMapper.toDetailResponseDTO(equipment.getWarranty()), metadata);
 	}
 
-	private void upStock(EquipmentCategoryStockEntity stock) {
+	private void upStock(EquipmentCategoryStockEntity stock) 
+	{
 		stock.setStock(stock.getStock() + 1);
 		categoryStockRepository.save(stock);
 	}
 
-	private void downStock(EquipmentCategoryStockEntity stock) {
+	private void downStock(EquipmentCategoryStockEntity stock) 
+	{
 		stock.setStock(stock.getStock() - 1);
 		categoryStockRepository.save(stock);
 	}
