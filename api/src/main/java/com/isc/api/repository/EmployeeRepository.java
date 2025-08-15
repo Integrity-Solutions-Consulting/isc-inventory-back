@@ -1,6 +1,7 @@
 package com.isc.api.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,10 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.isc.api.dto.response.EmployeeCatalogResponseDTO;
 import com.isc.api.dto.response.EmployeeTableResponseDTO;
+import com.isc.api.entitys.CustomerEntity;
 import com.isc.api.entitys.EmployeeEntity;
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Integer> {
+public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Integer> 
+{
+	
+	Optional<EmployeeEntity> findByIdentification(String identification);
+	
 	@Modifying
 	@Transactional
 	@Query("UPDATE EmployeeEntity u SET u.status=false, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.status = true")

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.isc.api.dto.request.NationalityRequestDTO;
 import com.isc.api.dto.request.SupplierRequestDTO;
 import com.isc.api.dto.request.SupplierTypeRequestDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
@@ -16,9 +17,11 @@ import com.isc.dtos.ResponseDto;
 
 import jakarta.transaction.Transactional;
 
+import com.isc.api.entitys.NationalityEntity;
 import com.isc.api.entitys.SupplierEntity;
 import com.isc.api.entitys.SupplierTypeEntity;
 import com.isc.api.mapper.SupplierMapper;
+import com.isc.api.repository.NationalityRepository;
 import com.isc.api.repository.SupplierRepository;
 import com.isc.api.repository.SupplierTypeRepository;
 import com.isc.api.service.SupplierService;
@@ -31,6 +34,8 @@ public class SupplierServiceImpl implements SupplierService {
 
     private final SupplierRepository supplierRepository;
     private final SupplierTypeRepository supplierTypeRepository;
+    private final NationalityRepository nationalityRepository;
+    
     @Override
     public ResponseDto<List<SupplierDetailResponseDTO>> getAllDetails() {
         List<SupplierDetailResponseDTO> response = supplierRepository.findAll().stream()
@@ -79,11 +84,14 @@ public class SupplierServiceImpl implements SupplierService {
         }
     	
     	Integer supplierTypeId = request.getSupplierType().getId();
+    	Integer nationalityId=request.getNationality().getId();
 
     	
     	SupplierTypeEntity supplierType = supplierTypeRepository.findById(supplierTypeId)
     	        .orElseThrow(() -> new RuntimeException("Tipo proveedor no encontrado"));
 
+    	NationalityEntity nationality= nationalityRepository.findById(nationalityId)
+    			.orElseThrow(() -> new RuntimeException("Tipo proveedor no encontrado"));
     	
         SupplierEntity entity = new SupplierEntity();
         entity.setBusinessName(request.getBusinessName());
@@ -92,6 +100,7 @@ public class SupplierServiceImpl implements SupplierService {
         entity.setRuc(request.getRuc());
         entity.setEmail(request.getEmail());
         entity.setSupplierType(supplierType);
+        entity.setNationality(nationality);
 
         entity = supplierRepository.save(entity);
         
@@ -114,11 +123,16 @@ public class SupplierServiceImpl implements SupplierService {
         entity.setRuc(request.getRuc());
         
         SupplierTypeRequestDTO supplierTypeDto = request.getSupplierType();
-
+        NationalityRequestDTO nationalityDto = request.getNationality();
+        
         SupplierTypeEntity supplierTypeEntity = new SupplierTypeEntity();
+        NationalityEntity nationalityEntity = new NationalityEntity();
+        
         supplierTypeEntity.setId(supplierTypeDto.getId());
+        nationalityEntity.setId(nationalityDto.getId());
 
         entity.setSupplierType(supplierTypeEntity);
+        entity.setNationality(nationalityEntity);
 
         entity = supplierRepository.save(entity);
         SupplierDetailResponseDTO response = SupplierMapper.toDetailDto(entity);

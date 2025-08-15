@@ -52,5 +52,7 @@ public class SupplierRequestDTO {
 	private String email;
 	
 	private SupplierTypeRequestDTO supplierType;
+	
+	private NationalityRequestDTO  nationality;
 
 }

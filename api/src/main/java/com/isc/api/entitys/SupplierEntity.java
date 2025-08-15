@@ -64,4 +64,7 @@ public class SupplierEntity {
 	@JoinColumn(name = "id_supplier_type")
 	private SupplierTypeEntity supplierType;
 
+	@ManyToOne
+    @JoinColumn(name = "id_nationality")
+    private NationalityEntity nationality;
 }

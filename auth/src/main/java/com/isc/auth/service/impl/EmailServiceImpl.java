@@ -8,6 +8,7 @@ import com.isc.auth.service.EmailService;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -20,6 +21,7 @@ public class EmailServiceImpl implements EmailService {
 
 	private final String frontUrl = "https://app.inventory.integritysolutions.com.ec/auth/forgot-password?token=";
 
+	@Transactional
 	@Override
 	public void sendForgotPasswordEmail(String emailTo, String token) {
 		try {
@@ -56,8 +58,7 @@ public class EmailServiceImpl implements EmailService {
 			        + "</body>"
 			        + "</html>";
 
-			//helper.setTo(emailTo);
-			helper.setTo("sanchezcordovajosedavid@gmail.com");
+			helper.setTo(emailTo);
 			helper.setSubject("Recuperación de contraseña");
 			helper.setText(html, true); // segundo parámetro `true` indica que es HTML
 			helper.setFrom(this.sender);
@@ -67,6 +68,7 @@ public class EmailServiceImpl implements EmailService {
 		}
 	}
 	
+	@Transactional
 	@Override
 	public void sendUserCreatedEmail(String emailTo, String password) {
 	    try {
@@ -95,7 +97,8 @@ public class EmailServiceImpl implements EmailService {
 	                + "      <div class='card'>"
 	                + "        <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8ZCctTKfGFdHZHIYBnQqcSkHUvs9khINITA&s' alt='Logo de la compañía' class='logo'>"
 	                + "        <div class='title'>¡Tu cuenta ha sido creada!</div>"
-	                + "        <div class='subtitle'>Te damos la bienvenida a la plataforma.</div>"
+	                + "        <div class='subtitle'>Integrity Solutions te da la bienvenida a la plataforma InventorySoft.</div>"
+	                + "        <div class='subtitle'>https://app.inventory.integritysolutions.com.ec</div>"
 	                + "        <p>Tu contraseña generada es:</p>"
 	                + "        <div class='password-box'>" + password + "</div>"
 	                + "        <p>Inicia sesión con tu correo y esta contraseña.</p>"
@@ -107,8 +110,7 @@ public class EmailServiceImpl implements EmailService {
 	                + "</body>"
 	                + "</html>";
 
-	      //helper.setTo(emailTo);
-			helper.setTo("adrian.siavichay@integritysolutions.com.ec");
+			helper.setTo(emailTo);
 	        helper.setSubject("Tu cuenta ha sido creada");
 	        helper.setText(html, true); // true = HTML
 	        helper.setFrom(this.sender);

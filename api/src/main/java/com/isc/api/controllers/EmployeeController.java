@@ -51,10 +51,11 @@ public class EmployeeController {
 		return ResponseEntity.ok(service.save(request));
 	}
 
-	@PutMapping("/update/{id}")
-	public ResponseEntity<ResponseDto<EmployeeTableResponseDTO>> update(@Valid@RequestBody EmployeeRequestDTO request,
-			@PathVariable Integer id) {
-		return ResponseEntity.ok(service.update(request, id));
+	@PutMapping("/update/{identification}")
+	public ResponseEntity<ResponseDto<EmployeeTableResponseDTO>> updateByIdentification(
+	        @Valid @RequestBody EmployeeRequestDTO request,
+	        @PathVariable String identification) {  // Ahora recibe identificación como path variable
+	    return ResponseEntity.ok(service.update(request, identification));
 	}
 
 	@PutMapping("/activate/{id}")

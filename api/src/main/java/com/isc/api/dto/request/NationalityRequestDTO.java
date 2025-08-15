@@ -9,9 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class NationalityRequestDTO {
+public class NationalityRequestDTO 
+{
 	
-	@NotBlank(message = "La descripcion de la nacionalidad no puede estar vacía")
-    @Size(max = 100, message = "La descripcion no puede tener más de 100 caracteres")
+	private Integer id;
+	
+	@NotBlank(message = "La nacionalidad no puede estar vacía")
+    @Size(max = 100, message = "No puede tener más de 100 caracteres")
 	private String description;
 }

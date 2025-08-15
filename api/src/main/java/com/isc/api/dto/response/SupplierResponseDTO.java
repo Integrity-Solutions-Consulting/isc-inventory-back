@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SupplierResponseDTO {
+public class SupplierResponseDTO 
+{
 	private Integer id;
 	private String businessName;
 	private String address;
@@ -15,4 +16,5 @@ public class SupplierResponseDTO {
 	private String email;
 	private String ruc;
 	private SupplierTypeResponseDTO supplierType;
+	private NationalityResponseDTO  nationality;
 }

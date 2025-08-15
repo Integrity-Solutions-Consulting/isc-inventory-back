@@ -13,8 +13,9 @@ public interface EmployeeService {
 	public ResponseDto<List<EmployeeTableResponseDTO>> getAllTable();
 	public ResponseDto<List<EmployeeCatalogResponseDTO>> getSimpleList();
 	public ResponseDto<EmployeeDetailResponseDTO> getInfoById(Integer id);
+	ResponseDto<EmployeeDetailResponseDTO> findByIdentification(String identification);
 	public ResponseDto<EmployeeTableResponseDTO> save(EmployeeRequestDTO request);
-	public ResponseDto<EmployeeTableResponseDTO> update(EmployeeRequestDTO request, Integer id);
+	public ResponseDto<EmployeeTableResponseDTO> update(EmployeeRequestDTO request, String identification);
 	public ResponseDto<MessageResponseDTO> inactive(Integer id);
 	public ResponseDto<MessageResponseDTO> active(Integer id);
 }
