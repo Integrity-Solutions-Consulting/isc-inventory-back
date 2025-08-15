@@ -73,7 +73,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     public ResponseDto<CustomerDetailResponseDTO> update(CustomerRequestDTO request, String ruc) {
         CustomerEntity entity = customerRepository.findByRuc(ruc)
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + ruc));
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con RUC: " + ruc));
 
         CustomerMapper.updateEntityFromDTO(entity, request);
         entity.setModificationDate(LocalDateTime.now());
