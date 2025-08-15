@@ -123,26 +123,28 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
     @Transactional
     public ResponseDto<EquipmentAssignmentDetailResponseDTO> revoke(Integer id, EquipmentRevokeRequestDTO request) {
         Optional<EquipmentAssignmentEntity> existingOpt = assignmentRepository.findById(id);
-        if (existingOpt.isEmpty()) {
+        if (existingOpt.isEmpty()) 
+        {
             throw new RuntimeException("Asignacion no encontrada");
         }
 
         EquipmentAssignmentEntity assignment = existingOpt.get();
         LocalDate returnDate = request != null ? request.getRevokeDate() : null;
 
-        if (returnDate != null && returnDate.isBefore(LocalDate.now())) {
+        if (returnDate != null && returnDate.isBefore(LocalDate.now())) 
+        {
             throw new IllegalArgumentException("La fecha de revocación no puede ser anterior a la fecha actual");
         }
 
         assignment.setReturnDate(returnDate != null ? returnDate : LocalDate.now());
+        assignment.setObservations(request.getObservations());
+
 
         EquipmentEntity equipment = assignment.getEquipment();
         
-        if (request.getObservations() != null && !request.getObservations().isBlank()) {
-            equipment.setObservations(request.getObservations());
-        }
 
-        if (request.getCondition() != null) {
+        if (request.getCondition() != null) 
+        {
             EquipmentConditionEntity condition = conditionRepository.findById(request.getCondition().getId())
                 .orElseThrow(() -> new RuntimeException("Condición no encontrada"));
             equipment.setCondition(condition);
@@ -151,8 +153,8 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
                 EquipmentStatusEntity statusOutOfService = new EquipmentStatusEntity();
                 statusOutOfService.setId(this.idOutOfService);
                 equipment.setEquipStatus(statusOutOfService);
-            } else {
-                // Si no es irreparable, vuelve a "Disponible"
+            } else 
+            {
                 EquipmentStatusEntity statusAvailable = new EquipmentStatusEntity();
                 statusAvailable.setId(this.idAvailable);
                 equipment.setEquipStatus(statusAvailable);

@@ -22,5 +22,7 @@ public class EquipmentAssignmentDetailResponseDTO {
 	private LocalDate returnDate;
 	private boolean status;
     EquipmentConditionResponseDTO condition;
+    
+    private String observations;
 
 	}

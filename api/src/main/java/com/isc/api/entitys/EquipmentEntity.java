@@ -54,9 +54,6 @@ public class EquipmentEntity {
 	@OneToMany(mappedBy = "equipo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EquipmentCharacteristicEntity> characteristic;
 	
-	@Column(length = 255)
-	private String observations;
-	
 	@Column(length = 100)
 	private String brand;
 	

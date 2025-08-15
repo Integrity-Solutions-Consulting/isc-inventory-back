@@ -20,6 +20,6 @@ public class EquipmentRevokeRequestDTO {
 	
 	private EquipmentConditionResponseDTO condition;
 	
-	@Size(max=150,message="Las observaciones tienen que tener entre 3 a 150 caracteres")
+	@Size(max=150,message="Las observaciones tienen que tener maximo 150 caracteres")
     private String observations;
 }
