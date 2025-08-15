@@ -36,11 +36,7 @@ public class SupplierRequestDTO {
 	)
 	private String phone;
 	
-	@NotBlank(message = "El RUC es obligatorio")
-	@Pattern(
-	    regexp = "^\\d{10}001$",
-	    message = "El RUC debe tener 13 dígitos numéricos y terminar en '001'"
-	)
+	
 	private String ruc;
     
 	@NotBlank(message = "El correo electrónico es obligatorio")
