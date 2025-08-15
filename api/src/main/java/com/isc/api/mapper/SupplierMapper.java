@@ -1,6 +1,7 @@
 package com.isc.api.mapper;
 
 import com.isc.api.dto.response.SupplierDetailResponseDTO;
+import com.isc.api.dto.response.NationalityResponseDTO;
 import com.isc.api.dto.response.SupplierResponseDTO;
 import com.isc.api.dto.response.SupplierTypeResponseDTO;
 import com.isc.api.entitys.SupplierEntity;
@@ -19,7 +20,8 @@ public class SupplierMapper
 	        entity.getPhone(),
 	        entity.getEmail(),
 	        entity.getRuc(),
-	        null 
+	        null,
+	        null
 	    );
 
 	  
@@ -28,6 +30,14 @@ public class SupplierMapper
 	        typeDto.setId(entity.getSupplierType().getId());
 	        typeDto.setName(entity.getSupplierType().getName());
 	        dto.setSupplierType(typeDto);
+	    }
+	    
+	    if (entity.getNationality() !=null) 
+	    {
+	    	NationalityResponseDTO typeDto=new NationalityResponseDTO();
+	    	typeDto.setId(entity.getNationality().getId());
+	    	typeDto.setDescription(entity.getNationality().getDescription());
+	    	dto.setNationality(typeDto);
 	    }
 
 	    return dto;

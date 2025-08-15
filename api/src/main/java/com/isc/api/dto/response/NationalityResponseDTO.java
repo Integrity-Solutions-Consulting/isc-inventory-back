@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class NationalityResponseDTO {
+public class NationalityResponseDTO 
+{
 	private Integer id;
 	private String description;
 }
