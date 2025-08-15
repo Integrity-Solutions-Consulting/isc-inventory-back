@@ -148,7 +148,7 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
             EquipmentConditionEntity condition = conditionRepository.findById(request.getCondition().getId())
                 .orElseThrow(() -> new RuntimeException("Condición no encontrada"));
             equipment.setCondition(condition);
-            
+            //Irreparable
             if ("Irreparable".equalsIgnoreCase(condition.getName())) {
                 EquipmentStatusEntity statusOutOfService = new EquipmentStatusEntity();
                 statusOutOfService.setId(this.idOutOfService);
