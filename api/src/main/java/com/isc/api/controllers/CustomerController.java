@@ -56,7 +56,7 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.save(request));
     }
 
-    @PutMapping("/update-customer/{ruc}")
+    @PutMapping("/update/{ruc}")
     public ResponseEntity<ResponseDto<CustomerDetailResponseDTO>> updateCustomer(
             @PathVariable String ruc,
             @Valid @RequestBody CustomerRequestDTO request) {
