@@ -28,7 +28,6 @@ public class EquipmentDetailResponseDTO {
 
     private Integer companyId;
     private String companyName;
-    private String observations;
     
     private List<EquipmentCharacteristicResponseDTO> characteristics;
 

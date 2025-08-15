@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EquipmentResponseDTO {
+public class EquipmentResponseDTO 
+{
     private Integer id;
     private String category;
     private String brand;
@@ -16,5 +17,4 @@ public class EquipmentResponseDTO {
     private String itemCode;
     private Integer equipmentStatusId;
     private EquipmentConditionResponseDTO condition;
-
 }

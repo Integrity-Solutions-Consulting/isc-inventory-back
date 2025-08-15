@@ -64,8 +64,10 @@ public class EquipmentAssignmentMapper {
             entity.getAssignmentDate(),
             entity.getReturnDate(),
             entity.getStatus(),
-            condition           
+            condition,
+            entity.getObservations()
         );
     }
+
 
 }

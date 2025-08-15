@@ -20,7 +20,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EquipmentAssignmentEntity {
+public class EquipmentAssignmentEntity 
+{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -60,4 +61,6 @@ public class EquipmentAssignmentEntity {
 	@Column(name = "modification_ip", length = 45)
 	private String modificationIp;
 	
+	@Column(name = "observations")
+	private String observations;
 }

@@ -23,9 +23,6 @@ public class EquipmentRequest
 
 	@NotNull(message = "La empresa es obligatoria")
 	private Integer company;
-	
-	@Size(max = 255, message = " La observacion no puede ser muy extensa")
-	private String observations;
     
 	@NotNull(message = "La caracteristica es obligatoria")
 	private List<EquipmentCharacteristicRequestDTO> equipmentCharacteristics;
