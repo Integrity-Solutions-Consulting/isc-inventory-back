@@ -33,8 +33,8 @@ public class SupplierEntity {
 	@Column(length = 15)
 	private String phone;
 	
-	@Column(name = "ruc", length = 13, nullable = false, unique = true)
-	private String ruc;
+	@Column(name = "ruc", length = 15, nullable = false, unique = true)
+	private String ruc;//
 	
 	@Column(length = 100)
 	private String email;
