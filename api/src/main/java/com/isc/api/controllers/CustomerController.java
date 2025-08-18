@@ -63,12 +63,12 @@ public class CustomerController {
         
     	 return ResponseEntity.ok(customerService.update(request, ruc));    }
 
-    @DeleteMapping("/inactive/{id}")
+    @DeleteMapping("/inactive/{ruc}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> deactivateCustomer(@PathVariable String ruc) {
         return ResponseEntity.ok(customerService.inactive(ruc));
     }
 
-    @PatchMapping("/activate/{id}")
+    @PatchMapping("/activate/{ruc}")
     public ResponseEntity<ResponseDto<MessageResponseDTO>> activateCustomer(@PathVariable String ruc) {
         return ResponseEntity.ok(customerService.active(ruc));
     }
