@@ -40,7 +40,7 @@ public class EmailServiceImpl implements EmailService
 	                + "<p><b>Área de RH</b></p>"
 	                + "</body></html>";
 
-	        helper.setTo("sanchezcordovajosedavid@gmail.com");
+	        helper.setTo(emailTo);
 	        helper.setSubject("Asignación de equipo - " + categoryName + " - Serie: " + serialNumber);
 	        helper.setText(html, true);
 	        helper.setFrom(this.sender);
