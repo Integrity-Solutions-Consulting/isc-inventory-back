@@ -23,13 +23,13 @@ public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Intege
 	
 	@Modifying
 	@Transactional
-	@Query("UPDATE EmployeeEntity u SET u.status=false, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.status = true")
-	int inactive(@Param("id") Integer id);
+	@Query("UPDATE EmployeeEntity u SET u.status=false, u.modificationDate = CURRENT_TIMESTAMP WHERE u.identification = :identification AND u.status = true")
+	int inactive(@Param("identification") String identification);
 
 	@Modifying
 	@Transactional
-	@Query("UPDATE EmployeeEntity u SET u.status = true, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.status = false")
-	int active(@Param("id") Integer id);
+	@Query("UPDATE EmployeeEntity u SET u.status = true, u.modificationDate = CURRENT_TIMESTAMP WHERE u.identification = :identification AND u.status = false")
+	int active(@Param("identification") String identification);
 
 	@Query("SELECT new com.isc.api.dto.response.EmployeeCatalogResponseDTO(e.id, CONCAT(e.firstName, ' ', e.lastName),e.identification, e.email) FROM EmployeeEntity e WHERE e.status = true")
 	List<EmployeeCatalogResponseDTO> findAllActiveEmployeeCatalog();

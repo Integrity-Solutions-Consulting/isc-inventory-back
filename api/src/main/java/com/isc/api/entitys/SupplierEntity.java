@@ -34,7 +34,7 @@ public class SupplierEntity {
 	private String phone;
 	
 	@Column(name = "ruc", length = 15, nullable = false, unique = true)
-	private String ruc;//
+	private String ruc;
 	
 	@Column(length = 100)
 	private String email;
