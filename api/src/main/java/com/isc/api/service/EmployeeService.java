@@ -16,6 +16,6 @@ public interface EmployeeService {
 	ResponseDto<EmployeeDetailResponseDTO> findByIdentification(String identification);
 	public ResponseDto<EmployeeTableResponseDTO> save(EmployeeRequestDTO request);
 	public ResponseDto<EmployeeTableResponseDTO> update(EmployeeRequestDTO request, String identification);
-	public ResponseDto<MessageResponseDTO> inactive(Integer id);
-	public ResponseDto<MessageResponseDTO> active(Integer id);
+	public ResponseDto<MessageResponseDTO> inactive(String identification);
+	public ResponseDto<MessageResponseDTO> active(String identification);
 }

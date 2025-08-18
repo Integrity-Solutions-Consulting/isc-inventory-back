@@ -21,11 +21,11 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Intege
 	
 	@Modifying
 	@Transactional
-	@Query("UPDATE CustomerEntity u SET u.status=false, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.status = true")
-	int inactive(@Param("id") String id);
+	@Query("UPDATE CustomerEntity u SET u.status=false, u.modificationDate = CURRENT_TIMESTAMP WHERE u.ruc = :ruc AND u.status = true")
+	int inactive(@Param("ruc") String ruc);
 	
     @Modifying
     @Transactional
-    @Query("UPDATE CustomerEntity u SET u.status = true, u.modificationDate = CURRENT_TIMESTAMP WHERE u.id = :id AND u.status = false")
-    int active(@Param("id") String id);
+    @Query("UPDATE CustomerEntity u SET u.status = true, u.modificationDate = CURRENT_TIMESTAMP WHERE u.ruc = :ruc AND u.status = false")
+    int active(@Param("ruc") String ruc);
 }

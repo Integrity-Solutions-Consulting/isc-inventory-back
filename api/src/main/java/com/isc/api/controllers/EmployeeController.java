@@ -58,13 +58,13 @@ public class EmployeeController {
 	    return ResponseEntity.ok(service.update(request, identification));
 	}
 
-	@PutMapping("/activate/{id}")
-	public ResponseEntity<ResponseDto<MessageResponseDTO>> activate(@PathVariable Integer id) {
-		return ResponseEntity.ok(service.active(id));
+	@PutMapping("/activate/{identification}")
+	public ResponseEntity<ResponseDto<MessageResponseDTO>> activate(@PathVariable String identification) {
+		return ResponseEntity.ok(service.active(identification));
 	}
 
-	@DeleteMapping("/inactive/{id}")
-	public ResponseEntity<ResponseDto<MessageResponseDTO>> inactive(@PathVariable Integer id) {
-		return ResponseEntity.ok(service.inactive(id));
+	@DeleteMapping("/inactive/{identification}")
+	public ResponseEntity<ResponseDto<MessageResponseDTO>> inactive(@PathVariable String identification) {
+		return ResponseEntity.ok(service.inactive(identification));
 	}
 }

@@ -127,8 +127,10 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
 
         String emailEmpleado = saved.getEmployee().getEmail();
         String nombreEmpleado = saved.getEmployee().getFirstName() + " " + saved.getEmployee().getLastName();
+        String serialNumber = saved.getEquipment().getSerialNumber();
+        String categoryName= saved.getEquipment().getCategory().getName();
 
-        emailService.sendAssignmentEmailWithReport(emailEmpleado, reportPdf, nombreEmpleado);
+        emailService.sendAssignmentEmailWithReport(emailEmpleado, reportPdf, nombreEmpleado, serialNumber, categoryName);
 
         EquipmentAssignmentDetailResponseDTO dto = EquipmentAssignmentMapper.toDetailDTO(saved);
 

@@ -204,10 +204,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public ResponseDto<MessageResponseDTO> inactive(Integer id) {
-		int rowsAffected =  employeeRepository.inactive(id);
+	public ResponseDto<MessageResponseDTO> inactive(String identification) {
+		int rowsAffected =  employeeRepository.inactive(identification);
 		if(rowsAffected == 0) {
-			 throw new RuntimeException("No se pudo realizar la operacion en el id: " + id);
+			 throw new RuntimeException("No se pudo realizar la operacion en el id: " + identification);
 		}
 	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Operacion exitosa");
 		MessageResponseDTO message = new MessageResponseDTO("Operacion exitosa");
@@ -215,10 +215,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public ResponseDto<MessageResponseDTO> active(Integer id) {
-		int rowsAffected =  employeeRepository.active(id);
+	public ResponseDto<MessageResponseDTO> active(String identification) {
+		int rowsAffected =  employeeRepository.active(identification);
 		if(rowsAffected == 0) {
-			 throw new RuntimeException("No se pudo realizar la operacion en el id: " + id);
+			 throw new RuntimeException("No se pudo realizar la operacion en el id: " + identification);
 		}
 	    MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Operacion exitosa");
 		MessageResponseDTO message = new MessageResponseDTO("Operacion exitosa");
