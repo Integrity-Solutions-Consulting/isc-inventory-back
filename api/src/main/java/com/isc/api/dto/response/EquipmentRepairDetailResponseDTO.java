@@ -11,11 +11,16 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EquipmentRepairDetailResponseDTO {
+public class EquipmentRepairDetailResponseDTO 
+{
 	private Integer id;
 	private Integer equipment;
-	private String serialNumber;
+    private String serialNumber;
+    private String brand;
+    private String model;
+    private String categoryName;
 	private EquipmentStatusResponseDTO equipmentStatus;
+	private EquipmentStatusResponseDTO repairStatus;
 	private LocalDate repairDate;
 	private String description;
 	private BigDecimal cost;
@@ -23,5 +28,4 @@ public class EquipmentRepairDetailResponseDTO {
 	private boolean status;
 	private LocalDateTime creationDate;
 	private LocalDateTime modificationDate;
-	private EquipmentStatusResponseDTO repairStatus;
 }

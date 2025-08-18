@@ -26,8 +26,6 @@ public class EquipmentRepairMapper
 		    return entity;
 		}
 
-
-
 	public static EquipmentRepairResponseDTO toSimpleDto(EquipmentRepairEntity entityRepair) 
 	{
 	    if (entityRepair == null) 
@@ -56,6 +54,9 @@ public class EquipmentRepairMapper
 	    dto.setId(entityRepair.getId());
 	    dto.setEquipment(entityRepair.getEquipment() != null ? entityRepair.getEquipment().getId() : null);
 	    dto.setSerialNumber(entityRepair.getEquipment().getSerialNumber());
+	    dto.setModel(entityRepair.getEquipment().getModel());
+	    dto.setBrand(entityRepair.getEquipment().getBrand());
+	    dto.setCategoryName(entityRepair.getEquipment().getCategory().getName());
 	    // Estado de reparación específico
 	    dto.setRepairStatus(entityRepair.getRepairStatus() != null 
 	        ? EquipmentStatusMapper.toSimpleDto(entityRepair.getRepairStatus())

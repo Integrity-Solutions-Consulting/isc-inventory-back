@@ -29,7 +29,7 @@ import com.isc.api.repository.EquipmentCategoryStockRepository;
 import com.isc.api.repository.EquipmentConditionRepository;
 import com.isc.api.service.EquipmentAssignmentService;
 import com.isc.api.service.ReportService;
-
+import com.isc.api.service.EmailService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.JRException;
@@ -47,6 +47,8 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
 
     
     private final ReportService reportService;
+    private final EmailService emailService;
+
     
     private final Integer idAvailable = 1;
     private final Integer idAssigned = 2;
@@ -114,6 +116,20 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
         entity.setAssignmentDate(request.getAssigmentDate());
 
         EquipmentAssignmentEntity saved = assignmentRepository.save(entity);
+        byte[] reportPdf;
+        try 
+        {
+            reportPdf = reportService.generateReport(saved);
+        } catch (JRException e) 
+        {
+            throw new RuntimeException("Error al generar el reporte de asignación", e);
+        }
+
+        String emailEmpleado = saved.getEmployee().getEmail();
+        String nombreEmpleado = saved.getEmployee().getFirstName() + " " + saved.getEmployee().getLastName();
+
+        emailService.sendAssignmentEmailWithReport(emailEmpleado, reportPdf, nombreEmpleado);
+
         EquipmentAssignmentDetailResponseDTO dto = EquipmentAssignmentMapper.toDetailDTO(saved);
 
         return new ResponseDto<>(dto, new MetadataResponseDto(HttpStatus.CREATED, "Asignación registrada correctamente"));
