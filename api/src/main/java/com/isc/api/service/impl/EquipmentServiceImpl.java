@@ -260,6 +260,29 @@ public class EquipmentServiceImpl implements EquipmentService {
 		// El estado puede cambiar
 		EquipmentStatusEntity status = statusRepository.findById(request.getStatusChange())
 				.orElseThrow(() -> new RuntimeException("Estado no encontrado: " + request.getStatusChange()));
+		
+		if (request.getIdRepair() != null) {
+	        EquipmentRepairEntity repair = equipmentRepairRepository.findById(request.getIdRepair())
+	                .orElseThrow(() -> new RuntimeException(
+	                        "No hay equipo en reparación con id: " + request.getIdRepair()));
+
+	        // Si la reparación está completada (6) Y el equipo actual está disponible (1)
+	        if (repair.getRepairStatus().getId().equals(this.repaired) && 
+	            equipo.getEquipStatus().getId().equals(this.available)) {
+	            throw new RuntimeException(
+	                    "El equipo ya se encuentra reparado y disponible, no se puede modificar su estado");
+	        }
+	    }
+		/*if (request.getIdRepair() !=repaired && status.getId() == this.available ) {
+	        EquipmentRepairEntity repair = equipmentRepairRepository.findById(request.getIdRepair())
+	                .orElseThrow(() -> new RuntimeException(
+	                        "No hay equipo en reparacion con id:" + request.getIdRepair()));
+
+	        if (repair.getRepairStatus().getId() == this.repaired) {
+	            throw new RuntimeException(
+	                    "El equipo ya se encuentra reparado y disponible, no se puede modificar su estado");
+	        }
+	    }*/
 
 		if (status.getId() == 1) {
 			Optional<EquipmentAssignmentEntity> assignmentEntity = assignmentRepository
@@ -280,14 +303,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 			this.repairService.registerRepairDate(request.getIdRepair(), status);
 		}
 
-		if (request.getIdRepair() != null) {
-			if (request.getIdRepair() != null && (status.getId() == 3 || status.getId() == 7)) {
+		if (request.getIdRepair() != null) 
+		{
+			if (request.getIdRepair() != null && (status.getId() == 3 || status.getId() == 7)) 
+			{
 				EquipmentRepairEntity repair = equipmentRepairRepository.findById(request.getIdRepair()).orElseThrow(
 						() -> new RuntimeException("No hay equipo  en reparacion con id:" + request.getIdRepair()));
-				
-				 if (repair.getRepairStatus().getId() == repaired) {
-			            throw new RuntimeException("El equipo ya se encuentra reparado, no se puede modificar su estado");
-			        }
 			        
 			        repair.setRepairStatus(status);
 			        equipmentRepairRepository.save(repair);
