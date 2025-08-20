@@ -20,7 +20,7 @@ public class EquipmentRepairMapper
 		    EquipmentRepairEntity entity = new EquipmentRepairEntity();
 		    entity.setEquipment(equipment);
 		    entity.setDescription(request.getDescription());
-		    entity.setServiceProvider(request.getServiceProvider());
+
 		    entity.setCost(request.getCost());
 
 		    return entity;
@@ -39,7 +39,7 @@ public class EquipmentRepairMapper
 	    dto.setRepairDate(entityRepair.getRepairDate());
 	    dto.setDescription(entityRepair.getDescription());
 	    dto.setCost(entityRepair.getCost());
-	    dto.setServiceProvider(entityRepair.getServiceProvider());
+
 	    dto.setRepairStatus(EquipmentStatusMapper.toSimpleDto(entityRepair.getRepairStatus())); // nuevo
 	    return dto;
 	}
@@ -61,6 +61,10 @@ public class EquipmentRepairMapper
 	    dto.setRepairStatus(entityRepair.getRepairStatus() != null 
 	        ? EquipmentStatusMapper.toSimpleDto(entityRepair.getRepairStatus())
 	        : null);
+	    
+	    dto.setEquipmentStatus(entityRepair.getEquipment() != null && entityRepair.getEquipment().getEquipStatus() != null
+	            ? EquipmentStatusMapper.toSimpleDto(entityRepair.getEquipment().getEquipStatus())
+	            : null);
 
 	    dto.setRepairDate(entityRepair.getRepairDate());
 	    dto.setDescription(entityRepair.getDescription());

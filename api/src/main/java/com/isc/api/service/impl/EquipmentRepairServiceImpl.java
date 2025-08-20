@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.isc.api.dto.request.EquipmentRepairRequestDTO;
 import com.isc.api.dto.request.EquipmentRevokeRequestDTO;
-import com.isc.api.dto.request.UpdateRepairStatusRequestDTO;
 import com.isc.api.dto.response.EquipmentRepairDetailResponseDTO;
 import com.isc.api.dto.response.EquipmentRepairResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;

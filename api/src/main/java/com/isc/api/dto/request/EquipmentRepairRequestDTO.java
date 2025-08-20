@@ -27,7 +27,6 @@ public class EquipmentRepairRequestDTO {
     @Size(max = 150, message = "El proveedor no puede superar los 150 caracteres")
 	private String serviceProvider;
 	
-	@DecimalMin(value = "0.01", message = "El costo debe ser mayor a 0")
 	private BigDecimal cost;
 	
 	private boolean revoke;

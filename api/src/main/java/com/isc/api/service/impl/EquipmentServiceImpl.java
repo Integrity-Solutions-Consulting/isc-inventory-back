@@ -260,23 +260,30 @@ public class EquipmentServiceImpl implements EquipmentService {
 		// El estado puede cambiar
 		EquipmentStatusEntity status = statusRepository.findById(request.getStatusChange())
 				.orElseThrow(() -> new RuntimeException("Estado no encontrado: " + request.getStatusChange()));
-	    
-		// Nueva lógica para estado Disponible (1)
-	    if (status.getId() == 1 && request.getIdRepair() != null) {
-	        EquipmentRepairEntity repair = equipmentRepairRepository.findById(request.getIdRepair())
-	                .orElseThrow(() -> new RuntimeException("Reparación no encontrada"));
-	        
-	        // Verificar si ya está en estado Reparado (6)
-	        if (repair.getRepairStatus().getId() != 6) {
-	            throw new RuntimeException("Solo se puede marcar como Disponible desde estado Reparado");
-	        }
-	        
-	        // Mantener el estado Reparado en la reparación
-	        repair.setRepairStatus(statusRepository.findById(6)
-	                .orElseThrow(() -> new RuntimeException("Estado Reparado no encontrado")));
-	        equipmentRepairRepository.save(repair);
-	    }
 		
+		if (request.getIdRepair() != null) {
+	        EquipmentRepairEntity repair = equipmentRepairRepository.findById(request.getIdRepair())
+	                .orElseThrow(() -> new RuntimeException(
+	                        "No hay equipo en reparación con id: " + request.getIdRepair()));
+
+	        // Si la reparación está completada (6) Y el equipo actual está disponible (1)
+	        if (repair.getRepairStatus().getId().equals(this.repaired) && 
+	            equipo.getEquipStatus().getId().equals(this.available)) {
+	            throw new RuntimeException(
+	                    "El equipo ya se encuentra reparado y disponible, no se puede modificar su estado");
+	        }
+	    }
+		/*if (request.getIdRepair() !=repaired && status.getId() == this.available ) {
+	        EquipmentRepairEntity repair = equipmentRepairRepository.findById(request.getIdRepair())
+	                .orElseThrow(() -> new RuntimeException(
+	                        "No hay equipo en reparacion con id:" + request.getIdRepair()));
+
+	        if (repair.getRepairStatus().getId() == this.repaired) {
+	            throw new RuntimeException(
+	                    "El equipo ya se encuentra reparado y disponible, no se puede modificar su estado");
+	        }
+	    }*/
+
 		if (status.getId() == 1) {
 			Optional<EquipmentAssignmentEntity> assignmentEntity = assignmentRepository
 					.findTopByEquipment_IdOrderByAssignmentDateDesc(idEquipo);
@@ -296,14 +303,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 			this.repairService.registerRepairDate(request.getIdRepair(), status);
 		}
 
-		if (request.getIdRepair() != null) {
-			if (request.getIdRepair() != null && (status.getId() == 3 || status.getId() == 7)) {
+		if (request.getIdRepair() != null) 
+		{
+			if (request.getIdRepair() != null && (status.getId() == 3 || status.getId() == 7)) 
+			{
 				EquipmentRepairEntity repair = equipmentRepairRepository.findById(request.getIdRepair()).orElseThrow(
 						() -> new RuntimeException("No hay equipo  en reparacion con id:" + request.getIdRepair()));
-				
-				 if (repair.getRepairStatus().getId() == repaired) {
-			            throw new RuntimeException("El equipo ya se encuentra reparado, no se puede modificar su estado");
-			        }
 			        
 			        repair.setRepairStatus(status);
 			        equipmentRepairRepository.save(repair);
