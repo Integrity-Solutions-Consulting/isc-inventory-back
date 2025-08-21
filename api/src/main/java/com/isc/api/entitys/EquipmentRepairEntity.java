@@ -43,8 +43,9 @@ public class EquipmentRepairEntity {
 	@Column(name = "cost", precision = 10, scale = 2)
     private BigDecimal cost;
 	
-	@Column(name = "service_provider", length = 150)
-    private String serviceProvider;
+	@ManyToOne
+	@JoinColumn(name = "service_provider", nullable = false) 
+	private SupplierEntity serviceProvider;
 	
 	@Column(nullable = false)
 	private Boolean status = true;

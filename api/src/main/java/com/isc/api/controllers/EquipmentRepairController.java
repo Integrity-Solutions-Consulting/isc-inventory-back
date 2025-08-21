@@ -33,7 +33,7 @@ public class EquipmentRepairController {
 		return ResponseEntity.ok(equipmentRepairService.getAllDetails());
 	}
 
-	@PostMapping("/createEquimentRepair")
+	@PostMapping("/createEquipmentRepair")
 	public ResponseEntity<ResponseDto<EquipmentRepairDetailResponseDTO>> createRepair(
 			@Valid @RequestBody EquipmentRepairRequestDTO request) {
 
@@ -41,7 +41,7 @@ public class EquipmentRepairController {
 		return new ResponseEntity<>(response, response.getMeta().getStatus());
 	}
 
-	@PutMapping("/updateEquimentRepair/{id}")
+	@PutMapping("/updateEquipmentRepair/{id}")
 	public ResponseEntity<ResponseDto<EquipmentRepairDetailResponseDTO>> updateEquipmentRepair(@PathVariable Integer id,
 			@Valid @RequestBody EquipmentRepairRequestDTO request) {
 		return ResponseEntity.ok(equipmentRepairService.update(request, id));
