@@ -30,7 +30,7 @@ services:
     image: backend-api-dev
     container_name: backend-api-dev
     ports:
-      - "8082:8080"
+      - "9091:8080"
     restart: always
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/isc_inventory_develop
@@ -51,7 +51,7 @@ services:
     image: backend-auth-prod
     container_name: backend-auth-prod
     ports:
-      - "8083:8080"
+      - "8080:8080"
     restart: always
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/isc_inventory
@@ -72,7 +72,7 @@ services:
     image: backend-auth-dev
     container_name: backend-auth-dev
     ports:
-      - "8084:8080"
+      - "9090:8080"
     restart: always
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/isc_inventory_develop
