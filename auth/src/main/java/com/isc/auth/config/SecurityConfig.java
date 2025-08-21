@@ -60,7 +60,7 @@ public class SecurityConfig {
 	@Autowired
 	ObjectMapper objectMapper;
 	
-	@Value("${frontend}")
+	@Value("${frontend.url}")
 	private String serverUrl;
 
 	@Bean

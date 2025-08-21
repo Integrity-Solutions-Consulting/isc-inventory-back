@@ -33,7 +33,7 @@ public class SecurityConfig {
 	@Autowired
 	JwtAuthorizationFilter authorizationFilter;
 	
-	@Value("${frontend}")
+	@Value("${frontend.url}")
 	private String serverUrl;
 
 	@Bean

@@ -1,12 +1,13 @@
 version: '3.8'
 
 services:
-  api:
+  # ----------------- API PROD -----------------
+  api-prod:
     build:
       context: .
       dockerfile: api/Dockerfile
-    image: backend-api
-    container_name: backend-api
+    image: backend-api-prod
+    container_name: backend-api-prod
     ports:
       - "8081:8080"
     restart: always
@@ -15,17 +16,40 @@ services:
       - SPRING_DATASOURCE_USERNAME=inventory
       - SPRING_DATASOURCE_PASSWORD=Zp8#kV42wLp@tR3m
       - SERVER_PORT=8080
+      - FRONTEND_URL=https://app.inventory.integritysolutions.com.ec/
     depends_on:
       - postgres
     networks:
       - backend-net
 
-  management:
+  # ----------------- API DEV -----------------
+  api-dev:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    image: backend-api-dev
+    container_name: backend-api-dev
+    ports:
+      - "9091:8080"
+    restart: always
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/isc_inventory_develop
+      - SPRING_DATASOURCE_USERNAME=inventory
+      - SPRING_DATASOURCE_PASSWORD=Zp8#kV42wLp@tR3m
+      - SERVER_PORT=8080
+      - FRONTEND_URL=http://147.93.181.147:8081/
+    depends_on:
+      - postgres
+    networks:
+      - backend-net
+
+  # ----------------- AUTH PROD -----------------
+  auth-prod:
     build:
       context: .
       dockerfile: auth/Dockerfile
-    image: backend-auth
-    container_name: backend-auth
+    image: backend-auth-prod
+    container_name: backend-auth-prod
     ports:
       - "8080:8080"
     restart: always
@@ -33,11 +57,35 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/isc_inventory
       - SPRING_DATASOURCE_USERNAME=inventory
       - SPRING_DATASOURCE_PASSWORD=Zp8#kV42wLp@tR3m
+      - SERVER_PORT=8080
+      - FRONTEND_URL=https://app.inventory.integritysolutions.com.ec/
     depends_on:
       - postgres
     networks:
       - backend-net
 
+  # ----------------- AUTH DEV -----------------
+  auth-dev:
+    build:
+      context: .
+      dockerfile: auth/Dockerfile
+    image: backend-auth-dev
+    container_name: backend-auth-dev
+    ports:
+      - "9090:8080"
+    restart: always
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/isc_inventory_develop
+      - SPRING_DATASOURCE_USERNAME=inventory
+      - SPRING_DATASOURCE_PASSWORD=Zp8#kV42wLp@tR3m
+      - SERVER_PORT=8080
+      - FRONTEND_URL=http://147.93.181.147:8081/
+    depends_on:
+      - postgres
+    networks:
+      - backend-net
+
+  # ----------------- POSTGRES -----------------
   postgres:
     image: postgres:16
     container_name: backend-postgres
