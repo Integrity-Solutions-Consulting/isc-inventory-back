@@ -24,7 +24,8 @@ public class EquipmentRepairDetailResponseDTO
 	private LocalDate repairDate;
 	private String description;
 	private BigDecimal cost;
-	private String serviceProvider;
+	private Integer serviceProviderId;
+	private String serviceProviderName;
 	private boolean status;
 	private LocalDateTime creationDate;
 	private LocalDateTime modificationDate;

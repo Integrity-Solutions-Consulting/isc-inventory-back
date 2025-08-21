@@ -273,16 +273,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	                    "El equipo ya se encuentra reparado y disponible, no se puede modificar su estado");
 	        }
 	    }
-		/*if (request.getIdRepair() !=repaired && status.getId() == this.available ) {
-	        EquipmentRepairEntity repair = equipmentRepairRepository.findById(request.getIdRepair())
-	                .orElseThrow(() -> new RuntimeException(
-	                        "No hay equipo en reparacion con id:" + request.getIdRepair()));
-
-	        if (repair.getRepairStatus().getId() == this.repaired) {
-	            throw new RuntimeException(
-	                    "El equipo ya se encuentra reparado y disponible, no se puede modificar su estado");
-	        }
-	    }*/
+		
 
 		if (status.getId() == 1) {
 			Optional<EquipmentAssignmentEntity> assignmentEntity = assignmentRepository

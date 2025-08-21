@@ -69,7 +69,8 @@ public class EquipmentRepairMapper
 	    dto.setRepairDate(entityRepair.getRepairDate());
 	    dto.setDescription(entityRepair.getDescription());
 	    dto.setCost(entityRepair.getCost());
-	    dto.setServiceProvider(entityRepair.getServiceProvider());
+	    dto.setServiceProviderId(entityRepair.getServiceProvider().getId());
+	    dto.setServiceProviderName(entityRepair.getServiceProvider().getBusinessName());
 	    dto.setStatus(entityRepair.getStatus());
 	    dto.setCreationDate(entityRepair.getCreationDate());
 	    dto.setModificationDate(entityRepair.getModificationDate());

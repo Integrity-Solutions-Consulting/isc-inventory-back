@@ -23,12 +23,14 @@ import com.isc.api.entitys.EquipmentCategoryStockEntity;
 import com.isc.api.entitys.EquipmentEntity;
 import com.isc.api.entitys.EquipmentRepairEntity;
 import com.isc.api.entitys.EquipmentStatusEntity;
+import com.isc.api.entitys.SupplierEntity;
 import com.isc.api.mapper.EquipmentRepairMapper;
 import com.isc.api.repository.EquipmentAssignmentRepository;
 import com.isc.api.repository.EquipmentCategoryStockRepository;
 import com.isc.api.repository.EquipmentRepairRepository;
 import com.isc.api.repository.EquipmentRepository;
 import com.isc.api.repository.EquipmentStatusRepository;
+import com.isc.api.repository.SupplierRepository;
 import com.isc.api.service.EquipmentAssignmentService;
 import com.isc.api.service.EquipmentRepairService;
 import org.springframework.http.HttpStatus;
@@ -42,6 +44,7 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
 	private final EquipmentStatusRepository statusRepository;
 	private final EquipmentCategoryStockRepository categoryStockRepository;
 	private final EquipmentAssignmentRepository assignmentRepository;
+	private final SupplierRepository supplierRepository;
 	private final EquipmentStatusRepository equipmentStatusRepository;
 	private final EquipmentAssignmentService assignmentService;
 	private final Integer available = 1;
@@ -67,9 +70,13 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
 		EquipmentStatusEntity newStatus = equipmentStatusRepository.findById(enRevision)
 	            .orElseThrow(() -> new RuntimeException("Estado no encontrado con ID: " + enRevision)); 
 		
+		SupplierEntity supplier = supplierRepository.findById(request.getServiceProviderId())
+	            .orElseThrow(() -> new RuntimeException("Proveedor no encontrado con ID: " + request.getServiceProviderId()));
+		
 		// 4. Crear entidad de reparación
 	    EquipmentRepairEntity repairEntity = EquipmentRepairMapper.toEntity(request, equipment);
 	    repairEntity.setRepairStatus(newStatus);
+	    repairEntity.setServiceProvider(supplier);
 	    repairEntity.setStatus(true);
 
 	    // 5. Guardar la reparación
@@ -137,6 +144,9 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
 
 		EquipmentEntity equipment = equipmentRepository.findById(request.getEquipment())
 				.orElseThrow(() -> new RuntimeException("Equipo no encontrado con ID: " + request.getEquipment()));
+		
+		SupplierEntity supplier = supplierRepository.findById(request.getServiceProviderId())
+			    .orElseThrow(() -> new RuntimeException("Proveedor no encontrado"));
 
 		// 3. Validar que el equipo esté EN_REPARACION (3)
 		if (equipment.getEquipStatus() == null && !equipment.getEquipStatus().getId().equals(3)) {
@@ -147,7 +157,7 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
 
 		// 4. Actualizar los datos de la reparación (incluyendo cost)
 		repair.setDescription(request.getDescription());
-		repair.setServiceProvider(request.getServiceProvider());
+		repair.setServiceProvider(supplier);
 		repair.setCost(request.getCost());
 		repair.setModificationDate(LocalDateTime.now());
 
@@ -159,8 +169,9 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
 		equipment.setModificationDate(LocalDateTime.now());
 
 		// 6. Aumentar stock si aplica
-		if (equipment.getStatus() && equipment.getCategory() != null) {
-			this.upStock(equipment.getCategory().getStock());
+		if (equipment.getStatus() && equipment.getCategory() != null && equipment.getCategory().getStock() != null) 
+		{
+		    this.upStock(equipment.getCategory().getStock());
 		}
 
 		// 7. Guardar cambios

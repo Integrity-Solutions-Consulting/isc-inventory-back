@@ -23,16 +23,13 @@ public class EquipmentRepairRequestDTO {
     @Size(max = 255, message = "La descripción no puede superar los 255 caracteres")
 	private String description;
     
-	@NotBlank(message = "El proveedor del servicio es obligatorio")
-    @Size(max = 150, message = "El proveedor no puede superar los 150 caracteres")
-	private String serviceProvider;
+    @NotNull(message = "El ID del proveedor es obligatorio")
+    private Integer serviceProviderId;
 	
 	private BigDecimal cost;
 	
 	private boolean revoke;
 	
 	private EquipmentConditionResponseDTO condition;
-
-	
 	
 }
