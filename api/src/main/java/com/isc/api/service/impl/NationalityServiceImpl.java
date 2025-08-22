@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class NationalityServiceImpl implements NationalityService {
 	
 	private final NationalityRepository nationalityRepository;
-
+//
 	@Override
 	public ResponseDto<List<NationalityDetailResponseDTO>> getAllDetails() {
 		List<NationalityDetailResponseDTO> response = nationalityRepository.findAll().stream().map(NationalityMapper::toDetailDto)
