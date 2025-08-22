@@ -1,5 +1,6 @@
 package com.isc.auth.service.impl;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,11 @@ public class EmailServiceImpl implements EmailService {
 	private final JavaMailSender mailSender;
 	
 	private final String sender = "siaft@siaft.net";
-
-	private final String frontUrl = "https://app.inventory.integritysolutions.com.ec/auth/forgot-password?token=";
+	
+	@Value("${frontend.url}")
+	private String serverUrl;
+	
+	private final String frontUrl = serverUrl+"auth/forgot-password?token=";
 
 	@Transactional
 	@Override
