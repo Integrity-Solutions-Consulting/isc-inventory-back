@@ -8,21 +8,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.isc.api.dto.request.EmployeeRequestDTO;
-import com.isc.api.dto.response.CustomerDetailResponseDTO;
 import com.isc.api.dto.response.EmployeeCatalogResponseDTO;
 import com.isc.api.dto.response.EmployeeDetailResponseDTO;
 import com.isc.api.dto.response.EmployeeTableResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
 import com.isc.dtos.MetadataResponseDto;
 import com.isc.dtos.ResponseDto;
-import com.isc.api.entitys.CustomerEntity;
 import com.isc.api.entitys.EmployeeEntity;
 import com.isc.api.entitys.GenderEntity;
 import com.isc.api.entitys.IdentificationTypeEntity;
 import com.isc.api.entitys.NationalityEntity;
 import com.isc.api.entitys.PositionEntity;
 import com.isc.api.entitys.WorkModeEntity;
-import com.isc.api.mapper.CustomerMapper;
 import com.isc.api.mapper.EmployeeMapper;
 import com.isc.api.repository.EmployeeRepository;
 import com.isc.api.repository.GenderRepository;
@@ -110,6 +107,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	            .orElseThrow(() -> new RuntimeException("Modo de trabajo no encontrado"));
 
 	    EmployeeEntity entity = new EmployeeEntity();
+	    entity.setId(request.getId());
 	    entity.setIdentificationType(identificationType);
 	    entity.setGender(gender);
 	    entity.setNationality(nationality);

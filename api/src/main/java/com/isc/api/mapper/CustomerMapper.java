@@ -9,6 +9,7 @@ public class CustomerMapper {
 
     public static CustomerEntity toEntity(CustomerRequestDTO dto) {
         CustomerEntity entity = new CustomerEntity();
+        entity.setId(dto.getId());
         entity.setName(dto.getName());
         entity.setAddress(dto.getAddress());
         entity.setEmail(dto.getEmail());
@@ -17,7 +18,9 @@ public class CustomerMapper {
         return entity;
     }
 
-    public static void updateEntityFromDTO(CustomerEntity entity, CustomerRequestDTO dto) {
+    public static void updateEntityFromDTO(CustomerEntity entity, CustomerRequestDTO dto) 
+    {
+    	entity.setId(dto.getId());
         entity.setName(dto.getName());
         entity.setAddress(dto.getAddress());
         entity.setEmail(dto.getEmail());

@@ -25,7 +25,7 @@ public class ApplicationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "applications_seq")
-    @SequenceGenerator(name = "applications_seq", sequenceName = "authentication.applications_id_seq", allocationSize = 1)
+    @SequenceGenerator(name = "applications_seq", sequenceName = "authentication.applications_id_seq", allocationSize = 3)
     private Integer id;
 
     @Column(length = 100, nullable = false, unique = true)

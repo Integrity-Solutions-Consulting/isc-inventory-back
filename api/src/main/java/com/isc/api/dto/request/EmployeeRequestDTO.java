@@ -15,6 +15,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EmployeeRequestDTO {
 	
+	@NotBlank(message = "El id del cliente es obligatorio")
+	@NotNull
+	private Integer id;
+	
 	@NotNull(message = "El tipo de identificación es obligatorio")
 	private Integer idIdentificationType;
     
