@@ -71,7 +71,7 @@ public class RoleServiceImpl implements RoleService {
 		RolesEntity rol = new RolesEntity();
 		rol.setName(request.getName());
 		rol.setDescription(request.getDescription());
-		rol.setApplicationId(3);//quemado por el momento para pruebas
+		rol.setApplicationId(3);//quemado por el momento para pruebas - cambiar por base de datos
 		RolesEntity savedRole = rolesRepository.save(rol);
 		Set<PrivilegeRoleEntity> privilegeRoles = new HashSet<>();
 
