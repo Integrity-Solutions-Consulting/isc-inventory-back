@@ -24,7 +24,6 @@ import lombok.NoArgsConstructor;
 public class EmployeeEntity {
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
