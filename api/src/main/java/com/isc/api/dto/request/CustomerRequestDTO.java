@@ -1,6 +1,7 @@
 package com.isc.api.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerRequestDTO {
+	
+	@NotBlank(message = "El id del cliente es obligatorio")
+	@NotNull
+	private Integer id;
 	
 	@NotBlank(message = "El nombre del cliente es obligatorio")
     @Size(max = 100, message = "El nombre no puede tener más de 100 caracteres")

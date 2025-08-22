@@ -28,6 +28,7 @@ public class ApplicationController {
 
 	private final ApplicationService service;
 
+	
 	@GetMapping()
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ResponseDto<List<ApplicationResponseDTO>>> getAll() {
