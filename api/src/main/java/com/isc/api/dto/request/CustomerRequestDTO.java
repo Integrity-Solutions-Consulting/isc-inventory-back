@@ -13,8 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CustomerRequestDTO {
 	
-	@NotBlank(message = "El id del cliente es obligatorio")
-	@NotNull
+	@NotNull(message = "El id del cliente es obligatorio")
 	private Integer id;
 	
 	@NotBlank(message = "El nombre del cliente es obligatorio")
