@@ -121,7 +121,7 @@ public class UserMapper {
 
 		Set<MenuResponseDTO> treeMenus = MenuMapper.buildMenuTree(flatMenuDtos);
 
-		return new UserLoginResponseDTO(entity.getUsername(), entity.getEmail(), entity.getFirstNames(), null, roles,
+		return new UserLoginResponseDTO(entity.getId(), entity.getUsername(), entity.getEmail(), entity.getFirstNames(), null, roles,
 				privileges, treeMenus);
 	}
 
