@@ -244,11 +244,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ResponseDto<MessageResponseDTO> changePassword(PasswordChangeRequestDTO request, Integer id) {
 		UserEntity userConnected = authenticatedUserService.getAuthenticatedUser();
-		UserEntity userToChange = userRepository.findById(id)
-	            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-		/*if (!encoder.matches(request.getActualPassword(), userConnected.getPassword())) {
+		if (!encoder.matches(request.getActualPassword(), userConnected.getPassword())) {
 		    throw new RuntimeException("La contraseña actual es incorrecta");
-		}*/
+		}
 		if (!authenticatedUserService.isSelfOrAdmin(userConnected, id)) {
 			throw new RuntimeException("No tienes permiso para modificar este usuario");
 		}
@@ -258,9 +256,9 @@ public class UserServiceImpl implements UserService {
 		if (!request.getNewPassword().equals(request.getConfirmPassword())) {
 			throw new RuntimeException("La nueva contraseña y su confirmación no coinciden");
 		}
-		userToChange.setPassword(encoder.encode(request.getNewPassword()));
-		userToChange.setLastPasswordChangeDate(LocalDateTime.now());
-		userRepository.save(userToChange);
+		userConnected.setPassword(encoder.encode(request.getNewPassword()));
+		userConnected.setLastPasswordChangeDate(LocalDateTime.now());
+		userRepository.save(userConnected);
 		MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Contraseña actualizada correctamente");
 		MessageResponseDTO message = new MessageResponseDTO("Actualizacion exitosa");
 		return new ResponseDto<>(message, metadata);
