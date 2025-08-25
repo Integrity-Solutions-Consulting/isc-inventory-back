@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.isc.api.dto.request.EmployeeRequestDTO;
+import com.isc.api.dto.request.EmployeeUpdateRequestDTO;
 import com.isc.api.dto.response.EmployeeCatalogResponseDTO;
 import com.isc.api.dto.response.EmployeeDetailResponseDTO;
 import com.isc.api.dto.response.EmployeeTableResponseDTO;
@@ -134,7 +135,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Transactional
 	@Override
-	public ResponseDto<EmployeeTableResponseDTO> update(EmployeeRequestDTO request, String identification) {
+	public ResponseDto<EmployeeTableResponseDTO> update(EmployeeUpdateRequestDTO request, String identification) {
 		
 		 EmployeeEntity entity = employeeRepository.findByIdentification(identification)
 		            .orElseThrow(() -> new RuntimeException("Empleado no encontrado con identificación: " + identification));
