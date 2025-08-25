@@ -13,5 +13,5 @@ public interface AuthService {
 	public ResponseDto<UserRegisterResponseDTO> register(UserRequestoDTO request);
 	public ResponseDto<MessageResponseDTO> generateTokenForgotPassword(String username);
 	public ResponseDto<MessageResponseDTO> validateTokenForgotPassword(String token);
-	public ResponseDto<Boolean> restorePassword(String token, PasswordChangeRequestDTO request) ;
+	public ResponseDto<Boolean> restorePassword(String token, PasswordChangeRequestDTO request);
 }
