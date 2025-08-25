@@ -26,7 +26,6 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 public class CustomerEntity {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@Column(name = "name", length = 100, nullable = false, unique = true)
