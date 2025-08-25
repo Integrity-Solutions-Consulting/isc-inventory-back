@@ -85,6 +85,11 @@ public class EquipmentRepairServiceImpl implements EquipmentRepairService {
 	    // 6. Actualizar el estado del equipo
 	    equipment.setEquipStatus(newStatus);
 	    equipmentRepository.save(equipment);
+	    
+	    if (equipment.getStatus() && equipment.getCategory() != null && equipment.getCategory().getStock() != null) 
+	    {
+	        this.downStock(equipment.getCategory().getStock());
+	    }
 		
 	    if (request.isRevoke()) {
 	        EquipmentAssignmentEntity assignmentEntity = assignmentRepository
