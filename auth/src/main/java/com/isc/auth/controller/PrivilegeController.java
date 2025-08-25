@@ -28,25 +28,25 @@ public class PrivilegeController {
 	private final PrivilegeService service;
 	
 	@GetMapping()
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
 	public ResponseEntity<ResponseDto<List<PrivilegeResponseDTO>>> getAll(){
 		return ResponseEntity.ok(service.getAll());
 	}
 	
 	@PostMapping("/save")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
 	public ResponseEntity<ResponseDto<PrivilegeResponseDTO>> save(@RequestBody PrivilegeRequestDTO request){
 		return ResponseEntity.ok(service.save(request));
 	}
 	
 	@PutMapping("/activate/{id}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
 	public ResponseEntity<ResponseDto<MessageResponseDTO>> activate(@PathVariable Integer id) {
 	    return ResponseEntity.ok(service.activePrivilege(id));
 	}
 
 	@DeleteMapping("/inactive/{id}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
 	public ResponseEntity<ResponseDto<MessageResponseDTO>> deleteUser(@PathVariable Integer id) {
 	    return ResponseEntity.ok(service.inactivePrivilege(id));
 	}
