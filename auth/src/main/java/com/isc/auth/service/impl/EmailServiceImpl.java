@@ -22,7 +22,7 @@ public class EmailServiceImpl implements EmailService {
 	@Value("${frontend.url}")
 	private String serverUrl;
 	
-	private final String frontUrl = serverUrl+"auth/forgot-password?token=";
+	private String frontUrl = serverUrl+"auth/forgot-password?token=";
 
 	@Transactional
 	@Override
