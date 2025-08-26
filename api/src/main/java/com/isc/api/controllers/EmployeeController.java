@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isc.api.dto.request.EmployeeRequestDTO;
+import com.isc.api.dto.request.EmployeeUpdateRequestDTO;
 import com.isc.api.dto.response.EmployeeCatalogResponseDTO;
 import com.isc.api.dto.response.EmployeeDetailResponseDTO;
 import com.isc.api.dto.response.EmployeeTableResponseDTO;
@@ -53,7 +54,7 @@ public class EmployeeController {
 
 	@PutMapping("/update/{identification}")
 	public ResponseEntity<ResponseDto<EmployeeTableResponseDTO>> updateByIdentification(
-	        @Valid @RequestBody EmployeeRequestDTO request,
+	        @Valid @RequestBody EmployeeUpdateRequestDTO request,
 	        @PathVariable String identification) { 
 	    return ResponseEntity.ok(service.update(request, identification));
 	}

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.isc.api.dto.request.CustomerRequestDTO;
+import com.isc.api.dto.request.CustomerUpdateRequestDTO;
 import com.isc.api.dto.response.CustomerDetailResponseDTO;
 import com.isc.api.dto.response.CustomerResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
@@ -71,7 +72,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public ResponseDto<CustomerDetailResponseDTO> update(CustomerRequestDTO request, String ruc) {
+    public ResponseDto<CustomerDetailResponseDTO> update(CustomerUpdateRequestDTO request, String ruc) {
         CustomerEntity entity = customerRepository.findByRuc(ruc)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado con RUC: " + ruc));
 

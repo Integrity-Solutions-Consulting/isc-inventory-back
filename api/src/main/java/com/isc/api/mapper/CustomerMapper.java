@@ -1,6 +1,7 @@
 package com.isc.api.mapper;
 
 import com.isc.api.dto.request.CustomerRequestDTO;
+import com.isc.api.dto.request.CustomerUpdateRequestDTO;
 import com.isc.api.dto.response.CustomerDetailResponseDTO;
 import com.isc.api.dto.response.CustomerResponseDTO;
 import com.isc.api.entitys.CustomerEntity;
@@ -18,9 +19,8 @@ public class CustomerMapper {
         return entity;
     }
 
-    public static void updateEntityFromDTO(CustomerEntity entity, CustomerRequestDTO dto) 
+    public static void updateEntityFromDTO(CustomerEntity entity, CustomerUpdateRequestDTO dto) 
     {
-    	entity.setId(dto.getId());
         entity.setName(dto.getName());
         entity.setAddress(dto.getAddress());
         entity.setEmail(dto.getEmail());

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.isc.api.dto.request.CustomerRequestDTO;
+import com.isc.api.dto.request.CustomerUpdateRequestDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
 import com.isc.api.entitys.EmployeeEntity;
 import com.isc.api.dto.response.CustomerDetailResponseDTO;
@@ -16,7 +17,7 @@ public interface CustomerService
 	public ResponseDto<List<CustomerResponseDTO>> getSimpleList();
     ResponseDto<CustomerDetailResponseDTO> findByRuc(String ruc);
 	public ResponseDto<CustomerDetailResponseDTO> save(CustomerRequestDTO request);
-	public ResponseDto<CustomerDetailResponseDTO> update(CustomerRequestDTO request, String ruc);
+	public ResponseDto<CustomerDetailResponseDTO> update(CustomerUpdateRequestDTO request, String ruc);
 	public ResponseDto<MessageResponseDTO> inactive(String ruc);
 	public ResponseDto<MessageResponseDTO> active(String ruc);
 }

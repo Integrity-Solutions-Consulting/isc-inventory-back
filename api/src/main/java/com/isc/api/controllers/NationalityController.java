@@ -26,7 +26,6 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/nationality")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')")
 public class NationalityController {
 	private final NationalityService service;
 

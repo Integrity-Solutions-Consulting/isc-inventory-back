@@ -1,6 +1,7 @@
 package com.isc.api.controllers;
 
 import com.isc.api.dto.request.CustomerRequestDTO;
+import com.isc.api.dto.request.CustomerUpdateRequestDTO;
 import com.isc.api.dto.response.CustomerDetailResponseDTO;
 import com.isc.api.dto.response.CustomerResponseDTO;
 import com.isc.api.dto.response.MessageResponseDTO;
@@ -59,7 +60,7 @@ public class CustomerController {
     @PutMapping("/update/{ruc}")
     public ResponseEntity<ResponseDto<CustomerDetailResponseDTO>> updateCustomer(
             @PathVariable String ruc,
-            @Valid @RequestBody CustomerRequestDTO request) {
+            @Valid @RequestBody CustomerUpdateRequestDTO request) {
         
     	 return ResponseEntity.ok(customerService.update(request, ruc));    }
 
