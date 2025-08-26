@@ -22,7 +22,7 @@ public class EmailServiceImpl implements EmailService {
 	@Value("${frontend.url}")
 	private String serverUrl;
 	
-	private final String frontUrl = serverUrl+"auth/forgot-password?token=";
+	private String frontUrl = serverUrl+"auth/forgot-password?token=";
 
 	@Transactional
 	@Override
@@ -61,7 +61,7 @@ public class EmailServiceImpl implements EmailService {
 			        + "</body>"
 			        + "</html>";
 
-			helper.setTo(emailTo);
+			helper.setTo("azucena.hurtado@integritysolutions.com.ec");
 			helper.setSubject("Recuperación de contraseña");
 			helper.setText(html, true); // segundo parámetro `true` indica que es HTML
 			helper.setFrom(this.sender);
