@@ -22,11 +22,11 @@ public class EmailServiceImpl implements EmailService {
 	@Value("${frontend.url}")
 	private String serverUrl;
 	
-	private String frontUrl = serverUrl+"auth/forgot-password?token=";
 
 	@Transactional
 	@Override
 	public void sendForgotPasswordEmail(String emailTo, String token) {
+		String frontUrl = serverUrl + "auth/forgot-password?token=" + token;
 		try {
 			MimeMessage mensaje = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mensaje, "utf-8");
@@ -54,14 +54,14 @@ public class EmailServiceImpl implements EmailService {
 			        + "<div class='title'>Recuperación de contraseña</div>"
 			        + "<div class='subtitle'>Has solicitado restablecer tu contraseña.</div>"
 			        + "<p>Haz clic en el siguiente botón para continuar con el proceso:</p>"
-			        + "<a href='" + frontUrl + token + "' class='button'>Restablecer contraseña</a>"
+			        + "<a href='" + frontUrl  + "' class='button'>Restablecer contraseña</a>"
 			        + "<p class='footer'>Este enlace expirará en 3 minutos.<br>Si no solicitaste este cambio, puedes ignorar este mensaje.</p>"
 			        + "</div>"
 			        + "</div>"
 			        + "</body>"
 			        + "</html>";
 
-			helper.setTo("azucena.hurtado@integritysolutions.com.ec");
+			helper.setTo(emailTo);
 			helper.setSubject("Recuperación de contraseña");
 			helper.setText(html, true); // segundo parámetro `true` indica que es HTML
 			helper.setFrom(this.sender);
