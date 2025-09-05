@@ -7,6 +7,7 @@ import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.isc.api.dto.request.EquipmentAssignmentRequestDTO;
@@ -22,12 +23,12 @@ import net.sf.jasperreports.engine.JRException;
 
 @RestController
 @RequestMapping("/api/v1/equipment-assignment")
+@PreAuthorize("hasAnyRole('ADMIN','MANAGER') or hasAuthority('equipment_management')")
 public class EquipmentAssignmentController {
 
     @Autowired
     private EquipmentAssignmentService assignmentService;
    
-
     @GetMapping("/details")
     public ResponseEntity<ResponseDto<List<EquipmentAssignmentDetailResponseDTO>>> getAllDetails() {
         return ResponseEntity.ok(assignmentService.getAllDetails());

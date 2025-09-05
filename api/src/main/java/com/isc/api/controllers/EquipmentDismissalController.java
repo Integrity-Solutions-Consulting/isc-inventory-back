@@ -3,6 +3,7 @@ package com.isc.api.controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.isc.api.dto.request.EquipmentDismissalRequestDTO;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/equipment-dismissal")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyRole('ADMIN','MANAGER') or hasAuthority('equipment_management')")
 public class EquipmentDismissalController {
 
     private final EquipmentDismissalService dismissalService;
