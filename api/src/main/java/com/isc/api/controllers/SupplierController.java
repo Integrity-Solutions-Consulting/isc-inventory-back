@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/supplier")
+@RequestMapping("/inventory/api/v1/supplier")
 @RequiredArgsConstructor
 public class SupplierController {
 

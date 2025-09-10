@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/equipment-characteristics")
+@RequestMapping("/inventory/api/equipment-characteristics")
 @RequiredArgsConstructor
 @PreAuthorize("hasAnyRole('ADMIN','MANAGER') or hasAuthority('equipment_management')")
 public class EquipmentCharacteristicController {

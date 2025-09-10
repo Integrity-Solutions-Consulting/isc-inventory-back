@@ -16,7 +16,7 @@ import com.isc.api.service.EquipmentConditionService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/equipment-conditions")
+@RequestMapping("/inventory/api/v1/equipment-conditions")
 @PreAuthorize("hasAnyRole('ADMIN','MANAGER') or hasAuthority('equipment_management')")
 public class EquipmentConditionController {
 

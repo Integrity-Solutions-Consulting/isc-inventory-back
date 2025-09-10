@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/equipment-status")
+@RequestMapping("/inventory/api/equipment-status")
 @RequiredArgsConstructor
 
 public class EquipmentStatusController {

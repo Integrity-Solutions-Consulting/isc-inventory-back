@@ -48,12 +48,12 @@ public class SecurityConfig {
 				}) 
 				.authorizeHttpRequests(req -> {
 					req.requestMatchers(
-						    "/api/v1/docs",
-						    "/api/v1/docs/**",
-						    "/v3/api-docs",
-						    "/v3/api-docs/**",
-						    "/swagger-ui.html",
-						    "/swagger-ui/**"
+							"/inventory/api/v3/api-docs",
+	                        "/inventory/api/v3/api-docs/**",
+	                        "/inventory/api/swagger-ui.html",
+	                        "/inventory/api/swagger-ui",
+	                        "/inventory/api/v1/docs/swagger-ui/index.html",
+	                        "/inventory/api/v1/docs/swagger-ui/**"
 						).permitAll();
 					req.anyRequest().authenticated();
 				})

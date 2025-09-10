@@ -23,7 +23,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/equipment-repairs")
+@RequestMapping("/inventory/api/v1/equipment-repairs")
 @PreAuthorize("hasAnyRole('ADMIN','MANAGER') or hasAuthority('equipment_management')")
 @RequiredArgsConstructor
 

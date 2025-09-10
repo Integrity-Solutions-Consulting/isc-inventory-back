@@ -22,7 +22,7 @@ import jakarta.validation.Valid;
 import net.sf.jasperreports.engine.JRException;
 
 @RestController
-@RequestMapping("/api/v1/equipment-assignment")
+@RequestMapping("/inventory/api/v1/equipment-assignment")
 @PreAuthorize("hasAnyRole('ADMIN','MANAGER') or hasAuthority('equipment_management')")
 public class EquipmentAssignmentController {
 

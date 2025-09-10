@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 
 
 @RestController
-@RequestMapping("/api/v1/employee")
+@RequestMapping("/inventory/api/v1/employee")
 @RequiredArgsConstructor
 @PreAuthorize("hasAnyRole('ADMIN','MANAGER') or hasAuthority('employee_management')")
 public class EmployeeController {

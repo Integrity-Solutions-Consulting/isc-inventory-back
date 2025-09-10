@@ -24,7 +24,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/companies")
+@RequestMapping("/inventory/api/v1/companies")
 public class CompanyController
 {
     private final CompanyService companyService;

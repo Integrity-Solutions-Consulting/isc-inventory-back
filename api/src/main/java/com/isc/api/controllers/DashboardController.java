@@ -18,7 +18,7 @@ import com.isc.dtos.ResponseDto;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/dashboard")
+@RequestMapping("/inventory/api/v1/dashboard")
 @RequiredArgsConstructor
 public class DashboardController {
 

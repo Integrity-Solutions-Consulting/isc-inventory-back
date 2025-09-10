@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/nationality")
+@RequestMapping("/inventory/api/v1/nationality")
 @RequiredArgsConstructor
 public class NationalityController {
 	private final NationalityService service;

@@ -32,7 +32,7 @@ import com.isc.api.service.EquipmentService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/equipment")
+@RequestMapping("/inventory/api/v1/equipment")
 @RequiredArgsConstructor
 @PreAuthorize("hasAnyRole('ADMIN','MANAGER') or hasAuthority('equipment_management')")
 public class EquipmentController {

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api/v1/warranty-types")
+@RequestMapping("/inventory/api/v1/warranty-types")
 @RequiredArgsConstructor
 public class WarrantTypeController {
 

@@ -23,7 +23,7 @@ import com.isc.api.service.EquipmentCategoryService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/equipment-categories")
+@RequestMapping("/inventory/api/v1/equipment-categories")
 @RequiredArgsConstructor
 @PreAuthorize("hasAnyRole('ADMIN','MANAGER') or hasAuthority('equipment_management')")
 public class EquipmentCategoryController {
