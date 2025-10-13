@@ -183,18 +183,24 @@
 				<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
 				<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 			</element>
-			<element kind="staticText" uuid="b4e7dbcb-e04d-4b60-ad61-affbf41f8105" x="0" y="230" width="555" height="36" bold="true" hTextAlign="Center" vTextAlign="Middle">
-				<text><![CDATA[Responsabilidades del Receptor]]></text>
-			</element>
-			<element kind="staticText" uuid="c3bf06b3-0620-4689-a98e-79370842482c" x="0" y="260" width="555" height="242" markup="none" hTextAlign="Justified">
+			<element kind="textField" uuid="cef44472-7d91-467c-a7fa-0425976b39b8" x="0" y="260" width="555" height="242" textAdjust="StretchHeight" blankWhenNull="true" hTextAlign="Justified">
 				<paragraph lineSpacing="Single" lineSpacingSize="1.0"/>
-				<text><![CDATA[El receptor acepta la responsabilidad de mantener las laptops en buen estado y utilizarlas de manera adecuada para el propósito acordado. Cualquier daño o pérdida de las laptops debido a negligencia o mal uso por parte del receptor será de su responsabilidad y deberá informarse a INTEGRITY SOLUTIONS de inmediato.
+				<expression><![CDATA[El receptor acepta la responsabilidad de mantener las laptops en buen estado y utilizarlas de manera adecuada para el propósito acordado. Cualquier daño o pérdida de las laptops debido a negligencia o mal uso por parte del receptor será de su responsabilidad y deberá informarse a INTEGRITY SOLUTIONS de inmediato.
 Las laptops se proporcionan para el uso exclusivo relacionado con fines laborales, Al finalizar el período acordado de uso, las laptops deben ser devueltas en las mismas condiciones en las que fueron entregadas, salvo el desgaste normal.
 Las laptops no deben ser utilizadas para fines ilegales o no éticos, y el receptor no tiene derecho a modificar el hardware o software sin el consentimiento explícito de INTEGRITY SOLUTIONS.
 Al finalizar el período de uso o al término de la relación contractual, el receptor debe devolver las laptops a INTEGRITY SOLUTIONS en un plazo acordado y en condiciones satisfactorias.
 El receptor se compromete a mantener la confidencialidad de cualquier información sensible almacenada en las laptops y a no divulgarla a terceros sin autorización.
-En caso de que el equipo proporcionado por INTEGRITY SOLUTIONS sufra robo, daños o deterioro debido a la negligencia o mal uso por parte del usuario, este último será responsable de cubrir los costos asociados con la reparación o reemplazo del equipo. El monto correspondiente se determinará de acuerdo con las tarifas estándar de reparación y/o reemplazo de INTEGRITY SOLUTIONS, las cuales serán comunicadas al usuario en el momento de la ocurrencia del daño. El usuario acepta que INTEGRITY SOLUTIONS tiene el derecho de retener cualquier depósito de seguridad o realizar el cobro directo de los costos incurridos por daño o deterioro del equipo, utilizando la información de pago proporcionada por el usuario en el momento de la adquisición del servicio o equipo.
-]]></text>
+En caso de que el equipo proporcionado por INTEGRITY SOLUTIONS sufra robo, daños o deterioro debido a la negligencia o mal uso por parte del usuario, este último será responsable de cubrir los costos asociados con la reparación o reemplazo del equipo. El monto correspondiente se determinará de acuerdo con las tarifas estándar de reparación y/o reemplazo de INTEGRITY SOLUTIONS, las cuales serán comunicadas al usuario en el momento de la ocurrencia del daño. El usuario acepta que INTEGRITY SOLUTIONS tiene el derecho de retener cualquier depósito de seguridad o realizar el cobro directo de los costos incurridos por daño o deterioro del equipo, utilizando la información de pago proporcionada por el usuario en el momento de la adquisición del servicio o equipo.]]></expression>
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</element>
+			<element kind="textField" uuid="d76fe9eb-dcc5-4d9d-abb1-af813669b904" x="0" y="230" width="555" height="36" markup="rtf" bold="true" hTextAlign="Center" vTextAlign="Top">
+				<expression><![CDATA[Responsabilidades del Receptor]]></expression>
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			</element>
 		</band>
 	</detail>
@@ -205,7 +211,7 @@ En caso de que el equipo proporcionado por INTEGRITY SOLUTIONS sufra robo, daño
 		<element kind="textField" uuid="f39892e0-d001-4b04-9095-b6d903a65655" x="0" y="40" width="180" height="21" hTextAlign="Left">
 			<expression><![CDATA[$P{date}]]></expression>
 		</element>
-		<element kind="staticText" uuid="b1393ec3-7058-4b5b-b1f3-f5d434dc880b" x="321" y="30" width="231" height="21" bold="true" hTextAlign="Center">
+		<element kind="staticText" uuid="b1393ec3-7058-4b5b-b1f3-f5d434dc880b" x="321" y="31" width="231" height="19" bold="true" hTextAlign="Center">
 			<text><![CDATA[RECIBIDO]]></text>
 		</element>
 		<element kind="line" uuid="2285fa0a-d990-4091-bc42-250514b24204" x="321" y="30" width="231" height="1"/>
