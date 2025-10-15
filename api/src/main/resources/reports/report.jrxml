@@ -42,14 +42,14 @@
 	<parameter name="model" class="java.lang.String"/>
 	<parameter name="caracteristicas" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<parameter name="date" class="java.time.LocalDate"/>
-	<parameter name="logo" class="java.awt.Image"/>
+	<parameter name="logo" class="java.io.InputStream"/>
 	<query language="sql"><![CDATA[]]></query>
 	<background splitType="Stretch"/>
 	<title height="110" splitType="Stretch">
-		<element kind="staticText" uuid="706ccfe2-93af-48ed-9105-50afc49893ab" x="-20" y="0" width="595" height="79" fontName="Calibri" fontSize="14.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+		<element kind="staticText" uuid="706ccfe2-93af-48ed-9105-50afc49893ab" x="-20" y="0" width="595" height="79" fontSize="14.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[ACTA DE ENTREGA RECEPCIÓN]]></text>
 		</element>
-		<element kind="textField" uuid="b905a14d-2fd5-42b2-afec-e5e1973ed10d" x="2" y="80" width="550" height="30" fontName="Calibri" hTextAlign="Justified">
+		<element kind="textField" uuid="b905a14d-2fd5-42b2-afec-e5e1973ed10d" x="2" y="80" width="550" height="30" hTextAlign="Justified">
 			<expression><![CDATA["Por medio de la presente la compañía INTEGRITY SOLUTIONS procede a realizar la entrega de un computador portátil al Sr./Srta "
         + $P{employeeName}
         + " con "
@@ -58,7 +58,7 @@
         + $P{employeeId}
         + ", el mismo que a continuación se detalla:"]]></expression>
 		</element>
-		<element kind="image" uuid="e1b20e27-0ed1-4ee9-9fb6-1084a35fe8b4" x="2" y="9" width="60" height="60">
+		<element kind="image" uuid="e1b20e27-0ed1-4ee9-9fb6-1084a35fe8b4" x="2" y="9" width="60" height="60" onErrorType="Blank">
 			<expression><![CDATA[$P{logo}]]></expression>
 		</element>
 	</title>
@@ -143,7 +143,7 @@
 					<pen lineWidth="1.0"/>
 				</box>
 			</element>
-			<element kind="component" uuid="d331ff3c-b68a-44cc-b8f3-de8f51815dea" x="30" y="148" width="500" height="82">
+			<element kind="component" uuid="d331ff3c-b68a-44cc-b8f3-de8f51815dea" stretchType="ContainerHeight" x="30" y="148" width="500" height="82" printWhenDetailOverflows="true">
 				<component kind="table" horizontalPosition="Left">
 					<datasetRun uuid="50329faf-0ab4-4cd4-a30b-7a9d909cae82" subDataset="caracteristicas">
 						<dataSourceExpression><![CDATA[$P{caracteristicas}]]></dataSourceExpression>
@@ -183,24 +183,18 @@
 				<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
 				<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 			</element>
-			<element kind="textField" uuid="cef44472-7d91-467c-a7fa-0425976b39b8" x="0" y="260" width="555" height="242" textAdjust="StretchHeight" blankWhenNull="true" hTextAlign="Justified">
+			<element kind="staticText" uuid="b4e7dbcb-e04d-4b60-ad61-affbf41f8105" positionType="Float" x="0" y="230" width="555" height="36" bold="true" hTextAlign="Center" vTextAlign="Middle">
+				<text><![CDATA[Responsabilidades del Receptor]]></text>
+			</element>
+			<element kind="staticText" uuid="c3bf06b3-0620-4689-a98e-79370842482c" positionType="Float" x="0" y="260" width="555" height="242" markup="none" hTextAlign="Justified">
 				<paragraph lineSpacing="Single" lineSpacingSize="1.0"/>
-				<expression><![CDATA[El receptor acepta la responsabilidad de mantener las laptops en buen estado y utilizarlas de manera adecuada para el propósito acordado. Cualquier daño o pérdida de las laptops debido a negligencia o mal uso por parte del receptor será de su responsabilidad y deberá informarse a INTEGRITY SOLUTIONS de inmediato.
+				<text><![CDATA[El receptor acepta la responsabilidad de mantener las laptops en buen estado y utilizarlas de manera adecuada para el propósito acordado. Cualquier daño o pérdida de las laptops debido a negligencia o mal uso por parte del receptor será de su responsabilidad y deberá informarse a INTEGRITY SOLUTIONS de inmediato.
 Las laptops se proporcionan para el uso exclusivo relacionado con fines laborales, Al finalizar el período acordado de uso, las laptops deben ser devueltas en las mismas condiciones en las que fueron entregadas, salvo el desgaste normal.
 Las laptops no deben ser utilizadas para fines ilegales o no éticos, y el receptor no tiene derecho a modificar el hardware o software sin el consentimiento explícito de INTEGRITY SOLUTIONS.
 Al finalizar el período de uso o al término de la relación contractual, el receptor debe devolver las laptops a INTEGRITY SOLUTIONS en un plazo acordado y en condiciones satisfactorias.
 El receptor se compromete a mantener la confidencialidad de cualquier información sensible almacenada en las laptops y a no divulgarla a terceros sin autorización.
-En caso de que el equipo proporcionado por INTEGRITY SOLUTIONS sufra robo, daños o deterioro debido a la negligencia o mal uso por parte del usuario, este último será responsable de cubrir los costos asociados con la reparación o reemplazo del equipo. El monto correspondiente se determinará de acuerdo con las tarifas estándar de reparación y/o reemplazo de INTEGRITY SOLUTIONS, las cuales serán comunicadas al usuario en el momento de la ocurrencia del daño. El usuario acepta que INTEGRITY SOLUTIONS tiene el derecho de retener cualquier depósito de seguridad o realizar el cobro directo de los costos incurridos por daño o deterioro del equipo, utilizando la información de pago proporcionada por el usuario en el momento de la adquisición del servicio o equipo.]]></expression>
-				<property name="com.jaspersoft.studio.unit.x" value="px"/>
-				<property name="com.jaspersoft.studio.unit.y" value="px"/>
-				<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			</element>
-			<element kind="textField" uuid="d76fe9eb-dcc5-4d9d-abb1-af813669b904" x="0" y="230" width="555" height="36" markup="rtf" bold="true" hTextAlign="Center" vTextAlign="Top">
-				<expression><![CDATA[Responsabilidades del Receptor]]></expression>
-				<property name="com.jaspersoft.studio.unit.x" value="px"/>
-				<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+En caso de que el equipo proporcionado por INTEGRITY SOLUTIONS sufra robo, daños o deterioro debido a la negligencia o mal uso por parte del usuario, este último será responsable de cubrir los costos asociados con la reparación o reemplazo del equipo. El monto correspondiente se determinará de acuerdo con las tarifas estándar de reparación y/o reemplazo de INTEGRITY SOLUTIONS, las cuales serán comunicadas al usuario en el momento de la ocurrencia del daño. El usuario acepta que INTEGRITY SOLUTIONS tiene el derecho de retener cualquier depósito de seguridad o realizar el cobro directo de los costos incurridos por daño o deterioro del equipo, utilizando la información de pago proporcionada por el usuario en el momento de la adquisición del servicio o equipo.
+]]></text>
 			</element>
 		</band>
 	</detail>
@@ -211,7 +205,7 @@ En caso de que el equipo proporcionado por INTEGRITY SOLUTIONS sufra robo, daño
 		<element kind="textField" uuid="f39892e0-d001-4b04-9095-b6d903a65655" x="0" y="40" width="180" height="21" hTextAlign="Left">
 			<expression><![CDATA[$P{date}]]></expression>
 		</element>
-		<element kind="staticText" uuid="b1393ec3-7058-4b5b-b1f3-f5d434dc880b" x="321" y="31" width="231" height="19" bold="true" hTextAlign="Center">
+		<element kind="staticText" uuid="b1393ec3-7058-4b5b-b1f3-f5d434dc880b" x="321" y="30" width="231" height="21" bold="true" hTextAlign="Center">
 			<text><![CDATA[RECIBIDO]]></text>
 		</element>
 		<element kind="line" uuid="2285fa0a-d990-4091-bc42-250514b24204" x="321" y="30" width="231" height="1"/>
