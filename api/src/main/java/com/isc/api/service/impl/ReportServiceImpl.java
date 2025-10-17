@@ -45,7 +45,7 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public byte[] generateReport(EquipmentAssignmentEntity assigment) throws JRException {
 
-        try (InputStream reportStream = resourceLoader.getResource("classpath:reports/report1.jasper").getInputStream()) {
+        try (InputStream reportStream = resourceLoader.getResource("classpath:reports/report.jasper").getInputStream()) {
             JasperReport jasperReport = (JasperReport) JRLoader.loadObject(reportStream);
 
             Map<String, Object> params = new HashMap<>();
