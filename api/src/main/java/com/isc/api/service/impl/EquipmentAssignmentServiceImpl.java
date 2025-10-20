@@ -147,7 +147,7 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
         }
 
         EquipmentAssignmentEntity assignment = existingOpt.get();
-        LocalDate returnDate = request != null ? request.getRevokeDate() : null;
+        LocalDate returnDate = (request != null && request.getRevokeDate() != null) ? request.getRevokeDate() : LocalDate.now();
 
         if (returnDate != null && returnDate.isBefore(assignment.getAssignmentDate())) 
         {
