@@ -147,11 +147,11 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
         }
 
         EquipmentAssignmentEntity assignment = existingOpt.get();
-        LocalDate returnDate = request != null ? request.getRevokeDate() : null;
+        LocalDate returnDate = (request != null && request.getRevokeDate() != null) ? request.getRevokeDate() : LocalDate.now();
 
-        if (returnDate != null && returnDate.isBefore(LocalDate.now())) 
+        if (returnDate != null && returnDate.isBefore(assignment.getAssignmentDate())) 
         {
-            throw new IllegalArgumentException("La fecha de revocación no puede ser anterior a la fecha actual");
+            throw new IllegalArgumentException("La fecha de revocación no puede ser anterior a la fecha de asignación");
         }
 
         assignment.setReturnDate(returnDate != null ? returnDate : LocalDate.now());
