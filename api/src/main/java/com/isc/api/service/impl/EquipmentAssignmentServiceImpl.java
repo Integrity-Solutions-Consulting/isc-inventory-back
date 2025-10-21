@@ -142,7 +142,7 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
     public ResponseDto<EquipmentAssignmentDetailResponseDTO> revoke(Integer id, EquipmentRevokeRequestDTO request) {
         Optional<EquipmentAssignmentEntity> existingOpt = assignmentRepository.findById(id);
         if (existingOpt.isEmpty()) 
-        {
+        { 
             throw new RuntimeException("Asignacion no encontrada");
         }
 
