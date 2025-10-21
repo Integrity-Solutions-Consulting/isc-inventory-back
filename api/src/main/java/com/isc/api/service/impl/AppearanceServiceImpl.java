@@ -30,7 +30,7 @@ public class AppearanceServiceImpl implements AppearanceService {
         List<AppearanceDetailResponseDTO> list = repository.findAll().stream()
             .map(AppearanceMapper::toDetailDTO)
             .toList();
-        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Apariencia listada con detalles correctamente");
+        MetadataResponseDto metadata = new MetadataResponseDto(HttpStatus.OK, "Apariencia listada con detalles correctamente cambio");
         return new ResponseDto<>(list,metadata);
     }
 
