@@ -157,7 +157,7 @@ public class EquipmentAssignmentServiceImpl implements EquipmentAssignmentServic
         assignment.setReturnDate(returnDate != null ? returnDate : LocalDate.now());
         assignment.setObservations(request.getObservations());
 
-
+ 
         EquipmentEntity equipment = assignment.getEquipment();
         
 
