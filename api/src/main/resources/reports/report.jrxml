@@ -184,7 +184,7 @@
 				<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 			</element>
 			<element kind="staticText" uuid="b4e7dbcb-e04d-4b60-ad61-affbf41f8105" positionType="Float" x="0" y="230" width="555" height="36" bold="true" hTextAlign="Center" vTextAlign="Middle">
-				<text><![CDATA[Responsabilidades del Receptor]]></text>
+				<text><![CDATA[Responsabilidades del receptor]]></text>
 			</element>
 			<element kind="staticText" uuid="c3bf06b3-0620-4689-a98e-79370842482c" positionType="Float" x="0" y="260" width="555" height="230" markup="none" hTextAlign="Justified">
 				<paragraph lineSpacing="Single" lineSpacingSize="1.0"/>
