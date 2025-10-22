@@ -14,6 +14,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=inventory
       - SPRING_DATASOURCE_PASSWORD=Zp8#kV42wLp@tR3m
       - FRONTEND_URL=https://app.inventory.integritysolutions.com.ec/
+      - SERVER_PORT=8080
     depends_on:
       - postgres
     networks:
@@ -31,7 +32,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/isc_inventory
       - SPRING_DATASOURCE_USERNAME=inventory
       - SPRING_DATASOURCE_PASSWORD=Zp8#kV42wLp@tR3m
-      - FRONTEND_URL=https://app.inventory.integritysolutions.com.ec/
+      - FRONTEND_URL=https://app.inventory.integritysolutions.com.ec/}
+      - SERVER_PORT=8080
     depends_on:
       - postgres
     networks:
