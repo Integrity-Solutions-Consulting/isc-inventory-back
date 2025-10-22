@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: api/Dockerfile
-    image: backend-api-dev
+    image: backend-inv-api-dev
     container_name: backend-api-dev
     ports:
       - "9091:8080"
@@ -23,7 +23,7 @@ services:
     build:
       context: .
       dockerfile: auth/Dockerfile
-    image: backend-auth-dev
+    image: backend-inv-auth-dev
     container_name: backend-auth-dev
     ports:
       - "9090:8080"

@@ -27,15 +27,19 @@ jobs:
 
       - name: Deploy on VPS
         run: |
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+          BRANCH_NAME=${GITHUB_REF##*/}
+          echo "Desplegando rama: $BRANCH_NAME"
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << EOF
             cd ${{ secrets.VPS_DEPLOY_PATH }}
-            if [ "${GITHUB_REF##*/}" = "main" ]; then
-              docker compose -f docker-compose.base.yml -f docker-compose.prod.yml down -v || true
-              docker compose -f docker-compose.base.yml -f docker-compose.prod.yml build --no-cache
-              docker compose -f docker-compose.base.yml -f docker-compose.prod.yml up -d
-            elif [ "${GITHUB_REF##*/}" = "develop" ]; then
-              docker compose -f docker-compose.base.yml -f docker-compose.dev.yml down -v || true
-              docker compose -f docker-compose.base.yml -f docker-compose.dev.yml build --no-cache
-              docker compose -f docker-compose.base.yml -f docker-compose.dev.yml up -d
+            if [ "$BRANCH_NAME" = "main" ]; then
+              echo "🚀 Desplegando entorno de producción..."
+              docker compose -f docker-compose.base.yml -f docker-compose.prod.yml down || true
+              docker compose -f docker-compose.base.yml -f docker-compose.prod.yml up -d --build
+            elif [ "$BRANCH_NAME" = "develop" ]; then
+              echo "🚀 Desplegando entorno de desarrollo..."
+              docker compose -f docker-compose.base.yml -f docker-compose.dev.yml down || true
+              docker compose -f docker-compose.base.yml -f docker-compose.dev.yml up -d --build
+            else
+              echo "⚠️ Rama $BRANCH_NAME no reconocida, no se desplegará nada."
             fi
           EOF
