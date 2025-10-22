@@ -27,7 +27,8 @@ jobs:
 
       - name: Deploy on VPS
         run: |
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+          ssh -tt ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << "EOF"
+          set -ex
             cd ${{ secrets.VPS_DEPLOY_PATH }}
             if [ "${GITHUB_REF##*/}" = "main" ]; then
               docker compose -f docker-compose.base.yml -f docker-compose.prod.yml down || true
