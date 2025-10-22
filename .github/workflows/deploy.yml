@@ -29,8 +29,7 @@ jobs:
         run: |
           BRANCH_NAME=${GITHUB_REF##*/}
           echo "Desplegando rama: $BRANCH_NAME"
-          ssh -tt ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << EOF
-            set -ex
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << EOF
             cd ${{ secrets.VPS_DEPLOY_PATH }}
             if [ "$BRANCH_NAME" = "main" ]; then
               echo "🚀 Desplegando entorno de producción..."
