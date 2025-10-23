@@ -49,7 +49,7 @@
 		<element kind="staticText" uuid="706ccfe2-93af-48ed-9105-50afc49893ab" x="-20" y="0" width="595" height="79" fontSize="14.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[ACTA DE ENTREGA RECEPCIÓN]]></text>
 		</element>
-		<element kind="textField" uuid="b905a14d-2fd5-42b2-afec-e5e1973ed10d" stretchType="ContainerHeight" x="2" y="80" width="550" height="30" hTextAlign="Justified">
+		<element kind="textField" uuid="b905a14d-2fd5-42b2-afec-e5e1973ed10d" stretchType="ContainerHeight" x="2" y="80" width="550" height="30" printWhenDetailOverflows="true" hTextAlign="Justified">
 			<expression><![CDATA["Por medio de la presente la compañía INTEGRITY SOLUTIONS procede a realizar la entrega de un computador portátil al Sr./Srta "
         + $P{employeeName}
         + " con "
@@ -63,7 +63,7 @@
 		</element>
 	</title>
 	<detail>
-		<band height="503" splitType="Stretch">
+		<band height="503" splitType="Prevent">
 			<element kind="staticText" uuid="9fb8c1dd-ad8b-4f4c-a7ce-4e1233fe5a21" mode="Opaque" x="30" y="0" width="250" height="30" backcolor="#FDE8D8" bold="true" vTextAlign="Middle">
 				<text><![CDATA[ASIGNADO A:]]></text>
 				<box padding="5">
@@ -143,7 +143,7 @@
 					<pen lineWidth="1.0"/>
 				</box>
 			</element>
-			<element kind="component" uuid="d331ff3c-b68a-44cc-b8f3-de8f51815dea" x="30" y="148" width="500" height="82" printWhenDetailOverflows="true">
+			<element kind="component" uuid="d331ff3c-b68a-44cc-b8f3-de8f51815dea" x="30" y="148" width="500" height="82" style="Table_TD">
 				<component kind="table">
 					<datasetRun uuid="50329faf-0ab4-4cd4-a30b-7a9d909cae82" subDataset="caracteristicas">
 						<dataSourceExpression><![CDATA[$P{caracteristicas}]]></dataSourceExpression>
