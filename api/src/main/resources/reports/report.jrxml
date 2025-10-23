@@ -57,8 +57,8 @@
 		</element>
 	</title>
 	<detail>
-		<band height="503" splitType="Stretch">
-			<element kind="staticText" uuid="9fb8c1dd-ad8b-4f4c-a7ce-4e1233fe5a21" mode="Opaque" x="30" y="10" width="250" height="30" backcolor="#FDE8D8" bold="true" vTextAlign="Middle">
+		<band height="510" splitType="Stretch">
+			<element kind="staticText" uuid="9fb8c1dd-ad8b-4f4c-a7ce-4e1233fe5a21" mode="Opaque" x="30" y="1" width="250" height="30" backcolor="#FDE8D8" bold="true" vTextAlign="Middle">
 				<text><![CDATA[ASIGNADO A:]]></text>
 				<box padding="5">
 					<pen lineWidth="1.0" lineStyle="Solid"/>
@@ -68,13 +68,13 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 			</element>
-			<element kind="staticText" uuid="2f59065e-c19d-4dac-b0e8-d3052a516452" mode="Opaque" x="30" y="40" width="500" height="19" backcolor="#FDE8D8" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<element kind="staticText" uuid="2f59065e-c19d-4dac-b0e8-d3052a516452" mode="Opaque" x="30" y="31" width="500" height="19" backcolor="#FDE8D8" bold="true" hTextAlign="Center" vTextAlign="Middle">
 				<text><![CDATA[DETALLES GENERALES]]></text>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0" lineStyle="Solid"/>
 				</box>
 			</element>
-			<element kind="textField" uuid="0e198a7e-2a40-4c86-a43f-d56326c41b38" x="280" y="10" width="250" height="30" hTextAlign="Center" vTextAlign="Middle">
+			<element kind="textField" uuid="0e198a7e-2a40-4c86-a43f-d56326c41b38" x="280" y="1" width="250" height="30" hTextAlign="Center" vTextAlign="Middle">
 				<expression><![CDATA[$P{employeeName}]]></expression>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -83,61 +83,61 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 			</element>
-			<element kind="staticText" uuid="7689477d-7726-4a6a-ab60-0cf163353662" mode="Opaque" x="30" y="59" width="250" height="20" backcolor="#FDE8D8" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<element kind="staticText" uuid="7689477d-7726-4a6a-ab60-0cf163353662" mode="Opaque" x="30" y="50" width="250" height="20" backcolor="#FDE8D8" bold="true" hTextAlign="Left" vTextAlign="Middle">
 				<text><![CDATA[CÓDIGO:]]></text>
 				<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0" lineStyle="Solid"/>
 				</box>
 			</element>
-			<element kind="staticText" uuid="b77e537f-7f46-40e2-a03f-ed7192831422" mode="Opaque" x="30" y="79" width="250" height="20" backcolor="#FDE8D8" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<element kind="staticText" uuid="b77e537f-7f46-40e2-a03f-ed7192831422" mode="Opaque" x="30" y="70" width="250" height="20" backcolor="#FDE8D8" bold="true" hTextAlign="Left" vTextAlign="Middle">
 				<text><![CDATA[SERVICE TAG: S/N]]></text>
 				<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 				</box>
 			</element>
-			<element kind="staticText" uuid="35bb9d1a-ba4e-43f2-a16d-f89045c8cee7" mode="Opaque" x="30" y="119" width="250" height="20" backcolor="#FDE8D8" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<element kind="staticText" uuid="35bb9d1a-ba4e-43f2-a16d-f89045c8cee7" mode="Opaque" x="30" y="110" width="250" height="20" backcolor="#FDE8D8" bold="true" hTextAlign="Left" vTextAlign="Middle">
 				<text><![CDATA[MODELO:]]></text>
 				<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 				</box>
 			</element>
-			<element kind="staticText" uuid="28852865-2453-4883-8041-ff9c10c2497b" mode="Opaque" x="30" y="99" width="250" height="20" backcolor="#FDE8D8" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<element kind="staticText" uuid="28852865-2453-4883-8041-ff9c10c2497b" mode="Opaque" x="30" y="90" width="250" height="20" backcolor="#FDE8D8" bold="true" hTextAlign="Left" vTextAlign="Middle">
 				<text><![CDATA[MARCA:]]></text>
 				<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 				</box>
 			</element>
-			<element kind="staticText" uuid="55283cd8-85c3-4873-adb6-373b0a239be4" mode="Opaque" x="30" y="139" width="500" height="19" backcolor="#FDE8D8" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<element kind="staticText" uuid="55283cd8-85c3-4873-adb6-373b0a239be4" mode="Opaque" x="30" y="130" width="500" height="19" backcolor="#FDE8D8" bold="true" hTextAlign="Center" vTextAlign="Middle">
 				<text><![CDATA[DETALLES TÉCNICOS]]></text>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 				</box>
 			</element>
-			<element kind="textField" uuid="f06a1428-b544-4e75-98d0-02f5e2693efc" x="280" y="59" width="250" height="20" hTextAlign="Center" vTextAlign="Middle">
+			<element kind="textField" uuid="f06a1428-b544-4e75-98d0-02f5e2693efc" x="280" y="50" width="250" height="20" hTextAlign="Center" vTextAlign="Middle">
 				<expression><![CDATA[$P{itemCode}]]></expression>
 				<box>
 					<pen lineWidth="1.0" lineStyle="Solid"/>
 				</box>
 			</element>
-			<element kind="textField" uuid="c44942e9-4a2b-4d80-a257-932a38ccaba6" x="280" y="79" width="250" height="20" hTextAlign="Center" vTextAlign="Middle">
+			<element kind="textField" uuid="c44942e9-4a2b-4d80-a257-932a38ccaba6" x="280" y="70" width="250" height="20" hTextAlign="Center" vTextAlign="Middle">
 				<expression><![CDATA[$P{serialNumber}]]></expression>
 				<box>
 					<pen lineWidth="1.0"/>
 				</box>
 			</element>
-			<element kind="textField" uuid="a0a838ab-df77-452b-bf69-f31cc87c8478" x="280" y="99" width="250" height="20" hTextAlign="Center" vTextAlign="Middle">
+			<element kind="textField" uuid="a0a838ab-df77-452b-bf69-f31cc87c8478" x="280" y="90" width="250" height="20" hTextAlign="Center" vTextAlign="Middle">
 				<expression><![CDATA[$P{brand}]]></expression>
 				<box>
 					<pen lineWidth="1.0"/>
 				</box>
 			</element>
-			<element kind="textField" uuid="5df6b210-8b0b-4864-826a-1d0aeb9322d6" x="280" y="119" width="250" height="20" hTextAlign="Center" vTextAlign="Middle">
+			<element kind="textField" uuid="5df6b210-8b0b-4864-826a-1d0aeb9322d6" x="280" y="110" width="250" height="20" hTextAlign="Center" vTextAlign="Middle">
 				<expression><![CDATA[$P{model}]]></expression>
 				<box>
 					<pen lineWidth="1.0"/>
 				</box>
 			</element>
-			<element kind="component" uuid="d331ff3c-b68a-44cc-b8f3-de8f51815dea" x="30" y="158" width="500" height="72" style="Table_TD">
+			<element kind="component" uuid="d331ff3c-b68a-44cc-b8f3-de8f51815dea" x="30" y="149" width="500" height="72" style="Table_TD">
 				<component kind="table">
 					<datasetRun uuid="50329faf-0ab4-4cd4-a30b-7a9d909cae82" subDataset="caracteristicas">
 						<dataSourceExpression><![CDATA[$P{caracteristicas}]]></dataSourceExpression>
@@ -180,7 +180,7 @@
 			<element kind="staticText" uuid="b4e7dbcb-e04d-4b60-ad61-affbf41f8105" positionType="Float" stretchType="ContainerHeight" x="0" y="220" width="555" height="36" bold="true" hTextAlign="Center" vTextAlign="Middle">
 				<text><![CDATA[Responsabilidades del receptor]]></text>
 			</element>
-			<element kind="staticText" uuid="c3bf06b3-0620-4689-a98e-79370842482c" positionType="Float" stretchType="ContainerHeight" x="0" y="250" width="555" height="240" markup="none" printRepeatedValues="false" hTextAlign="Justified">
+			<element kind="staticText" uuid="c3bf06b3-0620-4689-a98e-79370842482c" positionType="Float" stretchType="NoStretch" x="0" y="256" width="555" height="240" markup="none" printRepeatedValues="false" hTextAlign="Justified" vTextAlign="Middle">
 				<paragraph lineSpacing="Single" lineSpacingSize="1.0"/>
 				<text><![CDATA[El receptor acepta la responsabilidad de mantener las laptops en buen estado y utilizarlas de manera adecuada para el propósito acordado. Cualquier daño o pérdida de las laptops debido a negligencia o mal uso por parte del receptor será de su responsabilidad y deberá informarse a INTEGRITY SOLUTIONS de inmediato.
 Las laptops se proporcionan para el uso exclusivo relacionado con fines laborales, Al finalizar el período acordado de uso, las laptops deben ser devueltas en las mismas condiciones en las que fueron entregadas, salvo el desgaste normal.
