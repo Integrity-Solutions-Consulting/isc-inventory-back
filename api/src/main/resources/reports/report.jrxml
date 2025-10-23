@@ -137,7 +137,7 @@
 					<pen lineWidth="1.0"/>
 				</box>
 			</element>
-			<element kind="component" uuid="d331ff3c-b68a-44cc-b8f3-de8f51815dea" x="30" y="149" width="500" height="72" style="Table_TD">
+			<element kind="component" uuid="d331ff3c-b68a-44cc-b8f3-de8f51815dea" x="30" y="149" width="500" height="61" style="Table_TD">
 				<component kind="table">
 					<datasetRun uuid="50329faf-0ab4-4cd4-a30b-7a9d909cae82" subDataset="caracteristicas">
 						<dataSourceExpression><![CDATA[$P{caracteristicas}]]></dataSourceExpression>
@@ -177,10 +177,10 @@
 				<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
 				<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 			</element>
-			<element kind="staticText" uuid="b4e7dbcb-e04d-4b60-ad61-affbf41f8105" positionType="Float" stretchType="ContainerHeight" x="0" y="230" width="555" height="36" bold="true" hTextAlign="Center" vTextAlign="Middle">
-				<text><![CDATA[Responsabilidades del Receptor]]></text>
+			<element kind="staticText" uuid="b4e7dbcb-e04d-4b60-ad61-affbf41f8105" positionType="Float" stretchType="ContainerHeight" x="0" y="210" width="555" height="36" bold="true" hTextAlign="Center" vTextAlign="Middle">
+				<text><![CDATA[Responsabilidades del receptor]]></text>
 			</element>
-			<element kind="staticText" uuid="c3bf06b3-0620-4689-a98e-79370842482c" positionType="Float" stretchType="NoStretch" x="0" y="260" width="555" height="240" markup="none" printRepeatedValues="false" hTextAlign="Justified" vTextAlign="Middle">
+			<element kind="staticText" uuid="c3bf06b3-0620-4689-a98e-79370842482c" positionType="Float" stretchType="ContainerHeight" x="3" y="240" width="555" height="240" markup="none" printWhenDetailOverflows="true" hTextAlign="Justified" vTextAlign="Middle">
 				<paragraph lineSpacing="Single" lineSpacingSize="1.0"/>
 				<text><![CDATA[El receptor acepta la responsabilidad de mantener las laptops en buen estado y utilizarlas de manera adecuada para el propósito acordado. Cualquier daño o pérdida de las laptops debido a negligencia o mal uso por parte del receptor será de su responsabilidad y deberá informarse a INTEGRITY SOLUTIONS de inmediato.
 Las laptops se proporcionan para el uso exclusivo relacionado con fines laborales, Al finalizar el período acordado de uso, las laptops deben ser devueltas en las mismas condiciones en las que fueron entregadas, salvo el desgaste normal.
@@ -193,10 +193,10 @@ En caso de que el equipo proporcionado por INTEGRITY SOLUTIONS sufra robo, daño
 		</band>
 	</detail>
 	<pageFooter height="67" splitType="Stretch">
-		<element kind="staticText" uuid="3c1c6770-94c6-4e34-b0a1-9b4045b5ffce" x="0" y="9" width="120" height="21" bold="true" hTextAlign="Left">
+		<element kind="staticText" uuid="3c1c6770-94c6-4e34-b0a1-9b4045b5ffce" x="10" y="9" width="120" height="21" bold="true" hTextAlign="Left">
 			<text><![CDATA[FECHA DE ENTREGA]]></text>
 		</element>
-		<element kind="textField" uuid="f39892e0-d001-4b04-9095-b6d903a65655" x="0" y="30" width="180" height="21" hTextAlign="Left">
+		<element kind="textField" uuid="f39892e0-d001-4b04-9095-b6d903a65655" x="10" y="30" width="180" height="21" hTextAlign="Left">
 			<expression><![CDATA[$P{date}]]></expression>
 		</element>
 		<element kind="staticText" uuid="b1393ec3-7058-4b5b-b1f3-f5d434dc880b" x="315" y="9" width="231" height="21" bold="true" hTextAlign="Center">
