@@ -49,7 +49,7 @@
 		<element kind="staticText" uuid="706ccfe2-93af-48ed-9105-50afc49893ab" x="-20" y="0" width="595" height="79" fontSize="14.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[ACTA DE ENTREGA RECEPCIÓN]]></text>
 		</element>
-		<element kind="textField" uuid="b905a14d-2fd5-42b2-afec-e5e1973ed10d" x="2" y="80" width="550" height="30" hTextAlign="Justified">
+		<element kind="textField" uuid="b905a14d-2fd5-42b2-afec-e5e1973ed10d" x="2" y="80" width="550" height="30" textAdjust="StretchHeight" hTextAlign="Justified">
 			<expression><![CDATA["Por medio de la presente la compañía INTEGRITY SOLUTIONS procede a realizar la entrega de un computador portátil al Sr./Srta "
         + $P{employeeName}
         + " con "
@@ -63,7 +63,7 @@
 		</element>
 	</title>
 	<detail>
-		<band height="503" splitType="Stretch">
+		<band height="557" splitType="Stretch">
 			<element kind="staticText" uuid="9fb8c1dd-ad8b-4f4c-a7ce-4e1233fe5a21" mode="Opaque" x="30" y="0" width="250" height="30" backcolor="#FDE8D8" bold="true" vTextAlign="Middle">
 				<text><![CDATA[ASIGNADO A:]]></text>
 				<box padding="5">
@@ -184,37 +184,32 @@
 				<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 			</element>
 			<element kind="staticText" uuid="b4e7dbcb-e04d-4b60-ad61-affbf41f8105" positionType="Float" x="0" y="230" width="555" height="36" bold="true" hTextAlign="Center" vTextAlign="Middle">
-				<text><![CDATA[Responsabilidades del Receptor]]></text>
+				<text><![CDATA[Responsabilidades del receptor]]></text>
 			</element>
 			<element kind="staticText" uuid="c3bf06b3-0620-4689-a98e-79370842482c" positionType="Float" x="0" y="260" width="555" height="230" markup="none" hTextAlign="Justified">
 				<paragraph lineSpacing="Single" lineSpacingSize="1.0"/>
-				<text><![CDATA[El receptor acepta la responsabilidad de mantener las laptops en buen estado y utilizarlas de manera adecuada para el propósito acordado. Cualquier daño o pérdida de las laptops debido a negligencia o mal uso por parte del receptor será de su responsabilidad y deberá informarse a INTEGRITY SOLUTIONS de inmediato.
-Las laptops se proporcionan para el uso exclusivo relacionado con fines laborales, Al finalizar el período acordado de uso, las laptops deben ser devueltas en las mismas condiciones en las que fueron entregadas, salvo el desgaste normal.
-Las laptops no deben ser utilizadas para fines ilegales o no éticos, y el receptor no tiene derecho a modificar el hardware o software sin el consentimiento explícito de INTEGRITY SOLUTIONS.
-Al finalizar el período de uso o al término de la relación contractual, el receptor debe devolver las laptops a INTEGRITY SOLUTIONS en un plazo acordado y en condiciones satisfactorias.
-El receptor se compromete a mantener la confidencialidad de cualquier información sensible almacenada en las laptops y a no divulgarla a terceros sin autorización.
-En caso de que el equipo proporcionado por INTEGRITY SOLUTIONS sufra robo, daños o deterioro debido a la negligencia o mal uso por parte del usuario, este último será responsable de cubrir los costos asociados con la reparación o reemplazo del equipo. El monto correspondiente se determinará de acuerdo con las tarifas estándar de reparación y/o reemplazo de INTEGRITY SOLUTIONS, las cuales serán comunicadas al usuario en el momento de la ocurrencia del daño. El usuario acepta que INTEGRITY SOLUTIONS tiene el derecho de retener cualquier depósito de seguridad o realizar el cobro directo de los costos incurridos por daño o deterioro del equipo, utilizando la información de pago proporcionada por el usuario en el momento de la adquisición del servicio o equipo.
+				<text><![CDATA[El receptor acepta la responsabilidad de mantener las laptops en buen estado y utilizarlas de manera adecuada para el propósito acordado. Cualquier daño o pérdida de las laptops debido a negligencia o mal uso por parte del receptor será de su responsabilidad y deberá informarse a INTEGRITY SOLUTIONS de inmediato. Las laptops se proporcionan para el uso exclusivo relacionado con fines laborales, Al finalizar el período acordado de uso, las laptops deben ser devueltas en las mismas condiciones en las que fueron entregadas, salvo el desgaste normal.
+Las laptops no deben ser utilizadas para fines ilegales o no éticos, y el receptor no tiene derecho a modificar el hardware o software sin el consentimiento explícito de INTEGRITY SOLUTIONS. Al finalizar el período de uso o al término de la relación contractual, el receptor debe devolver las laptops a INTEGRITY SOLUTIONS en un plazo acordado y en condiciones satisfactorias. El receptor se compromete a mantener la confidencialidad de cualquier información sensible almacenada en las laptops y a no divulgarla a terceros sin autorización. En caso de que el equipo proporcionado por INTEGRITY SOLUTIONS sufra robo, daños o deterioro debido a la negligencia o mal uso por parte del usuario, este último será responsable de cubrir los costos asociados con la reparación o reemplazo del equipo. El monto correspondiente se determinará de acuerdo con las tarifas estándar de reparación y/o reemplazo de INTEGRITY SOLUTIONS, las cuales serán comunicadas al usuario en el momento de la ocurrencia del daño. El usuario acepta que INTEGRITY SOLUTIONS tiene el derecho de retener cualquier depósito de seguridad o realizar el cobro directo de los costos incurridos por daño o deterioro del equipo, utilizando la información de pago proporcionada por el usuario en el momento de la adquisición del servicio o equipo.
 ]]></text>
+			</element>
+			<element kind="staticText" uuid="3c1c6770-94c6-4e34-b0a1-9b4045b5ffce" positionType="FixRelativeToBottom" x="0" y="500" width="120" height="21" bold="true" hTextAlign="Left">
+				<text><![CDATA[FECHA DE ENTREGA]]></text>
+			</element>
+			<element kind="textField" uuid="f39892e0-d001-4b04-9095-b6d903a65655" positionType="FixRelativeToBottom" x="0" y="520" width="180" height="21" hTextAlign="Left">
+				<expression><![CDATA[$P{date}]]></expression>
+			</element>
+			<element kind="staticText" uuid="b1393ec3-7058-4b5b-b1f3-f5d434dc880b" positionType="FixRelativeToBottom" x="315" y="500" width="231" height="21" bold="true" hTextAlign="Center">
+				<text><![CDATA[RECIBIDO]]></text>
+			</element>
+			<element kind="line" uuid="2285fa0a-d990-4091-bc42-250514b24204" positionType="FixRelativeToBottom" x="315" y="500" width="231" height="1"/>
+			<element kind="textField" uuid="98132432-579f-4634-a44a-e12f6680b134" positionType="FixRelativeToBottom" x="314" y="519" width="230" height="30" bold="true" hTextAlign="Center" vTextAlign="Top">
+				<expression><![CDATA[$P{employeeName}]]></expression>
 			</element>
 		</band>
 	</detail>
 	<columnFooter height="38" splitType="Stretch">
 		<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 	</columnFooter>
-	<pageFooter height="67" splitType="Stretch">
-		<element kind="staticText" uuid="3c1c6770-94c6-4e34-b0a1-9b4045b5ffce" x="0" y="9" width="120" height="21" bold="true" hTextAlign="Left">
-			<text><![CDATA[FECHA DE ENTREGA]]></text>
-		</element>
-		<element kind="textField" uuid="f39892e0-d001-4b04-9095-b6d903a65655" x="0" y="30" width="180" height="21" hTextAlign="Left">
-			<expression><![CDATA[$P{date}]]></expression>
-		</element>
-		<element kind="staticText" uuid="b1393ec3-7058-4b5b-b1f3-f5d434dc880b" x="315" y="9" width="231" height="21" bold="true" hTextAlign="Center">
-			<text><![CDATA[RECIBIDO]]></text>
-		</element>
-		<element kind="line" uuid="2285fa0a-d990-4091-bc42-250514b24204" x="315" y="9" width="231" height="1"/>
-		<element kind="textField" uuid="98132432-579f-4634-a44a-e12f6680b134" x="314" y="29" width="230" height="30" bold="true" hTextAlign="Center" vTextAlign="Top">
-			<expression><![CDATA[$P{employeeName}]]></expression>
-		</element>
-	</pageFooter>
+	<pageFooter height="67" splitType="Stretch"/>
 	<summary height="42" splitType="Stretch"/>
 </jasperReport>
