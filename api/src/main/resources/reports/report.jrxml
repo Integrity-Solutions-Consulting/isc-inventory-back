@@ -49,7 +49,7 @@
 		<element kind="staticText" uuid="706ccfe2-93af-48ed-9105-50afc49893ab" x="-20" y="0" width="595" height="79" fontSize="14.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[ACTA DE ENTREGA RECEPCIÓN]]></text>
 		</element>
-		<element kind="textField" uuid="b905a14d-2fd5-42b2-afec-e5e1973ed10d" stretchType="NoStretch" x="2" y="80" width="550" height="40" textAdjust="StretchHeight" printWhenDetailOverflows="true" hTextAlign="Justified">
+		<element kind="textField" uuid="b905a14d-2fd5-42b2-afec-e5e1973ed10d" stretchType="NoStretch" x="2" y="77" width="550" height="40" textAdjust="StretchHeight" printWhenDetailOverflows="true" hTextAlign="Justified">
 			<expression><![CDATA["Por medio de la presente la compañía INTEGRITY SOLUTIONS procede a realizar la entrega de un computador portátil al Sr./Srta " + $P{employeeName} + " con " + $P{employeeIdType} + " " + $P{employeeId} + ", el mismo que a continuación se detalla:"]]></expression>
 		</element>
 		<element kind="image" uuid="e1b20e27-0ed1-4ee9-9fb6-1084a35fe8b4" x="2" y="9" width="60" height="60" onErrorType="Blank">
@@ -57,7 +57,7 @@
 		</element>
 	</title>
 	<detail>
-		<band height="500" splitType="Stretch">
+		<band height="446" splitType="Stretch">
 			<element kind="staticText" uuid="9fb8c1dd-ad8b-4f4c-a7ce-4e1233fe5a21" mode="Opaque" x="30" y="1" width="250" height="30" backcolor="#FDE8D8" bold="true" vTextAlign="Middle">
 				<text><![CDATA[ASIGNADO A:]]></text>
 				<box padding="5">
@@ -177,10 +177,10 @@
 				<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
 				<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 			</element>
-			<element kind="staticText" uuid="b4e7dbcb-e04d-4b60-ad61-affbf41f8105" positionType="Float" stretchType="ContainerHeight" x="0" y="204" width="555" height="36" bold="true" hTextAlign="Center" vTextAlign="Middle">
-				<text><![CDATA[Responsabilidades del Receptor]]></text>
+			<element kind="staticText" uuid="b4e7dbcb-e04d-4b60-ad61-affbf41f8105" positionType="Float" stretchType="ContainerHeight" x="0" y="201" width="555" height="20" bold="true" hTextAlign="Center" vTextAlign="Middle">
+				<text><![CDATA[Responsabilidades del receptor]]></text>
 			</element>
-			<element kind="staticText" uuid="0f6c630e-c4a4-4206-9fca-f7833fb4df1f" positionType="Float" stretchType="ContainerHeight" x="0" y="230" width="555" height="242" printWhenDetailOverflows="true" hTextAlign="Justified">
+			<element kind="staticText" uuid="0f6c630e-c4a4-4206-9fca-f7833fb4df1f" positionType="Float" stretchType="ContainerHeight" x="0" y="222" width="555" height="207" printWhenDetailOverflows="true" hTextAlign="Justified">
 				<text><![CDATA[El receptor acepta la responsabilidad de mantener las laptops en buen estado y utilizarlas de manera adecuada para el propósito acordado. Cualquier daño o pérdida de las laptops debido a negligencia o mal uso por parte del receptor será de su responsabilidad y deberá informarse a INTEGRITY SOLUTIONS de inmediato. Las laptops se proporcionan para el uso exclusivo relacionado con fines laborales, Al finalizar el período acordado de uso, las laptops deben ser devueltas en las mismas condiciones en las que fueron entregadas, salvo el desgaste normal. Las laptops no deben ser utilizadas para fines ilegales o no éticos, y el receptor no tiene derecho a modificar el hardware o software sin el consentimiento explícito de INTEGRITY SOLUTIONS. Al finalizar el período de uso o al término de la relación contractual, el receptor debe devolver las laptops a INTEGRITY SOLUTIONS en un plazo acordado y en condiciones satisfactorias. El receptor se compromete a mantener la confidencialidad de cualquier información sensible almacenada en las laptops y a no divulgarla a terceros sin autorización. En caso de que el equipo proporcionado por INTEGRITY SOLUTIONS sufra robo, daños o deterioro debido a la negligencia o mal uso por parte del usuario, este último será responsable de cubrir los costos asociados con la reparación o reemplazo del equipo. El monto correspondiente se determinará de acuerdo con las tarifas estándar de reparación y/o reemplazo de INTEGRITY SOLUTIONS, las cuales serán comunicadas al usuario en el momento de la ocurrencia del daño. El usuario acepta que INTEGRITY SOLUTIONS tiene el derecho de retener cualquier depósito de seguridad o realizar el cobro directo de los costos incurridos por daño o deterioro del equipo, utilizando la información de pago proporcionada por el usuario en el momento de la adquisición del servicio o equipo.]]></text>
 				<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				<property name="com.jaspersoft.studio.unit.x" value="px"/>
@@ -189,6 +189,7 @@
 			</element>
 		</band>
 	</detail>
+	<columnFooter height="50"/>
 	<pageFooter height="67" splitType="Stretch">
 		<element kind="staticText" uuid="3c1c6770-94c6-4e34-b0a1-9b4045b5ffce" x="10" y="9" width="120" height="21" bold="true" hTextAlign="Left">
 			<text><![CDATA[FECHA DE ENTREGA]]></text>
