@@ -49,16 +49,22 @@
 		<element kind="staticText" uuid="706ccfe2-93af-48ed-9105-50afc49893ab" x="-20" y="0" width="595" height="79" fontSize="14.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[ACTA DE ENTREGA RECEPCIÓN]]></text>
 		</element>
-		<element kind="textField" uuid="b905a14d-2fd5-42b2-afec-e5e1973ed10d" stretchType="NoStretch" x="2" y="77" width="550" height="40" textAdjust="StretchHeight" printWhenDetailOverflows="true" hTextAlign="Justified">
-			<expression><![CDATA["Por medio de la presente la compañía INTEGRITY SOLUTIONS procede a realizar la entrega de un computador portátil al Sr./Srta " + $P{employeeName} + " con " + $P{employeeIdType} + " " + $P{employeeId} + ", el mismo que a continuación se detalla:"]]></expression>
+		<element kind="textField" uuid="b905a14d-2fd5-42b2-afec-e5e1973ed10d" x="2" y="80" width="550" height="30" textAdjust="StretchHeight" hTextAlign="Justified">
+			<expression><![CDATA["Por medio de la presente la compañía INTEGRITY SOLUTIONS procede a realizar la entrega de un computador portátil al Sr./Srta "
+        + $P{employeeName}
+        + " con "
+        + $P{employeeIdType}
+        + " "
+        + $P{employeeId}
+        + ", el mismo que a continuación se detalla:"]]></expression>
 		</element>
 		<element kind="image" uuid="e1b20e27-0ed1-4ee9-9fb6-1084a35fe8b4" x="2" y="9" width="60" height="60" onErrorType="Blank">
 			<expression><![CDATA[$P{logo}]]></expression>
 		</element>
 	</title>
 	<detail>
-		<band height="446" splitType="Stretch">
-			<element kind="staticText" uuid="9fb8c1dd-ad8b-4f4c-a7ce-4e1233fe5a21" mode="Opaque" x="30" y="1" width="250" height="30" backcolor="#FDE8D8" bold="true" vTextAlign="Middle">
+		<band height="557" splitType="Stretch">
+			<element kind="staticText" uuid="9fb8c1dd-ad8b-4f4c-a7ce-4e1233fe5a21" mode="Opaque" x="30" y="0" width="250" height="30" backcolor="#FDE8D8" bold="true" vTextAlign="Middle">
 				<text><![CDATA[ASIGNADO A:]]></text>
 				<box padding="5">
 					<pen lineWidth="1.0" lineStyle="Solid"/>
@@ -186,6 +192,19 @@
 				<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</element>
+			<element kind="staticText" uuid="3c1c6770-94c6-4e34-b0a1-9b4045b5ffce" positionType="FixRelativeToBottom" x="0" y="500" width="120" height="21" bold="true" hTextAlign="Left">
+				<text><![CDATA[FECHA DE ENTREGA]]></text>
+			</element>
+			<element kind="textField" uuid="f39892e0-d001-4b04-9095-b6d903a65655" positionType="FixRelativeToBottom" x="0" y="520" width="180" height="21" hTextAlign="Left">
+				<expression><![CDATA[$P{date}]]></expression>
+			</element>
+			<element kind="staticText" uuid="b1393ec3-7058-4b5b-b1f3-f5d434dc880b" positionType="FixRelativeToBottom" x="315" y="500" width="231" height="21" bold="true" hTextAlign="Center">
+				<text><![CDATA[RECIBIDO]]></text>
+			</element>
+			<element kind="line" uuid="2285fa0a-d990-4091-bc42-250514b24204" positionType="FixRelativeToBottom" x="315" y="500" width="231" height="1"/>
+			<element kind="textField" uuid="98132432-579f-4634-a44a-e12f6680b134" positionType="FixRelativeToBottom" x="314" y="519" width="230" height="30" bold="true" hTextAlign="Center" vTextAlign="Top">
+				<expression><![CDATA[$P{employeeName}]]></expression>
 			</element>
 		</band>
 	</detail>
