@@ -11,8 +11,8 @@ services:
       - "9091:8080"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/isc_inventory_dev
-      - SPRING_DATASOURCE_USERNAME=inventory
-      - SPRING_DATASOURCE_PASSWORD=Zp8#kV42wLp@tR3m
+      - SPRING_DATASOURCE_USERNAME=app_backend
+      - SPRING_DATASOURCE_PASSWORD=I@iventory##12345
       - FRONTEND_URL=http://147.93.181.147:8081/
       - SERVER_PORT=8080
     depends_on:
