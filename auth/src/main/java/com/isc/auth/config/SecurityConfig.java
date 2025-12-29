@@ -75,10 +75,16 @@ public class SecurityConfig {
 					ex.authenticationEntryPoint(authenticationEntryPoint);
 					ex.accessDeniedHandler(accessDeniedHandler);
 				}).authorizeHttpRequests(req -> {
-					req.requestMatchers("/api/v1/auth/login", "/api/v1/auth/forgotPassword/**",
-							"/api/v1/passwordEncoder/**", "/api/v1/docs", "/api/v1/docs/**", "/v3/api-docs",
-							"/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
-					req.anyRequest().authenticated();
+					
+					req.requestMatchers("/api/v1/auth/login",
+							"/api/v1/auth/forgotPassword/**",
+							"/api/v1/passwordEncoder/**",
+							"/api/v1/docs", "/api/v1/docs/**",
+							"/v3/api-docs",
+							"/v3/api-docs/**",
+							"/swagger-ui.html",
+							"/swagger-ui/**").permitAll();
+					//req.anyRequest().authenticated();
 				}).sessionManagement(session -> {
 					session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 					session.maximumSessions(1).sessionRegistry(registry());
