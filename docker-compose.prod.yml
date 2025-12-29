@@ -37,4 +37,7 @@ services:
     depends_on:
       - postgres
     networks:
-      - backend-net
+      backend-net:
+        external: true
+        name: app_backend-net
+
