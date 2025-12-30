@@ -23,7 +23,8 @@ services:
       - SPRING_DATASOURCE_PASSWORD=isc-inventory-pass
       - FRONTEND_URL=http://147.93.181.147:8081/
       - SERVER_PORT=8080
-
+    networks:
+      - dokploy-network
 
 
 networks:
