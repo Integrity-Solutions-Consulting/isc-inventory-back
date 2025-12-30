@@ -5,11 +5,12 @@ services:
       context: .
       dockerfile: api/Dockerfile
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://147.93.181.146:5432/isc_inventory_dev
-      - SPRING_DATASOURCE_USERNAME=inventory
-      - SPRING_DATASOURCE_PASSWORD=Zp15#kV42wLp@yR6m
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://isc-inventory-postgres-dev-q91onb:5432/isc-inventory
+      - SPRING_DATASOURCE_USERNAME=isc-user-dev
+      - SPRING_DATASOURCE_PASSWORD=isc-user-pass
       - FRONTEND_URL=http://147.93.181.147:8081/
-      - SERVER_PORT=8090
+      - SERVER_PORT=8080
+
     networks:
       - dokploy-network
 
@@ -18,9 +19,9 @@ services:
       context: .
       dockerfile: auth/Dockerfile
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://isc-inventory-postgres-dev-tpfjds:5432/isc-inventory-db
-      - SPRING_DATASOURCE_USERNAME=isc-inventory-admin
-      - SPRING_DATASOURCE_PASSWORD=isc-inventory-pass
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://isc-inventory-postgres-dev-q91onb:5432/isc-inventory
+      - SPRING_DATASOURCE_USERNAME=isc-user-dev
+      - SPRING_DATASOURCE_PASSWORD=isc-user-pass
       - FRONTEND_URL=http://147.93.181.147:8081/
       - SERVER_PORT=8080
 
