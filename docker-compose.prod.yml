@@ -38,5 +38,8 @@ services:
       - postgres
     networks:
       - backend-net
+networks:
+  backend-net:
+    external: true
 
 
