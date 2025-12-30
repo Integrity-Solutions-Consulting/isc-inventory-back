@@ -39,7 +39,4 @@ services:
     networks:
       - backend-net
 
-networks:
-  backend-net:
-    external: true
-    name: app_backend-net
+
