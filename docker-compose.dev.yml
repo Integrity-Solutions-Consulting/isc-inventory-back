@@ -9,7 +9,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=isc-user-dev
       - SPRING_DATASOURCE_PASSWORD=isc-user-pass
       - FRONTEND_URL=http://147.93.181.147:8081/
-      - SERVER_PORT=8080
+      - SERVER_PORT=8090
 
     networks:
       - dokploy-network
